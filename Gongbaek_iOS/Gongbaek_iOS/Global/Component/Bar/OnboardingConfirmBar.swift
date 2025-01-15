@@ -26,6 +26,7 @@ struct OnboardingConfirmBar: View {
                             .fill(.gray09)
                     )
             }
+            
             BasicButton(text: orangeButtonText, onTap: onTap)
         }
         .padding(.vertical, 20)
