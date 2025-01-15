@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchTextField: View {
     @State var inputText: String
-    @FocusState private var isFocused: Bool // Focus 상태를 추적
+    @FocusState private var isFocused: Bool 
     var state: SearchTextFieldState
     var buttonAction: (String) -> Void
 
