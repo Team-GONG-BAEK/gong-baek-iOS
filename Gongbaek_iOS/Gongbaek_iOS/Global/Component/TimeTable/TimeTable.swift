@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TimeTableModel {
+    let id: Int
     let weekDay: WeekDay
     let startTime: Double
     let endTime: Double
@@ -36,10 +37,13 @@ struct TimeTable: View {
     let hours = Array(stride(from: 9, through: 17.5, by: 0.5))
     let columns = [GridItem(.fixed(24), spacing: 1)]
     + Array(repeating: GridItem(.flexible(), spacing: 1), count: 5)
+
     @State var selectedDay: WeekDay
     @State var selectedCells: Set<CellIdentifier> = []
+    @State private var freeTimeToCells: [Int: [CellIdentifier]] = [:]
+    @State private var currentFreeTimeId: Int? = nil
     @Binding var freeTimeTable: [TimeTableModel]
-    
+
     var body: some View {
         LazyVGrid(columns: columns, spacing: 1) {
             // 첫번째 행: 요일
@@ -71,13 +75,8 @@ struct TimeTable: View {
                         .frame(maxWidth: .infinity, minHeight: 24)
                         .padding(.bottom, (selectedCells.contains(cellIdentifier) || (cellState == .inactive) ? -1 : 0))
                         .onTapGesture {
-                            if cellState == .active {
-                                if selectedCells.contains(cellIdentifier) {
-                                    selectedCells.remove(cellIdentifier)
-                                } else {
-                                    selectedCells.insert(cellIdentifier)
-                                }
-                            }
+                            guard cellState == .active else { return }
+                            handleCellTap(cellIdentifier)
                         }
                         .id(cellIdentifier)
                 }
@@ -88,22 +87,60 @@ struct TimeTable: View {
             RoundedRectangle(cornerRadius: 8)
                 .stroke(.gray02, lineWidth: 1)
         )
+        .onAppear {
+            initFreeTimeToCells()
+        }
+    }
+    
+    /// 공강시간 id에 해당하는 셀들 딕셔너리 초기화
+    private func initFreeTimeToCells() {
+        for time in freeTimeTable {
+            guard let dayIndex = WeekDay.allCases.firstIndex(of: time.weekDay)
+            else { return }
+            let cells = Array(stride(from: time.startTime, to: time.endTime, by: 0.5)).map {
+                CellIdentifier(hourIndex: $0, dayIndex: dayIndex)
+            }
+            freeTimeToCells[time.id] = cells
+        }
     }
     
     /// 특정 시간이 수업시간(비활성), 공강시간(선택 요일X-비활성), 공강시간(선택 요일-활성)
     /// 세가지 중 어디에 속하는지 확인
     private func cellState(_ cellIdentifier: CellIdentifier) -> TimeTableCellState {
-        let hour = cellIdentifier.hourIndex
-        let day = cellIdentifier.dayIndex
-
-        for timeCell in freeTimeTable {
-            if WeekDay.allCases[day] == timeCell.weekDay &&
-               hour >= timeCell.startTime &&
-               hour < timeCell.endTime {
-                return selectedDay == WeekDay.allCases[day] ? .active : .freeTime
+        for (_, cells) in freeTimeToCells {
+            if cells.contains(cellIdentifier) {
+                let day = WeekDay.allCases[cellIdentifier.dayIndex]
+                return selectedDay == day ? .active : .freeTime
             }
         }
         return .inactive
+    }
+    
+    /// 셀 선택 처리
+    private func handleCellTap(_ cellIdentifier: CellIdentifier) {
+        guard let newFreeTimeId = freeTimeId(for: cellIdentifier)
+        else { return }
+        
+        if currentFreeTimeId != newFreeTimeId {
+            currentFreeTimeId = newFreeTimeId
+            selectedCells.removeAll()
+            selectedCells.insert(cellIdentifier)
+            
+        } else {
+            if !selectedCells.contains(cellIdentifier) {
+                selectedCells.insert(cellIdentifier)
+            }
+        }
+    }
+    
+    /// 셀에 해당하는 공강 시간 ID 찾기
+    private func freeTimeId(for cellIdentifier: CellIdentifier) -> Int? {
+        for (freeTimeId, cells) in freeTimeToCells {
+            if cells.contains(cellIdentifier) {
+                return freeTimeId
+            }
+        }
+        return nil
     }
     
     private func timeTableCellColor(_ cellState: TimeTableCellState) -> Color {
@@ -120,15 +157,16 @@ struct TimeTable: View {
 
 #Preview {
     @Previewable @State var freeTimeTable = [
-        TimeTableModel(weekDay: .MON, startTime: 9, endTime: 12),
-        TimeTableModel(weekDay: .MON, startTime: 14, endTime: 17.5),
-        TimeTableModel(weekDay: .TUE, startTime: 14, endTime: 18),
-        TimeTableModel(weekDay: .WED, startTime: 9, endTime: 11),
-        TimeTableModel(weekDay: .WED, startTime: 12, endTime: 13),
-        TimeTableModel(weekDay: .WED, startTime: 13.5, endTime: 15),
-        TimeTableModel(weekDay: .THU, startTime: 10, endTime: 18),
-        TimeTableModel(weekDay: .FRI, startTime: 10, endTime: 17)
+        TimeTableModel(id: 0, weekDay: .MON, startTime: 9, endTime: 12),
+        TimeTableModel(id: 1, weekDay: .MON, startTime: 14, endTime: 17.5),
+        TimeTableModel(id: 2, weekDay: .TUE, startTime: 14, endTime: 18),
+        TimeTableModel(id: 3, weekDay: .WED, startTime: 9, endTime: 11),
+        TimeTableModel(id: 4, weekDay: .WED, startTime: 12, endTime: 13),
+        TimeTableModel(id: 5, weekDay: .WED, startTime: 13.5, endTime: 15),
+        TimeTableModel(id: 6, weekDay: .THU, startTime: 10, endTime: 18),
+        TimeTableModel(id: 7, weekDay: .FRI, startTime: 10, endTime: 17)
         ]
     
-    TimeTable(selectedDay: .MON, freeTimeTable: $freeTimeTable)
+    TimeTable(selectedDay: .WED, freeTimeTable: $freeTimeTable)
+        .padding(16)
 }
