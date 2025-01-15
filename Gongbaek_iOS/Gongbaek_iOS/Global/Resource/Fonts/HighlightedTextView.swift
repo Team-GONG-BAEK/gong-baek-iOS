@@ -10,7 +10,7 @@ import SwiftUI
 struct HighlightTextView: View {
     let text: String
     let textColor: Color
-    let font: Font
+    let font: FontFamily
     let highlightText: String
     var highlightColor: Color = .mainOrange
 
@@ -21,11 +21,11 @@ struct HighlightTextView: View {
                 if index > 0 {
                     Text(highlightText)
                         .foregroundColor(highlightColor)
-                        .font(font)
+                        .pretendardFont(font)
                 }
                 Text(parts[index])
                     .foregroundColor(textColor)
-                    .font(font)
+                    .pretendardFont(font)
             }
         }
     }
@@ -35,7 +35,7 @@ struct HighlightTextView: View {
     HighlightTextView(
         text: "일반텍스트 사이에 있는 강조텍스트를 사용합니다",
         textColor: .black,
-        font: .body,
+        font: .body1_b_16,
         highlightText: "텍스트 "
     )
 }
