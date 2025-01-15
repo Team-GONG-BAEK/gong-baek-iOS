@@ -21,7 +21,6 @@ struct Meeting {
 }
 
 struct MeetingInfoBase: View {
-    @State private var selectedButton: String?
     let state: MeetingInfoState
     let meeting: Meeting
     
