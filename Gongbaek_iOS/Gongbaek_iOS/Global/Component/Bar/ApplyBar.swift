@@ -11,10 +11,10 @@ import SwiftUI
 
 struct Apply {
     var isActivated: Bool
-    var onTap: (() -> Void)?
     var currentPeopleCount: Int
     var maxPeopleCount: Int
     var buttonText: String
+    var onTap: (() -> Void)?
 }
 
 struct ApplyBar: View {
@@ -31,22 +31,7 @@ struct ApplyBar: View {
                         .fill(apply.isActivated ? .gray09 : .gray04)
                 )
             
-            Button(action: {
-                print("applyButtonIsTapped")
-            }) {
-                
-                // MARK: TODO - Component 대체 예정
-                
-                Text(apply.buttonText)
-                    .pretendardFont(.title2_sb_18)
-                    .padding(.vertical, 16)
-                    .frame(maxWidth: .infinity)
-                    .foregroundStyle(.grayWhite)
-                    .background(
-                        RoundedRectangle(cornerRadius: 6)
-                            .fill(apply.isActivated ? .mainOrange : .gray03)
-                    )
-            }
+            BasicButton(text: "엘렐레", isActivated: apply.isActivated, onTap: apply.onTap)
         }
         .padding(.vertical, 20)
         .padding(.horizontal, 16)
@@ -55,5 +40,5 @@ struct ApplyBar: View {
 }
 
 #Preview {
-    ApplyBar(apply: Apply(isActivated: true, onTap: nil, currentPeopleCount: 3, maxPeopleCount: 4, buttonText: "엘렐레"))
+    ApplyBar(apply: Apply(isActivated: true, currentPeopleCount: 3, maxPeopleCount: 4, buttonText: "엘렐레", onTap: nil))
 }
