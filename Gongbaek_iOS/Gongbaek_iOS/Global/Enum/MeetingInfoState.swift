@@ -10,6 +10,11 @@ import SwiftUI
 enum MeetingInfoState {
     case cell
     case detail
+    
+    enum FillItemState {
+        case fill
+        case myFill
+    }
 }
 
 extension MeetingInfoState {
