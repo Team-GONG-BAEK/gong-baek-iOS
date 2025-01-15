@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct HighlightTextOnly: View {
+struct HighlightedTextView: View {
     let text: String
     let textColor: Color
     let font: FontFamily
-    let highlightString: String
+    var highlightString: String = ""
     var highlightColor: Color = .mainOrange
     
     var body: some View {
@@ -45,7 +45,7 @@ struct HighlightTextOnly: View {
 }
 
 #Preview {
-    HighlightTextOnly(
+    HighlightedTextView(
         text: "일반텍스트 사이에 있는 강조텍스트를 사용합지마",
         textColor: .gray07,
         font: .body1_m_16,
