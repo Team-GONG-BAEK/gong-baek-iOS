@@ -7,35 +7,48 @@
 
 import SwiftUI
 
-struct HighlightTextView: View {
+struct HighlightTextOnly: View {
     let text: String
     let textColor: Color
     let font: FontFamily
-    let highlightText: String
+    let highlightString: String
     var highlightColor: Color = .mainOrange
-
+    
     var body: some View {
-        HStack(spacing: 0) {
-            let parts = text.components(separatedBy: highlightText)
-            ForEach(parts.indices, id: \.self) { index in
-                if index > 0 {
-                    Text(highlightText)
-                        .foregroundColor(highlightColor)
-                        .pretendardFont(font)
-                }
-                Text(parts[index])
-                    .foregroundColor(textColor)
-                    .pretendardFont(font)
-            }
+        highlightingText
+            .pretendardFont(font)
+    }
+    
+    private var highlightingText: Text {
+        guard !highlightString.isEmpty,
+              let matchIndex = text.range(of: highlightString) else {
+            return Text(text)
+                .foregroundColor(textColor)
         }
+        
+        let unmatchHeadString = text[text.startIndex..<matchIndex.lowerBound]
+        let matchString = text[matchIndex.lowerBound..<matchIndex.upperBound]
+        let unmatchTailString = text[matchIndex.upperBound..<text.endIndex]
+        
+        let unmatchText = Text(unmatchHeadString)
+            .foregroundColor(textColor)
+        
+        let matchText = Text(matchString)
+            .foregroundColor(highlightColor)
+        
+        let unmatchTailText = Text(unmatchTailString)
+            .foregroundColor(textColor)
+        
+        let result = unmatchText + matchText + unmatchTailText
+        return result
     }
 }
 
 #Preview {
-    HighlightTextView(
-        text: "일반텍스트 사이에 있는 강조텍스트를 사용합니다",
-        textColor: .black,
-        font: .body1_b_16,
-        highlightText: "텍스트 "
+    HighlightTextOnly(
+        text: "일반텍스트 사이에 있는 강조텍스트를 사용합지마",
+        textColor: .gray07,
+        font: .body1_m_16,
+        highlightString: "강조텍스트"
     )
 }
