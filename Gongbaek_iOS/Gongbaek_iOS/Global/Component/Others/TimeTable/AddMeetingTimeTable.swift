@@ -1,5 +1,5 @@
 //
-//  TimeTable.swift
+//  AddMeetingTimeTable.swift
 //  Gongbaek_iOS
 //
 //  Created by 김나연 on 1/15/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TimeTable: View {
+struct AddMeetingTimeTable: View {
     private let hours = Array(stride(from: 9, through: 17.5, by: 0.5))
     private let columns = [GridItem(.fixed(24), spacing: 1)]
     + Array(repeating: GridItem(.flexible(), spacing: 1), count: 5)
@@ -210,6 +210,6 @@ struct TimeTable: View {
         TimeTableModel(id: 7, weekDay: .FRI, startTime: 10, endTime: 17)
         ]
     
-    TimeTable(freeTimeTable: $freeTimeTable, selectedDay: .WED)
+    AddMeetingTimeTable(freeTimeTable: $freeTimeTable, selectedDay: .WED)
         .padding(16)
 }
