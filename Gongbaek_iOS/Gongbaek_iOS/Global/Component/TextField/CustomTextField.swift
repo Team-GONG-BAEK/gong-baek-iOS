@@ -14,10 +14,11 @@ struct CustomTextField: View {
     var state: TextFieldState
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 4) {
             Text(state.titleText)
                 .font(.pretendard(.body2_sb_14))
                 .foregroundColor(.gray08)
+                .padding(.bottom, 6)
             
             TextField(
                 state.placeholderText,
@@ -38,6 +39,9 @@ struct CustomTextField: View {
                 if text.count > state.maxCharacterCount {
                     self.text = String(text.prefix(state.maxCharacterCount))
                 }
+                if showError {
+                    showError = false
+                }
             }
             
             HStack {
@@ -48,24 +52,54 @@ struct CustomTextField: View {
                 }
                 Spacer()
                 Text("\(text.count)/\(state.maxCharacterCount)")
-                                    .font(.pretendard(.caption2_r_12))
-                                    .foregroundColor(.gray06)
+                    .font(.pretendard(.caption2_r_12))
+                    .foregroundColor(.gray06)
             }
             
         }
     }
 }
 
-#Preview {
-    @Previewable @State var nickname: String = ""
-    @Previewable @State var showError: Bool = true
-    
-    VStack(spacing: 20) {
-        CustomTextField(
-            text: $nickname,
-            showError: $showError,
-            state: .nickname
-        )
+struct NicknameTestView: View {
+    @State private var nickname: String = ""
+    @State private var showError: Bool = false
+
+    private let duplicatedNames = ["나연맘", "민서웅니", "희은아가"]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+
+            CustomTextField(
+                text: $nickname,
+                showError: $showError,
+                state: .nickname
+            )
+
+            Button(action: {
+                checkDuplicateNickname()
+            }) {
+                Text("중복 확인")
+                    .font(.pretendard(.title2_sb_18))
+                    .foregroundColor(.grayWhite)
+                    .padding(.vertical, 16)
+                    .frame(maxWidth: .infinity)
+                    .background(.mainOrange)
+                    .cornerRadius(8)
+            }
+            .disabled(nickname.isEmpty)
+        }
+        .padding()
     }
-    .padding()
+
+    private func checkDuplicateNickname() {
+        if duplicatedNames.contains(nickname) {
+            showError = true
+        } else {
+            showError = false
+        }
+    }
+}
+
+#Preview {
+    NicknameTestView()
 }
