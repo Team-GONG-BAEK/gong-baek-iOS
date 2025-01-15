@@ -34,53 +34,25 @@ enum TimeTableCellState {
 }
 
 struct TimeTable: View {
-    let hours = Array(stride(from: 9, through: 17.5, by: 0.5))
-    let columns = [GridItem(.fixed(24), spacing: 1)]
+    private let hours = Array(stride(from: 9, through: 17.5, by: 0.5))
+    private let columns = [GridItem(.fixed(24), spacing: 1)]
     + Array(repeating: GridItem(.flexible(), spacing: 1), count: 5)
 
+    @Binding var freeTimeTable: [TimeTableModel]
     @State var selectedDay: WeekDay
     @State var selectedCells: Set<CellIdentifier> = []
-    @State var selectedTime: (Double, Double)? = nil
-    @State private var freeTimeToCells: [Int: [CellIdentifier]] = [:]
+    @State private var selectedTimeRange: (start: Double, end: Double)? = nil
+    /// 공강시간 id값과 해당 시간표셀 id들을 매핑한 Dictionary
+    @State private var freeTimeIdToCellsMap: [Int: [CellIdentifier]] = [:]
     @State private var currentFreeTimeId: Int? = nil
-    @Binding var freeTimeTable: [TimeTableModel]
 
     var body: some View {
         LazyVGrid(columns: columns, spacing: 1) {
-            // 첫번째 행: 요일
-            Rectangle()
-                .fill(Color.white)
-                .frame(minWidth: 24, minHeight: 24)
+            dayHeader()
             
-            ForEach(WeekDay.allCases.indices, id: \.self) { dayIndex in
-                Text(WeekDay.allCases[dayIndex].rawValue)
-                    .frame(minWidth: 62, maxWidth: .infinity, minHeight: 24)
-                    .font(.system(size: 12, weight: .regular))
-                    .foregroundStyle(selectedDay == WeekDay.allCases[dayIndex] ? Color.white : Color.gray06)
-                    .background(selectedDay == WeekDay.allCases[dayIndex] ? Color.gray09 : Color.white)
-            }
-            
-            // 두번째 행부터: 시간 + 셀
             ForEach(hours.indices, id: \.self) { hourIndex in
-                Text(hours[hourIndex].truncatingRemainder(dividingBy: 1) == 0 ? "\(Int(hours[hourIndex]))" : "")
-                    .frame(width: 24, height: 28, alignment: .topTrailing)
-                    .font(.system(size: 12, weight: .regular))
-                    .background(Color.white)
-                
-                ForEach(WeekDay.allCases.indices, id: \.self) { dayIndex in
-                    let cellIdentifier = CellIdentifier(hourIndex: hours[hourIndex], dayIndex: dayIndex)
-                    let cellState = cellState(cellIdentifier)
-                    
-                    Rectangle()
-                        .fill(selectedCells.contains(cellIdentifier) ? .mainOrange : timeTableCellColor(cellState))
-                        .frame(maxWidth: .infinity, minHeight: 24)
-                        .padding(.bottom, (selectedCells.contains(cellIdentifier) || (cellState == .inactive) ? -1 : 0))
-                        .onTapGesture {
-                            guard cellState == .active else { return }
-                            handleCellTap(cellIdentifier)
-                        }
-                        .id(cellIdentifier)
-                }
+                hourCell(hourIndex)
+                timeTableCells(hourIndex)
             }
         }
         .background(.gray02)
@@ -89,82 +61,158 @@ struct TimeTable: View {
                 .stroke(.gray02, lineWidth: 1)
         )
         .onAppear {
-            initFreeTimeToCells()
+            initFreeTimeIdToCellsMap()
+        }
+    }
+    
+    // MARK: - Components
+    
+    private func dayHeader() -> some View {
+        GridRow {
+            /// 빈칸
+            Rectangle()
+                .fill(Color.white)
+                .frame(minWidth: 24, minHeight: 24)
+            
+            /// 요일
+            ForEach(WeekDay.allCases.indices, id: \.self) { dayIndex in
+                /// 선택 요일인지 여부
+                let isSelectedDay = selectedDay == WeekDay.allCases[dayIndex]
+                
+                Text(WeekDay.allCases[dayIndex].rawValue)
+                    .frame(minWidth: 62, maxWidth: .infinity, minHeight: 24)
+                    .font(.pretendard(isSelectedDay ? .caption2_b_12 : .caption2_r_12))
+                    .foregroundStyle(isSelectedDay ? .white : .gray06)
+                    .background(isSelectedDay ? .gray09 : .white)
+            }
+        }
+    }
+    
+    private func hourCell(_ hourIndex: Int) -> some View {
+        /// 시간을 1로 나눴을 때 나머지 존재 여부 -> 30분 단위 시간 구분 위함
+        let isOnTheHour = hours[hourIndex].truncatingRemainder(dividingBy: 1) == 0
+        
+        return Text(isOnTheHour ? "\(Int(hours[hourIndex]))" : "")
+            .frame(width: 24, height: 28, alignment: .topTrailing)
+            .font(.pretendard(.caption2_r_12))
+            .foregroundStyle(.gray06)
+            .background(.white)
+    }
+    
+    private func timeTableCells(_ hourIndex: Int) -> some View {
+        ForEach(WeekDay.allCases.indices, id: \.self) { dayIndex in
+            /// 모든 시간표셀들을 구분하기 위한 식별자 id 부여
+            let cellIdentifier = CellIdentifier(hourIndex: hours[hourIndex], dayIndex: dayIndex)
+            let cellState = cellState(cellIdentifier)
+            let bottomPadding = bottomPadding(hourIndex, cellIdentifier, cellState)
+            
+            Rectangle()
+                .fill(selectedCells.contains(cellIdentifier) ? .mainOrange : cellColor(cellState))
+                .frame(maxWidth: .infinity, minHeight: 24)
+                .padding(.bottom, bottomPadding)
+                .onTapGesture {
+                    guard cellState == .active else { return }
+                    handleOnCellTapped(cellIdentifier)
+                }
+                .id(cellIdentifier)
+        }
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func bottomPadding(
+        _ hourIndex: Int,
+        _ cellIdentifier: CellIdentifier,
+        _ cellState: TimeTableCellState
+    ) -> CGFloat {
+        /// 시간표셀 하단 padding은 연속적으로 이어질 때만 -1로 구분선 제거
+        /// 다만 17.5시에 해당하는 셀들은 최하단 셀이므로 0
+        if hours[hourIndex] != 17.5 {
+            if selectedCells.contains(cellIdentifier)
+            || cellState == .inactive {
+                return -1
+            } else {
+                return 0
+            }
+        } else {
+            return 0
         }
     }
     
     /// 공강시간 id에 해당하는 셀들 딕셔너리 초기화
-    private func initFreeTimeToCells() {
-        for time in freeTimeTable {
-            guard let dayIndex = WeekDay.allCases.firstIndex(of: time.weekDay)
+    private func initFreeTimeIdToCellsMap() {
+        for freeTime in freeTimeTable {
+            guard let dayIndex = WeekDay.allCases.firstIndex(of: freeTime.weekDay)
             else { return }
-            let cells = Array(stride(from: time.startTime, to: time.endTime, by: 0.5)).map {
+            
+            /// 공강시간 시작-종료 시간에 해당하는 모든 시간들을 30분 단위로 쪼갬
+            /// -> 각 시간에 해당되는 cell id값  만들고 cells 배열에 저장
+            let cells = Array(stride(
+                from: freeTime.startTime,
+                to: freeTime.endTime,
+                by: 0.5
+            )).map {
                 CellIdentifier(hourIndex: $0, dayIndex: dayIndex)
             }
-            freeTimeToCells[time.id] = cells
+            /// 딕셔너리 key는 공강시간 id, value는 해당 공강시간에 속하는 cells
+            freeTimeIdToCellsMap[freeTime.id] = cells
         }
     }
     
-    /// 특정 시간이 수업시간(비활성), 공강시간(선택 요일X-비활성), 공강시간(선택 요일-활성)
+    /// 특정 셀의 시간이 수업시간(비활성), 공강시간(선택 요일X-비활성), 공강시간(선택 요일-활성)
     /// 세가지 중 어디에 속하는지 확인
     private func cellState(_ cellIdentifier: CellIdentifier) -> TimeTableCellState {
-        for (_, cells) in freeTimeToCells {
-            if cells.contains(cellIdentifier) {
-                let day = WeekDay.allCases[cellIdentifier.dayIndex]
-                return selectedDay == day ? .active : .freeTime
-            }
+        /// 공강시간인지 확인 -> 선택 요일인지 확인
+        for (_, cells) in freeTimeIdToCellsMap
+        where cells.contains(cellIdentifier) {
+            let day = WeekDay.allCases[cellIdentifier.dayIndex]
+            return selectedDay == day ? .active : .freeTime
         }
         return .inactive
     }
     
-    /// 셀 선택 처리
-    private func handleCellTap(_ cellIdentifier: CellIdentifier) {
+    private func handleOnCellTapped(_ cellIdentifier: CellIdentifier) {
         guard let newFreeTimeId = freeTimeId(for: cellIdentifier)
         else { return }
         
         if currentFreeTimeId != newFreeTimeId {
             currentFreeTimeId = newFreeTimeId
-            selectedCells.removeAll()
+            selectedCells = [cellIdentifier]
+        } else {
             selectedCells.insert(cellIdentifier)
             
-        } else {
-            if !selectedCells.contains(cellIdentifier) {
-                selectedCells.insert(cellIdentifier)
-                
-                var startTime: Double = cellIdentifier.hourIndex
-                var endTime: Double = cellIdentifier.hourIndex + 0.5
-                for cell in selectedCells {
-                    startTime = min(cell.hourIndex, startTime)
-                    endTime = max(cell.hourIndex + 0.5, endTime)
-                }
-                selectedTime = (startTime, endTime)
-                
-                let cells = Array(stride(
-                    from: startTime,
-                    to: endTime,
-                    by: 0.5
-                )).map {
-                    CellIdentifier(hourIndex: $0, dayIndex: WeekDay.allCases.firstIndex(of: selectedDay)!)
-                }
-                if startTime <= cellIdentifier.hourIndex &&
-                    cellIdentifier.hourIndex < endTime {
-                    selectedCells = Set(cells)
-                }
+            /// 공강시간 id 같은 경우, 미선택됐던 중간 셀들도 선택하는 기능
+            /// 선택된 셀들의 시작시간 중 최소, 종료시간 중 최대를 튜플로 selectedTimeRange에 저장
+            selectedTimeRange = selectedCells.reduce(into: (
+                start: cellIdentifier.hourIndex,
+                end: cellIdentifier.hourIndex + 0.5
+            )) {
+                $0.start = min($0.start, $1.hourIndex)
+                $0.end = max($0.end, $1.hourIndex + 0.5)
             }
+            guard let timeRange = selectedTimeRange else { return }
+
+            /// 선택된 시간 범위에 해당되는 모든 시간들 30분 단위로 cell id 만들어서 selectedCells에 저장
+            selectedCells = Set(Array(stride(
+                from: timeRange.start,
+                to: timeRange.end,
+                by: 0.5
+            )).map {
+                CellIdentifier(hourIndex: $0, dayIndex: cellIdentifier.dayIndex)
+            })
         }
     }
     
-    /// 셀에 해당하는 공강 시간 ID 찾기
+    /// 셀에 해당하는 공강 시간 id 찾기
     private func freeTimeId(for cellIdentifier: CellIdentifier) -> Int? {
-        for (freeTimeId, cells) in freeTimeToCells {
-            if cells.contains(cellIdentifier) {
-                return freeTimeId
-            }
+        for (freeTimeId, cells) in freeTimeIdToCellsMap
+        where cells.contains(cellIdentifier) {
+            return freeTimeId
         }
         return nil
     }
     
-    private func timeTableCellColor(_ cellState: TimeTableCellState) -> Color {
+    private func cellColor(_ cellState: TimeTableCellState) -> Color {
         switch cellState {
         case .inactive:
             return .gray02
@@ -188,6 +236,6 @@ struct TimeTable: View {
         TimeTableModel(id: 7, weekDay: .FRI, startTime: 10, endTime: 17)
         ]
     
-    TimeTable(selectedDay: .WED, freeTimeTable: $freeTimeTable)
+    TimeTable(freeTimeTable: $freeTimeTable, selectedDay: .WED)
         .padding(16)
 }
