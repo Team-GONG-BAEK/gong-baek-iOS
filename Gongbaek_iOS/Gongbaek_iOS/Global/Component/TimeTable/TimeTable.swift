@@ -40,6 +40,7 @@ struct TimeTable: View {
 
     @State var selectedDay: WeekDay
     @State var selectedCells: Set<CellIdentifier> = []
+    @State var selectedTime: (Double, Double)? = nil
     @State private var freeTimeToCells: [Int: [CellIdentifier]] = [:]
     @State private var currentFreeTimeId: Int? = nil
     @Binding var freeTimeTable: [TimeTableModel]
@@ -129,6 +130,26 @@ struct TimeTable: View {
         } else {
             if !selectedCells.contains(cellIdentifier) {
                 selectedCells.insert(cellIdentifier)
+                
+                var startTime: Double = cellIdentifier.hourIndex
+                var endTime: Double = cellIdentifier.hourIndex + 0.5
+                for cell in selectedCells {
+                    startTime = min(cell.hourIndex, startTime)
+                    endTime = max(cell.hourIndex + 0.5, endTime)
+                }
+                selectedTime = (startTime, endTime)
+                
+                let cells = Array(stride(
+                    from: startTime,
+                    to: endTime,
+                    by: 0.5
+                )).map {
+                    CellIdentifier(hourIndex: $0, dayIndex: WeekDay.allCases.firstIndex(of: selectedDay)!)
+                }
+                if startTime <= cellIdentifier.hourIndex &&
+                    cellIdentifier.hourIndex < endTime {
+                    selectedCells = Set(cells)
+                }
             }
         }
     }
