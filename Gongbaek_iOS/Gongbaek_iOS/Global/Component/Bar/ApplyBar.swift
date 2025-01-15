@@ -40,5 +40,13 @@ struct ApplyBar: View {
 }
 
 #Preview {
-    ApplyBar(apply: Apply(isActivated: true, currentPeopleCount: 3, maxPeopleCount: 4, buttonText: "엘렐레", onTap: nil))
+    ApplyBar(
+        apply: Apply(
+            isActivated: true,
+            currentPeopleCount: 3,
+            maxPeopleCount: 4,
+            buttonText: "엘렐레",
+            onTap: nil
+        )
+    )
 }
