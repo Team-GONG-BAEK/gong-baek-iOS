@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HighlightedTextView: View {
+struct HighlightTextView: View {
     let text: String
     let textColor: Color
     let font: FontFamily
@@ -15,37 +15,35 @@ struct HighlightedTextView: View {
     var highlightColor: Color = .mainOrange
     
     var body: some View {
-        highlightingText
+        highlightText
             .pretendardFont(font)
     }
     
-    private var highlightingText: Text {
+    private var highlightText: Text {
         guard !highlightString.isEmpty,
-              let matchIndex = text.range(of: highlightString) else {
+              let targetIndex = text.range(of: highlightString) else {
             return Text(text)
                 .foregroundColor(textColor)
         }
         
-        let unmatchHeadString = text[text.startIndex..<matchIndex.lowerBound]
-        let matchString = text[matchIndex.lowerBound..<matchIndex.upperBound]
-        let unmatchTailString = text[matchIndex.upperBound..<text.endIndex]
+        let leadingString = text[text.startIndex..<targetIndex.lowerBound]
+        let targetString = text[targetIndex.lowerBound..<targetIndex.upperBound]
+        let trailingString = text[targetIndex.upperBound..<text.endIndex]
         
-        let unmatchText = Text(unmatchHeadString)
+        let unmatchText = Text(leadingString)
             .foregroundColor(textColor)
-        
-        let matchText = Text(matchString)
+        let targetText = Text(targetString)
             .foregroundColor(highlightColor)
-        
-        let unmatchTailText = Text(unmatchTailString)
+        let trailingText = Text(trailingString)
             .foregroundColor(textColor)
         
-        let result = unmatchText + matchText + unmatchTailText
+        let result = unmatchText + targetText + trailingText
         return result
     }
 }
 
 #Preview {
-    HighlightedTextView(
+    HighlightTextView(
         text: "일반텍스트 사이에 있는 강조텍스트를 사용합지마",
         textColor: .gray07,
         font: .body1_m_16,
