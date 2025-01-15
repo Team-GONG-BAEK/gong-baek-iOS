@@ -9,38 +9,43 @@ import SwiftUI
 
 struct SearchTextField: View {
     @State var inputText: String
-    var buttonAction: (String) -> Void // 입력된 텍스트를 전달받는 클로저
+    @FocusState private var isFocused: Bool // Focus 상태를 추적
+    var state: SearchTextFieldState
+    var buttonAction: (String) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("학교명")
+            Text(state.titleText)
                 .font(.pretendard(.body2_sb_14))
                 .foregroundColor(.gray08)
             
             ZStack {
                 TextField(
-                    "한글을 활용해 최대 8자 이내로 입력해주세요.",
+                    "\(state.titleText)을 검색하세요.",
                     text: $inputText
                 )
+                .focused($isFocused) 
                 .font(.pretendard(.body1_m_16))
                 .padding(.vertical, 14)
                 .padding(.leading, 16)
                 .padding(.trailing, 48)
-                .background(Color.gray01)
+                .background(.gray01)
+                .accentColor(.gray05)
                 .cornerRadius(6)
                 .overlay(
                     RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.gray, lineWidth: 1)
+                        .stroke(isFocused ? .gray10 : .clear, lineWidth: 1)
                 )
                 
                 HStack {
                     Spacer()
                     Button(action: {
-                        buttonAction(inputText) // 입력된 텍스트를 클로저로 전달
+                        buttonAction(inputText)
                     }) {
                         Image(.icSearch)
-                            .foregroundColor(.gray04)
+                            .foregroundColor(isFocused ? .gray10 : .gray04)
                     }
+                    .padding(.trailing, 8)
                 }
             }
         }
@@ -49,8 +54,13 @@ struct SearchTextField: View {
 
 #Preview {
     VStack(spacing: 20) {
-        SearchTextField(inputText: "") { text in
-            print("Button clicked with text: \(text)") // 입력된 텍스트 출력
+        SearchTextField(inputText: "", state: .school) { text in
+            print("Search button clicked for School with input: \(text)")
+        }
+        
+        SearchTextField(inputText: "", state: .major) { text in
+            print("Search button clicked for Major with input: \(text)")
         }
     }
+    .padding()
 }
