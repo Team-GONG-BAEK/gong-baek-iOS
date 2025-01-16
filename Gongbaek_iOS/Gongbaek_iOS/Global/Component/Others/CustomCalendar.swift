@@ -86,21 +86,33 @@ struct CustomCalendar: View {
     }
     
     private var calendarGridView: some View {
+        // 현재 달 날짜수
         let daysInMonth = numberOfDays(in: month)
+        // 현재 달의 첫 요일 인덱스
         let firstWeekday = firstWeekdayOfMonth(in: month) - 1
+        // 이전 달의 날짜수 == 마지막 날짜
         let lastDayOfMonthBefore = numberOfDays(in: previousMonth())
+        // 현재 달력 행 개수
         let numberOfRows = Int(ceil(Double(daysInMonth + firstWeekday) / 7.0))
+        // 다음 달 보이는 날짜들 = 달력에 보이는 전체 날짜수 - 현재 달 날짜수 - 현재 달 첫 요일 인덱스
         let visibleDaysOfNextMonth = numberOfRows * 7 - (daysInMonth + firstWeekday)
         
         return LazyVGrid(columns: Array(repeating: GridItem(), count: 7), spacing: 24) {
+            // -firstWeekday == 현재 달력에 보이는 이전 달 날짜수
+            // 즉, 이전 달 날짜수부터 (현재 달 날짜수 + 보이는 다음달 날짜수)까지를 인덱스로 For문 돌림
+            // 현재 달의 1일 인덱스 == 0인 것
             ForEach(-firstWeekday ..< daysInMonth + visibleDaysOfNextMonth, id: \.self) { index in
                 Group {
+                    // 현재 달의 날짜인 경우
                     if index > -1 && index < daysInMonth {
                         let date = getDate(for: index)
                         let day = Calendar.current.component(.day, from: date)
-                        let clicked = clickedCurrentMonthDates == date
-                        let isToday = date.formattedCalendarDayDate == today.formattedCalendarDayDate
                         let weekday = Calendar.current.component(.weekday, from: date)
+                        // 현재 선택한 날짜인지 여부
+                        let clicked = clickedCurrentMonthDates == date
+                        // 오늘인지 여부
+                        let isToday = date.formattedCalendarDayDate == today.formattedCalendarDayDate
+                        // 과거 날짜인지 여부
                         let isPast = date < today
                         
                         CalendarCell(
@@ -111,13 +123,18 @@ struct CustomCalendar: View {
                             isDisabled: isWeekend(weekday) || isPast
                         )
                         .onTapGesture {
+                            // 주말, 과거가 아닌 경우
                             if !isWeekend(weekday) && !isPast {
                                 clickedCurrentMonthDates = date
-                                print("Clicked date: \(date)") // 클릭된 날짜 출력
-
                             }
                         }
-                    } else if let prevMonthDate = Calendar.current.date(
+                    }
+                    // 인덱스가 음수인 경우
+                    // 이전 달 1일에 이전 달 마지막 날짜(==이전 달 날짜수) + 인덱스 더한 값이 이전 달에 해당되는지 여부
+                    // (e.g) 1 + 31 + (-2) = 31 ⭕️ - 이전 달
+                    // (e.g) 1 + 31 + (32) = 64 ❌ - 다음 달
+                    // 즉, 현재 달력에 보일 이전 달 날짜들을 보여주기 위함
+                    else if let prevMonthDate = Calendar.current.date(
                         byAdding: .day,
                         value: index + lastDayOfMonthBefore,
                         to: previousMonth()
@@ -134,6 +151,7 @@ struct CustomCalendar: View {
         }
     }
     
+    // 주말인지 판단. 1이면 일요일, 7이면 토요일
     private func isWeekend(_ weekday: Int) -> Bool {
         return weekday == 1 || weekday == 7
     }
