@@ -46,7 +46,7 @@ struct CustomedAlert: View {
                 }
             }
             .padding(.horizontal, 20)
-            .padding(.top, 34)
+            .padding(.top, subtitleText != nil ? 48 : 34)
             .padding(.bottom, 20)
             .background(
                 RoundedRectangle(cornerRadius: 10)
