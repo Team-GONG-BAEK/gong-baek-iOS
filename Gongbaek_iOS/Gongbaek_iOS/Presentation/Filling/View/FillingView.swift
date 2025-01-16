@@ -8,8 +8,18 @@
 import SwiftUI
 
 struct FillingView: View {
+    @StateObject var viewModel = FillingViewModel()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 12) {
+            VStack(spacing: 8) {
+                WeekFilterBar()
+                CategoryBar(viewModel: viewModel)
+                Rectangle()
+                    .fill(.gray01)
+                    .frame(height: 8)
+            }
+        }
     }
 }
 
