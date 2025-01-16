@@ -16,7 +16,7 @@ enum TabBarState: CaseIterable {
 }
 
 extension TabBarState {
-    var tabTitle: String {
+    var title: String {
         switch self {
         case .filling: "채우기"
         case .myFilling: "나의 채움"
@@ -26,7 +26,7 @@ extension TabBarState {
         }
     }
     
-    var tabImage: String {
+    var image: String {
         switch self {
         case .filling: "ic_tabbar_fill_gray_26"
         case .myFilling: "ic_tabbar_my_fill_gray_26"
@@ -36,7 +36,7 @@ extension TabBarState {
         }
     }
     
-    var tabSelectedImage: String {
+    var selectedImage: String {
         switch self {
         case .filling: "ic_tabbar_fill_black_26"
         case .myFilling: "ic_tabbar_my_fill_black_26"
@@ -49,11 +49,11 @@ extension TabBarState {
     @ViewBuilder
     func view(showGuideView: Binding<Bool>) -> some View {
         switch self {
-        case .filling: CustomSegmentControlBar(segmentState: .detail)
-        case .myFilling: CustomSegmentControlBar(segmentState: .myfill)
-        case .home: CustomSegmentControlBar(segmentState: .detail)
-        case .timetable: CustomSegmentControlBar(segmentState: .myfill)
-        case .myPage: CustomSegmentControlBar(segmentState: .detail)
+        case .filling: Color.gray01 // View 연결
+        case .myFilling: Color.gray02 // View 연결
+        case .home: Color.gray03 // View 연결
+        case .timetable: Color.gray04 // View 연결
+        case .myPage: Color.gray05 // View
         }
     }
 }
