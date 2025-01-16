@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-// MARK: - TODO: Model 분리
-
 struct CustomedAlert: View {
     let alertImage: String
     let titleText: String
@@ -20,44 +18,31 @@ struct CustomedAlert: View {
     
     var body: some View {
         ZStack {
-            BackgroundBlack()
+            backgroundBlack()
             
             VStack (alignment: .center, spacing: 0) {
-                Image(alertImage) // MARK: - TODO: 이미지 수정
+                Image(alertImage) //TODO: 이미지 수정
                     .resizable()
-                    .background(.gray02) // MARK: - TODO: 이미지 수정 시 삭제
+                    .background(.gray02) //TODO: 이미지 수정 시 삭제
                     .frame(width: 178, height: 178)
                     .padding(.horizontal, 20)
                 
                 VStack(spacing: 0) {
-                    TitleTextBox(text: titleText)
+                    titleTextBox(text: titleText)
                     
                     if let subtitleText = subtitleText {
-                        SubtitleTextBox(text: subtitleText)
+                        subtitleTextBox(text: subtitleText)
                     }
                 }
                 .padding(.vertical, 20)
-//                .padding(20)
                 .padding(.top, subtitleText != nil ? 8 : 0)
                 
                 HStack(alignment: .center, spacing: 10) {
                     if let grayButtonText = grayButtonText {
-                        GrayButton(buttonText: grayButtonText, buttonAction: onTapGrayButton)
+                        grayButton(buttonText: grayButtonText, buttonAction: onTapGrayButton)
                     }
                     
-                    Button(action: {
-                        onTapOrangeButton?()
-                    }) {
-                        Text(orangeButtonText)
-                            .pretendardFont(.title2_sb_18)
-                            .padding(.vertical, 12)
-                            .frame(maxWidth: .infinity)
-                            .background(.mainOrange)
-                            .foregroundStyle(.grayWhite)
-                            .clipShape(
-                                RoundedRectangle(cornerRadius: 6)
-                            )
-                    }
+                    orangeButton(buttonText: orangeButtonText, buttonAction: onTapOrangeButton)
                 }
             }
             .padding(.horizontal, 20)
@@ -71,23 +56,14 @@ struct CustomedAlert: View {
             .padding(.vertical, 236)
         }
     }
-}
-
-
-// MARK: - 내부 Components
-
-struct BackgroundBlack: View {
-    var body: some View {
+    
+    func backgroundBlack() -> some View {
         Rectangle()
             .fill(.grayBlack.opacity(0.7))
             .edgesIgnoringSafeArea(.all)
     }
-}
-
-struct TitleTextBox: View {
-    let text: String
     
-    var body: some View {
+    func titleTextBox(text: String) -> some View {
         Text(text)
             .pretendardFont(.title2_sb_18)
             .lineLimit(nil)
@@ -96,12 +72,8 @@ struct TitleTextBox: View {
             .fixedSize(horizontal: false, vertical: true)
             .foregroundStyle(.gray10)
     }
-}
-
-struct SubtitleTextBox: View {
-    let text: String
     
-    var body: some View {
+    func subtitleTextBox(text: String) -> some View {
         Text(text)
             .pretendardFont(.body2_m_14)
             .lineLimit(nil)
@@ -111,13 +83,8 @@ struct SubtitleTextBox: View {
             .foregroundStyle(.gray07)
             .padding(.vertical, 4)
     }
-}
-
-struct GrayButton: View {
-    let buttonText: String
-    var buttonAction: (() -> Void)?
     
-    var body: some View {
+    func grayButton(buttonText: String, buttonAction: (() -> Void)?) -> some View {
         Button(action: {
             buttonAction?()
         }) {
@@ -127,6 +94,23 @@ struct GrayButton: View {
                 .padding(.horizontal, 21.5)
                 .foregroundStyle(.grayWhite)
                 .background(.gray08)
+                .clipShape(
+                    RoundedRectangle(cornerRadius: 6)
+                )
+            
+        }
+    }
+    
+    func orangeButton(buttonText: String, buttonAction: (() -> Void)?) -> some View {
+        Button(action: {
+            buttonAction?()
+        }) {
+            Text(orangeButtonText)
+                .pretendardFont(.title2_sb_18)
+                .padding(.vertical, 12)
+                .frame(maxWidth: .infinity)
+                .background(.mainOrange)
+                .foregroundStyle(.grayWhite)
                 .clipShape(
                     RoundedRectangle(cornerRadius: 6)
                 )
