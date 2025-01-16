@@ -11,8 +11,7 @@ struct CustomTabView: View {
     @Binding var selectedTab: TabBarState
     
     var body: some View {
-        HStack(spacing: 0) {
-            Spacer()
+        HStack {
             TabButton(
                 tab: .filling,
                 selectedTab: $selectedTab,
@@ -52,9 +51,9 @@ struct CustomTabView: View {
                 selectedImageName: TabBarState.myPage.tabSelectedImage,
                 text: TabBarState.myPage.tabTitle
             )
-            Spacer()
         }
-        .frame(height: 70)
+        .padding(.top, 8)
+        .padding(.horizontal, 12)
         .background(.grayWhite)
     }
     
