@@ -80,6 +80,30 @@ let dummyMeetings: [Meeting] = [
         startTime: 16.0,
         endTime: 19.0,
         location: "신촌 보드게임 카페"
+    ),
+    Meeting(
+        status: "진행 중",
+        category: "요리",
+        coverImg: "sample",
+        groupType: "ONE_TIME",
+        groupTitle: "이탈리안 요리 클래스",
+        weekDay: nil,
+        weekDate: "2025-02-10",
+        startTime: 14.0,
+        endTime: 16.0,
+        location: "이태원 쿠킹 스튜디오"
+    ),
+    Meeting(
+        status: "모집 중",
+        category: "게임",
+        coverImg: "sample",
+        groupType: "WEEKLY",
+        groupTitle: "보드게임 같이 할 사람!",
+        weekDay: .saturday,
+        weekDate: nil,
+        startTime: 16.0,
+        endTime: 19.0,
+        location: "신촌 보드게임 카페"
     )
 ]
 
