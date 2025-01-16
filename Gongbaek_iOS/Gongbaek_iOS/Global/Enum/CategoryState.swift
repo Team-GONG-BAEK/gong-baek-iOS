@@ -8,13 +8,13 @@
 import SwiftUI
 
 enum CategoryState: Int, CaseIterable {
-    case all = 0
-    case study = 1
-    case dining = 2
-    case sport = 3
-    case networking = 4
-    case play = 5
-    case others = 6
+    case ALL = 0
+    case STUDY = 1
+    case DINING = 2
+    case EXERCISE = 3
+    case NETWORKING = 4
+    case PLAYING = 5
+    case OTHERS = 6
     
     //TODO: 일러스트 이미지 추가
     var categoryImage: String? {
@@ -31,13 +31,13 @@ enum CategoryState: Int, CaseIterable {
     
     var categoryName: String {
         switch self {
-        case .all: return "전체"
-        case .study: return "스터디"
-        case .dining: return "식사"
-        case .sport: return "운동/산책"
-        case .networking: return "네트워킹"
-        case .play: return "놀기"
-        case .others: return "기타"
+        case .ALL: return "전체"
+        case .STUDY: return "스터디"
+        case .DINING: return "식사"
+        case .EXERCISE: return "운동/산책"
+        case .NETWORKING: return "네트워킹"
+        case .PLAYING: return "취미/오락"
+        case .OTHERS: return "기타"
         }
     }
     
