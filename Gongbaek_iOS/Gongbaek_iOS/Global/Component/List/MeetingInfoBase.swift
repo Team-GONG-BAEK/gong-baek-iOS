@@ -50,7 +50,7 @@ struct MeetingInfoBase: View {
                     VStack(alignment: .leading, spacing: 2) {
                         TimeBox(
                             state: .gray,
-                            text: formattedDateAndTime(
+                            text: Date.formattedDateAndTime(
                                 weekDay: meeting.weekDay,
                                 weekDate: meeting.weekDate,
                                 time: meeting.startTime
