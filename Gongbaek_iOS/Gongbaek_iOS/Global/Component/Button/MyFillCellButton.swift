@@ -9,12 +9,12 @@ import SwiftUI
 
 struct MyFillCellButton: View {
     var text: String
-    var onClick: (() -> Void)?
+    var onTap: (() -> Void)?
     
     var body: some View {
         Button(action: {
             print("\(text) 눌렸음!")
-            onClick?()
+            onTap?()
         }) {
             Text(text)
                 .font(.pretendard(.body2_sb_14))

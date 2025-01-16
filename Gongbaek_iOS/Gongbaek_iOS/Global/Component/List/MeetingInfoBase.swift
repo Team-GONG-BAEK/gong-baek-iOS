@@ -25,40 +25,47 @@ struct MeetingInfoBase: View {
     let meeting: Meeting
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 12) {
-                Image(meeting.coverImg)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 102, height: 102)
-                    .cornerRadius(2)
+        HStack(spacing: 12) {
+            Image(meeting.coverImg)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 102, height: 102)
+                .cornerRadius(2)
+            
+            VStack(alignment: .leading, spacing: 6) {
+                // 모임 태그
+                HStack(spacing: 4) {
+                    MeetingChip(state: .recruiting(.recruiting))
+                    MeetingChip(state: .category(.sport))
+                    MeetingChip(state: .weekly(true))
+                }
                 
-                VStack(alignment: .leading, spacing: 6) {
-                    // 모임 태그
-                    HStack(spacing: 5) {
-                        MeetingChip(state: .recruiting(.recruiting))
-                        MeetingChip(state: .category(.sport))
-                        MeetingChip(state: .weekly(true))
-                    }
+                VStack(alignment: .leading, spacing: 8) {
+                    // 모임 제목
+                    Text(meeting.groupTitle)
+                        .font(state.titleFont)
+                        .lineLimit(1)
                     
-                    VStack(alignment: .leading, spacing: 8) {
-                        // 모임 제목
-                        Text(meeting.groupTitle)
-                            .font(state.titleFont)
-                            .lineLimit(1)
-                        
-                        // 모임 정보
-                        VStack(alignment: .leading, spacing: 2) {
-                            TimeBox(
-                                state: .gray,
-                                text: formattedDateAndTime(weekDay: meeting.weekDay, weekDate: meeting.weekDate, time: meeting.startTime),
-                                font: state.infoFont
-                            )
-                            LocationBox(state: .gray, text: meeting.location, font: state.infoFont)
-                        }
+                    // 모임 정보
+                    VStack(alignment: .leading, spacing: 2) {
+                        TimeBox(
+                            state: .gray,
+                            text: formattedDateAndTime(
+                                weekDay: meeting.weekDay,
+                                weekDate: meeting.weekDate,
+                                time: meeting.startTime
+                            ),
+                            font: state.infoFont
+                        )
+                        LocationBox(
+                            state: .gray,
+                            text: meeting.location,
+                            font: state.infoFont
+                        )
                     }
                 }
             }
+            
         }
     }
 }
