@@ -7,17 +7,9 @@
 
 import SwiftUI
 
-enum SearchTextFieldState {
-    case school
-    case major
+enum SearchTextFieldState: String {
+    case school = "학교"
+    case major = "학과"
 }
 
-extension SearchTextFieldState {
-    var titleText: String {
-        switch self {
-        case .school: return "학교"
-        case .major: return "학과"
-        }
-    }
-}
 

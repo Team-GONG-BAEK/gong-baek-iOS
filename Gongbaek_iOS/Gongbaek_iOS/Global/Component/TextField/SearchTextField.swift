@@ -14,14 +14,14 @@ struct SearchTextField: View {
     var buttonAction: (String) -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(state.titleText)
+        VStack(alignment: .leading, spacing: 10) {
+            Text(state.rawValue)
                 .font(.pretendard(.body2_sb_14))
                 .foregroundColor(.gray08)
             
             ZStack {
                 TextField(
-                    "\(state.titleText)을 검색하세요.",
+                    "\(state.rawValue)을 검색하세요.",
                     text: $inputText
                 )
                 .focused($isFocused) 
@@ -42,10 +42,9 @@ struct SearchTextField: View {
                     Button(action: {
                         buttonAction(inputText)
                     }) {
-                        Image(.icSearch)
+                        Image(.icSearchGray48)
                             .foregroundColor(isFocused ? .gray10 : .gray04)
                     }
-                    .padding(.trailing, 8)
                 }
             }
         }
