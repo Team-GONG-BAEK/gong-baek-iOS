@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// MARK: - TODO: Model로 분리
+//TODO: Model로 분리
 
 struct OwnerProfileData {
     var profileImage: Int
@@ -35,7 +35,7 @@ struct OwnerProfileBox: View {
                     .foregroundStyle(.mainOrange) // MARK: - TODO: 이미지 삽입 시 삭제
                 
                 VStack(alignment: .leading, spacing: 6) {
-                    HStack(spacing: 6) {
+                    HStack(spacing: 4) {
                         Text(ownerData.nickname)
                             .pretendardFont(.body1_b_16)
                             .foregroundStyle(.grayBlack)
@@ -67,5 +67,15 @@ struct OwnerProfileBox: View {
 }
 
 #Preview {
-    OwnerProfileBox(ownerData: OwnerProfileData(profileImage: 1, nickname: "로이임탄", sex: "MALE", schoolMajor: "글로벌문화산업/MICE 전공", enterYear: 2019, schoolGrade: 4, mbti: "ENFJ"))
+    OwnerProfileBox(
+        ownerData: OwnerProfileData(
+            profileImage: 1,
+            nickname: "로이임탄",
+            sex: "MALE",
+            schoolMajor: "글로벌문화산업/MICE 전공",
+            enterYear: 2019,
+            schoolGrade: 4,
+            mbti: "ENFJ"
+        )
+    )
 }
