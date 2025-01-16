@@ -1,0 +1,76 @@
+//
+//  Date+.swift
+//  Gongbaek_iOS
+//
+//  Created by 김민서 on 1/15/25.
+//
+
+import SwiftUI
+
+extension Date {
+    
+    static let calendarDayDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM yyyy dd"
+        return formatter
+    }()
+    
+    var formattedCalendarDayDate: String {
+        return Date.calendarDayDateFormatter.string(from: self)
+    }
+    
+    static func numberOfDays(in date: Date) -> Int {
+        return Calendar.current.range(of: .day, in: .month, for: date)?.count ?? 0
+    }
+    
+    static func firstWeekdayOfMonth(in date: Date) -> Int {
+        let components = Calendar.current.dateComponents([.year, .month], from: date)
+        let firstDayOfMonth = Calendar.current.date(from: components)!
+        return Calendar.current.component(.weekday, from: firstDayOfMonth)
+    }
+    
+    static func previousMonth(from date: Date) -> Date {
+        let components = Calendar.current.dateComponents([.year, .month], from: date)
+        let firstDayOfMonth = Calendar.current.date(from: components)!
+        let previousMonth = Calendar.current.date(byAdding: .month, value: -1, to: firstDayOfMonth)!
+        return previousMonth
+    }
+    
+    static func adjustedMonth(from date: Date, by value: Int) -> Date {
+        if let newMonth = Calendar.current.date(byAdding: .month, value: value, to: date) {
+            return newMonth
+        }
+        return date
+    }
+    
+    // 날짜와 시간을 포맷팅하는 함수
+    func formattedDateAndTime(weekDay: WeekFullDay?, weekDate: String?, time: Double) -> String {
+        let formattedTime = formatTime(time)
+        
+        if let weekDay = weekDay {
+            return "매주 \(weekDay.displayName) \(formattedTime)"
+        } else if let weekDate = weekDate {
+            let formattedDate = formatDate(weekDate)
+            return "\(formattedDate) \(formattedTime)"
+        }
+        
+        return "시간 정보 없음"
+    }
+
+    // 시간 포맷 함수
+    func formatTime(_ time: Double) -> String {
+        let hours = Int(time)
+        let minutes = Int((time - Double(hours)) * 60)
+        return minutes == 0 ? "\(hours)시" : "\(hours)시 \(minutes)분"
+    }
+
+    // 날짜 포맷 함수
+    func formatDate(_ dateString: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        guard let date = formatter.date(from: dateString) else { return dateString }
+        
+        formatter.dateFormat = "MM월 dd일"
+        return formatter.string(from: date)
+    }
+}
