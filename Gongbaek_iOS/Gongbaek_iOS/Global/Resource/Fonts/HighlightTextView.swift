@@ -30,14 +30,14 @@ struct HighlightTextView: View {
         let targetString = text[targetIndex.lowerBound..<targetIndex.upperBound]
         let trailingString = text[targetIndex.upperBound..<text.endIndex]
         
-        let unmatchText = Text(leadingString)
+        let leadingText = Text(leadingString)
             .foregroundColor(textColor)
         let targetText = Text(targetString)
             .foregroundColor(highlightColor)
         let trailingText = Text(trailingString)
             .foregroundColor(textColor)
         
-        let result = unmatchText + targetText + trailingText
+        let result = leadingText + targetText + trailingText
         return result
     }
 }
