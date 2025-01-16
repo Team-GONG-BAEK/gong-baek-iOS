@@ -44,7 +44,7 @@ extension Date {
     }
     
     // 날짜와 시간을 포맷팅하는 함수
-    func formattedDateAndTime(weekDay: WeekFullDay?, weekDate: String?, time: Double) -> String {
+    static func formattedDateAndTime(weekDay: WeekFullDay?, weekDate: String?, time: Double) -> String {
         let formattedTime = formatTime(time)
         
         if let weekDay = weekDay {
@@ -58,14 +58,14 @@ extension Date {
     }
 
     // 시간 포맷 함수
-    func formatTime(_ time: Double) -> String {
+    static func formatTime(_ time: Double) -> String {
         let hours = Int(time)
         let minutes = Int((time - Double(hours)) * 60)
         return minutes == 0 ? "\(hours)시" : "\(hours)시 \(minutes)분"
     }
 
     // 날짜 포맷 함수
-    func formatDate(_ dateString: String) -> String {
+    static func formatDate(_ dateString: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         guard let date = formatter.date(from: dateString) else { return dateString }
