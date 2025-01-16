@@ -204,7 +204,7 @@ struct AddMeetingTimeTable: View {
         TimeTableModel(id: 2, weekDay: .TUE, startTime: 14, endTime: 18),
         TimeTableModel(id: 3, weekDay: .WED, startTime: 9, endTime: 11),
         TimeTableModel(id: 4, weekDay: .WED, startTime: 12, endTime: 13),
-        TimeTableModel(id: 5, weekDay: .WED, startTime: 13.5, endTime: 15),
+        TimeTableModel(id: 5, weekDay: .WED, startTime: 13.5, endTime: 17.5),
         TimeTableModel(id: 6, weekDay: .THU, startTime: 10, endTime: 18),
         TimeTableModel(id: 7, weekDay: .FRI, startTime: 10, endTime: 17)
         ]
