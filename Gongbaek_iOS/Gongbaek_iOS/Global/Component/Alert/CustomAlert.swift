@@ -32,20 +32,25 @@ struct CustomedAlert: View {
                 VStack(spacing: 0) {
                     TitleTextBox(text: titleText)
                     
-                    subtitleText != nil ? SubtitleTextBox(text: subtitleText ?? "") : nil
+                    if let subtitleText = subtitleText {
+                        SubtitleTextBox(text: subtitleText)
+                    }
                 }
-                .padding(20)
+                .padding(.vertical, 20)
+//                .padding(20)
                 .padding(.top, subtitleText != nil ? 8 : 0)
                 
                 HStack(alignment: .center, spacing: 10) {
-                    grayButtonText != nil ? GrayButton(buttonText: grayButtonText ?? "", buttonAction: onTapGrayButton) : nil
+                    if let grayButtonText = grayButtonText {
+                        GrayButton(buttonText: grayButtonText, buttonAction: onTapGrayButton)
+                    }
                     
                     Button(action: {
                         onTapOrangeButton?()
                     }) {
                         Text(orangeButtonText)
                             .pretendardFont(.title2_sb_18)
-                            .padding(.vertical, 16)
+                            .padding(.vertical, 12)
                             .frame(maxWidth: .infinity)
                             .background(.mainOrange)
                             .foregroundStyle(.grayWhite)
@@ -54,8 +59,8 @@ struct CustomedAlert: View {
                             )
                     }
                 }
-                .padding(.horizontal, 20)
             }
+            .padding(.horizontal, 20)
             .padding(.top, 34)
             .padding(.bottom, 20)
             .background(
@@ -118,7 +123,7 @@ struct GrayButton: View {
         }) {
             Text(buttonText)
                 .pretendardFont(.title2_sb_18)
-                .padding(.vertical, 16)
+                .padding(.vertical, 12)
                 .padding(.horizontal, 21.5)
                 .foregroundStyle(.grayWhite)
                 .background(.gray08)
