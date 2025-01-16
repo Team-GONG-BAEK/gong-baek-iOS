@@ -24,7 +24,7 @@ let dummyMeetings: [Meeting] = [
     Meeting(
         status: "모집 중",
         category: "스터디",
-        coverImg: "study_cover",
+        coverImg: "sample",
         groupType: "WEEKLY",
         groupTitle: "iOS 개발 스터디",
         weekDay: .monday,
@@ -36,7 +36,7 @@ let dummyMeetings: [Meeting] = [
     Meeting(
         status: "모집 완료",
         category: "운동",
-        coverImg: "workout_cover",
+        coverImg: "sample",
         groupType: "ONE_TIME",
         groupTitle: "주말 테니스 모임",
         weekDay: nil,
@@ -48,7 +48,7 @@ let dummyMeetings: [Meeting] = [
     Meeting(
         status: "모집 중",
         category: "독서",
-        coverImg: "book_club",
+        coverImg: "sample",
         groupType: "WEEKLY",
         groupTitle: "한 달 한 권 독서 모임",
         weekDay: .thursday,
@@ -60,7 +60,7 @@ let dummyMeetings: [Meeting] = [
     Meeting(
         status: "진행 중",
         category: "요리",
-        coverImg: "cooking_class",
+        coverImg: "sample",
         groupType: "ONE_TIME",
         groupTitle: "이탈리안 요리 클래스",
         weekDay: nil,
@@ -72,7 +72,7 @@ let dummyMeetings: [Meeting] = [
     Meeting(
         status: "모집 중",
         category: "게임",
-        coverImg: "game_meeting",
+        coverImg: "sample",
         groupType: "WEEKLY",
         groupTitle: "보드게임 같이 할 사람!",
         weekDay: .saturday,
