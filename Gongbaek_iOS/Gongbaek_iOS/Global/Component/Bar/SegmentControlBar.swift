@@ -10,12 +10,12 @@ import SwiftUI
 
 // MARK: - TODO: enum 분리하기
 
-enum ControlType {
+enum SegmentState {
     case detail
     case myfill
 }
 
-extension ControlType {
+extension SegmentState {
     var titles: [String] {
         switch self {
         case .detail:
@@ -27,12 +27,12 @@ extension ControlType {
 }
 
 struct SegmentControlBar: View {
-    let controlType: ControlType
+    let segmentState: SegmentState
     @State var selectedIndex = 0
     
     var body: some View {
         VStack {
-            CustomSegmentControl(segments: controlType.titles, selected: $selectedIndex)
+            CustomSegmentControl(segments: segmentState.titles, selected: $selectedIndex)
             Spacer()
         }
         .background(.gray05)
@@ -40,6 +40,6 @@ struct SegmentControlBar: View {
 }
 
 #Preview {
-    SegmentControlBar(controlType: .detail)
-    SegmentControlBar(controlType: .myfill)
+    SegmentControlBar(segmentState: .detail)
+    SegmentControlBar(segmentState: .myfill)
 }

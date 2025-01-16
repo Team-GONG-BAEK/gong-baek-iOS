@@ -38,6 +38,6 @@ struct CustomSegmentControl: View {
 }
 
 #Preview {
-    SegmentControlBar(controlType: .detail)
-    SegmentControlBar(controlType: .myfill)
+    SegmentControlBar(segmentState: .detail)
+    SegmentControlBar(segmentState: .myfill)
 }
