@@ -18,20 +18,11 @@ struct PersonBox: View {
             Image(.icPeople18)
                 .resizable()
                 .frame(width: 16, height: 16)
-                .foregroundColor(iconColor)
-            
+                .foregroundColor(.gray05)
+
             Text(text)
                 .font(font)
                 .foregroundColor(textColor)
-        }
-    }
-    
-    private var iconColor: Color {
-        switch state {
-        case .gray:
-            return .gray05
-        case .white:
-            return .grayWhite
         }
     }
     
