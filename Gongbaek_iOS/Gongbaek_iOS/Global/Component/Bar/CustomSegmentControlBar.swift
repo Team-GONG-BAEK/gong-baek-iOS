@@ -1,5 +1,5 @@
 //
-//  CustomSegmentControl.swift
+//  CustomSegmentControlBar.swift
 //  Gongbaek_iOS
 //
 //  Created by 김희은 on 1/15/25.
@@ -57,7 +57,7 @@ extension SegmentState {
     }
 }
 
-struct SegmentControlBar: View {
+struct CustomSegmentControlBar: View {
     let segmentState: SegmentState
     @State var selectedIndex = 0
     
@@ -90,7 +90,7 @@ struct SegmentControlBar: View {
 }
 
 #Preview {
-    SegmentControlBar(segmentState: .detail)
-    SegmentControlBar(segmentState: .myfill)
+    CustomSegmentControlBar(segmentState: .detail)
+    CustomSegmentControlBar(segmentState: .myfill)
 }
 
