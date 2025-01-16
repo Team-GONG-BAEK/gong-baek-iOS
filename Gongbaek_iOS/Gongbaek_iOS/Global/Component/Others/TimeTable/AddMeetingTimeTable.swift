@@ -14,10 +14,10 @@ struct AddMeetingTimeTable: View {
 
     @Binding var freeTimeTable: [TimeTableModel]
     @State var selectedDay: WeekDay
-    @State var selectedCells: Set<TimeTableCellId> = []
-    @State private var selectedTimeRange: (start: Double, end: Double)? = nil
+    @Binding var selectedTimeRange: (start: Double, end: Double)
     /// 공강시간 id값과 해당 시간표셀 id들을 매핑한 Dictionary
     @State private var freeTimeIdToCellsMap: [Int: [TimeTableCellId]] = [:]
+    @State var selectedCells: Set<TimeTableCellId> = []
     @State private var currentFreeTimeId: Int? = nil
 
     var body: some View {
@@ -164,12 +164,11 @@ struct AddMeetingTimeTable: View {
                 $0.start = min($0.start, $1.hourIndex)
                 $0.end = max($0.end, $1.hourIndex + 0.5)
             }
-            guard let timeRange = selectedTimeRange else { return }
 
             /// 선택된 시간 범위에 해당되는 모든 시간들 30분 단위로 cell id 만들어서 selectedCells에 저장
             selectedCells = Set(Array(stride(
-                from: timeRange.start,
-                to: timeRange.end,
+                from: selectedTimeRange.start,
+                to: selectedTimeRange.end,
                 by: 0.5
             )).map {
                 TimeTableCellId(hourIndex: $0, dayIndex: cellId.dayIndex)
@@ -209,7 +208,12 @@ struct AddMeetingTimeTable: View {
         TimeTableModel(id: 6, weekDay: .THU, startTime: 10, endTime: 18),
         TimeTableModel(id: 7, weekDay: .FRI, startTime: 10, endTime: 17)
         ]
+    @Previewable @State var selectedTimeRange: (start: Double, end: Double) = (0, 0)
     
-    AddMeetingTimeTable(freeTimeTable: $freeTimeTable, selectedDay: .WED)
-        .padding(16)
+    AddMeetingTimeTable(
+        freeTimeTable: $freeTimeTable,
+        selectedDay: .WED,
+        selectedTimeRange: $selectedTimeRange
+    )
+    .padding(16)
 }
