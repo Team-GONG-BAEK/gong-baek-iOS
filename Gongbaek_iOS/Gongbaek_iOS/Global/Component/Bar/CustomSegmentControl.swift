@@ -7,32 +7,84 @@
 
 import SwiftUI
 
-struct CustomSegmentControl: View {
-    let segments: [String]
-    @Binding var selected: Int
+// MARK: - TODO: enum 분리하기
 
+enum SegmentState {
+    case detail
+    case myfill
+}
+
+enum SegmentDetailType: String, CaseIterable {
+    case meetingInfo = "모임정보"
+    case comment = "댓글"
+}
+
+enum SegmentMyFillType: String, CaseIterable {
+    case recruit = "내가 모집한"
+    case apply = "내가 신청한"
+}
+
+extension SegmentState {
+    var titles: [String] {
+        switch self {
+        case .detail:
+            return [
+                SegmentDetailType.meetingInfo.rawValue,
+                SegmentDetailType.comment.rawValue
+            ]
+        case .myfill:
+            return [
+                SegmentMyFillType.recruit.rawValue,
+                SegmentMyFillType.apply.rawValue
+            ]
+        }
+    }
+    
+    @ViewBuilder
+    func view(at index: Int) -> some View {
+        switch self {
+        case .detail:
+            switch SegmentDetailType.allCases[index] {
+            case .meetingInfo: Color.gray03
+            case .comment: Color.gray04
+            }
+        case .myfill:
+            switch SegmentMyFillType.allCases[index] {
+            case .recruit: Color.gray03
+            case .apply: Color.gray04
+            }
+        }
+    }
+}
+
+struct SegmentControlBar: View {
+    let segmentState: SegmentState
+    @State var selectedIndex = 0
+    
     var body: some View {
-        HStack(spacing: 0) {
-            ForEach(segments.indices, id: \.self) { segment in
-                Button {
-                    selected = segment
-                } label: {
-                    ZStack(alignment: .bottom) {
-                        Text(segments[segment])
-                            .pretendardFont(.body1_m_16)
-                            .foregroundColor(selected == segment ? .gray10 : .gray05)
-                            .padding(.vertical, 15)
-                        
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                ForEach(segmentState.titles.indices, id: \.self) { segmentIndex in
+                    Button {
+                        selectedIndex = segmentIndex
+                    } label: {
                         ZStack(alignment: .bottom) {
-                            Color(.gray02)
-                                .frame(height: 2)
-                            selected == segment ? Color(.gray09).frame(height: 4) : nil
+                            Text(segmentState.titles[segmentIndex])
+                                .pretendardFont(.body1_m_16)
+                                .foregroundColor(selectedIndex == segmentIndex ? .gray10 : .gray05)
+                                .padding(.vertical, 15)
+                            
+                            selectedIndex == segmentIndex
+                            ? Color(.gray09).frame(height: 2)
+                            : Color(.gray02).frame(height: 1)
                         }
                     }
+                    .frame(maxWidth: .infinity)
+                    .background(.grayWhite)
                 }
-                .frame(maxWidth: .infinity)
-                .background(.grayWhite)
             }
+            segmentState.view(at: selectedIndex)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
@@ -41,3 +93,4 @@ struct CustomSegmentControl: View {
     SegmentControlBar(segmentState: .detail)
     SegmentControlBar(segmentState: .myfill)
 }
+
