@@ -31,6 +31,9 @@ struct MeetingInfoCell: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
+        Rectangle()
+            .fill(.gray01)
+            .frame(height: 1)
     }
     
 }

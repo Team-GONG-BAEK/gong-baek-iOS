@@ -30,6 +30,7 @@ struct FillingView: View {
                 ToggleButton(isOn: $viewModel.isToggleOn, isDisabled: true)
             }
             .padding(.horizontal, 16)
+            FillingList()
             Spacer()
         }
     }
