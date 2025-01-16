@@ -98,8 +98,11 @@ struct OnboardingTimeTable: View {
             selectedCells.insert(cellId)
         }
     }
+}
+
+extension OnboardingTimeTable {
     
-    /// 선택된 셀들 수업 시간표 모델 데이터로 변경
+    /// 선택된 셀들 수업 시간표 모델 데이터로 변환
     private func saveSelectedCellsToClassTimeTable() {
         classTimeTable.removeAll()
         
