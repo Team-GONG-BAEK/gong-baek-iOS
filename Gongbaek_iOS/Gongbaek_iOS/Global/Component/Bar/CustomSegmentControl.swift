@@ -38,6 +38,6 @@ struct CustomSegmentControl: View {
 }
 
 #Preview {
-    SegmentControlBar(segmentTitles: ["모임정보", "댓글"])
-    SegmentControlBar(segmentTitles: ["내가 모집한", "내가 신청한"])
+    SegmentControlBar(controlType: .detail)
+    SegmentControlBar(controlType: .myfill)
 }
