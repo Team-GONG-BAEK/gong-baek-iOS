@@ -15,41 +15,41 @@ struct CustomTabView: View {
             TabButton(
                 tab: .filling,
                 selectedTab: $selectedTab,
-                imageName: TabBarState.filling.tabImage,
-                selectedImageName: TabBarState.filling.tabSelectedImage,
-                text: TabBarState.filling.tabTitle
+                imageName: TabBarState.filling.image,
+                selectedImageName: TabBarState.filling.selectedImage,
+                text: TabBarState.filling.title
             )
             Spacer()
             TabButton(
                 tab: .myFilling,
                 selectedTab: $selectedTab,
-                imageName: TabBarState.myFilling.tabImage,
-                selectedImageName: TabBarState.myFilling.tabSelectedImage,
-                text: TabBarState.myFilling.tabTitle
+                imageName: TabBarState.myFilling.image,
+                selectedImageName: TabBarState.myFilling.selectedImage,
+                text: TabBarState.myFilling.title
             )
             Spacer()
             TabButton(
                 tab: .home,
                 selectedTab: $selectedTab,
-                imageName: TabBarState.home.tabImage,
-                selectedImageName: TabBarState.home.tabSelectedImage,
-                text: TabBarState.home.tabTitle
+                imageName: TabBarState.home.image,
+                selectedImageName: TabBarState.home.selectedImage,
+                text: TabBarState.home.title
             )
             Spacer()
             TabButton(
                 tab: .timetable,
                 selectedTab: $selectedTab,
-                imageName: TabBarState.timetable.tabImage,
-                selectedImageName: TabBarState.timetable.tabSelectedImage,
-                text: TabBarState.timetable.tabTitle
+                imageName: TabBarState.timetable.image,
+                selectedImageName: TabBarState.timetable.selectedImage,
+                text: TabBarState.timetable.title
             )
             Spacer()
             TabButton(
                 tab: .myPage,
                 selectedTab: $selectedTab,
-                imageName: TabBarState.myPage.tabImage,
-                selectedImageName: TabBarState.myPage.tabSelectedImage,
-                text: TabBarState.myPage.tabTitle
+                imageName: TabBarState.myPage.image,
+                selectedImageName: TabBarState.myPage.selectedImage,
+                text: TabBarState.myPage.title
             )
         }
         .padding(.top, 8)
