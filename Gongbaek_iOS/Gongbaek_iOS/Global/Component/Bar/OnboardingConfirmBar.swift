@@ -19,7 +19,8 @@ struct OnboardingConfirmBar: View {
             }) {
                 Text(grayButtonText)
                     .pretendardFont(.title2_sb_18)
-                    .padding(16)
+                    .padding(.vertical, 16)
+                    .padding(.horizontal, 17)
                     .foregroundStyle(.grayWhite)
                     .background(
                         RoundedRectangle(cornerRadius: 6)
