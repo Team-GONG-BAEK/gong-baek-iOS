@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BasicButton: View {
     let text: String
-    var isActivated: Bool
+    var isActivated: Bool = true
     var onTap: (() -> Void)?
     
     var body: some View {
