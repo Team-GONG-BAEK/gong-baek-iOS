@@ -17,7 +17,7 @@ struct CustomedAlert: View {
     var onTapOrangeButton: (() -> Void)?
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .center) {
             backgroundBlack()
             
             VStack (alignment: .center, spacing: 0) {
@@ -25,7 +25,6 @@ struct CustomedAlert: View {
                     .resizable()
                     .background(.gray02) //TODO: 이미지 수정 시 삭제
                     .frame(width: 178, height: 178)
-                    .padding(.horizontal, 20)
                 
                 VStack(spacing: 0) {
                     titleTextBox(text: titleText)
@@ -34,8 +33,8 @@ struct CustomedAlert: View {
                         subtitleTextBox(text: subtitleText)
                     }
                 }
-                .padding(.vertical, 20)
                 .padding(.top, subtitleText != nil ? 8 : 0)
+                .padding(.vertical, 20)
                 
                 HStack(alignment: .center, spacing: 10) {
                     if let grayButtonText = grayButtonText {
@@ -45,15 +44,14 @@ struct CustomedAlert: View {
                     orangeButton(buttonText: orangeButtonText, buttonAction: onTapOrangeButton)
                 }
             }
-            .padding(.horizontal, 20)
             .padding(.top, subtitleText != nil ? 48 : 34)
+            .padding(.horizontal, 20)
             .padding(.bottom, 20)
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.grayWhite)
             )
             .padding(.horizontal, 42)
-            .padding(.vertical, 236)
         }
     }
     
