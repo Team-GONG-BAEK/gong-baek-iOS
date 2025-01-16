@@ -42,4 +42,9 @@ extension Date {
         }
         return date
     }
+    
+    static func currentYear(asString: Bool = false) -> Any {
+        let year = Calendar.current.component(.year, from: Date())
+        return asString ? "\(year)" : year
+    }
 }

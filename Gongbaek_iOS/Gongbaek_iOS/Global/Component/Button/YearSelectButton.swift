@@ -18,7 +18,7 @@ struct YearSelectButton: View {
                 .foregroundColor(.gray08)
             Button(action: {}) {
                 HStack {
-                    Text("2024년")
+                    Text("\(Date.currentYear())년")
                         .font(.pretendard(.body1_m_16))
                         .foregroundColor(isTapped ? .gray10 : .gray04)
                     Spacer()
