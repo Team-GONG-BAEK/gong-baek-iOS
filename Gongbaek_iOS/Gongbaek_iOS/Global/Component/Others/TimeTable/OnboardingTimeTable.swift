@@ -12,8 +12,8 @@ struct OnboardingTimeTable: View {
     private let columns = [GridItem(.fixed(24), spacing: 1)]
     + Array(repeating: GridItem(.flexible(), spacing: 1), count: 5)
     
-    @State private var selectedCells: Set<TimeTableCellId> = []
-    @State private var classTimeTable: [(day: WeekDay, start: Double, end: Double)] = []
+    @Binding var selectedCells: Set<TimeTableCellId>
+    @Binding var classTimeTable: [(day: WeekDay, start: Double, end: Double)]
     
     var body: some View {
         VStack {
@@ -99,7 +99,7 @@ struct OnboardingTimeTable: View {
         }
     }
     
-    /// 선택된 셀들 수업 시간표로 변경
+    /// 선택된 셀들 수업 시간표 모델 데이터로 변경
     private func saveSelectedCellsToClassTimeTable() {
         classTimeTable.removeAll()
         
@@ -143,6 +143,12 @@ struct OnboardingTimeTable: View {
 }
 
 #Preview {
-    OnboardingTimeTable()
-        .padding(16)
+    @Previewable @State var selectedCells: Set<TimeTableCellId> = []
+    @Previewable @State var classTimeTable: [(day: WeekDay, start: Double, end: Double)] = []
+    
+    OnboardingTimeTable(
+        selectedCells: $selectedCells,
+        classTimeTable: $classTimeTable
+    )
+    .padding(16)
 }
