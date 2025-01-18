@@ -5,92 +5,63 @@
 //  Created by 김희은 on 1/15/25.
 //
 
+// MARK: - TODO: enum 분리하기
 import SwiftUI
 
-// MARK: - TODO: enum 분리하기
-
-enum SegmentState {
-    case detail
-    case myfill
-}
-
-enum SegmentDetailType: String, CaseIterable {
+enum MeetingDetailType: String, CaseIterable {
     case meetingInfo = "모임정보"
     case comment = "댓글"
 }
 
-enum SegmentMyFillType: String, CaseIterable {
-    case recruit = "내가 모집한"
-    case apply = "내가 신청한"
-}
-
-extension SegmentState {
-    var titles: [String] {
-        switch self {
-        case .detail:
-            return [
-                SegmentDetailType.meetingInfo.rawValue,
-                SegmentDetailType.comment.rawValue
-            ]
-        case .myfill:
-            return [
-                SegmentMyFillType.recruit.rawValue,
-                SegmentMyFillType.apply.rawValue
-            ]
-        }
-    }
-    
-    @ViewBuilder
-    func view(at index: Int) -> some View {
-        switch self {
-        case .detail:
-            switch SegmentDetailType.allCases[index] {
-            case .meetingInfo: MeetingInfoView(ownerInfo: dummyOwnerInfoData)
-            case .comment: CommentView(commentData: dummyCommentData)
-            }
-        case .myfill:
-            switch SegmentMyFillType.allCases[index] {
-            case .recruit: Color.gray03
-            case .apply: Color.gray04
-            }
-        }
-    }
-}
-
-struct CustomSegmentControlBar: View {
-    let segmentState: SegmentState
-    @State var selectedIndex = 0
+struct MeetingDetailSegmentControlBar: View {
+    @Binding var ownerInfo: OwnerInfoData
+    @Binding var meetingDetailData: MeetingDetailData
+    @State private var selectedIndex = 0
     
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                ForEach(segmentState.titles.indices, id: \.self) { segmentIndex in
+                ForEach(MeetingDetailType.allCases.indices, id: \.self) { index in
+                    let type = MeetingDetailType.allCases[index]
+                    let isSelected = selectedIndex == index
+
                     Button {
-                        selectedIndex = segmentIndex
+                        selectedIndex = index
                     } label: {
                         ZStack(alignment: .bottom) {
-                            Text(segmentState.titles[segmentIndex])
+                            Text(type.rawValue)
                                 .pretendardFont(.body1_m_16)
-                                .foregroundColor(selectedIndex == segmentIndex ? .gray10 : .gray05)
+                                .foregroundColor(isSelected ? .gray10 : .gray05)
                                 .padding(.vertical, 15)
-                            
-                            selectedIndex == segmentIndex
-                            ? Color(.gray09).frame(height: 2)
-                            : Color(.gray02).frame(height: 1)
+
+                            (isSelected ? Color.gray09 : Color.gray02)
+                                .frame(height: 2)
                         }
                     }
                     .frame(maxWidth: .infinity)
                     .background(.grayWhite)
                 }
             }
-            segmentState.view(at: selectedIndex)
+            selectedView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+    
+    @ViewBuilder
+    private func selectedView() -> some View {
+        let type = MeetingDetailType.allCases[selectedIndex]
+        switch type {
+        case .meetingInfo:
+            MeetingInfoView(ownerInfo: $ownerInfo, meetingDetail: $meetingDetailData)
+        case .comment:
+            CommentView(commentData: dummyCommentData)
         }
     }
 }
 
 #Preview {
-    CustomSegmentControlBar(segmentState: .detail)
-//    CustomSegmentControlBar(segmentState: .myfill)
+    MeetingDetailSegmentControlBar(
+        ownerInfo: .constant(dummyOwnerInfoData),
+        meetingDetailData: .constant(dummymeetingDetailData)
+    )
 }
-
