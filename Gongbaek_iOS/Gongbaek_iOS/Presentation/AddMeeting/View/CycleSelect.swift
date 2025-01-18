@@ -45,3 +45,7 @@ struct CycleSelect: View {
     }
 }
 
+#Preview {
+    let viewModel = AddMeetingViewModel()
+    CycleSelect(viewModel: viewModel)
+}
