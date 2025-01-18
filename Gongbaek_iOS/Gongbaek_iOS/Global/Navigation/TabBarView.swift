@@ -30,10 +30,6 @@ struct TabBarView: View {
 //                type.view()
 //                    .toolbar(.hidden, for: .navigationBar)
             }
-            .navigationDestination(for: SignupDestination.self) { type in
-                type.view()
-                    .toolbar(.hidden, for: .navigationBar)
-            }
         }
         .environmentObject(navigationManager)
     }
