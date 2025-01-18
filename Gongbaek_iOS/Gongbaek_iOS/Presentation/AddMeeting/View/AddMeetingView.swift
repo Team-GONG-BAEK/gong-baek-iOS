@@ -36,7 +36,7 @@ struct AddMeetingView: View {
             case 4:
                 CoverImageSelect(viewModel: viewModel)
             case 5:
-                CalendarSelect()
+                LocationInput(showError: false, isFocused: false)
             case 6:
                 CalendarSelect()
             default:
