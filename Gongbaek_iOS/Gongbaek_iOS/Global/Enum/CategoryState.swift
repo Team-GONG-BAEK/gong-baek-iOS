@@ -16,16 +16,15 @@ enum CategoryState: Int, CaseIterable {
     case PLAYING = 5
     case OTHERS = 6
     
-    //TODO: 일러스트 이미지 추가
-    var categoryImage: String? {
+    var categoryImage: Image? {
         switch self {
         case .ALL: return nil
-        case .STUDY: return "sample"
-        case .DINING: return "sample"
-        case .EXERCISE: return "sample"
-        case .NETWORKING: return "sample"
-        case .PLAYING: return "sample"
-        case .OTHERS: return "sample"
+        case .STUDY: return Image(.imgCategoryStudy)
+        case .DINING: return Image(.imgCategoryDining)
+        case .EXERCISE: return Image(.imgCategoryExercise)
+        case .NETWORKING: return Image(.imgCategoryNetworking)
+        case .PLAYING: return Image(.imgCategoryPlay)
+        case .OTHERS: return Image(.imgCategoryOthers)
         }
     }
     
