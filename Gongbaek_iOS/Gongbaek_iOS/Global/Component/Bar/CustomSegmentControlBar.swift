@@ -50,8 +50,8 @@ extension SegmentState {
             }
         case .myfill:
             switch SegmentMyFillType.allCases[index] {
-            case .recruit: Color.gray03
-            case .apply: Color.gray04
+            case .recruit: MyFillingList()
+            case .apply: MyFillingList()
             }
         }
     }
