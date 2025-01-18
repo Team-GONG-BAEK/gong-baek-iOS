@@ -18,15 +18,22 @@ class AddMeetingViewModel: ObservableObject {
     @Published var selectedCategory: CategoryState? = nil
     @Published var selectedCoverImage: String? = nil
     
+    @Published var selectedTimeRange: (start: Double, end: Double) = (0, 0)
+    
     func goToNextPage() {
         guard isNextEnabled else { return }
         
         if currentIndex == 0 {
             currentIndex = 1
         } else {
-            currentIndex += 1 
+            currentIndex += 1
         }
         isNextEnabled = false
     }
-
+    
+    func getSelectedWeekDayEnum() -> WeekDay? {
+        guard let selectedDay = selectedWeekDay else { return nil }
+        return WeekDay(rawValue: selectedDay) ?? WeekDay.fromRawValue(selectedDay)
+    }
+    
 }
