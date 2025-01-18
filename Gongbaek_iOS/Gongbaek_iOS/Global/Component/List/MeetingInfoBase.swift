@@ -7,19 +7,6 @@
 
 import SwiftUI
 
-struct Meeting {
-    let status: String
-    let category: String
-    let coverImg: String
-    let groupType: String
-    let groupTitle: String
-    let weekDay: WeekFullDay?
-    let weekDate: String?
-    let startTime: Double
-    let endTime: Double
-    let location: String
-}
-
 struct MeetingInfoBase: View {
     let state: MeetingInfoState
     let meeting: Meeting
@@ -36,7 +23,7 @@ struct MeetingInfoBase: View {
                 // 모임 태그
                 HStack(spacing: 4) {
                     MeetingChip(state: .recruiting(.recruiting))
-                    MeetingChip(state: .category(.sport))
+                    MeetingChip(state: .category(.EXERCISE))
                     MeetingChip(state: .weekly(true))
                 }
                 

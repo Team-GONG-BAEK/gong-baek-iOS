@@ -1,0 +1,36 @@
+//
+//  FillingView.swift
+//  Gongbaek_iOS
+//
+//  Created by 김민서 on 1/16/25.
+//
+
+import SwiftUI
+
+struct FillingView: View {
+    @StateObject var viewModel = FillingViewModel()
+    
+    var body: some View {
+        ZStack(alignment: .bottomTrailing){
+            VStack(spacing: 0) {
+                WeekFilterBar()
+                    .padding(.bottom, 8)
+                CategoryBar(viewModel: viewModel)
+                    .padding(.bottom, 8)
+                Rectangle()
+                    .fill(.gray01)
+                    .frame(height: 8)
+                FillingList()
+                Spacer()
+            }
+            
+            AddMeetingButton()
+                .padding(.trailing, 16)
+                .padding(.bottom, 24)
+        }
+    }
+}
+
+#Preview {
+    FillingView()
+}
