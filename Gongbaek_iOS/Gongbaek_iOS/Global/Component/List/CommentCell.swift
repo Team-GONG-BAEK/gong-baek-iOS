@@ -20,27 +20,30 @@ struct CommentCell: View {
     let comment: Comment
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .center, spacing: 6) {
-                Text(comment.nickmane)
-                    .pretendardFont(.body1_sb_16)
-                comment.isOwner ? OwnerChip() : nil
-                Spacer()
-                comment.isWriter ? DeleteButton() : nil
+        ZStack(alignment: .bottom) {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .center, spacing: 6) {
+                    Text(comment.nickmane)
+                        .pretendardFont(.body1_sb_16)
+                    comment.isOwner ? OwnerChip() : nil
+                    Spacer()
+                    comment.isWriter ? DeleteButton() : nil
+                }
+                .foregroundColor(.grayBlack)
+                .padding(.bottom, 8)
+                
+                Text(comment.content)
+                    .pretendardFont(.body2_r_14)
+                    .foregroundColor(.gray08)
+                    .padding(.bottom, 4)
+                
+                Text(comment.date)
+                    .pretendardFont(.caption2_r_12)
+                    .foregroundColor(.gray05)
             }
-            .foregroundColor(.grayBlack)
-            .padding(.bottom, 8)
-
-            Text(comment.content)
-                .pretendardFont(.body2_r_14)
-                .foregroundColor(.gray08)
-                .padding(.bottom, 4)
-            
-            Text(comment.date)
-                .pretendardFont(.caption2_r_12)
-                .foregroundColor(.gray05)
+            .padding(.vertical, 14)
+            Color.gray02.frame(height: 1)
         }
-        .padding(.vertical, 14)
     }
 }
 
