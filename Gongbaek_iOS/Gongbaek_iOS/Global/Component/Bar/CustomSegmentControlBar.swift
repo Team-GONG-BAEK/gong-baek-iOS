@@ -45,8 +45,8 @@ extension SegmentState {
         switch self {
         case .detail:
             switch SegmentDetailType.allCases[index] {
-            case .meetingInfo: MeetingInfoView()
-            case .comment: CommentView()
+            case .meetingInfo: MeetingInfoView(ownerInfo: dummyOwnerInfoData)
+            case .comment: CommentView(commentData: dummyCommentData)
             }
         case .myfill:
             switch SegmentMyFillType.allCases[index] {
