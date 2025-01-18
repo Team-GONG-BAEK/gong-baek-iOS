@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum OnboardingDestination: Hashable {
+enum SignupDestination: Hashable {
     case profileSelection
     case nicknameInput
     case schoolMajorInput
@@ -16,7 +16,7 @@ enum OnboardingDestination: Hashable {
     func view() -> some View {
         switch self {
         case .profileSelection:
-            Text("profileSelection")
+            ProfileSelectionView()
         case .nicknameInput:
             Text("nicknameInput")
         case .schoolMajorInput:
