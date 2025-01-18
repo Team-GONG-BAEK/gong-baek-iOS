@@ -15,7 +15,7 @@ struct FillingView: View {
             VStack(spacing: 0) {
                 WeekFilterBar()
                     .padding(.bottom, 8)
-                CategoryBar()
+                CategoryBar(viewModel: viewModel)
                     .padding(.bottom, 8)
                 Rectangle()
                     .fill(.gray01)
@@ -23,7 +23,6 @@ struct FillingView: View {
                 FillingList()
                 Spacer()
             }
-            .environmentObject(viewModel)
             
             AddMeetingButton()
                 .padding(.trailing, 16)

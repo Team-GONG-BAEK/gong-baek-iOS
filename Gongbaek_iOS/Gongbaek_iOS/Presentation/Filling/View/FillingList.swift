@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct FillingList: View {
+    @ObservedObject var viewModel = FillingViewModel()
+    
     let meetings: [Meeting] = dummyMeetings
-    @StateObject var viewModel = FillingViewModel()
     
     var body: some View {
         
