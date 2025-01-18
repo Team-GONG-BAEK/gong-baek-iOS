@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddMeetingView: View {
-    @StateObject private var viewModel = AddMeetingViewModel()
+    @StateObject var viewModel = AddMeetingViewModel()
     
     
     var body: some View {
@@ -18,11 +18,7 @@ struct AddMeetingView: View {
             
             switch viewModel.currentIndex {
             case 0:
-                CycleSelect(
-                    currentIndex: $viewModel.currentIndex,
-                    isNextEnabled: $viewModel.isNextEnabled,
-                    selectedCycle: $viewModel.selectedCycle
-                )
+                CycleSelect(viewModel: viewModel)
             case 1:
                 if viewModel.selectedCycle == .once {
                     CalendarSelect()

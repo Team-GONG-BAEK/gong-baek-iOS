@@ -8,23 +8,21 @@
 import SwiftUI
 
 struct CycleSelect: View {
-    @Binding var currentIndex: Int
-    @Binding var isNextEnabled: Bool
-    @Binding var selectedCycle: CycleState?
-    
+    @ObservedObject var viewModel: AddMeetingViewModel
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             TitleTextBox(title: "활동주기를 선택해주세요.", subtitle: nil)
                 .padding(.bottom, 20)
 
             HStack(spacing: 8) {
-                SmallButton(text: "한번만 볼래요", isTapped: selectedCycle == .once) {
-                    selectedCycle = .once
-                    isNextEnabled = true
+                SmallButton(text: "한번만 볼래요", isTapped: viewModel.selectedCycle == .once) {
+                    viewModel.selectedCycle = .once
+                    viewModel.isNextEnabled = true
                 }
-                SmallButton(text: "매주 볼래요", isTapped: selectedCycle == .weekly) {
-                    selectedCycle = .weekly
-                    isNextEnabled = true
+                SmallButton(text: "매주 볼래요", isTapped: viewModel.selectedCycle == .weekly) {
+                    viewModel.selectedCycle = .weekly
+                    viewModel.isNextEnabled = true
                 }
             }
             .padding(.bottom, 48)
