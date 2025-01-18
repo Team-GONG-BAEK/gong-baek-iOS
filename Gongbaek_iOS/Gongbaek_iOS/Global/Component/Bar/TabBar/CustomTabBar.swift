@@ -15,40 +15,30 @@ struct CustomTabBar: View {
             tabButton(
                 tab: .filling,
                 selectedTab: $selectedTab,
-                imageName: TabBarState.filling.defaultImage,
-                selectedImageName: TabBarState.filling.selectedImage,
                 text: TabBarState.filling.title
             )
             Spacer()
             tabButton(
                 tab: .myFilling,
                 selectedTab: $selectedTab,
-                imageName: TabBarState.myFilling.defaultImage,
-                selectedImageName: TabBarState.myFilling.selectedImage,
                 text: TabBarState.myFilling.title
             )
             Spacer()
             tabButton(
                 tab: .home,
                 selectedTab: $selectedTab,
-                imageName: TabBarState.home.defaultImage,
-                selectedImageName: TabBarState.home.selectedImage,
                 text: TabBarState.home.title
             )
             Spacer()
             tabButton(
                 tab: .timetable,
                 selectedTab: $selectedTab,
-                imageName: TabBarState.timetable.defaultImage,
-                selectedImageName: TabBarState.timetable.selectedImage,
                 text: TabBarState.timetable.title
             )
             Spacer()
             tabButton(
                 tab: .myPage,
                 selectedTab: $selectedTab,
-                imageName: TabBarState.myPage.defaultImage,
-                selectedImageName: TabBarState.myPage.selectedImage,
                 text: TabBarState.myPage.title
             )
         }
@@ -60,8 +50,6 @@ struct CustomTabBar: View {
     func tabButton (
         tab: TabBarState,
         selectedTab: Binding<TabBarState>,
-        imageName: ImageResource,
-        selectedImageName: ImageResource,
         text: String
     ) -> some View {
         Button(action: {
