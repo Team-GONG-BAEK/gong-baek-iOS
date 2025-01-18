@@ -8,13 +8,20 @@
 import SwiftUI
 
 class AddMeetingViewModel: ObservableObject {
-    @Published var currentIndex: Int = 0
     let totalSteps: Int = 8
+    @Published var currentIndex: Int = 0
+    @Published var isNextEnabled: Bool = false
+    @Published var selectedCycle: CycleState? = nil
     
     func goToNextPage() {
-        if currentIndex < totalSteps - 1 {
-            currentIndex += 1
+        guard isNextEnabled else { return }
+        
+        if currentIndex == 0 {
+            currentIndex = 1
+        } else {
+            currentIndex += 1 
         }
+        isNextEnabled = true
     }
-    
+
 }
