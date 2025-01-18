@@ -8,15 +8,24 @@
 import SwiftUI
 
 struct TabBarView: View {
-    @State var selectedTab: TabBarState = .home // home 기본 선택
+    @StateObject private var navigationManager = NavigationManager()
+    @State var selectedTab: TabBarState = .home
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationManager.path) {
             VStack(spacing: 0) {
                 selectedTab.view()
+                    .frame(maxHeight: .infinity)
                 CustomTabBar(selectedTab: $selectedTab)
             }
+            .navigationDestination(for: OnboardingDestination.self) { type in
+                OnboardingDestinationView(type: type)
+            }
+            .navigationDestination(for: HomeDestination.self) { type in
+                HomeDestinationView(type: type)
+            }
         }
+        .environmentObject(navigationManager)
     }
 }
 
