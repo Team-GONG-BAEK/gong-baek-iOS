@@ -34,15 +34,15 @@ struct ViewModeTimeTable: View {
     private func dayHeader() -> some View {
         GridRow {
             Rectangle()
-                .fill(Color.white)
+                .fill(.grayWhite)
                 .frame(minWidth: 24, minHeight: 24)
             
             ForEach(WeekDay.allCases.indices, id: \.self) { dayIndex in
                 Text(WeekDay.allCases[dayIndex].rawValue)
+                    .pretendardFont( .caption2_r_12)
                     .frame(minWidth: 62, maxWidth: .infinity, minHeight: 24)
-                    .font(.pretendard( .caption2_r_12))
                     .foregroundStyle(.gray06)
-                    .background(.white)
+                    .background(.grayWhite)
             }
         }
     }
@@ -51,10 +51,10 @@ struct ViewModeTimeTable: View {
         let isOnTheHour = hours[hourIndex].truncatingRemainder(dividingBy: 1) == 0
         
         return Text(isOnTheHour ? "\(Int(hours[hourIndex]))" : "")
+            .pretendardFont(.caption2_r_12)
             .frame(width: 24, height: 28, alignment: .topTrailing)
-            .font(.pretendard(.caption2_r_12))
             .foregroundStyle(.gray06)
-            .background(.white)
+            .background(.grayWhite)
     }
     
     private func timeTableCells(_ hourIndex: Int) -> some View {
@@ -63,7 +63,7 @@ struct ViewModeTimeTable: View {
             let bottomPadding = bottomPadding(hourIndex, cellId)
             
             Rectangle()
-                .fill(unselectedCells.contains(cellId) ? .subOrange : .white)
+                .fill(unselectedCells.contains(cellId) ? .subOrange : .grayWhite)
                 .frame(maxWidth: .infinity, minHeight: 24)
                 .padding(.bottom, bottomPadding)
                 .id(cellId)

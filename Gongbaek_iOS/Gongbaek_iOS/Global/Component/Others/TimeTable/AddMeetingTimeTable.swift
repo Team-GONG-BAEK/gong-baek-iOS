@@ -45,7 +45,7 @@ struct AddMeetingTimeTable: View {
         GridRow {
             /// 빈칸
             Rectangle()
-                .fill(Color.white)
+                .fill(.grayWhite)
                 .frame(minWidth: 24, minHeight: 24)
             
             /// 요일
@@ -54,10 +54,10 @@ struct AddMeetingTimeTable: View {
                 let isSelectedDay = selectedDay == WeekDay.allCases[dayIndex]
                 
                 Text(WeekDay.allCases[dayIndex].rawValue)
+                    .pretendardFont(isSelectedDay ? .caption2_b_12 : .caption2_r_12)
                     .frame(minWidth: 62, maxWidth: .infinity, minHeight: 24)
-                    .font(.pretendard(isSelectedDay ? .caption2_b_12 : .caption2_r_12))
-                    .foregroundStyle(isSelectedDay ? .white : .gray06)
-                    .background(isSelectedDay ? .gray09 : .white)
+                    .foregroundStyle(isSelectedDay ? .grayWhite : .gray06)
+                    .background(isSelectedDay ? .gray09 : .grayWhite)
             }
         }
     }
@@ -67,10 +67,10 @@ struct AddMeetingTimeTable: View {
         let isOnTheHour = hours[hourIndex].truncatingRemainder(dividingBy: 1) == 0
         
         return Text(isOnTheHour ? "\(Int(hours[hourIndex]))" : "")
+            .pretendardFont(.caption2_r_12)
             .frame(width: 24, height: 28, alignment: .topTrailing)
-            .font(.pretendard(.caption2_r_12))
             .foregroundStyle(.gray06)
-            .background(.white)
+            .background(.grayWhite)
     }
     
     private func timeTableCells(_ hourIndex: Int) -> some View {
@@ -155,7 +155,7 @@ struct AddMeetingTimeTable: View {
         } else {
             selectedCells.insert(cellId)
             
-            /// 공강시간 id 같은 경우, 미선택됐던 중간 셀들도 선택하는 기능
+            /// 공강시간 id가 같은 경우, 미선택됐던 중간 셀들도 선택하는 기능
             /// 선택된 셀들의 시작시간 중 최소, 종료시간 중 최대를 튜플로 selectedTimeRange에 저장
             selectedTimeRange = selectedCells.reduce(into: (
                 start: cellId.hourIndex,
@@ -192,7 +192,7 @@ struct AddMeetingTimeTable: View {
         case .freeTime:
             return .gray01
         case .active:
-            return .white
+            return .grayWhite
         }
     }
 }
