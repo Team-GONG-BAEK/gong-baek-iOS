@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum WeekFullDay: String {
+enum WeekFullDay: String, CaseIterable {
     case monday = "MON"
     case tuesday = "TUE"
     case wednesday = "WED"
@@ -16,16 +16,18 @@ enum WeekFullDay: String {
     case saturday = "SAT"
     case sunday = "SUN"
     
+    private static let koreanNames: [WeekFullDay: String] = [
+        .monday: "월요일",
+        .tuesday: "화요일",
+        .wednesday: "수요일",
+        .thursday: "목요일",
+        .friday: "금요일",
+        .saturday: "토요일",
+        .sunday: "일요일"
+    ]
+    
     var displayName: String {
-        switch self {
-        case .monday: return "월요일"
-        case .tuesday: return "화요일"
-        case .wednesday: return "수요일"
-        case .thursday: return "목요일"
-        case .friday: return "금요일"
-        case .saturday: return "토요일"
-        case .sunday: return "일요일"
-        }
+        return WeekFullDay.koreanNames[self] ?? self.rawValue
     }
     
     static func fromRawValue(_ rawValue: String) -> WeekFullDay? {
