@@ -1,5 +1,5 @@
 //
-//  CustomTabView.swift
+//  CustomTabBar.swift
 //  Gongbaek_iOS
 //
 //  Created by 김희은 on 1/17/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CustomTabView: View {
+struct CustomTabBar: View {
     @Binding var selectedTab: TabBarState
     
     var body: some View {
