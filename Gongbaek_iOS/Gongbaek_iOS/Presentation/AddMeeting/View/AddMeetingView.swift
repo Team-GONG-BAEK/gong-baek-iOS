@@ -21,9 +21,9 @@ struct AddMeetingView: View {
                 CycleSelect(viewModel: viewModel)
             case 1:
                 if viewModel.selectedCycle == .once {
-                    CalendarSelect()
+                    CalendarSelect(viewModel: viewModel)
                 } else if viewModel.selectedCycle == .weekly {
-                    WeekDaySelect()
+                    WeekDaySelect(viewModel: viewModel)
                 }
             case 2:
                 DateSelect()
