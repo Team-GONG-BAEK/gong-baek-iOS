@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct AddMeetingTimeTable: View {
+    @ObservedObject var viewModel: AddMeetingViewModel
+
     private let hours = Array(stride(from: 9, through: 17.5, by: 0.5))
     private let columns = [GridItem(.fixed(24), spacing: 1)]
     + Array(repeating: GridItem(.flexible(), spacing: 1), count: 5)
@@ -15,9 +17,9 @@ struct AddMeetingTimeTable: View {
     @State var freeTimeTable: [TimeTableModel]
     @State var selectedDay: WeekDay
     @Binding var selectedTimeRange: (start: Double, end: Double)
-    // 공강시간 id값과 해당 시간표셀 id들을 매핑한 Dictionary
+
     @State private var freeTimeIdToCellsMap: [Int: [TimeTableCellId]] = [:]
-    @State var selectedCells: Set<TimeTableCellId> = []
+    @Binding var selectedCells: Set<TimeTableCellId>
     @State private var currentFreeTimeId: Int? = nil
 
     var body: some View {
@@ -197,23 +199,4 @@ struct AddMeetingTimeTable: View {
     }
 }
 
-#Preview {
-    @Previewable var freeTimeTable = [
-        TimeTableModel(id: 0, weekDay: .MON, startTime: 9, endTime: 12),
-        TimeTableModel(id: 1, weekDay: .MON, startTime: 14, endTime: 17.5),
-        TimeTableModel(id: 2, weekDay: .TUE, startTime: 14, endTime: 18),
-        TimeTableModel(id: 3, weekDay: .WED, startTime: 9, endTime: 11),
-        TimeTableModel(id: 4, weekDay: .WED, startTime: 12, endTime: 13),
-        TimeTableModel(id: 5, weekDay: .WED, startTime: 13.5, endTime: 17.5),
-        TimeTableModel(id: 6, weekDay: .THU, startTime: 10, endTime: 18),
-        TimeTableModel(id: 7, weekDay: .FRI, startTime: 10, endTime: 17)
-        ]
-    @Previewable @State var selectedTimeRange: (start: Double, end: Double) = (0, 0)
-    
-    AddMeetingTimeTable(
-        freeTimeTable: freeTimeTable,
-        selectedDay: .WED,
-        selectedTimeRange: $selectedTimeRange
-    )
-    .padding(16)
-}
+

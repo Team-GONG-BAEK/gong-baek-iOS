@@ -30,7 +30,8 @@ struct TimeSelect: View {
                     .foregroundColor(.gray08)
                 Spacer()
                 Button(action: {
-                    print("다시 선택")
+                    viewModel.selectedTimeRange = (start: 0, end: 0)
+                    viewModel.selectedCells.removeAll()
                 }) {
                     HStack(spacing: 0) {
                         Text("다시 선택")
@@ -46,11 +47,14 @@ struct TimeSelect: View {
             
             ScrollView {
                 AddMeetingTimeTable(
+                    viewModel: viewModel,
                     freeTimeTable: viewModel.freeTimeTable,
                     selectedDay: viewModel.getSelectedWeekDayEnum() ?? .MON,
-                    selectedTimeRange: $viewModel.selectedTimeRange
+                    selectedTimeRange: $viewModel.selectedTimeRange,
+                    selectedCells: $viewModel.selectedCells
                 )
             }
+            
         }
         .padding(.horizontal, 16)
     }
