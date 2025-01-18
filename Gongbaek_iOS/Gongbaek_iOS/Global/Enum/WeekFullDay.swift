@@ -13,17 +13,13 @@ enum WeekFullDay: String, CaseIterable {
     case wednesday = "WED"
     case thursday = "THU"
     case friday = "FRI"
-    case saturday = "SAT"
-    case sunday = "SUN"
     
     private static let koreanNames: [WeekFullDay: String] = [
         .monday: "월요일",
         .tuesday: "화요일",
         .wednesday: "수요일",
         .thursday: "목요일",
-        .friday: "금요일",
-        .saturday: "토요일",
-        .sunday: "일요일"
+        .friday: "금요일"
     ]
     
     var displayName: String {
