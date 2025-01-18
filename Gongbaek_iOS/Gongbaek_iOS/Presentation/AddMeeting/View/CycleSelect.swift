@@ -9,7 +9,30 @@ import SwiftUI
 
 struct CycleSelect: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading, spacing: 0) {
+            TitleTextBox(title: "활동주기를 선택해주세요.", subtitle: nil)
+
+            HStack(spacing: 8) {
+                SmallButton(text: "한번만 볼래요", isTapped: false)
+                SmallButton(text: "매주 볼래요", isTapped: false)
+            }
+            .padding(.bottom, 48)
+            
+            HStack {
+                Image(.icMark16)
+                    .foregroundColor(.mainOrange)
+                    .frame(width: 16, height: 16)
+                Text("매주 볼래요의 경우 모임은 한 학기동안 유효합니다.")
+                    .pretendardFont(.body2_sb_14)
+                    .foregroundColor(.mainOrange)
+            }
+            .padding(.bottom, 10)
+            
+            Text("1학기는 6월 30일 0시까지, 2학기는 12월 31일 0시까지가 기준입니다.\n모임 개설자는 원한다면 중간에 언제든 모임을 삭제할 수 있습니다. ")
+                .pretendardFont(.caption2_r_12)
+                .foregroundColor(.gray08)
+        }
+        .padding(.horizontal, 16)
     }
 }
 
