@@ -34,8 +34,9 @@ struct MeetingDetailSegmentControlBar: View {
                                 .foregroundColor(isSelected ? .gray10 : .gray05)
                                 .padding(.vertical, 15)
 
-                            (isSelected ? Color.gray09 : Color.gray02)
-                                .frame(height: 2)
+                            selectedIndex == index ?
+                            Color(.gray09).frame(height: 2) :
+                            Color(.gray02).frame(height: 1)
                         }
                     }
                     .frame(maxWidth: .infinity)
