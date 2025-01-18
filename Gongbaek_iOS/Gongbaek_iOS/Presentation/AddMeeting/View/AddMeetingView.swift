@@ -26,7 +26,7 @@ struct AddMeetingView: View {
                     WeekDaySelect(viewModel: viewModel)
                 }
             case 2:
-                DateSelect()
+                TimeSelect(viewModel: viewModel)
             case 3:
                 CategorySelect(viewModel: viewModel)
             case 4:

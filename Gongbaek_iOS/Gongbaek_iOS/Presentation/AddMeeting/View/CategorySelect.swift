@@ -21,7 +21,7 @@ struct CategorySelect: View {
                 .padding(.bottom, 28)
             
             LazyVGrid(columns: columns, spacing: 8) {
-                ForEach(CategoryState.allCases.filter { $0 != .all }, id: \.self) { category in
+                ForEach(CategoryState.allCases.filter { $0 != .ALL }, id: \.self) { category in
                     CategoryImageButton(
                         category: category,
                         isSelected: viewModel.selectedCategory == category,
