@@ -65,7 +65,7 @@ struct MeetingInfoBase: View {
             coverImg: "sample",
             groupType: "WEEKLY",
             groupTitle: "나는 개바보다 나랑 친구하고 싶으면 들어오덩가 ㅋㅋㅋ",
-            weekDay: .monday,
+            weekDay: .MON,
             weekDate: nil,
             startTime: 13.0,
             endTime: 15.0,

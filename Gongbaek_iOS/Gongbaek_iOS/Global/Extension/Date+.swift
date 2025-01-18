@@ -44,11 +44,11 @@ extension Date {
     }
     
     // 날짜와 시간을 포맷팅하는 함수
-    static func formattedDateAndTime(weekDay: WeekFullDay?, weekDate: String?, time: Double) -> String {
+    static func formattedDateAndTime(weekDay: WeekDay?, weekDate: String?, time: Double) -> String {
         let formattedTime = formatTime(time)
         
         if let weekDay = weekDay {
-            return "매주 \(weekDay.displayName) \(formattedTime)"
+            return "매주 \(weekDay.koreanName) \(formattedTime)"
         } else if let weekDate = weekDate {
             let formattedDate = formatDate(weekDate)
             return "\(formattedDate) \(formattedTime)"
