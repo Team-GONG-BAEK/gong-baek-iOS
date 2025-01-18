@@ -16,8 +16,9 @@ struct CalendarSelect: View {
                 .padding(.bottom, 68)
             
             CustomCalendar(selectedDate: $viewModel.selectedWeekDate)
-                .onChange(of: viewModel.selectedWeekDate) { newValue in
-                    print("선택된 날짜: \(newValue)")
+                .onChange(of: viewModel.selectedWeekDate) { _ in
+                    print("📅 선택된 날짜: \(viewModel.formattedDate ?? "N/A")")
+                    print("🗓 선택된 요일: \(viewModel.selectedWeekDay?.rawValue ?? "N/A")")
                     viewModel.isNextEnabled = true
                 }
             
