@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AddMeetingView: View {
     @StateObject private var viewModel = AddMeetingViewModel()
+
     
     var body: some View {
         VStack {
@@ -44,9 +45,11 @@ struct AddMeetingView: View {
             
             Spacer()
             
-            BasicButton(text: "다음") {
+            BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
                 viewModel.goToNextPage()
             }
+            
+            .padding(.vertical, 20)
             .padding(.horizontal, 16)
         }
     }
