@@ -16,14 +16,13 @@ struct WeekDaySelect: View {
                 .padding(.bottom, 60)
             
             VStack(spacing: 16) {
-                ForEach(WeekFullDay.allCases, id: \.self) { day in
+                ForEach(WeekDay.allCases, id: \.self) { day in
                     SmallButton(
-                        text: day.displayName,
-                        isTapped: viewModel.selectedWeekDay == day.displayName
+                        text: day.koreanName,
+                        isTapped: viewModel.selectedWeekDay == day
                     ){
-                        viewModel.selectedWeekDay = day.displayName
+                        viewModel.selectedWeekDay = day
                         viewModel.isNextEnabled = true
-                        print("🗓 선택된 요일: \(day.displayName)")
                     }
                 }
             }
