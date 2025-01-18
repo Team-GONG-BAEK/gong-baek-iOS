@@ -12,79 +12,77 @@ struct CustomTabView: View {
     
     var body: some View {
         HStack {
-            TabButton(
+            tabButton(
                 tab: .filling,
                 selectedTab: $selectedTab,
-                imageName: TabBarState.filling.image,
+                imageName: TabBarState.filling.defaultImage,
                 selectedImageName: TabBarState.filling.selectedImage,
                 text: TabBarState.filling.title
             )
             Spacer()
-            TabButton(
+            tabButton(
                 tab: .myFilling,
                 selectedTab: $selectedTab,
-                imageName: TabBarState.myFilling.image,
+                imageName: TabBarState.myFilling.defaultImage,
                 selectedImageName: TabBarState.myFilling.selectedImage,
                 text: TabBarState.myFilling.title
             )
             Spacer()
-            TabButton(
+            tabButton(
                 tab: .home,
                 selectedTab: $selectedTab,
-                imageName: TabBarState.home.image,
+                imageName: TabBarState.home.defaultImage,
                 selectedImageName: TabBarState.home.selectedImage,
                 text: TabBarState.home.title
             )
             Spacer()
-            TabButton(
+            tabButton(
                 tab: .timetable,
                 selectedTab: $selectedTab,
-                imageName: TabBarState.timetable.image,
+                imageName: TabBarState.timetable.defaultImage,
                 selectedImageName: TabBarState.timetable.selectedImage,
                 text: TabBarState.timetable.title
             )
             Spacer()
-            TabButton(
+            tabButton(
                 tab: .myPage,
                 selectedTab: $selectedTab,
-                imageName: TabBarState.myPage.image,
+                imageName: TabBarState.myPage.defaultImage,
                 selectedImageName: TabBarState.myPage.selectedImage,
                 text: TabBarState.myPage.title
             )
         }
-        .padding(.top, 8)
+        .padding(.vertical, 8)
         .padding(.horizontal, 12)
         .background(.grayWhite)
     }
     
-}
-
-struct TabButton: View {
-    let tab: TabBarState
-    @Binding var selectedTab: TabBarState
-    let imageName: String
-    let selectedImageName: String
-    let text: String
-    
-    var body: some View {
+    func tabButton (
+        tab: TabBarState,
+        selectedTab: Binding<TabBarState>,
+        imageName: String,
+        selectedImageName: String,
+        text: String
+    ) -> some View {
         Button(action: {
-            selectedTab = tab
+            self.selectedTab = tab
         }) {
             VStack(spacing: 2) {
-                Image(selectedTab == tab ? selectedImageName : imageName)
+                Image(self.selectedTab == tab ? selectedImageName : imageName)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 28, height: 28)
                 
                 Text(text)
                     .pretendardFont(.body2_m_14)
-                    .foregroundStyle(selectedTab == tab ? .grayBlack : .gray05)
+                    .foregroundStyle(self.selectedTab == tab ? .grayBlack : .gray05)
             }
             .frame(width: 56, height: 54)
+            
         }
     }
 }
 
 #Preview {
-    TabBarView(showGuideView: .constant(false))
+    TabBarView()
 }

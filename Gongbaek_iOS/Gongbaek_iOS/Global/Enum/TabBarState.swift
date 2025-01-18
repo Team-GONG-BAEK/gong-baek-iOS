@@ -26,7 +26,7 @@ extension TabBarState {
         }
     }
     
-    var image: String {
+    var defaultImage: String {
         switch self {
         case .filling: "ic_tabbar_fill_gray_26"
         case .myFilling: "ic_tabbar_my_fill_gray_26"
@@ -47,7 +47,7 @@ extension TabBarState {
     }
     
     @ViewBuilder
-    func view(showGuideView: Binding<Bool>) -> some View {
+    func view(showView: Binding<Bool>) -> some View {
         switch self {
         case .filling: Color.gray01 // View 연결
         case .myFilling: Color.gray02 // View 연결

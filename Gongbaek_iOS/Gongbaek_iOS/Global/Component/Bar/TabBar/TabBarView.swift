@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct TabBarView: View {
-    @State var selectedTab: TabBarState = .filling
-    @Binding var showGuideView: Bool
+    @State var selectedTab: TabBarState = .home // home 기본 선택
     
     var body: some View {
-        NavigationStack{
+        NavigationStack {
             VStack(spacing: 0) {
-                selectedTab.view(showGuideView: $showGuideView)
+                selectedTab.view(showView:.constant(true))
                 CustomTabView(selectedTab: $selectedTab)
             }
         }
@@ -22,5 +21,5 @@ struct TabBarView: View {
 }
 
 #Preview {
-    TabBarView(showGuideView: .constant(false))
+    TabBarView()
 }
