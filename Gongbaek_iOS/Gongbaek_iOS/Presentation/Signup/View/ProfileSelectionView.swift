@@ -16,5 +16,5 @@ struct ProfileSelectionView: View {
 }
 
 #Preview {
-    HomeView()
+    ProfileSelectionView()
 }
