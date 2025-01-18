@@ -8,35 +8,34 @@
 import SwiftUI
 
 struct MeetingDetailView: View {
+    @State var meetingDetail: MeetingDetailData
+    
     var body: some View {
         VStack(spacing: 0) {
             MeetingInfoBase(
                 state: .detail,
                 meeting: .init(
                     status: "모집 중",
-                    category: "스터디",
-                    coverImg: "sample",
-                    groupType: "WEEKLY",
-                    groupTitle: "나는 개바보다 나랑 친구하고 싶으면 들어오덩가 ㅋㅋㅋ",
-                    weekDay: .monday,
-                    weekDate: nil,
-                    startTime: 13.0,
-                    endTime: 15.0,
-                    location: "학교 정문인데 어쩌구 저쩌구 20자 넘으면"
+                    category: meetingDetail.category,
+                    coverImg: "sample",//TODO: Int로 넘기기
+                    groupType: meetingDetail.groupType,
+                    groupTitle: meetingDetail.groupTitle,
+                    weekDay: .monday,//meetingDetail.weekDay,
+                    weekDate: meetingDetail.weekDate,
+                    startTime: meetingDetail.startTime,
+                    endTime: meetingDetail.endTime,
+                    location: meetingDetail.location
                 )
             )
+            .padding(16)
             
             Color.gray02.frame(height: 8)
             
             CustomSegmentControlBar(segmentState: .detail)
-            
-//            meetingInfo
-//            commentView
-
         }
     }
 }
 
 #Preview {
-    MeetingDetailView()
+    MeetingDetailView(meetingDetail: dummymeetingDetailData)
 }
