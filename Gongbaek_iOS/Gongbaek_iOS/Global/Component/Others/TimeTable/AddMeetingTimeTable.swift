@@ -12,10 +12,10 @@ struct AddMeetingTimeTable: View {
     private let columns = [GridItem(.fixed(24), spacing: 1)]
     + Array(repeating: GridItem(.flexible(), spacing: 1), count: 5)
 
-    @Binding var freeTimeTable: [TimeTableModel]
+    @State var freeTimeTable: [TimeTableModel]
     @State var selectedDay: WeekDay
     @Binding var selectedTimeRange: (start: Double, end: Double)
-    /// 공강시간 id값과 해당 시간표셀 id들을 매핑한 Dictionary
+    // 공강시간 id값과 해당 시간표셀 id들을 매핑한 Dictionary
     @State private var freeTimeIdToCellsMap: [Int: [TimeTableCellId]] = [:]
     @State var selectedCells: Set<TimeTableCellId> = []
     @State private var currentFreeTimeId: Int? = nil
@@ -198,7 +198,7 @@ struct AddMeetingTimeTable: View {
 }
 
 #Preview {
-    @Previewable @State var freeTimeTable = [
+    @Previewable var freeTimeTable = [
         TimeTableModel(id: 0, weekDay: .MON, startTime: 9, endTime: 12),
         TimeTableModel(id: 1, weekDay: .MON, startTime: 14, endTime: 17.5),
         TimeTableModel(id: 2, weekDay: .TUE, startTime: 14, endTime: 18),
@@ -211,7 +211,7 @@ struct AddMeetingTimeTable: View {
     @Previewable @State var selectedTimeRange: (start: Double, end: Double) = (0, 0)
     
     AddMeetingTimeTable(
-        freeTimeTable: $freeTimeTable,
+        freeTimeTable: freeTimeTable,
         selectedDay: .WED,
         selectedTimeRange: $selectedTimeRange
     )
