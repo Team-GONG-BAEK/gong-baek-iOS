@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct CommentView: View {
-    let items: [String] = ["1", "2", "3", "4"]
+    let commentData: CommentData
     
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack(spacing: 0) {
                 HStack(alignment: .center) {
-                    Text("댓글 \(items.count)개")
+                    Text("댓글 \(commentData.commentCount)개")
                         .pretendardFont(.body1_sb_16)
                         .frame(alignment: .leading)
                         .padding(.vertical, 16)
@@ -31,16 +31,8 @@ struct CommentView: View {
                 
                 ScrollView {
                     VStack(alignment:.leading, spacing: 0) {
-                        ForEach (items.indices) { item in
-                            CommentCell(
-                                comment: .init(
-                                    isOwner: true,
-                                    isWriter: false,
-                                    nickmane: "히니",
-                                    content: "콘텐츠가먼데요 ㅋㅋ 아아아.",
-                                    date: "12/24/12:42"
-                                )
-                            )
+                        ForEach (commentData.comments.indices, id: \.self) { index in
+                            CommentCell(comment: commentData.comments[index])
                         }
                     }
                     .padding(.horizontal, 16)
@@ -53,9 +45,9 @@ struct CommentView: View {
 }
 
 #Preview {
-    CommentView()
+    MeetingDetailView(meetingDetail: dummymeetingDetailData)
 }
 
 #Preview {
-    MeetingDetailView()
+    CommentView(commentData: dummyCommentData)
 }
