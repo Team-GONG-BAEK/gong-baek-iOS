@@ -25,9 +25,12 @@ class AddMeetingViewModel: ObservableObject {
     @Published var freeTimeTable: [TimeTableModel] = dummyFreeTimeTable
     @Published var selectedTimeRange: (start: Double, end: Double) = (0, 0){
         didSet {
-            print("⏰ 선택된 시간 범위 변경됨: \(selectedTimeRange.start)시 ~ \(selectedTimeRange.end)시")
+            updateNextButtonState()
         }
     }
+    @Published var selectedCells: Set<TimeTableCellId> = []
+    @Published var freeTimeIdToCellsMap: [Int: [TimeTableCellId]] = [:]
+
     
     func goToNextPage() {
         guard isNextEnabled else { return }
@@ -46,20 +49,18 @@ class AddMeetingViewModel: ObservableObject {
             isNextEnabled = false
             return
         }
-
+        
         let calendar = Calendar(identifier: .gregorian)
         let timeZone = TimeZone(identifier: "Asia/Seoul") ?? .current
         let components = calendar.dateComponents(in: timeZone, from: date)
-
+        
         if let weekDayIndex = components.weekday {
             selectedWeekDay = WeekDay.fromWeekdayIndex(weekDayIndex)
         }
-
+        
         isNextEnabled = selectedWeekDay != nil
-
-        print("📅 선택된 날짜: \(formattedDate ?? "N/A"), 요일: \(selectedWeekDay?.rawValue ?? "N/A")")
     }
-
+    
     
     var formattedDate: String? {
         guard let date = selectedWeekDate else { return nil }
@@ -71,6 +72,15 @@ class AddMeetingViewModel: ObservableObject {
     
     func getSelectedWeekDayEnum() -> WeekDay? {
         return selectedWeekDay
+    }
+    
+    func resetSelectedTimeRange() {
+        selectedTimeRange = (start: 0, end: 0)
+        selectedCells.removeAll()
+    }
+    
+    private func updateNextButtonState() {
+        isNextEnabled = selectedTimeRange.start > 0 && selectedTimeRange.end > 0
     }
     
 }
