@@ -34,5 +34,5 @@ struct CategoryImageButton: View {
 }
 
 #Preview {
-    CategoryImageButton(category: .study, isSelected: true)
+    CategoryImageButton(category: .STUDY, isSelected: true)
 }
