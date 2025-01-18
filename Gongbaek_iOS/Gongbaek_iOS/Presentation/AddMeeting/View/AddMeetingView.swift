@@ -38,7 +38,7 @@ struct AddMeetingView: View {
             case 5:
                 LocationInput(showError: false, isFocused: false)
             case 6:
-                CalendarSelect()
+                IntroduceInput(showError: false, isFocused: false)
             default:
                 CalendarSelect()
             }
