@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddMeetingView: View {
     @StateObject private var viewModel = AddMeetingViewModel()
-
+    
     
     var body: some View {
         VStack {
@@ -34,7 +34,7 @@ struct AddMeetingView: View {
             case 3:
                 CategorySelect(viewModel: viewModel)
             case 4:
-                CalendarSelect()
+                CoverImageSelect(viewModel: viewModel)
             case 5:
                 CalendarSelect()
             case 6:
@@ -56,5 +56,7 @@ struct AddMeetingView: View {
 }
 
 #Preview {
-    AddMeetingView()
+    @Previewable @State var viewModel = AddMeetingViewModel()
+
+    CoverImageSelect(viewModel: viewModel)
 }
