@@ -42,4 +42,35 @@ extension Date {
         }
         return date
     }
+    
+    // 날짜와 시간을 포맷팅하는 함수
+    static func formattedDateAndTime(weekDay: WeekFullDay?, weekDate: String?, time: Double) -> String {
+        let formattedTime = formatTime(time)
+        
+        if let weekDay = weekDay {
+            return "매주 \(weekDay.displayName) \(formattedTime)"
+        } else if let weekDate = weekDate {
+            let formattedDate = formatDate(weekDate)
+            return "\(formattedDate) \(formattedTime)"
+        }
+        
+        return "시간 정보 없음"
+    }
+
+    // 시간 포맷 함수
+    static func formatTime(_ time: Double) -> String {
+        let hours = Int(time)
+        let minutes = Int((time - Double(hours)) * 60)
+        return minutes == 0 ? "\(hours)시" : "\(hours)시 \(minutes)분"
+    }
+
+    // 날짜 포맷 함수
+    static func formatDate(_ dateString: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        guard let date = formatter.date(from: dateString) else { return dateString }
+        
+        formatter.dateFormat = "MM월 dd일"
+        return formatter.string(from: date)
+    }
 }
