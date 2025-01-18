@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CategoryBar: View {
-    @ObservedObject var viewModel: FillingViewModel
+    @EnvironmentObject var viewModel: FillingViewModel
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -28,5 +28,5 @@ struct CategoryBar: View {
 }
 
 #Preview {
-    CategoryBar(viewModel: FillingViewModel())
+    CategoryBar()
 }

@@ -14,7 +14,7 @@ struct FillingView: View {
         VStack(spacing: 0) {
             WeekFilterBar()
                 .padding(.bottom, 8)
-            CategoryBar(viewModel: viewModel)
+            CategoryBar()
                 .padding(.bottom, 8)
             Rectangle()
                 .fill(.gray01)
@@ -22,6 +22,7 @@ struct FillingView: View {
             FillingList()
             Spacer()
         }
+        .environmentObject(viewModel)
     }
 }
 
