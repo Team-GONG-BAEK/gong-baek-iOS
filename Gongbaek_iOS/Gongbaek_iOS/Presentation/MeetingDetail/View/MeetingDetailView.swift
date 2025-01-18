@@ -32,6 +32,7 @@ struct MeetingDetailView: View {
             .padding(16)
             
             Color.gray02.frame(height: 8)
+            
             MeetingDetailSegmentControlBar(
                 introduction: $meetingDetailData.introduction,
                 ownerInfo: $ownerInfoData,
