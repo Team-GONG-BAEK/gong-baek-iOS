@@ -40,7 +40,7 @@ struct AddMeetingView: View {
             case 6:
                 IntroduceInput(showError: false, isFocused: false)
             default:
-                CalendarSelect()
+                CheckInputInfo()
             }
             
             Spacer()
