@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ToggleButton: View {
     @Binding var isOn: Bool
+    var isDisabled: Bool = false
     
     var body: some View {
         ZStack {
@@ -24,7 +25,9 @@ struct ToggleButton: View {
                 .animation(.easeInOut(duration: 0.2), value: isOn)
         }
         .onTapGesture {
-            isOn.toggle()
+            if !isDisabled {
+                isOn.toggle()
+            }
         }
     }
 }

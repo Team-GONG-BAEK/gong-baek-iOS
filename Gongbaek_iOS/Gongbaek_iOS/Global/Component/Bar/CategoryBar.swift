@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct CategoryBar: View {
-    @State private var selectedCategory: CategoryState = .all
-
+    @ObservedObject var viewModel: FillingViewModel
+    
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 6) {
                 ForEach(CategoryState.allCases, id: \.self) { category in
                     CategoryButton(
                         text: category.categoryName,
-                        isSelcted: selectedCategory == category
+                        isSelcted: viewModel.selectedCategory == category
                     ) {
-                        selectedCategory = category
+                        viewModel.selectedCategory = category
                     }
                 }
             }
@@ -28,5 +28,6 @@ struct CategoryBar: View {
 }
 
 #Preview {
-    CategoryBar()
+    let viewModel = FillingViewModel()
+    CategoryBar(viewModel: viewModel)
 }
