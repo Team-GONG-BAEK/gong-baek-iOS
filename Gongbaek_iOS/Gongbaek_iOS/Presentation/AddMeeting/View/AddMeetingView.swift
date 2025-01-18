@@ -32,7 +32,7 @@ struct AddMeetingView: View {
             case 2:
                 DateSelect()
             case 3:
-                CalendarSelect()
+                CategorySelect(viewModel: viewModel)
             case 4:
                 CalendarSelect()
             case 5:

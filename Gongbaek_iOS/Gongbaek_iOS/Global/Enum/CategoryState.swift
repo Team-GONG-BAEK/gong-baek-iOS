@@ -21,11 +21,11 @@ enum CategoryState: Int, CaseIterable {
         switch self {
         case .all: return nil
         case .study: return "sample"
-        case .dining: return ""
-        case .sport: return ""
-        case .networking: return ""
-        case .play: return ""
-        case .others: return ""
+        case .dining: return "sample"
+        case .sport: return "sample"
+        case .networking: return "sample"
+        case .play: return "sample"
+        case .others: return "sample"
         }
     }
     
