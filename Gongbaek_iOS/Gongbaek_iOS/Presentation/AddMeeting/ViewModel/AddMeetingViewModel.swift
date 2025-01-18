@@ -22,7 +22,12 @@ class AddMeetingViewModel: ObservableObject {
     @Published var selectedCategory: CategoryState? = nil
     @Published var selectedCoverImage: String? = nil
     
-    @Published var selectedTimeRange: (start: Double, end: Double) = (0, 0)
+    @Published var freeTimeTable: [TimeTableModel] = dummyFreeTimeTable
+    @Published var selectedTimeRange: (start: Double, end: Double) = (0, 0){
+        didSet {
+            print("⏰ 선택된 시간 범위 변경됨: \(selectedTimeRange.start)시 ~ \(selectedTimeRange.end)시")
+        }
+    }
     
     func goToNextPage() {
         guard isNextEnabled else { return }

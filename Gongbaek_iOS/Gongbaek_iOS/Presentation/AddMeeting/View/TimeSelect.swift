@@ -9,8 +9,6 @@ import SwiftUI
 
 struct TimeSelect: View {
     @ObservedObject var viewModel: AddMeetingViewModel
-    @State private var freeTimeTable: [TimeTableModel] = dummyFreeTimeTable
-    @State private var selectedTimeRange: (start: Double, end: Double) = (0, 0)
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -18,21 +16,37 @@ struct TimeSelect: View {
                 .padding(.bottom, 20)
             
             HStack(spacing: 12) {
-                SelectedTimeBox(time: "00:00")
+                SelectedTimeBox(time: viewModel.selectedTimeRange.start.formatTime())
                 Rectangle()
                     .fill(.gray04)
                     .frame(width: 16, height: 2)
-                SelectedTimeBox(time: "00:00")
+                SelectedTimeBox(time: viewModel.selectedTimeRange.end.formatTime())
             }
             .padding(.bottom, 30)
             
-            Text("나의 시간표")
-                .font(.pretendard(.body1_b_16))
-                .foregroundColor(.gray08)
-                .padding(.bottom, 10)
+            HStack(spacing: 12) {
+                Text("나의 시간표")
+                    .font(.pretendard(.body1_b_16))
+                    .foregroundColor(.gray08)
+                Spacer()
+                Button(action: {
+                    print("다시 선택")
+                }) {
+                    HStack(spacing: 0) {
+                        Text("다시 선택")
+                            .font(.pretendard(.caption2_m_12))
+                            .foregroundColor(.mainOrange)
+                        Image(.icOptionReset18)
+                            .foregroundColor(.mainOrange)
+                            .frame(width: 18, height: 18)
+                    }
+                }
+            }
+            .padding(.bottom, 10)
+            
             ScrollView {
                 AddMeetingTimeTable(
-                    freeTimeTable: $freeTimeTable,
+                    freeTimeTable: viewModel.freeTimeTable,
                     selectedDay: viewModel.getSelectedWeekDayEnum() ?? .MON,
                     selectedTimeRange: $viewModel.selectedTimeRange
                 )
