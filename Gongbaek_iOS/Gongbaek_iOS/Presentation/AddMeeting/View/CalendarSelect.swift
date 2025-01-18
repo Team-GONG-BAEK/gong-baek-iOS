@@ -11,6 +11,7 @@ struct CalendarSelect: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             TitleTextBox(title: "활동주기를 선택해주세요.", subtitle: nil)
+                .padding(.bottom, 68)
             
             CustomCalendar()
         }
