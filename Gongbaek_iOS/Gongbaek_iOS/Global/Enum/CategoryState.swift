@@ -19,13 +19,13 @@ enum CategoryState: Int, CaseIterable {
     //TODO: 일러스트 이미지 추가
     var categoryImage: String? {
         switch self {
-        case .all: return nil
-        case .study: return "sample"
-        case .dining: return "sample"
-        case .sport: return "sample"
-        case .networking: return "sample"
-        case .play: return "sample"
-        case .others: return "sample"
+        case .ALL: return nil
+        case .STUDY: return "sample"
+        case .DINING: return "sample"
+        case .EXERCISE: return "sample"
+        case .NETWORKING: return "sample"
+        case .PLAYING: return "sample"
+        case .OTHERS: return "sample"
         }
     }
     
@@ -43,13 +43,13 @@ enum CategoryState: Int, CaseIterable {
     
     var coverImage: [String] {
            switch self {
-           case .all: return []
-           case .study: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-           case .dining: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-           case .sport: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-           case .networking: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-           case .play: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-           case .others: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           case .ALL: return []
+           case .STUDY: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           case .DINING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           case .EXERCISE: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           case .NETWORKING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           case .PLAYING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           case .OTHERS: return ["sample", "sample", "sample", "sample", "sample", "sample"]
            }
        }
 }
