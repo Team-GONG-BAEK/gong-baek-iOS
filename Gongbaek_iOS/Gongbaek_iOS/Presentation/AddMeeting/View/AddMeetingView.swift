@@ -17,21 +17,29 @@ struct AddMeetingView: View {
             
             switch viewModel.currentIndex {
             case 0:
-                CycleSelect()
+                CycleSelect(
+                    currentIndex: $viewModel.currentIndex,
+                    isNextEnabled: $viewModel.isNextEnabled,
+                    selectedCycle: $viewModel.selectedCycle
+                )
             case 1:
-                CalendarSelect()
+                if viewModel.selectedCycle == .once {
+                    CalendarSelect()
+                } else if viewModel.selectedCycle == .weekly {
+                    WeekDaySelect()
+                }
             case 2:
-                CycleSelect()
+                DateSelect()
             case 3:
-                CycleSelect()
+                CalendarSelect()
             case 4:
-                CycleSelect()
+                CalendarSelect()
             case 5:
-                CycleSelect()
+                CalendarSelect()
             case 6:
-                CycleSelect()
+                CalendarSelect()
             default:
-                CycleSelect()
+                CalendarSelect()
             }
             
             Spacer()
