@@ -20,12 +20,19 @@ struct TabBarView: View {
             }
             .navigationDestination(for: FillingDestination.self) { type in
 //                type.view()
+//                    .toolbar(.hidden, for: .navigationBar)
             }
             .navigationDestination(for: MyFillingDestination.self) { type in
 //                type.view()
+//                    .toolbar(.hidden, for: .navigationBar)
             }
             .navigationDestination(for: HomeDestination.self) { type in
 //                type.view()
+//                    .toolbar(.hidden, for: .navigationBar)
+            }
+            .navigationDestination(for: SignupDestination.self) { type in
+                type.view()
+                    .toolbar(.hidden, for: .navigationBar)
             }
         }
         .environmentObject(navigationManager)
