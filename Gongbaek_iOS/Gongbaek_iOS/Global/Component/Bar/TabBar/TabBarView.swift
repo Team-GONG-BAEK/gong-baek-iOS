@@ -14,7 +14,7 @@ struct TabBarView: View {
         NavigationStack {
             VStack(spacing: 0) {
                 selectedTab.view()
-                CustomTabView(selectedTab: $selectedTab)
+                CustomTabBar(selectedTab: $selectedTab)
             }
         }
     }
