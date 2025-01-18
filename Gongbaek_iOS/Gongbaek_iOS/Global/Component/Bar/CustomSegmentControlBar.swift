@@ -45,8 +45,8 @@ extension SegmentState {
         switch self {
         case .detail:
             switch SegmentDetailType.allCases[index] {
-            case .meetingInfo: Color.gray03
-            case .comment: Color.gray04
+            case .meetingInfo: MeetingInfoView()
+            case .comment: CommentView()
             }
         case .myfill:
             switch SegmentMyFillType.allCases[index] {
@@ -91,6 +91,6 @@ struct CustomSegmentControlBar: View {
 
 #Preview {
     CustomSegmentControlBar(segmentState: .detail)
-    CustomSegmentControlBar(segmentState: .myfill)
+//    CustomSegmentControlBar(segmentState: .myfill)
 }
 
