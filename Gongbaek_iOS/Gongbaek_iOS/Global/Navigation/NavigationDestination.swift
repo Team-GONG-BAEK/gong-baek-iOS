@@ -11,15 +11,12 @@ enum OnboardingDestination: Hashable {
     case profileSelection
     case nicknameInput
     case schoolMajorInput
-}
-
-struct OnboardingDestinationView: View {
-    let type: OnboardingDestination
     
-    var body: some View {
-        switch type {
+    @ViewBuilder
+    func view() -> some View {
+        switch self {
         case .profileSelection:
-            ContentView()
+            Text("profileSelection")
         case .nicknameInput:
             Text("nicknameInput")
         case .schoolMajorInput:
@@ -38,16 +35,4 @@ enum MyFillingDestination: Hashable {
 
 enum HomeDestination: Hashable {
     // TODO: 홈화면 모든 화면 작성
-    case schoolMajorInput
-}
-
-struct HomeDestinationView: View {
-    let type: HomeDestination
-    
-    var body: some View {
-        switch type {
-        case .schoolMajorInput:
-            Text("schoolMajorInput")
-        }
-    }
 }
