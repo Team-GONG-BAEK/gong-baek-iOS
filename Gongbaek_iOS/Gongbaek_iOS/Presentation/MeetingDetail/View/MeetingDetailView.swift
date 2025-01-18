@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct MeetingDetailView: View {
-    @State var meetingDetail: MeetingDetailData
+    @State var meetingDetailData: MeetingDetailData
+    @State var commentData: CommentData
+    @State var ownerInfoData: OwnerInfoData
     
     var body: some View {
         VStack(spacing: 0) {
@@ -16,26 +18,33 @@ struct MeetingDetailView: View {
                 state: .detail,
                 meeting: .init(
                     status: "모집 중",
-                    category: meetingDetail.category,
-                    coverImg: "sample",//TODO: Int로 넘기기
-                    groupType: meetingDetail.groupType,
-                    groupTitle: meetingDetail.groupTitle,
-                    weekDay: .monday,//meetingDetail.weekDay,
-                    weekDate: meetingDetail.weekDate,
-                    startTime: meetingDetail.startTime,
-                    endTime: meetingDetail.endTime,
-                    location: meetingDetail.location
+                    category: meetingDetailData.category,
+                    coverImg: "sample",//TODO: Int로 넘기기 meetingDetailData.coverImg,
+                    groupType: meetingDetailData.groupType,
+                    groupTitle: meetingDetailData.groupTitle,
+                    weekDay: .monday,//TODO: meetingDetail.weekDay,
+                    weekDate: meetingDetailData.weekDate,
+                    startTime: meetingDetailData.startTime,
+                    endTime: meetingDetailData.endTime,
+                    location: meetingDetailData.location
                 )
             )
             .padding(16)
             
             Color.gray02.frame(height: 8)
-            
-            CustomSegmentControlBar(segmentState: .detail)
+            MeetingDetailSegmentControlBar(
+                introduction: $meetingDetailData.introduction,
+                ownerInfo: $ownerInfoData,
+                commentData: $commentData
+            )
         }
     }
 }
 
 #Preview {
-    MeetingDetailView(meetingDetail: dummymeetingDetailData)
+    MeetingDetailView(
+        meetingDetailData: dummymeetingDetailData,
+        commentData: dummyCommentData,
+        ownerInfoData: dummyOwnerInfoData
+    )
 }

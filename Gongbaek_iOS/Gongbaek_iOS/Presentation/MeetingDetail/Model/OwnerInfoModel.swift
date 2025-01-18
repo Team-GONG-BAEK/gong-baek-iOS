@@ -24,5 +24,5 @@ let dummyOwnerInfoData: OwnerInfoData = OwnerInfoData(
     enterYear: 2020,
     schoolGrade: 4,
     mbti: "INTJ",
-    introduction: "하이 나 공일 히은 ㅋㅋ 나랑 놀 사람? 나 칭구 없어 ㅠ"
+    introduction: "하이 나 공일 히은 ㅋㅋ 나랑 놀 사람? 나 칭구 없어 ㅠ 야 공이 너 내 칭구해라 ! 로이임탄은 꺼지슈 !"
 )

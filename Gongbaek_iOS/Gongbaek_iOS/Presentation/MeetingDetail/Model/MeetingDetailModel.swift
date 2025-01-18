@@ -15,7 +15,7 @@ struct MeetingDetailData {
     let isApply: Bool
     let currentPeopleCount: Int
     let maxPeopleCount: Int
-    let introduction: String
+    var introduction: String
     let category: String
     let coverImg: Int
     let weekDay: String?

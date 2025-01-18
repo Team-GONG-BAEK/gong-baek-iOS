@@ -20,7 +20,7 @@ struct OwnerProfileData {
 }
 
 struct OwnerProfileBox: View {
-    let ownerData: OwnerProfileData
+    var ownerData: OwnerProfileData
     
     var body: some View {
         HStack(spacing: 12) {
@@ -64,18 +64,4 @@ struct OwnerProfileBox: View {
         .background(RoundedRectangle(cornerRadius: 4)
             .fill(.gray01))
     }
-}
-
-#Preview {
-    OwnerProfileBox(
-        ownerData: OwnerProfileData(
-            profileImage: 1,
-            nickname: "로이임탄",
-            sex: "MALE",
-            schoolMajor: "글로벌문화산업/MICE 전공",
-            enterYear: 2019,
-            schoolGrade: 4,
-            mbti: "ENFJ"
-        )
-    )
 }

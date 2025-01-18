@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CommentView: View {
-    let commentData: CommentData
+    @Binding var commentData: CommentData
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -42,12 +42,4 @@ struct CommentView: View {
             }
         }
     }
-}
-
-#Preview {
-    MeetingDetailView(meetingDetail: dummymeetingDetailData)
-}
-
-#Preview {
-    CommentView(commentData: dummyCommentData)
 }

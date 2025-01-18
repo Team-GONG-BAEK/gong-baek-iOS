@@ -14,8 +14,9 @@ enum MeetingDetailType: String, CaseIterable {
 }
 
 struct MeetingDetailSegmentControlBar: View {
+    @Binding var introduction: String
     @Binding var ownerInfo: OwnerInfoData
-    @Binding var meetingDetailData: MeetingDetailData
+    @Binding var commentData: CommentData
     @State private var selectedIndex = 0
     
     var body: some View {
@@ -53,16 +54,9 @@ struct MeetingDetailSegmentControlBar: View {
         let type = MeetingDetailType.allCases[selectedIndex]
         switch type {
         case .meetingInfo:
-            MeetingInfoView(ownerInfo: $ownerInfo, meetingDetail: $meetingDetailData)
+            MeetingInfoView(ownerInfo: $ownerInfo, introduction: $introduction)
         case .comment:
-            CommentView(commentData: dummyCommentData)
+            CommentView(commentData: $commentData)
         }
     }
-}
-
-#Preview {
-    MeetingDetailSegmentControlBar(
-        ownerInfo: .constant(dummyOwnerInfoData),
-        meetingDetailData: .constant(dummymeetingDetailData)
-    )
 }
