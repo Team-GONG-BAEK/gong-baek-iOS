@@ -18,11 +18,14 @@ struct TabBarView: View {
                     .frame(maxHeight: .infinity)
                 CustomTabBar(selectedTab: $selectedTab)
             }
-            .navigationDestination(for: OnboardingDestination.self) { type in
-                OnboardingDestinationView(type: type)
+            .navigationDestination(for: FillingDestination.self) { type in
+//                type.view()
+            }
+            .navigationDestination(for: MyFillingDestination.self) { type in
+//                type.view()
             }
             .navigationDestination(for: HomeDestination.self) { type in
-                HomeDestinationView(type: type)
+//                type.view()
             }
         }
         .environmentObject(navigationManager)
