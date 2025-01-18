@@ -40,4 +40,16 @@ enum CategoryState: Int, CaseIterable {
         case .others: return "기타"
         }
     }
+    
+    var coverImage: [String] {
+           switch self {
+           case .all: return []
+           case .study: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           case .dining: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           case .sport: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           case .networking: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           case .play: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           case .others: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           }
+       }
 }
