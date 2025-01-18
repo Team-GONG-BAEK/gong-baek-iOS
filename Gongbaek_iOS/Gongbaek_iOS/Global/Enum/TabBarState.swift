@@ -26,23 +26,23 @@ extension TabBarState {
         }
     }
     
-    var defaultImage: String {
+    var defaultImage: ImageResource {
         switch self {
-        case .filling: "ic_tabbar_fill_gray_26"
-        case .myFilling: "ic_tabbar_my_fill_gray_26"
-        case .home: "ic_tabbar_home_gray_26"
-        case .timetable: "ic_tabbar_timetable_gray_26"
-        case .myPage: "ic_tabbar_my_gray_26"
+        case .filling: .icTabbarFillGray26
+        case .myFilling: .icTabbarMyFillGray26
+        case .home: .icTabbarHomeGray26
+        case .timetable: .icTabbarTimetableGray26
+        case .myPage: .icTabbarMyGray26
         }
     }
-    
-    var selectedImage: String {
+        
+    var selectedImage: ImageResource {
         switch self {
-        case .filling: "ic_tabbar_fill_black_26"
-        case .myFilling: "ic_tabbar_my_fill_black_26"
-        case .home: "ic_tabbar_home_black_26"
-        case .timetable: "ic_tabbar_timetable_black_26"
-        case .myPage: "ic_tabbar_my_black_26"
+        case .filling: .icTabbarFillBlack26
+        case .myFilling: .icTabbarMyFillBlack26
+        case .home: .icTabbarHomeBlack26
+        case .timetable: .icTabbarTimetableBlack26
+        case .myPage: .icTabbarMyBlack26
         }
     }
     

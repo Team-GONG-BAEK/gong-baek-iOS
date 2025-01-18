@@ -60,15 +60,15 @@ struct CustomTabBar: View {
     func tabButton (
         tab: TabBarState,
         selectedTab: Binding<TabBarState>,
-        imageName: String,
-        selectedImageName: String,
+        imageName: ImageResource,
+        selectedImageName: ImageResource,
         text: String
     ) -> some View {
         Button(action: {
             self.selectedTab = tab
         }) {
             VStack(spacing: 2) {
-                Image(self.selectedTab == tab ? selectedImageName : imageName)
+                Image(self.selectedTab == tab ? tab.selectedImage : tab.defaultImage)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 28, height: 28)
