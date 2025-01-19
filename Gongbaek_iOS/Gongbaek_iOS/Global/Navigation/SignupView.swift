@@ -17,6 +17,9 @@ struct SignupView: View {
                 type.view()
                     .toolbar(.hidden, for: .navigationBar)
             }
+            .fullScreenCover(item: $navigationManager.presentedDestination) { type in
+                type.view()
+            }
         }
         .environmentObject(navigationManager)
     }

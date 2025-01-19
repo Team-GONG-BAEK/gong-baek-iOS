@@ -20,7 +20,7 @@ enum SignupDestination: Hashable {
         case .nicknameInput:
             NicknameInputView()
         case .schoolMajorInput:
-            Text("schoolMajorInput")
+            SchoolMajorInputView()
         }
     }
 }
@@ -35,4 +35,24 @@ enum MyFillingDestination: Hashable {
 
 enum HomeDestination: Hashable {
     // TODO: 홈화면 모든 화면 작성
+}
+
+/// Present 방식으로 화면 전환되는 Destination 정의
+enum PresentableDestination: Identifiable {
+    case schoolMajorSearchView(SearchViewState)
+
+    var id: String {
+        switch self {
+        case let .schoolMajorSearchView(state):
+            return state.rawValue
+        }
+    }
+
+    @ViewBuilder
+    func view() -> some View {
+        switch self {
+        case let .schoolMajorSearchView(state):
+            SchoolMajorSearchView(state: state)
+        }
+    }
 }
