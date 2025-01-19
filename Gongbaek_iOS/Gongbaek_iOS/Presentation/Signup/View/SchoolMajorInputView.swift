@@ -33,6 +33,8 @@ struct SchoolMajorInputView: View {
                 ) { _ in
                     navigationManager.present(.schoolMajorSearchView($schoolName, .school))
                 }
+                .padding(.bottom, 24)
+                
                 SearchTextField(
                     inputText: $majorName,
                     isButton: true,

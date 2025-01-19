@@ -11,7 +11,7 @@ struct SchoolMajorSearchView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @Binding var selectedResult: String
     @State private var searchWord = ""
-//    @State private var searchResultList = []
+    @State private var searchResultList: [String] = []
     let state: SearchViewState
     
     var body: some View {
@@ -25,15 +25,15 @@ struct SchoolMajorSearchView: View {
                 print(searchWord)
                 switch state {
                 case .school:
-                    selectedResult = searchWord
+                    searchResultList = SchoolNameListModel.mockData().schoolNames
                 case .major:
-                    selectedResult = searchWord
+                    searchResultList = MajorNameListModel.mockData().schoolMajors
                 }
             }
             .padding(.top, 12)
             .padding(.horizontal, 16)
             
-            searchResultList()
+            searchResultListView()
             
             Spacer()
             
@@ -41,6 +41,7 @@ struct SchoolMajorSearchView: View {
                 text: "적용",
                 isActivated: !selectedResult.isEmpty
             ) {
+                
                 navigationManager.dismissPresented()
             }
             .padding(.top, 20)
@@ -50,11 +51,56 @@ struct SchoolMajorSearchView: View {
         .customNavigationBar(title: "검색하기", showXButton: true)
     }
     
-    func searchResultList() -> some View {
-        ScrollView {
+    private func searchResultListView() -> some View {
+        List(searchResultList, id: \.self) { item in
+            let isSelected = selectedResult == item
             
+            SearchListCell(
+                name: item,
+                isSelected:.constant(isSelected)
+            )
+                .onTapGesture {
+                    if isSelected {
+                        selectedResult = ""
+                    } else {
+                        selectedResult = item
+                    }
+                }
         }
+        .listStyle(.plain)
         .padding(.top, 12)
+    }
+}
+
+struct SearchListCell: View {
+    let name: String
+    @Binding var isSelected: Bool
+    
+    var body: some View {
+        ZStack {
+            Rectangle()
+                .fill(isSelected ? .subOrange : .grayWhite)
+                .frame(maxWidth: .infinity, minHeight: 52)
+            
+            HStack {
+                Text(name)
+                    .pretendardFont(isSelected ? .body1_m_16 : .body1_r_16)
+                    .foregroundStyle(isSelected ? .mainOrange : .gray08)
+                
+                Spacer()
+                
+                if isSelected {
+                    Image(.icCheck24)
+                        .renderingMode(.original)
+                        .frame(width: 24, height: 24)
+                        .scaledToFit()
+                }
+            }
+            .padding(.horizontal, 16)
+        }
+        .listRowInsets(EdgeInsets())
+        .listRowSeparator(.hidden)
+        .frame(maxWidth: .infinity, minHeight: 52)
     }
 }
 
