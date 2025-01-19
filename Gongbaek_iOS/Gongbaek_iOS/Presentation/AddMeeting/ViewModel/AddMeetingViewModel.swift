@@ -19,6 +19,7 @@ class AddMeetingViewModel: ObservableObject {
         }
     }
     @Published var selectedWeekDay: WeekDay? = nil
+    
     @Published var selectedCategory: CategoryState? = nil
     @Published var selectedCoverImage: String? = nil
     
@@ -30,7 +31,12 @@ class AddMeetingViewModel: ObservableObject {
     }
     @Published var selectedCells: Set<TimeTableCellId> = []
     @Published var freeTimeIdToCellsMap: [Int: [TimeTableCellId]] = [:]
-
+    
+    @Published var location: String = ""
+    @Published var maxPeopleCount: Int = 2
+    
+    @Published var title: String = ""
+    @Published var introduction: String = ""
     
     func goToNextPage() {
         guard isNextEnabled else { return }
@@ -79,8 +85,24 @@ class AddMeetingViewModel: ObservableObject {
         selectedCells.removeAll()
     }
     
-    private func updateNextButtonState() {
-        isNextEnabled = selectedTimeRange.start > 0 && selectedTimeRange.end > 0
+    func increasePeopleCount() {
+        if maxPeopleCount < 10 {
+            maxPeopleCount += 1
+        }
     }
     
+    func decreasePeopleCount() {
+        if maxPeopleCount > 2 {
+            maxPeopleCount -= 1
+        }
+    }
+    
+    func updateNextButtonState() {
+        let isTitleValid = title.trimmingCharacters(in: .whitespacesAndNewlines).count >= 2
+        let isIntroductionValid = introduction.trimmingCharacters(in: .whitespacesAndNewlines).count >= 20
+        let isLocationValid = !location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        let isTimeRangeValid = selectedTimeRange.start > 0 && selectedTimeRange.end > 0
+
+        isNextEnabled = (isTitleValid && isIntroductionValid) || isLocationValid || isTimeRangeValid
+    }
 }
