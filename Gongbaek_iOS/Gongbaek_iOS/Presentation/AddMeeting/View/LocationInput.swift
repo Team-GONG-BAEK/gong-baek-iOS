@@ -11,13 +11,15 @@ struct LocationInput: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
     
+    @State private var isNextEnabled: Bool = false
+    
     @State private var location: String = ""
     @State var showError: Bool
     @State var isFocused: Bool
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
-            ProgressBar(currentIndex: $viewModel.currentIndex)
+            ProgressBar(currentIndex: 5)
                 .padding(.bottom, 40)
             
             VStack(alignment: .leading, spacing: 0) {
@@ -29,10 +31,10 @@ struct LocationInput: View {
                     showError: $showError,
                     state: .location
                 )
-                .padding(.bottom, 40)
                 .onChange(of: viewModel.location) { newValue in
-                    viewModel.updateNextButtonState()
+                    isNextEnabled = newValue.trimmingCharacters(in: .whitespacesAndNewlines).count >= 2
                 }
+                .padding(.bottom, 40)
                 
                 TitleTextBox(title: "인원을 선택해주세요.", subtitle: "본인 포함 최소 2명부터 최대 10명까지 모집 가능해요.", highlightSubtitleText: "최소 2명부터 최대 10명")
                     .padding(.bottom, 20)
@@ -51,10 +53,11 @@ struct LocationInput: View {
             .padding(.horizontal, 16)
             
             Spacer()
-            BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
+            BasicButton(text: "다음", isActivated: isNextEnabled) {
                 viewModel.goToNextPage()
                 navigationManager.push(view: FillingDestination.introduceInput)
             }
+            .disabled(!isNextEnabled)
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
         }

@@ -11,10 +11,23 @@ struct TimeSelect: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
     
+    @State private var isNextEnabled: Bool = false
+    
+    private var selectedTimeRangeBinding: Binding<(start: Double, end: Double)> {
+        Binding(
+            get: { (start: viewModel.selectedTimeRange.start, end: viewModel.selectedTimeRange.end) },
+            set: { newValue in
+                viewModel.selectedTimeRange.start = newValue.start
+                viewModel.selectedTimeRange.end = newValue.end
+            }
+        )
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ProgressBar(currentIndex: $viewModel.currentIndex)
+            ProgressBar(currentIndex: 2)
                 .padding(.bottom, 40)
+            
             VStack(alignment: .leading, spacing: 0) {
                 TitleTextBox(title: "공백을 채울 시간을 선택해주세요.", subtitle: nil)
                     .padding(.bottom, 20)
@@ -34,8 +47,8 @@ struct TimeSelect: View {
                         .foregroundColor(.gray08)
                     Spacer()
                     Button(action: {
-                        viewModel.selectedTimeRange = (start: 0, end: 0)
-                        viewModel.selectedCells.removeAll()
+                        viewModel.resetSelectedTimeRange()
+                        isNextEnabled = false
                     }) {
                         HStack(spacing: 0) {
                             Text("다시 선택")
@@ -54,7 +67,7 @@ struct TimeSelect: View {
                         viewModel: viewModel,
                         freeTimeTable: viewModel.freeTimeTable,
                         selectedDay: viewModel.getSelectedWeekDayEnum() ?? .MON,
-                        selectedTimeRange: $viewModel.selectedTimeRange,
+                        selectedTimeRange: selectedTimeRangeBinding,
                         selectedCells: $viewModel.selectedCells
                     )
                 }
@@ -63,12 +76,16 @@ struct TimeSelect: View {
             .padding(.horizontal, 16)
             
             Spacer()
-            BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
+            BasicButton(text: "다음", isActivated: isNextEnabled) {
                 viewModel.goToNextPage()
                 navigationManager.push(view: FillingDestination.categorySelect)
             }
+            .disabled(!isNextEnabled)
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
+        }
+        .onChange(of: viewModel.selectedTimeRange) { oldValue, newValue in
+            isNextEnabled = newValue.start > 0 && newValue.end > 0
         }
         .customNavigationBar(showBackButton: true)
     }

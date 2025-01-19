@@ -11,6 +11,8 @@ struct CategorySelect: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
     
+    @State private var isNextEnabled: Bool = false
+
     private let columns = [
         GridItem(.flexible(), spacing: 8),
         GridItem(.flexible(), spacing: 8)
@@ -18,7 +20,7 @@ struct CategorySelect: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ProgressBar(currentIndex: $viewModel.currentIndex)
+            ProgressBar(currentIndex: 3)
                 .padding(.bottom, 40)
             
             VStack(alignment: .leading, spacing: 0) {
@@ -32,7 +34,7 @@ struct CategorySelect: View {
                             isSelected: viewModel.selectedCategory == category,
                             onTap: {
                                 viewModel.selectedCategory = category
-                                viewModel.isNextEnabled = true
+                                isNextEnabled = true
                             })
                     }
                 }
@@ -40,10 +42,11 @@ struct CategorySelect: View {
             .padding(.horizontal, 16)
             
             Spacer()
-            BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
+            BasicButton(text: "다음", isActivated: isNextEnabled) {
                 viewModel.goToNextPage()
                 navigationManager.push(view: FillingDestination.coverImageSelect)
             }
+            .disabled(!isNextEnabled)
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
         }

@@ -12,15 +12,19 @@ struct CoverImageSelect: View {
     @ObservedObject var viewModel: AddMeetingViewModel
     
     @State private var selectedCoverIndex: Int? = nil
-    
+    @State private var isNextEnabled: Bool = false
+
     private let columns = [
         GridItem(.flexible(), spacing: 12),
         GridItem(.flexible(), spacing: 12)
     ]
     
     var body: some View {
+        let coverImages = viewModel.selectedCategory?.coverImage ?? []
+        let enumeratedCoverImages = Array(coverImages.enumerated())
+        
         VStack {
-            ProgressBar(currentIndex: $viewModel.currentIndex)
+            ProgressBar(currentIndex: 4)
                 .padding(.bottom, 40)
             
             VStack(alignment: .leading, spacing: 0) {
@@ -28,14 +32,14 @@ struct CoverImageSelect: View {
                     .padding(.bottom, 28)
                 
                 LazyVGrid(columns: columns, spacing: 12) {
-                    ForEach(Array((viewModel.selectedCategory?.coverImage ?? []).enumerated()), id: \.0) { index, image in
+                    ForEach(enumeratedCoverImages, id: \.0) { index, image in
                         CoverImageButton(
                             image: image,
                             isSelected: selectedCoverIndex == index,
                             onTap: {
                                 selectedCoverIndex = index
                                 viewModel.selectedCoverImage = image
-                                viewModel.isNextEnabled = true
+                                isNextEnabled = true
                             }
                         )
                         .frame(height: 138)
@@ -44,10 +48,11 @@ struct CoverImageSelect: View {
             }
             .padding(.horizontal, 16)
             
-            BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
+            BasicButton(text: "다음", isActivated: isNextEnabled) {
                 viewModel.goToNextPage()
                 navigationManager.push(view: FillingDestination.locationInput)
             }
+            .disabled(!isNextEnabled)
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
         }

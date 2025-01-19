@@ -25,7 +25,7 @@ enum SignupDestination: Hashable {
     }
 }
 
-enum FillingDestination: Hashable {
+enum FillingDestination: Hashable, CaseIterable {
     case addMeeting
     case calendarSelect
     case weekDaySelect

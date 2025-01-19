@@ -9,10 +9,10 @@ import SwiftUI
 
 struct CheckInputInfo: View {
     @ObservedObject var viewModel: AddMeetingViewModel
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ProgressBar(currentIndex: $viewModel.currentIndex)
+            ProgressBar(currentIndex: 7)
                 .padding(.bottom, 40)
             
             VStack(alignment: .leading, spacing: 0) {
@@ -65,7 +65,7 @@ struct CheckInputInfo: View {
             .padding(.horizontal, 16)
             
             Spacer()
-            BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
+            BasicButton(text: "완료", isActivated: true) {
                 viewModel.goToNextPage()
             }
             .padding(.vertical, 20)

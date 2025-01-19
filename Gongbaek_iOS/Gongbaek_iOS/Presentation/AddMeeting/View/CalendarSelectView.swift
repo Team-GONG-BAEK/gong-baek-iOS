@@ -11,9 +11,11 @@ struct CalendarSelectView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
     
+    @State private var isNextEnabled: Bool = false
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ProgressBar(currentIndex: $viewModel.currentIndex)
+            ProgressBar(currentIndex: 1)
                 .padding(.bottom, 40)
             
             VStack(alignment: .leading, spacing: 0) {
@@ -22,17 +24,18 @@ struct CalendarSelectView: View {
                 
                 CustomCalendar(selectedDate: $viewModel.selectedWeekDate)
                     .onChange(of: viewModel.selectedWeekDate) { _ in
-                        viewModel.isNextEnabled = true
+                        isNextEnabled = true
                     }
             }
             .padding(.horizontal, 16)
             
             
             Spacer()
-            BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
+            BasicButton(text: "다음", isActivated: isNextEnabled) {
                 viewModel.goToNextPage()
                 navigationManager.push(view: FillingDestination.timeSelect)
             }
+            .disabled(!isNextEnabled)
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
         }

@@ -10,7 +10,6 @@ import SwiftUI
 class AddMeetingViewModel: ObservableObject, Identifiable {
     let totalSteps: Int = 8
     @Published var currentIndex: Int = 0
-    @Published var isNextEnabled: Bool = false
     
     @Published var selectedCycle: CycleState? = nil
     @Published var selectedWeekDate: Date? = nil {
@@ -24,11 +23,7 @@ class AddMeetingViewModel: ObservableObject, Identifiable {
     @Published var selectedCoverImage: String? = nil
     
     @Published var freeTimeTable: [TimeTableModel] = dummyFreeTimeTable
-    @Published var selectedTimeRange: (start: Double, end: Double) = (0, 0){
-        didSet {
-            updateNextButtonState()
-        }
-    }
+    @Published var selectedTimeRange: TimeRange = TimeRange(start: 0, end: 0)
     @Published var selectedCells: Set<TimeTableCellId> = []
     @Published var freeTimeIdToCellsMap: [Int: [TimeTableCellId]] = [:]
     
@@ -39,12 +34,9 @@ class AddMeetingViewModel: ObservableObject, Identifiable {
     @Published var introduction: String = ""
     
     func goToNextPage() {
-        guard isNextEnabled else { return }
-        
         if currentIndex < totalSteps {
             currentIndex += 1
         }
-        isNextEnabled = false
     }
     
     func goToPreviousPage() {
@@ -56,7 +48,6 @@ class AddMeetingViewModel: ObservableObject, Identifiable {
     private func updateSelectedWeekDay() {
         guard let date = selectedWeekDate else {
             selectedWeekDay = nil
-            isNextEnabled = false
             return
         }
         
@@ -68,7 +59,6 @@ class AddMeetingViewModel: ObservableObject, Identifiable {
             selectedWeekDay = WeekDay.fromWeekdayIndex(weekDayIndex)
         }
         
-        isNextEnabled = selectedWeekDay != nil
         print("✅ 선택된 날짜: \(formattedDate ?? "N/A")")  // 📅 디버깅 로그
         print("✅ 선택된 요일: \(selectedWeekDay?.rawValue ?? "N/A")")
     }
@@ -87,7 +77,7 @@ class AddMeetingViewModel: ObservableObject, Identifiable {
     }
     
     func resetSelectedTimeRange() {
-        selectedTimeRange = (start: 0, end: 0)
+        selectedTimeRange = TimeRange(start: 0, end: 0)
         selectedCells.removeAll()
     }
     
@@ -101,15 +91,5 @@ class AddMeetingViewModel: ObservableObject, Identifiable {
         if maxPeopleCount > 2 {
             maxPeopleCount -= 1
         }
-    }
-    
-    //TODO: 각 뷰별로 활성화 로직 메서드 분리
-    func updateNextButtonState() {
-        let isTitleValid = title.trimmingCharacters(in: .whitespacesAndNewlines).count >= 2
-        let isIntroductionValid = introduction.trimmingCharacters(in: .whitespacesAndNewlines).count >= 20
-        let isLocationValid = !location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        let isTimeRangeValid = selectedTimeRange.start > 0 && selectedTimeRange.end > 0
-        
-        isNextEnabled = (isTitleValid && isIntroductionValid) || isLocationValid || isTimeRangeValid
     }
 }

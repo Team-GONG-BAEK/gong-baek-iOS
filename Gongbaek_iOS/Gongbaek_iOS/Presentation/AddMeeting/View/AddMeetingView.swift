@@ -1,4 +1,4 @@
-//
+///
 //  CycleSelect.swift
 //  Gongbaek_iOS
 //
@@ -10,10 +10,11 @@ import SwiftUI
 struct AddMeetingView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
+    @State private var isNextEnabled: Bool = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ProgressBar(currentIndex: $viewModel.currentIndex)
+            ProgressBar(currentIndex: 0)
                 .padding(.bottom, 40)
             
             VStack(alignment: .leading, spacing: 0) {
@@ -23,11 +24,11 @@ struct AddMeetingView: View {
                 HStack(spacing: 8) {
                     SmallButton(text: "한번만 볼래요", isTapped: viewModel.selectedCycle == .once) {
                         viewModel.selectedCycle = .once
-                        viewModel.isNextEnabled = true
+                        isNextEnabled = true
                     }
                     SmallButton(text: "매주 볼래요", isTapped: viewModel.selectedCycle == .weekly) {
                         viewModel.selectedCycle = .weekly
-                        viewModel.isNextEnabled = true
+                        isNextEnabled = true
                     }
                 }
                 .padding(.bottom, 48)
@@ -49,7 +50,7 @@ struct AddMeetingView: View {
             .padding(.horizontal, 16)
             
             Spacer()
-            BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
+            BasicButton(text: "다음", isActivated: isNextEnabled) {
                 viewModel.goToNextPage()
                 if viewModel.selectedCycle == .once {
                     navigationManager.push(view: FillingDestination.calendarSelect)
@@ -57,6 +58,7 @@ struct AddMeetingView: View {
                     navigationManager.push(view: FillingDestination.weekDaySelect)
                 }
             }
+            .disabled(!isNextEnabled)
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
         }

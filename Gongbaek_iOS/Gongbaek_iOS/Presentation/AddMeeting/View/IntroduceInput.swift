@@ -11,12 +11,14 @@ struct IntroduceInput: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
     
+    @State private var isNextEnabled: Bool = false
+    
     @State var showError: Bool
     @State var isFocused: Bool
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
-            ProgressBar(currentIndex: $viewModel.currentIndex)
+            ProgressBar(currentIndex: 6)
                 .padding(.bottom, 40)
             
             VStack(alignment: .leading, spacing: 0) {
@@ -29,25 +31,36 @@ struct IntroduceInput: View {
                     state: .title
                 )
                 .padding(.bottom, 28)
-                .onChange(of: viewModel.title) { _ in
-                    viewModel.updateNextButtonState()
-                }
                 
                 CustomTextEditor(text: $viewModel.introduction)
-                    .onChange(of: viewModel.introduction) { _ in
-                        viewModel.updateNextButtonState()
-                    }
+                    .padding(.bottom, 40)
             }
             .padding(.horizontal, 16)
             
             Spacer()
-            BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
+            BasicButton(text: "다음", isActivated: isNextEnabled) {
                 viewModel.goToNextPage()
                 navigationManager.push(view: FillingDestination.checkInputInfo)
             }
+            .disabled(!isNextEnabled)
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
         }
+        .onChange(of: viewModel.title) { _ in
+            updateNextButtonState()
+        }
+        .onChange(of: viewModel.introduction) { _ in
+            updateNextButtonState()
+        }
         .customNavigationBar(showBackButton: true)
+    }
+}
+
+extension IntroduceInput {
+    private func updateNextButtonState() {
+        let isTitleValid = viewModel.title.trimmingCharacters(in: .whitespacesAndNewlines).count >= 2
+        let isIntroductionValid = viewModel.introduction.trimmingCharacters(in: .whitespacesAndNewlines).count >= 20
+        
+        isNextEnabled = isTitleValid && isIntroductionValid 
     }
 }
