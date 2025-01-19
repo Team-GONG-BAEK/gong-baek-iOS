@@ -15,6 +15,7 @@ struct SignupView: View {
             SignupDestination.profileSelection.view()
             .navigationDestination(for: SignupDestination.self) { type in
                 type.view()
+                    .toolbar(.hidden, for: .navigationBar)
             }
         }
         .environmentObject(navigationManager)
