@@ -14,7 +14,7 @@ struct MeetingRoomCommentData {
  }
 
  let dummyMeetingRoomCommentData: MeetingRoomCommentData = MeetingRoomCommentData(
-     commentCount: 3,
+     commentCount: 10,
      groupId: 1,
      groupType: "ONCE",
      groupStatus: "CLOSED",
@@ -29,14 +29,14 @@ struct MeetingRoomCommentData {
         Comment(
              isGroupHost: true,
              isWriter: false,
-             nickname: "로이임탄",
-             body: "우리는 강남에서 활동해요!",
+             nickname: "희은이",
+             body: "우리는 판교에서 활동하장 ㅋ !",
              createdAt: "12/27 19:21"
          ),
         Comment(
              isGroupHost: false,
              isWriter: false,
-             nickname: "훈발놈",
+             nickname: "현민",
              body: "어떤 방식으로 진행되는지 궁금합니다!",
              createdAt: "12/27 19:22"
          ),
@@ -45,6 +45,48 @@ struct MeetingRoomCommentData {
              isWriter: true,
              nickname: "아기응애",
              body: "난 안궁금 ! ㅋㅋ",
+             createdAt: "12/28 19:22"
+         ),
+        Comment(
+             isGroupHost: false,
+             isWriter: false,
+             nickname: "민서02",
+             body: "ㄴ난 안궁금 ! ㅋㅋ",
+             createdAt: "12/28 19:22"
+         ),
+        Comment(
+             isGroupHost: false,
+             isWriter: false,
+             nickname: "희은",
+             body: "난 완전 안궁금 ! ㅋㅋ",
+             createdAt: "12/28 19:22"
+         ),
+        Comment(
+             isGroupHost: false,
+             isWriter: false,
+             nickname: "나연",
+             body: "난 궁금 ! ㅋㅋ",
+             createdAt: "12/28 19:22"
+         ),
+        Comment(
+             isGroupHost: false,
+             isWriter: false,
+             nickname: "민서",
+             body: "ㄴ난 안궁금 ! ㅋㅋ",
+             createdAt: "12/28 19:22"
+         ),
+        Comment(
+             isGroupHost: false,
+             isWriter: false,
+             nickname: "효준",
+             body: "ㄴㄴ난 안궁금 ! ㅋㅋ",
+             createdAt: "12/28 19:22"
+         ),
+        Comment(
+             isGroupHost: false,
+             isWriter: false,
+             nickname: "현진",
+             body: "ㄴㄴㄴ난 안궁금 ! ㅋㅋ",
              createdAt: "12/28 19:22"
          )
      ]
