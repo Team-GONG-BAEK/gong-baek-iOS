@@ -24,13 +24,13 @@ struct SchoolMajorSearchView: View {
             ) { searchWord in
                 // TODO: 뷰모델 검색 api 연결
                 print(searchWord)
-                switch state {
-                case .school:
-                    searchResultList = SchoolNameListModel.mockData().schoolNames
-                case .major:
-                    searchResultList = MajorNameListModel.mockData().schoolMajors
-                }
+                getSearchResultList()
             }
+            .onSubmit {
+                getSearchResultList()
+            }
+            .submitLabel(.search)
+            .environment(\.locale, Locale(identifier: "ko_KR"))
             .padding(.top, 12)
             .padding(.horizontal, 16)
             
@@ -73,6 +73,15 @@ struct SchoolMajorSearchView: View {
         }
         .listStyle(.plain)
         .padding(.top, 12)
+    }
+    
+    private func getSearchResultList() {
+        switch state {
+        case .school:
+            searchResultList = SchoolNameListModel.mockData().schoolNames
+        case .major:
+            searchResultList = MajorNameListModel.mockData().schoolMajors
+        }
     }
 }
 
