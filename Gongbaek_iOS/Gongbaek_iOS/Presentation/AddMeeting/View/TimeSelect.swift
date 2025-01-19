@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TimeSelect: View {
     @EnvironmentObject var navigationManager: NavigationManager
-    @StateObject private var viewModel = AddMeetingViewModel()
+    @ObservedObject var viewModel: AddMeetingViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -64,6 +64,7 @@ struct TimeSelect: View {
             
             Spacer()
             BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
+                viewModel.goToNextPage()
                 navigationManager.push(view: FillingDestination.categorySelect)
             }
             .padding(.vertical, 20)

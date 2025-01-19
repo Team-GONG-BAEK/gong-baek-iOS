@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class AddMeetingViewModel: ObservableObject {
+class AddMeetingViewModel: ObservableObject, Identifiable {
     let totalSteps: Int = 8
     @Published var currentIndex: Int = 0
     @Published var isNextEnabled: Bool = false
@@ -41,12 +41,16 @@ class AddMeetingViewModel: ObservableObject {
     func goToNextPage() {
         guard isNextEnabled else { return }
         
-        if currentIndex == 0 {
-            currentIndex = 1
-        } else {
+        if currentIndex < totalSteps {
             currentIndex += 1
         }
         isNextEnabled = false
+    }
+    
+    func goToPreviousPage() {
+        if currentIndex > 0 {
+            currentIndex -= 1
+        }
     }
     
     private func updateSelectedWeekDay() {
@@ -74,7 +78,7 @@ class AddMeetingViewModel: ObservableObject {
         guard let date = selectedWeekDate else { return nil }
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        formatter.timeZone = TimeZone(identifier: "Asia/Seoul") // KST 적용
+        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
         return formatter.string(from: date)
     }
     
@@ -99,12 +103,13 @@ class AddMeetingViewModel: ObservableObject {
         }
     }
     
+    //TODO: 각 뷰별로 활성화 로직 메서드 분리
     func updateNextButtonState() {
         let isTitleValid = title.trimmingCharacters(in: .whitespacesAndNewlines).count >= 2
         let isIntroductionValid = introduction.trimmingCharacters(in: .whitespacesAndNewlines).count >= 20
         let isLocationValid = !location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         let isTimeRangeValid = selectedTimeRange.start > 0 && selectedTimeRange.end > 0
-
+        
         isNextEnabled = (isTitleValid && isIntroductionValid) || isLocationValid || isTimeRangeValid
     }
 }

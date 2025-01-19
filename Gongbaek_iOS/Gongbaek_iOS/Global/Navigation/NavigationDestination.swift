@@ -37,26 +37,26 @@ enum FillingDestination: Hashable {
     case checkInputInfo
     
     @ViewBuilder
-    func view() -> some View {
+    func view(viewModel: AddMeetingViewModel) -> some View { 
         switch self {
         case .addMeeting:
-            AddMeetingView()
+            AddMeetingView(viewModel: viewModel)
         case .calendarSelect:
-            CalendarSelectView()
+            CalendarSelectView(viewModel: viewModel)
         case .weekDaySelect:
-            WeekDaySelect()
+            WeekDaySelect(viewModel: viewModel)
         case .timeSelect:
-            TimeSelect()
+            TimeSelect(viewModel: viewModel)
         case .categorySelect:
-            CategorySelect()
+            CategorySelect(viewModel: viewModel)
         case .coverImageSelect:
-            CoverImageSelect()
+            CoverImageSelect(viewModel: viewModel)
         case .locationInput:
-            LocationInput(showError: false, isFocused: false)
+            LocationInput(viewModel: viewModel, showError: false, isFocused: false)
         case .introduceInput:
-            IntroduceInput(showError: false, isFocused: false)
+            IntroduceInput(viewModel: viewModel, showError: false, isFocused: false)
         case .checkInputInfo:
-            CheckInputInfo()
+            CheckInputInfo(viewModel: viewModel)
         }
     }
 }

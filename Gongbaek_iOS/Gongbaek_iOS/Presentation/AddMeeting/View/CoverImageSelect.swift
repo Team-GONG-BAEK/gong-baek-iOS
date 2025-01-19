@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CoverImageSelect: View {
     @EnvironmentObject var navigationManager: NavigationManager
-    @StateObject private var viewModel = AddMeetingViewModel()
+    @ObservedObject var viewModel: AddMeetingViewModel
     
     @State private var selectedCoverIndex: Int? = nil
     
@@ -45,6 +45,7 @@ struct CoverImageSelect: View {
             .padding(.horizontal, 16)
             
             BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
+                viewModel.goToNextPage()
                 navigationManager.push(view: FillingDestination.locationInput)
             }
             .padding(.vertical, 20)
