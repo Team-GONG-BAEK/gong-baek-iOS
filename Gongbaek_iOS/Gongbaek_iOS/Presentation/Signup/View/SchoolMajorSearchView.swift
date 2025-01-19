@@ -10,6 +10,7 @@ import SwiftUI
 struct SchoolMajorSearchView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @Binding var selectedResult: String
+    @State private var temporarySelectedResult: String = ""
     @State private var searchWord = ""
     @State private var searchResultList: [String] = []
     let state: SearchViewState
@@ -39,9 +40,9 @@ struct SchoolMajorSearchView: View {
             
             BasicButton(
                 text: "적용",
-                isActivated: !selectedResult.isEmpty
+                isActivated: !temporarySelectedResult.isEmpty
             ) {
-                
+                selectedResult = temporarySelectedResult
                 navigationManager.dismissPresented()
             }
             .padding(.top, 20)
@@ -49,23 +50,26 @@ struct SchoolMajorSearchView: View {
             .padding(.bottom, 20)
         }
         .customNavigationBar(title: "검색하기", showXButton: true)
+        .onAppear {
+            temporarySelectedResult = selectedResult
+        }
     }
     
     private func searchResultListView() -> some View {
         List(searchResultList, id: \.self) { item in
-            let isSelected = selectedResult == item
+            let isSelected = temporarySelectedResult == item
             
             SearchListCell(
                 name: item,
                 isSelected:.constant(isSelected)
             )
-                .onTapGesture {
-                    if isSelected {
-                        selectedResult = ""
-                    } else {
-                        selectedResult = item
-                    }
+            .onTapGesture {
+                if isSelected {
+                    temporarySelectedResult = ""
+                } else {
+                    temporarySelectedResult = item
                 }
+            }
         }
         .listStyle(.plain)
         .padding(.top, 12)
