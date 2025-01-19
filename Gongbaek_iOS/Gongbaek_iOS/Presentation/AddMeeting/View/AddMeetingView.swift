@@ -51,7 +51,6 @@ struct AddMeetingView: View {
             
             Spacer()
             BasicButton(text: "다음", isActivated: isNextEnabled) {
-                viewModel.goToNextPage()
                 if viewModel.selectedCycle == .once {
                     navigationManager.push(view: FillingDestination.calendarSelect)
                 } else {

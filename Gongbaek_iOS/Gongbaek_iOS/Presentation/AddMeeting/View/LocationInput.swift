@@ -54,7 +54,6 @@ struct LocationInput: View {
             
             Spacer()
             BasicButton(text: "다음", isActivated: isNextEnabled) {
-                viewModel.goToNextPage()
                 navigationManager.push(view: FillingDestination.introduceInput)
             }
             .disabled(!isNextEnabled)

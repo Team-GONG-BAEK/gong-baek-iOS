@@ -49,7 +49,6 @@ struct CoverImageSelect: View {
             .padding(.horizontal, 16)
             
             BasicButton(text: "다음", isActivated: isNextEnabled) {
-                viewModel.goToNextPage()
                 navigationManager.push(view: FillingDestination.locationInput)
             }
             .disabled(!isNextEnabled)

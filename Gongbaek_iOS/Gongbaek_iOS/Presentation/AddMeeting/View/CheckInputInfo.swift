@@ -66,7 +66,7 @@ struct CheckInputInfo: View {
             
             Spacer()
             BasicButton(text: "완료", isActivated: true) {
-                viewModel.goToNextPage()
+//                viewModel.goToNextPage()
             }
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
