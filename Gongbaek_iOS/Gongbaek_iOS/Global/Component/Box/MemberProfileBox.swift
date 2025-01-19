@@ -21,7 +21,7 @@ struct MemberProfileBox: View {
                 .background(.gray04) // MARK: - TODO: 이미지 삽입 시 삭제
                 .foregroundStyle(.mainOrange) // MARK: - TODO: 이미지 삽입 시 삭제
                 .overlay(
-                    isOwner ? OwnerChip().padding(6) : nil,
+                    isOwner ? OwnerChip(ownerChipType: .gray09).padding(6) : nil,
                     alignment: .bottomLeading
                 )
                 .padding(.horizontal, 7)
