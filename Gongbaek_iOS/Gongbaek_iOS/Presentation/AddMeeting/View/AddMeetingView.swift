@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddMeetingView: View {
     @EnvironmentObject var navigationManager: NavigationManager
-    @ObservedObject var viewModel: AddMeetingViewModel
+    @StateObject var viewModel = AddMeetingViewModel()
     @State private var isNextEnabled: Bool = false
     
     var body: some View {
@@ -52,9 +52,9 @@ struct AddMeetingView: View {
             Spacer()
             BasicButton(text: "다음", isActivated: isNextEnabled) {
                 if viewModel.selectedCycle == .once {
-                    navigationManager.push(view: FillingDestination.calendarSelect)
+                    navigationManager.push(view: AddMeetingDestination.calendarSelect(viewModel: viewModel))
                 } else {
-                    navigationManager.push(view: FillingDestination.weekDaySelect)
+//                    navigationManager.push(view: AddMeetingDestination.weekDaySelect(viewModel: viewModel))
                 }
             }
             .disabled(!isNextEnabled)

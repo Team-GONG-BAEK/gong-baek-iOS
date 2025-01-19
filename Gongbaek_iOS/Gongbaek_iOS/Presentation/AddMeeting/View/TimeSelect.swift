@@ -64,7 +64,7 @@ struct TimeSelect: View {
 
             Spacer()
             BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
-                navigationManager.push(view: FillingDestination.categorySelect)
+                navigationManager.push(view: AddMeetingDestination.categorySelect(viewModel: viewModel))
             }
             .padding(.vertical, 20)
             .padding(.horizontal, 16)

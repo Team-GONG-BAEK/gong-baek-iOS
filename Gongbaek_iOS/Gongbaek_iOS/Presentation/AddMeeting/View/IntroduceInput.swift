@@ -13,8 +13,8 @@ struct IntroduceInput: View {
     
     @State private var isNextEnabled: Bool = false
     
-    @State var showError: Bool
-    @State var isFocused: Bool
+    @State var showError: Bool = false
+    @State var isFocused: Bool = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
@@ -39,7 +39,7 @@ struct IntroduceInput: View {
             
             Spacer()
             BasicButton(text: "다음", isActivated: isNextEnabled) {
-                navigationManager.push(view: FillingDestination.checkInputInfo)
+                navigationManager.push(view: AddMeetingDestination.checkInputInfo(viewModel: viewModel))
             }
             .disabled(!isNextEnabled)
             .padding(.vertical, 20)

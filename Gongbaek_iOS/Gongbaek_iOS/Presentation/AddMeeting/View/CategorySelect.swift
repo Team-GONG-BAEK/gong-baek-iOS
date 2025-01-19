@@ -43,7 +43,7 @@ struct CategorySelect: View {
             
             Spacer()
             BasicButton(text: "다음", isActivated: isNextEnabled) {
-                navigationManager.push(view: FillingDestination.coverImageSelect)
+                navigationManager.push(view: AddMeetingDestination.coverImageSelect(viewModel: viewModel))
             }
             .disabled(!isNextEnabled)
             .padding(.vertical, 20)

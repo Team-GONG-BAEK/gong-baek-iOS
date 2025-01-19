@@ -14,8 +14,8 @@ struct LocationInput: View {
     @State private var isNextEnabled: Bool = false
     
     @State private var location: String = ""
-    @State var showError: Bool
-    @State var isFocused: Bool
+    @State var showError: Bool = false
+    @State var isFocused: Bool = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
@@ -54,7 +54,7 @@ struct LocationInput: View {
             
             Spacer()
             BasicButton(text: "다음", isActivated: isNextEnabled) {
-                navigationManager.push(view: FillingDestination.introduceInput)
+                navigationManager.push(view: AddMeetingDestination.introduceInput(viewModel: viewModel))
             }
             .disabled(!isNextEnabled)
             .padding(.vertical, 20)

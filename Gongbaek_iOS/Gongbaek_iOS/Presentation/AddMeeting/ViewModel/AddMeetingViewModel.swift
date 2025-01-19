@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-class AddMeetingViewModel: ObservableObject, Identifiable {
+class AddMeetingViewModel: ObservableObject {
+    let id = UUID()
     
     @Published var selectedCycle: CycleState? = nil
     @Published var selectedWeekDate: Date? = nil {

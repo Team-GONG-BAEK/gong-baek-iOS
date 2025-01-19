@@ -38,7 +38,7 @@ struct WeekDaySelect: View {
             
             Spacer()
             BasicButton(text: "다음", isActivated: isNextEnabled) {
-                navigationManager.push(view: FillingDestination.timeSelect)
+                navigationManager.push(view: AddMeetingDestination.timeSelect(viewModel: viewModel))
             }
             .disabled(!isNextEnabled)
             .padding(.vertical, 20)
