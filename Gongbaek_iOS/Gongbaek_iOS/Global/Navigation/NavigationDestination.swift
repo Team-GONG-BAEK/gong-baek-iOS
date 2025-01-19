@@ -26,7 +26,39 @@ enum SignupDestination: Hashable {
 }
 
 enum FillingDestination: Hashable {
-    // TODO: 채우기 모든 화면 작성
+    case addMeeting
+    case calendarSelect
+    case weekDaySelect
+    case timeSelect
+    case categorySelect
+    case coverImageSelect
+    case locationInput
+    case introduceInput
+    case checkInputInfo
+    
+    @ViewBuilder
+    func view() -> some View {
+        switch self {
+        case .addMeeting:
+            AddMeetingView()
+        case .calendarSelect:
+            CalendarSelectView()
+        case .weekDaySelect:
+            WeekDaySelect()
+        case .timeSelect:
+            TimeSelect()
+        case .categorySelect:
+            CategorySelect()
+        case .coverImageSelect:
+            CoverImageSelect()
+        case .locationInput:
+            LocationInput(showError: false, isFocused: false)
+        case .introduceInput:
+            IntroduceInput(showError: false, isFocused: false)
+        case .checkInputInfo:
+            CheckInputInfo()
+        }
+    }
 }
 
 enum MyFillingDestination: Hashable {

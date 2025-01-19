@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct WeekDaySelect: View {
-    @StateObject var viewModel: AddMeetingViewModel
+    @EnvironmentObject var navigationManager: NavigationManager
+    @StateObject private var viewModel = AddMeetingViewModel()
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -41,9 +42,4 @@ struct WeekDaySelect: View {
             .padding(.horizontal, 16)
         }
     }
-}
-
-#Preview {
-    let dummyViewModel = AddMeetingViewModel() // 더미 뷰 모델 생성
-    WeekDaySelect(viewModel: dummyViewModel)
 }

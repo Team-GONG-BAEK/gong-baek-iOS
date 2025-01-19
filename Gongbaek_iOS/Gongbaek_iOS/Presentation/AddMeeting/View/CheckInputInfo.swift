@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CheckInputInfo: View {
-    @StateObject var viewModel = AddMeetingViewModel()
+    @StateObject private var viewModel = AddMeetingViewModel()
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -71,6 +71,8 @@ struct CheckInputInfo: View {
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
         }
+        .customNavigationBar(showBackButton: true)
+
     }
 }
 

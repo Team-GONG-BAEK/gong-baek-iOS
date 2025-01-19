@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct LocationInput: View {
-    @StateObject var viewModel: AddMeetingViewModel
+    @EnvironmentObject var navigationManager: NavigationManager
+    @StateObject private var viewModel = AddMeetingViewModel()
 
     @State private var location: String = ""
     @State var showError: Bool
@@ -51,16 +52,12 @@ struct LocationInput: View {
             
             Spacer()
             BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
-                viewModel.goToNextPage()
+                navigationManager.push(view: FillingDestination.introduceInput)
             }
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
         }
-        
+        .customNavigationBar(showBackButton: true)
     }
 }
 
-#Preview {
-    let viewModel = AddMeetingViewModel()
-    LocationInput(viewModel: viewModel, showError: false, isFocused: false)
-}

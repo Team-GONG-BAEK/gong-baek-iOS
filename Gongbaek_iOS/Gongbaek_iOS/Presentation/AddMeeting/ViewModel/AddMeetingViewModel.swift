@@ -65,6 +65,8 @@ class AddMeetingViewModel: ObservableObject {
         }
         
         isNextEnabled = selectedWeekDay != nil
+        print("✅ 선택된 날짜: \(formattedDate ?? "N/A")")  // 📅 디버깅 로그
+        print("✅ 선택된 요일: \(selectedWeekDay?.rawValue ?? "N/A")")
     }
     
     

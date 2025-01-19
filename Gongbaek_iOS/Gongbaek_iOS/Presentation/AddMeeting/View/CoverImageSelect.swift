@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct CoverImageSelect: View {
-    @StateObject var viewModel: AddMeetingViewModel
+    @EnvironmentObject var navigationManager: NavigationManager
+    @StateObject private var viewModel = AddMeetingViewModel()
+    
     @State private var selectedCoverIndex: Int? = nil
     
     private let columns = [
@@ -43,10 +45,11 @@ struct CoverImageSelect: View {
             .padding(.horizontal, 16)
             
             BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
-                viewModel.goToNextPage()
+                navigationManager.push(view: FillingDestination.locationInput)
             }
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
         }
+        .customNavigationBar(showBackButton: true)
     }
 }
