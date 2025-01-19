@@ -33,10 +33,6 @@ struct FillingView: View {
             
         }
         .customNavigationBar(title: "채우기", showXButton: false)
-        .navigationDestination(for: FillingDestination.self) { type in
-            type.view()
-                .toolbar(.hidden, for: .navigationBar)
-        }
     }
 }
 

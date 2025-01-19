@@ -54,7 +54,7 @@ struct AddMeetingView: View {
                 if viewModel.selectedCycle == .once {
                     navigationManager.push(view: AddMeetingDestination.calendarSelect(viewModel: viewModel))
                 } else {
-//                    navigationManager.push(view: AddMeetingDestination.weekDaySelect(viewModel: viewModel))
+                    navigationManager.push(view: AddMeetingDestination.weekDaySelect(viewModel: viewModel))
                 }
             }
             .disabled(!isNextEnabled)
