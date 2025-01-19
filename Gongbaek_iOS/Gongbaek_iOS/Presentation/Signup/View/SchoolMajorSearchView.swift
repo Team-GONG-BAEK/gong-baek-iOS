@@ -9,49 +9,77 @@ import SwiftUI
 
 struct SchoolMajorSearchView: View {
     @EnvironmentObject var navigationManager: NavigationManager
+    @FocusState private var isTextFieldFocused
     @Binding var selectedResult: String
     @State private var temporarySelectedResult: String = ""
+    @State private var textFieldText = ""
     @State private var searchWord = ""
     @State private var searchResultList: [String] = []
+    @State private var isMajorDirectRegistration = false
     let state: SearchViewState
     
     var body: some View {
         VStack {
-            SearchTextField(
-                inputText: $searchWord,
-                isButton: false,
-                state: state
-            ) { searchWord in
-                // TODO: 뷰모델 검색 api 연결
-                print(searchWord)
-                getSearchResultList()
-            }
-            .onSubmit {
-                getSearchResultList()
-            }
-            .submitLabel(.search)
-            .environment(\.locale, Locale(identifier: "ko_KR"))
-            .padding(.top, 12)
-            .padding(.horizontal, 16)
+            searchTextField()
             
-            searchResultListView()
-            
-            Spacer()
-            
-            BasicButton(
-                text: "적용",
-                isActivated: !temporarySelectedResult.isEmpty
-            ) {
-                selectedResult = temporarySelectedResult
-                navigationManager.dismissPresented()
+            if !searchWord.isEmpty {
+                if searchResultList.isEmpty {
+                    emptyView()
+                } else {
+                    searchResultListView()
+                }
+                
+                if state == .major {
+                    MajorDirectRegistrationButton(majorName: searchWord) {
+                        selectedResult = searchWord
+                        navigationManager.dismissPresented()
+                    }
+                    .padding(.horizontal, 16)
+                }
+            } else {
+                Spacer()
             }
-            .padding(.top, 20)
-            .padding(.horizontal, 16)
-            .padding(.bottom, 20)
+            
+            applyButton()
         }
         .customNavigationBar(title: "검색하기", showXButton: true)
         .onAppear {
             temporarySelectedResult = selectedResult
+        }
+    }
+    
+    private func searchTextField() -> some View {
+        SearchTextField(
+            inputText: $textFieldText,
+            isButton: false,
+            state: state
+        ) { textFieldText in
+            if !textFieldText.isEmpty {
+                // TODO: 뷰모델 검색 api 연결
+                self.searchWord = textFieldText
+                getSearchResultList()
+                isTextFieldFocused = false
+            }
+        }
+        .onSubmit {
+            searchWord = textFieldText
+            getSearchResultList()
+        }
+        .submitLabel(.search)
+        .focused($isTextFieldFocused)
+        .environment(\.locale, Locale(identifier: "ko_KR"))
+        .padding(.top, 12)
+        .padding(.horizontal, 16)
+    }
+    
+    private func emptyView() -> some View {
+        VStack {
+            Spacer()
+            Text("검색결과가 없습니다.\n검색어가 올바른지 확인하고 다시 검색해주세요.")
+                .pretendardFont(.caption2_m_12)
+                .foregroundStyle(.gray06)
+                .multilineTextAlignment(.center)
+            Spacer()
         }
     }
     
@@ -75,6 +103,22 @@ struct SchoolMajorSearchView: View {
         .padding(.top, 12)
     }
     
+    private func applyButton() -> some View {
+        BasicButton(
+            text: "적용",
+            isActivated: !temporarySelectedResult.isEmpty
+        ) {
+            selectedResult = temporarySelectedResult
+            navigationManager.dismissPresented()
+        }
+        .padding(.top, 20)
+        .padding(.horizontal, 16)
+        .padding(.bottom, 20)
+    }
+}
+
+extension SchoolMajorSearchView {
+    
     private func getSearchResultList() {
         switch state {
         case .school:
@@ -85,40 +129,8 @@ struct SchoolMajorSearchView: View {
     }
 }
 
-struct SearchListCell: View {
-    let name: String
-    @Binding var isSelected: Bool
-    
-    var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(isSelected ? .subOrange : .grayWhite)
-                .frame(maxWidth: .infinity, minHeight: 52)
-            
-            HStack {
-                Text(name)
-                    .pretendardFont(isSelected ? .body1_m_16 : .body1_r_16)
-                    .foregroundStyle(isSelected ? .mainOrange : .gray08)
-                
-                Spacer()
-                
-                if isSelected {
-                    Image(.icCheck24)
-                        .renderingMode(.original)
-                        .frame(width: 24, height: 24)
-                        .scaledToFit()
-                }
-            }
-            .padding(.horizontal, 16)
-        }
-        .listRowInsets(EdgeInsets())
-        .listRowSeparator(.hidden)
-        .frame(maxWidth: .infinity, minHeight: 52)
-    }
-}
-
 #Preview {
     @Previewable @State var result = ""
     
-    SchoolMajorSearchView(selectedResult: $result, state: .school)
+    SchoolMajorSearchView(selectedResult: $result, state: .major)
 }
