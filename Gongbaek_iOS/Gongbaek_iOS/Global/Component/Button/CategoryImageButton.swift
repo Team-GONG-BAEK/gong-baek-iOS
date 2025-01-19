@@ -20,7 +20,7 @@ struct CategoryImageButton: View {
                 if let image = category.categoryImage { image
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 50, height: 50)
+                        .frame(width: 78, height: 78)
                 }
                 
                 Text(category.categoryName)
