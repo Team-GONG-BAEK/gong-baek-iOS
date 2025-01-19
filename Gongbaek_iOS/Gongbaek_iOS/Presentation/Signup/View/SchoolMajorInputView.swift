@@ -13,7 +13,7 @@ struct SchoolMajorInputView: View {
     @State var majorName = ""
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             ProgressBar(currentIndex: 2)
             
             TitleTextBox(
@@ -51,8 +51,7 @@ struct SchoolMajorInputView: View {
                 text: "다음",
                 isActivated: !schoolName.isEmpty && !majorName.isEmpty
             ) {
-                // TODO: 다음 화면으로 이동
-                print("")
+                navigationManager.push(view: SignupDestination.gradeAdmissionYearInput)
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 20)

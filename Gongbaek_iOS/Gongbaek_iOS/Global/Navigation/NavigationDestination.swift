@@ -11,6 +11,7 @@ enum SignupDestination: Hashable {
     case profileSelection
     case nicknameInput
     case schoolMajorInput
+    case gradeAdmissionYearInput
     
     @ViewBuilder
     func view() -> some View {
@@ -21,6 +22,8 @@ enum SignupDestination: Hashable {
             NicknameInputView()
         case .schoolMajorInput:
             SchoolMajorInputView()
+        case .gradeAdmissionYearInput:
+            GradeAdmissionYearInputView()
         }
     }
 }
