@@ -34,7 +34,7 @@ struct LocationInput: View {
                     viewModel.updateNextButtonState()
                 }
                 
-                TitleTextBox(title: "인원을 선택해주세요.", subtitle: "본인 포함 최소 2명부터 최대 10명까지 모집 가능해요.")
+                TitleTextBox(title: "인원을 선택해주세요.", subtitle: "본인 포함 최소 2명부터 최대 10명까지 모집 가능해요.", highlightSubtitleText: "최소 2명부터 최대 10명")
                     .padding(.bottom, 20)
                 
                 HStack(spacing: 10) {

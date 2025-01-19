@@ -16,7 +16,7 @@ struct CheckInputInfo: View {
                 .padding(.bottom, 40)
             
             VStack(alignment: .leading, spacing: 0) {
-                TitleTextBox(title: "소개글을 작성해주세요.", subtitle: nil)
+                TitleTextBox(title: "입력한 정보가 맞는지 확인해주세요!", subtitle: nil)
                     .padding(.bottom, 28)
                 
                 Image(.sample)
@@ -26,7 +26,7 @@ struct CheckInputInfo: View {
                     .cornerRadius(4)
                     .padding(.bottom, 28)
                 
-                Text("화석의 튜스데이 점심 클럽")
+                Text(viewModel.title)
                     .font(.pretendard(.title2_b_18))
                     .foregroundColor(.gray10)
                     .padding(.bottom, 10)
