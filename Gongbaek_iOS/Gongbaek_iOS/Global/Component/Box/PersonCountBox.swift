@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PersonCountBox: View {
-    var num: Int = 2
+    var num: Int
     
     var body: some View {
         Text("\(num)명")
@@ -26,5 +26,5 @@ struct PersonCountBox: View {
 }
 
 #Preview {
-    PersonCountBox()
+    PersonCountBox(num: 2)
 }
