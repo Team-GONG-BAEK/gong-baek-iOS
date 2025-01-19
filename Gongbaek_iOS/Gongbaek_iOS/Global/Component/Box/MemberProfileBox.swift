@@ -14,23 +14,26 @@ struct MemberProfileBox: View {
     
     var body: some View {
         VStack(spacing: 6) {
-            Image(profileImage) // MARK: - TODO: 이미지 네이밍 수정
+            Image(profileImage) //TODO: 이미지 네이밍 수정
                 .resizable()
-                .frame(width: 80, height: 80)
                 .scaledToFill()
-                .background(.gray04) // MARK: - TODO: 이미지 삽입 시 삭제
-                .foregroundStyle(.mainOrange) // MARK: - TODO: 이미지 삽입 시 삭제
+                .frame(width: 80, height: 80)
+                .clipShape(RoundedRectangle(cornerRadius: 2))
                 .overlay(
                     isOwner ? OwnerChip(ownerChipType: .gray09).padding(6) : nil,
                     alignment: .bottomLeading
                 )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 2)
+                        .stroke(.gray02, lineWidth: 1)
+                )
                 .padding(.horizontal, 7)
-            
+ 
             Text(nickname)
                 .pretendardFont(.caption1_m_13)
                 .foregroundStyle(.gray10)
         }
-        .background(Color.red)
+        .background(.grayWhite)
     }
 }
 
