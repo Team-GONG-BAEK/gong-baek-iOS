@@ -18,7 +18,7 @@ enum SignupDestination: Hashable {
         case .profileSelection:
             ProfileSelectionView()
         case .nicknameInput:
-            Text("nicknameInput")
+            NicknameInputView()
         case .schoolMajorInput:
             Text("schoolMajorInput")
         }
