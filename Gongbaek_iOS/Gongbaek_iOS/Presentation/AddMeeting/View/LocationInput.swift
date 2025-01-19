@@ -9,8 +9,8 @@ import SwiftUI
 
 struct LocationInput: View {
     @EnvironmentObject var navigationManager: NavigationManager
-    @StateObject private var viewModel = AddMeetingViewModel()
-
+    @ObservedObject var viewModel: AddMeetingViewModel
+    
     @State private var location: String = ""
     @State var showError: Bool
     @State var isFocused: Bool
@@ -52,6 +52,7 @@ struct LocationInput: View {
             
             Spacer()
             BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
+                viewModel.goToNextPage()
                 navigationManager.push(view: FillingDestination.introduceInput)
             }
             .padding(.vertical, 20)

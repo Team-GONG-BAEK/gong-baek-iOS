@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WeekDaySelect: View {
     @EnvironmentObject var navigationManager: NavigationManager
-    @StateObject private var viewModel = AddMeetingViewModel()
+    @ObservedObject var viewModel: AddMeetingViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -37,9 +37,11 @@ struct WeekDaySelect: View {
             Spacer()
             BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
                 viewModel.goToNextPage()
+                navigationManager.push(view: FillingDestination.timeSelect)
             }
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
         }
+        .customNavigationBar(showBackButton: true)
     }
 }

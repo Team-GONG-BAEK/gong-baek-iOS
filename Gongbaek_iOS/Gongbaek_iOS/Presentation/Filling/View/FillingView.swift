@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FillingView: View {
     @StateObject private var viewModel = FillingViewModel()
+    @StateObject private var addViewModel = AddMeetingViewModel()
     @EnvironmentObject var navigationManager: NavigationManager
     
     var body: some View {
@@ -35,7 +36,7 @@ struct FillingView: View {
             }
             .customNavigationBar(title: "채우기", showXButton: false)
             .navigationDestination(for: FillingDestination.self) { type in
-                type.view()
+                type.view(viewModel: addViewModel)
                     .toolbar(.hidden, for: .navigationBar)
             }
         }

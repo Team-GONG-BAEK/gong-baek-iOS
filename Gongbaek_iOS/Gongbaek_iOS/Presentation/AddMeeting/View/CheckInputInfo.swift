@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CheckInputInfo: View {
-    @StateObject private var viewModel = AddMeetingViewModel()
+    @ObservedObject var viewModel: AddMeetingViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -34,21 +34,21 @@ struct CheckInputInfo: View {
                 VStack(alignment: .leading, spacing: 10) {
                     TimeBox(
                         state: .gray,
-                        text: "매주 수요일 12시 - 15시",
+                        text: "\(viewModel.selectedTimeRange)",
                         font: .pretendard(
                             .body1_m_16
                         )
                     )
                     LocationBox(
                         state: .gray,
-                        text: "세종관 1층 로비",
+                        text: "\(viewModel.location)",
                         font: .pretendard(
                             .body1_m_16
                         )
                     )
                     PersonBox(
                         state: .gray,
-                        text: "4명",
+                        text: "\(viewModel.maxPeopleCount)명",
                         font: .pretendard(
                             .body1_m_16
                         )
@@ -76,6 +76,3 @@ struct CheckInputInfo: View {
     }
 }
 
-#Preview {
-    CheckInputInfo()
-}

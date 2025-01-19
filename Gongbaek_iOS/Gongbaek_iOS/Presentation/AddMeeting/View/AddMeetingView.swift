@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddMeetingView: View {
     @EnvironmentObject var navigationManager: NavigationManager
-    @StateObject private var viewModel = AddMeetingViewModel()
+    @ObservedObject var viewModel: AddMeetingViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -50,7 +50,12 @@ struct AddMeetingView: View {
             
             Spacer()
             BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
-                navigationManager.push(view: FillingDestination.calendarSelect)
+                viewModel.goToNextPage()
+                if viewModel.selectedCycle == .once {
+                    navigationManager.push(view: FillingDestination.calendarSelect)
+                } else {
+                    navigationManager.push(view: FillingDestination.weekDaySelect)
+                }
             }
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
