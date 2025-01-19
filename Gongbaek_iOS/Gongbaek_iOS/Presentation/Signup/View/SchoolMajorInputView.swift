@@ -31,14 +31,14 @@ struct SchoolMajorInputView: View {
                     isButton: true,
                     state: .school
                 ) { _ in
-                    navigationManager.present(.schoolMajorSearchView(.school))
+                    navigationManager.present(.schoolMajorSearchView($schoolName, .school))
                 }
                 SearchTextField(
                     inputText: $majorName,
                     isButton: true,
                     state: .major
                 ) { _ in
-                    navigationManager.present(.schoolMajorSearchView(.major))
+                    navigationManager.present(.schoolMajorSearchView($majorName, .major))
                 }
             }
             .padding(.horizontal, 16)

@@ -39,11 +39,11 @@ enum HomeDestination: Hashable {
 
 /// Present 방식으로 화면 전환되는 Destination 정의
 enum PresentableDestination: Identifiable {
-    case schoolMajorSearchView(SearchViewState)
+    case schoolMajorSearchView(Binding<String>, SearchViewState)
 
     var id: String {
         switch self {
-        case let .schoolMajorSearchView(state):
+        case let .schoolMajorSearchView(_, state):
             return state.rawValue
         }
     }
@@ -51,8 +51,8 @@ enum PresentableDestination: Identifiable {
     @ViewBuilder
     func view() -> some View {
         switch self {
-        case let .schoolMajorSearchView(state):
-            SchoolMajorSearchView(state: state)
+        case let .schoolMajorSearchView(result, state):
+            SchoolMajorSearchView(selectedResult: result, state: state)
         }
     }
 }
