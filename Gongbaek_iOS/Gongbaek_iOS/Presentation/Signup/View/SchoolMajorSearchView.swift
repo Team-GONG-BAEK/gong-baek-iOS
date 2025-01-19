@@ -15,7 +15,6 @@ struct SchoolMajorSearchView: View {
     @State private var textFieldText = ""
     @State private var searchWord = ""
     @State private var searchResultList: [String] = []
-    @State private var isMajorDirectRegistration = false
     let state: SearchViewState
     
     var body: some View {
@@ -43,9 +42,6 @@ struct SchoolMajorSearchView: View {
             applyButton()
         }
         .customNavigationBar(title: "검색하기", showXButton: true)
-        .onAppear {
-            temporarySelectedResult = selectedResult
-        }
     }
     
     private func searchTextField() -> some View {
