@@ -12,6 +12,12 @@ enum SignupDestination: Hashable {
     case nicknameInput
     case schoolMajorInput
     case gradeAdmissionYearInput
+//    case mbtiSelection
+//    case sexSelection
+//    case selfIntroductionWriting
+//    case classTimeTableInput
+//    case freeTimeTableConversion
+//    case signupCompletion
     
     @ViewBuilder
     func view() -> some View {
@@ -24,6 +30,18 @@ enum SignupDestination: Hashable {
             SchoolMajorInputView()
         case .gradeAdmissionYearInput:
             GradeAdmissionYearInputView()
+//        case .mbtiSelection:
+//            MbtiSelectionView()
+//        case .sexSelection:
+//            SexSelectionView()
+//        case .selfIntroductionWriting:
+//            SelfIntroductionWritingView()
+//        case .classTimeTableInput:
+//            ClassTimeTableInputView()
+//        case .freeTimeTableConversion:
+//            FreeTimeTableConversionView()
+//        case .signupCompletion:
+//            SignupCompletionView()
         }
     }
 }

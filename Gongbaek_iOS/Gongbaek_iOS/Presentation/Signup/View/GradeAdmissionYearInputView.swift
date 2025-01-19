@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GradeAdmissionYearInputView: View {
     @State private var selectedGrade: GradeState? = nil
+    @State private var selectedYear: Int? = nil
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 2)
     
     var body: some View {
@@ -25,33 +26,52 @@ struct GradeAdmissionYearInputView: View {
             .padding(.bottom, 44)
             
             gradeButtons()
+            YearSelectButton(isSelected: selectedYear != nil) {
+                // TODO: 연도 피커뷰 바텀시트
+                selectedYear = 2025
+            }
+            .padding(.top, 24)
+            .padding(.horizontal, 16)
             
             Spacer()
             
-//            BasicButton(
-//                text: "다음",
-//                isActivated:
-//            ) {
-//                navigationManager.push(view: SignupDestination.gradeAdmissionYearInput)
-//            }
-//            .padding(.horizontal, 16)
-//            .padding(.bottom, 20)
+            BasicButton(
+                text: "다음",
+                isActivated: selectedGrade != nil && selectedYear != nil
+            ) {
+                print()
+//                navigationManager.push(view: SignupDestination.mbtiSelection)
+            }
+            .padding(.horizontal, 16)
+            .padding(.bottom, 20)
         }
         .customNavigationBar(showBackButton: true)
     }
     
     private func gradeButtons() -> some View {
-        LazyVGrid(columns: columns, spacing: 8) {
-            ForEach(GradeState.allCases.indices, id: \.self) { index in
-                SmallButton(
-                    text: GradeState.allCases[index].rawValue,
-                    isTapped: selectedGrade == GradeState.allCases[index]
-                ) {
-                    selectedGrade = GradeState.allCases[index]
+        VStack(spacing: 0) {
+            HStack {
+                Text("학년")
+                    .pretendardFont(.body2_sb_14)
+                    .foregroundStyle(.gray08)
+                
+                Spacer()
+            }
+            .padding(.leading, 16)
+            .padding(.bottom, 10)
+            
+            LazyVGrid(columns: columns, spacing: 8) {
+                ForEach(GradeState.allCases.indices, id: \.self) { index in
+                    SmallButton(
+                        text: GradeState.allCases[index].rawValue,
+                        isTapped: selectedGrade == GradeState.allCases[index]
+                    ) {
+                        selectedGrade = GradeState.allCases[index]
+                    }
                 }
             }
+            .padding(.horizontal, 16)
         }
-        .padding(.horizontal, 16)
     }
 }
 
