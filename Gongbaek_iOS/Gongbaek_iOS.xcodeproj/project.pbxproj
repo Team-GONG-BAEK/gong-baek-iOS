@@ -20,10 +20,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Global/Component/BottomSheet/.gitkeep,
-				Global/Component/Box/.gitkeep,
-				Global/Component/Others/.gitkeep,
 				Network/Service/DTO/Filling/.gitkeep,
-				Presentation/Home/View/.gitkeep,
 				Presentation/Home/ViewModel/.gitkeep,
 			);
 			target = 954A490A2D2DA7AE00FD6964 /* Gongbaek_iOS */;

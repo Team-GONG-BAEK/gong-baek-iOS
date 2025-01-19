@@ -14,12 +14,12 @@ struct YearSelectButton: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("입학년도")
-                .font(.pretendard(.body2_sb_14))
+                .pretendardFont(.body2_sb_14)
                 .foregroundColor(.gray08)
             Button(action: {}) {
                 HStack {
                     Text("\(Date.currentYear())년")
-                        .font(.pretendard(.body1_m_16))
+                        .pretendardFont(.body1_m_16)
                         .foregroundColor(isTapped ? .gray10 : .gray04)
                     Spacer()
                     Image(.icArrowBottomGray24)
