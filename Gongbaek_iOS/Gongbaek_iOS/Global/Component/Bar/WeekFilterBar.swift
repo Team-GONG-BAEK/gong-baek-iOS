@@ -17,7 +17,7 @@ enum Day: String, CaseIterable {
 }
 
 struct WeekFilterBar: View {
-    @State private var selectedDay: Day = .all
+    private var selectedDay: Day = .all
     private let hStackSpacing = 5.0
     private let hStackPadding = 3.0
     
@@ -37,7 +37,7 @@ struct WeekFilterBar: View {
                 HStack(spacing: hStackSpacing) {
                     ForEach(Day.allCases, id: \.self) { day in
                         Button(action: {
-                            selectedDay = day
+//                            selectedDay = day
                         }) {
                             Text(day.rawValue)
                                 .font(.pretendard(.caption1_sb_13))

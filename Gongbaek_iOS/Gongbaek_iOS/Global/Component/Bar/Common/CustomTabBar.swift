@@ -1,0 +1,76 @@
+//
+//  CustomTabBar.swift
+//  Gongbaek_iOS
+//
+//  Created by 김희은 on 1/17/25.
+//
+
+import SwiftUI
+
+struct CustomTabBar: View {
+    @Binding var selectedTab: TabBarState
+    
+    var body: some View {
+        HStack {
+            tabButton(
+                tab: .filling,
+                selectedTab: $selectedTab,
+                text: TabBarState.filling.title
+            )
+            Spacer()
+            tabButton(
+                tab: .myFilling,
+                selectedTab: $selectedTab,
+                text: TabBarState.myFilling.title
+            )
+            Spacer()
+            tabButton(
+                tab: .home,
+                selectedTab: $selectedTab,
+                text: TabBarState.home.title
+            )
+            Spacer()
+            tabButton(
+                tab: .timetable,
+                selectedTab: $selectedTab,
+                text: TabBarState.timetable.title
+            )
+            Spacer()
+            tabButton(
+                tab: .myPage,
+                selectedTab: $selectedTab,
+                text: TabBarState.myPage.title
+            )
+        }
+        .padding(.vertical, 8)
+        .padding(.horizontal, 12)
+        .background(.grayWhite)
+    }
+    
+    func tabButton (
+        tab: TabBarState,
+        selectedTab: Binding<TabBarState>,
+        text: String
+    ) -> some View {
+        Button(action: {
+            self.selectedTab = tab
+        }) {
+            VStack(spacing: 2) {
+                Image(self.selectedTab == tab ? tab.selectedImage : tab.defaultImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 28, height: 28)
+                
+                Text(text)
+                    .pretendardFont(.body2_m_14)
+                    .foregroundStyle(self.selectedTab == tab ? .grayBlack : .gray05)
+            }
+            .frame(width: 56, height: 54)
+            
+        }
+    }
+}
+
+#Preview {
+    TabBarView()
+}

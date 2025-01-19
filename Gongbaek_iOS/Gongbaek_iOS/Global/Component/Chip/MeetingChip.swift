@@ -25,8 +25,8 @@ struct MeetingChip: View {
     MeetingChip(state: .recruiting(.recruiting))
     MeetingChip(state: .recruiting(.recruited))
     MeetingChip(state: .recruiting(.closed))
-    MeetingChip(state: .category(.play))
-    MeetingChip(state: .category(.networking))
+    MeetingChip(state: .category(.PLAYING))
+    MeetingChip(state: .category(.NETWORKING))
     MeetingChip(state: .weekly(true))
     MeetingChip(state: .weekly(false))
 }
