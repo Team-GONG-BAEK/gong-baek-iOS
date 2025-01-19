@@ -18,7 +18,7 @@ struct SchoolMajorSearchView: View {
     let state: SearchViewState
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             searchTextField()
             
             if !searchWord.isEmpty {

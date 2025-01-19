@@ -13,7 +13,7 @@ struct NicknameInputView: View {
     @State var showError = false
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             ProgressBar(currentIndex: 1)
             
             TitleTextBox(

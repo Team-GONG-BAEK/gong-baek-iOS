@@ -10,10 +10,10 @@ import SwiftUI
 struct ProfileSelectionView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @State var selectedIndex: Int? = nil
-    let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 3)
+    private let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 3)
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             ProgressBar(currentIndex: 0)
             
             TitleTextBox(
