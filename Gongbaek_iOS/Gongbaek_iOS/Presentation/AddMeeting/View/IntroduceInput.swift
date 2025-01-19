@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct IntroduceInput: View {
-    @StateObject var viewModel: AddMeetingViewModel
+    @EnvironmentObject var navigationManager: NavigationManager
+    @StateObject private var viewModel = AddMeetingViewModel()
 
     @State var showError: Bool
     @State var isFocused: Bool
@@ -41,14 +42,11 @@ struct IntroduceInput: View {
             
             Spacer()
             BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
-                viewModel.goToNextPage()
+                navigationManager.push(view: FillingDestination.checkInputInfo)
             }
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
         }
+        .customNavigationBar(showBackButton: true)
     }
 }
-
-//#Preview {
-//    IntroduceInput(showError: false, isFocused: false)
-//}

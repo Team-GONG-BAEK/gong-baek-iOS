@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct CategorySelect: View {
-    @StateObject var viewModel: AddMeetingViewModel
+    @EnvironmentObject var navigationManager: NavigationManager
+    @StateObject private var viewModel = AddMeetingViewModel()
 
     private let columns = [
         GridItem(.flexible(), spacing: 8),
@@ -40,11 +41,12 @@ struct CategorySelect: View {
             
             Spacer()
             BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
-                viewModel.goToNextPage()
+                navigationManager.push(view: FillingDestination.coverImageSelect)
             }
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
         }
+        .customNavigationBar(showBackButton: true)
     }
 }
 

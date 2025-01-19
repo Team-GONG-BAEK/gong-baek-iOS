@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct AddMeetingView: View {
-    @StateObject var viewModel: AddMeetingViewModel
-
+    @EnvironmentObject var navigationManager: NavigationManager
+    @StateObject private var viewModel = AddMeetingViewModel()
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ProgressBar(currentIndex: $viewModel.currentIndex)
@@ -49,15 +50,13 @@ struct AddMeetingView: View {
             
             Spacer()
             BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
-                viewModel.goToNextPage()
+                navigationManager.push(view: FillingDestination.calendarSelect)
             }
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
         }
+        .customNavigationBar(showBackButton: true)
     }
 }
 
-#Preview {
-    let viewModel = AddMeetingViewModel()
-    AddMeetingView(viewModel: viewModel)
-}
+

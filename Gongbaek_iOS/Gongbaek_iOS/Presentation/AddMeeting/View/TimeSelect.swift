@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct TimeSelect: View {
-    @StateObject var viewModel: AddMeetingViewModel
-
+    @EnvironmentObject var navigationManager: NavigationManager
+    @StateObject private var viewModel = AddMeetingViewModel()
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ProgressBar(currentIndex: $viewModel.currentIndex)
@@ -63,15 +64,12 @@ struct TimeSelect: View {
             
             Spacer()
             BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
-                viewModel.goToNextPage()
+                navigationManager.push(view: FillingDestination.categorySelect)
             }
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
         }
+        .customNavigationBar(showBackButton: true)
     }
 }
 
-#Preview {
-    let viewModel = AddMeetingViewModel()
-    TimeSelect(viewModel: viewModel)
-}

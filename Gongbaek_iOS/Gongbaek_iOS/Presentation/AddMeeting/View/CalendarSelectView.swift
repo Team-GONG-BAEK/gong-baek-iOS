@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct CalendarSelectView: View {
-    @StateObject var viewModel: AddMeetingViewModel
+    @EnvironmentObject var navigationManager: NavigationManager
+    @StateObject private var viewModel = AddMeetingViewModel()
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -21,8 +22,6 @@ struct CalendarSelectView: View {
                 
                 CustomCalendar(selectedDate: $viewModel.selectedWeekDate)
                     .onChange(of: viewModel.selectedWeekDate) { _ in
-                        print("📅 선택된 날짜: \(viewModel.formattedDate ?? "N/A")")
-                        print("🗓 선택된 요일: \(viewModel.selectedWeekDay?.rawValue ?? "N/A")")
                         viewModel.isNextEnabled = true
                     }
             }
@@ -32,16 +31,13 @@ struct CalendarSelectView: View {
             Spacer()
             
             BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
-                viewModel.goToNextPage()
+                navigationManager.push(view: FillingDestination.timeSelect)
             }
             .padding(.vertical, 20)
             .padding(.horizontal, 16)
         }
+        .customNavigationBar(showBackButton: true)
     }
-    
 }
 
-#Preview {
-    let viewModel = AddMeetingViewModel()
-    CalendarSelectView(viewModel: viewModel)
-}
+
