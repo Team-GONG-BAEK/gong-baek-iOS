@@ -9,7 +9,7 @@
      commentCount: 10,
      groupId: 1,
      groupType: "ONCE",
-     groupStatus: "CLOSED",
+     groupStatus: "RECRUITING",
      comments: [
         Comment(
              isGroupHost: false,

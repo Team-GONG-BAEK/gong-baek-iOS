@@ -84,7 +84,7 @@ struct MeetingRoomView: View {
                     )
                 }
             }
-            CommentTextField()
+            commentData.groupStatus == "CLOSED" ? nil : CommentTextField()
         }
     }
 }
