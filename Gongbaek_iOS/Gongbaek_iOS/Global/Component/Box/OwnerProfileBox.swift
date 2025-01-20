@@ -36,7 +36,7 @@ struct OwnerProfileBox: View {
                         .pretendardFont(.body1_b_16)
                         .foregroundStyle(.grayBlack)
                     
-                    Image(ownerData.sex == "MAN" ? .icMale20 : .icFemale20)
+                    Image(Sex(from: ownerData.sex) == .MAN ? .icMale20 : .icFemale20)
                         .resizable()
                         .frame(width: 20, height: 20)
                         .foregroundStyle(.gray06)
