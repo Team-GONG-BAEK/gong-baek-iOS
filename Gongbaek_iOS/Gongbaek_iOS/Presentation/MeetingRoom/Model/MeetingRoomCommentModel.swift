@@ -5,15 +5,7 @@
 //  Created by 김희은 on 1/19/25.
 //
 
-struct MeetingRoomCommentData {
-     let commentCount: Int
-     let groupId: Int
-     let groupType: String
-     let groupStatus: String
-     let comments: [Comment]
- }
-
- let dummyMeetingRoomCommentData: MeetingRoomCommentData = MeetingRoomCommentData(
+ let dummyMeetingRoomCommentData: CommentData = CommentData(
      commentCount: 10,
      groupId: 1,
      groupType: "ONCE",
