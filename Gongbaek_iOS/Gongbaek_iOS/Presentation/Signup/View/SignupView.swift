@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct SignupView: View {
     @EnvironmentObject private var navigationManager: NavigationManager
     @StateObject private var viewModel = SignupViewModel()

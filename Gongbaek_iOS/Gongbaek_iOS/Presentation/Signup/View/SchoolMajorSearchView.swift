@@ -47,14 +47,11 @@ struct SchoolMajorSearchView: View {
         ) { textFieldText in
             if !textFieldText.isEmpty {
                 // TODO: 뷰모델 검색 api 연결
-                viewModel.searchWord = viewModel.textFieldText
-                getSearchResultList()
+                onTapSearchButton()
             }
         }
         .onSubmit {
-            viewModel.searchWord = viewModel.textFieldText
-            viewModel.selectedSearchResult = ""
-            getSearchResultList()
+            onTapSearchButton()
         }
         .submitLabel(.search)
         .environment(\.locale, Locale(identifier: "ko_KR"))
@@ -113,6 +110,12 @@ struct SchoolMajorSearchView: View {
 }
 
 extension SchoolMajorSearchView {
+    
+    private func onTapSearchButton() {
+        viewModel.searchWord = viewModel.textFieldText
+        viewModel.selectedSearchResult = ""
+        getSearchResultList()
+    }
     
     private func getSearchResultList() {
         switch state {
