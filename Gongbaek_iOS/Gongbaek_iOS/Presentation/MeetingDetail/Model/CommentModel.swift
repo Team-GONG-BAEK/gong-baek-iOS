@@ -9,7 +9,7 @@ struct CommentData {
     var commentCount: Int
     let groupId: Int
     let groupType: String
-    let groupStatus: String
+    var groupStatus: String
     var comments: [Comment]
 }
 

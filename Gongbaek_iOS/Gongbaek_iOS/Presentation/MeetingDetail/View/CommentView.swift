@@ -11,11 +11,12 @@ struct CommentView: View {
     @Binding var commentData: CommentData
     
     var body: some View {
-        ZStack(alignment: .bottom) {
+        VStack {
             CommentList(
                 commentCount: $commentData.commentCount,
                 comments: $commentData.comments,
                 isScolled: true,
+                meetingStatus: $commentData.groupStatus,
                 onTapRefreshButton: nil
             )
             

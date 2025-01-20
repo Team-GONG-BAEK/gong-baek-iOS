@@ -13,7 +13,7 @@ struct MeetingRoomView: View {
     @State var commentData: CommentData
     
     var body: some View {
-        ZStack(alignment: .bottom) {
+        VStack {
             ScrollView {
                 VStack(spacing: 0) {
                     VStack(alignment: .leading, spacing: 0) {
@@ -78,6 +78,7 @@ struct MeetingRoomView: View {
                         commentCount: $commentData.commentCount,
                         comments: $commentData.comments,
                         isScolled: false,
+                        meetingStatus: $commentData.groupStatus,
                         onTapRefreshButton: nil
                     )
                 }
