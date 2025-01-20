@@ -12,15 +12,24 @@ struct CommentView: View {
     
     var body: some View {
         VStack {
+            commentData.groupStatus == "CLOSED" ? CommentDisabledBox() : nil
+            
             CommentList(
                 commentCount: $commentData.commentCount,
                 comments: $commentData.comments,
                 isScolled: true,
-                meetingStatus: $commentData.groupStatus,
                 onTapRefreshButton: nil
             )
             
             CommentTextField()
         }
     }
+}
+
+#Preview {
+    MeetingDetailView(
+        meetingDetailData: dummymeetingDetailData,
+        commentData: dummyCommentData,
+        ownerInfoData: dummyOwnerInfoData
+    )
 }

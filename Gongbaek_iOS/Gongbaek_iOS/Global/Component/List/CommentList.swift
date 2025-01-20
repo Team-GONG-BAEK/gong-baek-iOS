@@ -11,12 +11,10 @@ struct CommentList: View {
     @Binding var commentCount: Int
     @Binding var comments: [Comment]
     let isScolled: Bool
-    @Binding var meetingStatus: String
     var onTapRefreshButton: (() -> Void)?
     
     var body: some View {
         VStack(spacing: 0) {
-            meetingStatus == "CLOSED" ? commentDisabledView() : nil
             
             HStack(alignment: .center) {
                 Text("댓글 \(commentCount)개")
@@ -47,20 +45,6 @@ struct CommentList: View {
             .scrollDisabled(!isScolled)
         }
         .background(.grayWhite)
-    }
-    
-    func commentDisabledView() -> some View {
-        Text("해당 모임이 종료되어 더 이상 댓글을 작성할 수 없습니다.")
-            .pretendardFont(.body2_m_14)
-            .padding(14)
-            .frame(maxWidth: .infinity, alignment: .center)
-            .foregroundStyle(.errorRed)
-            .background(
-                RoundedRectangle(cornerRadius: 6)
-                    .fill(.subOrange)
-            )
-            .padding(.top, 16)
-            .padding(.horizontal, 16)
     }
 }
 

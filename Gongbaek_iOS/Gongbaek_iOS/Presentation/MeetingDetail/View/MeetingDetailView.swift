@@ -17,7 +17,7 @@ struct MeetingDetailView: View {
             MeetingInfoBase(
                 state: .detail,
                 meeting: .init(
-                    status: "모집 중",
+                    status: "CLOSED",
                     category: meetingDetailData.category,
                     coverImg: "sample",//TODO: Int로 넘기기 meetingDetailData.coverImg,
                     groupType: meetingDetailData.groupType,

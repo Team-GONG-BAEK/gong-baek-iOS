@@ -74,11 +74,12 @@ struct MeetingRoomView: View {
                     .background(.grayWhite)
                     Color.gray02.frame(height: 8)
                     
+                    commentData.groupStatus == "CLOSED" ? CommentDisabledBox() : nil
+                    
                     CommentList(
                         commentCount: $commentData.commentCount,
                         comments: $commentData.comments,
                         isScolled: false,
-                        meetingStatus: $commentData.groupStatus,
                         onTapRefreshButton: nil
                     )
                 }
