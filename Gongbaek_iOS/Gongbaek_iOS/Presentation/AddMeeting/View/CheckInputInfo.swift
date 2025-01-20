@@ -30,7 +30,7 @@ struct CheckInputInfo: View {
             VStack(alignment: .leading, spacing: 10) {
                 TimeBox(
                     state: .gray,
-                    text: "\(viewModel.selectedTimeRange)",
+                    text: viewModel.getFormattedDateTime(),
                     font: .pretendard(
                         .body1_m_16
                     )

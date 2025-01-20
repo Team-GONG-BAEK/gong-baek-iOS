@@ -98,16 +98,14 @@ class AddMeetingViewModel: ObservableObject {
             case 4:
                 self.isNextEnabled = self.selectedCoverIndex != nil
             case 5:
-                self.isNextEnabled = !self.location.isEmpty
+                self.isNextEnabled = self.location.count >= 2
             case 6:
-                self.isNextEnabled = !self.title.isEmpty && !self.introduction.isEmpty
+                self.isNextEnabled = self.title.count >= 2 && self.introduction.count >= 20
             case 7:
                 self.isNextEnabled = true
             default:
                 self.isNextEnabled = false
             }
-            
-            print("🟢 isNextEnabled: \(self.isNextEnabled)")
         }
     }
     
@@ -178,7 +176,7 @@ class AddMeetingViewModel: ObservableObject {
     }
     
     func getSelectedCoverImage() -> String {
-        guard let category = selectedCategory, 
+        guard let category = selectedCategory,
               let selectedIndex = selectedCoverIndex,
               selectedIndex > 0,
               selectedIndex <= category.coverImage.count else {
@@ -186,5 +184,30 @@ class AddMeetingViewModel: ObservableObject {
         }
         
         return category.coverImage[selectedIndex]
+    }
+    
+    func getFormattedDateTime() -> String {
+        guard let selectedCycle = selectedCycle else { return "날짜와 시간을 선택해주세요." }
+        
+        let startHour = Int(selectedTimeRange.start)
+        let endHour = Int(selectedTimeRange.end)
+        
+        if selectedCycle == .once {
+            guard let selectedDate = selectedWeekDate else { return "날짜 선택 필요" }
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "M월 d일 EEEE" // ex) "4월 8일 화요일"
+            dateFormatter.locale = Locale(identifier: "ko_KR")
+            
+            let formattedDate = dateFormatter.string(from: selectedDate)
+            return "\(formattedDate) \(startHour)시 - \(endHour)시"
+            
+        } else if selectedCycle == .weekly {
+            // ✅ "매주(Weekly)" 선택 시 → "매주 수요일 12시 - 15시"
+            guard let selectedWeekDay = selectedWeekDay else { return "요일 선택 필요" }
+            return "매주 \(selectedWeekDay.rawValue) \(startHour)시 - \(endHour)시"
+        }
+        
+        return "날짜와 시간을 선택해주세요."
     }
 }
