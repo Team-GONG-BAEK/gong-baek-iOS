@@ -51,7 +51,7 @@ struct CommentList: View {
 #Preview {
     MeetingDetailView(
         meetingDetailData: dummymeetingDetailData,
-        commentData: dummyCommentData,
-        ownerInfoData: dummyOwnerInfoData
+        ownerInfoData: dummyOwnerInfoData,
+        commentData: dummyCommentData
     )
 }

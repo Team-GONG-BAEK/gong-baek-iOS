@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct MeetingDetailView: View {
-    @State var meetingDetailData: MeetingDetailData
-    @State var commentData: CommentData
-    @State var ownerInfoData: OwnerInfoData
+    @State var meetingDetailData: MeetingDetailModel
+    @State var ownerInfoData: OwnerInfoModel
+    @State var commentData: CommentModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -45,7 +45,7 @@ struct MeetingDetailView: View {
 #Preview {
     MeetingDetailView(
         meetingDetailData: dummymeetingDetailData,
-        commentData: dummyCommentData,
-        ownerInfoData: dummyOwnerInfoData
+        ownerInfoData: dummyOwnerInfoData,
+        commentData: dummyCommentData
     )
 }

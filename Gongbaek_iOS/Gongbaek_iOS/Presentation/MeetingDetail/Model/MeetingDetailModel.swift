@@ -5,7 +5,7 @@
 //  Created by 김희은 on 1/19/25.
 //
 
-struct MeetingDetailData {
+struct MeetingDetailModel {
     let groupId: Int
     let groupType: String
     let groupTitle: String
@@ -24,7 +24,7 @@ struct MeetingDetailData {
     let endTime: Double
 }
 
-let dummymeetingDetailData: MeetingDetailData = MeetingDetailData(
+let dummymeetingDetailData: MeetingDetailModel = MeetingDetailModel(
     groupId: 1,
     groupType: "WEEKLY",
     groupTitle: "공강팅",

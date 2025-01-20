@@ -5,7 +5,7 @@
 //  Created by 김희은 on 1/19/25.
 //
 
- let dummyMeetingRoomCommentData: CommentData = CommentData(
+ let dummyMeetingRoomCommentData: CommentModel = CommentModel(
      commentCount: 10,
      groupId: 1,
      groupType: "ONCE",

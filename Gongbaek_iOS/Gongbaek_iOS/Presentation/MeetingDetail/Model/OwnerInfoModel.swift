@@ -5,18 +5,18 @@
 //  Created by 김희은 on 1/19/25.
 //
 
-struct OwnerInfoData: Decodable {
-    let profileImg: Int
-    let nickname: String
-    let sex: String
-    let schoolMajor: String
-    let enterYear: Int
-    let schoolGrade: Int
-    let mbti: String
-    let introduction: String
+struct OwnerInfoModel: Decodable {
+    var profileImg: Int
+    var nickname: String
+    var sex: String
+    var schoolMajor: String
+    var enterYear: Int
+    var schoolGrade: Int
+    var mbti: String
+    var introduction: String
 }
 
-let dummyOwnerInfoData: OwnerInfoData = OwnerInfoData(
+let dummyOwnerInfoData: OwnerInfoModel = OwnerInfoModel(
     profileImg: 1,
     nickname: "나공일히은",
     sex: "FEMALE",

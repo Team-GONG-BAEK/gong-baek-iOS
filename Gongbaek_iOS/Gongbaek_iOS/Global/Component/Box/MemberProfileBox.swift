@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct MemberProfileBox: View {
-    let meetingRoomMember: MeetingRoomMember
+    let memberData: MemberModel
     
     var body: some View {
         VStack(spacing: 6) {
-            Image("\(meetingRoomMember.profileImage)") //TODO: 이미지 네이밍 수정
+            Image("\(memberData.profileImage)") //TODO: 이미지 네이밍 수정
                 .resizable()
                 .scaledToFill()
                 .frame(width: 80, height: 80)
                 .clipShape(RoundedRectangle(cornerRadius: 2))
                 .overlay(
-                    meetingRoomMember.isHost ? OwnerChip(ownerChipType: .gray09).padding(6) : nil,
+                    memberData.isHost ? OwnerChip(ownerChipType: .gray09).padding(6) : nil,
                     alignment: .bottomLeading
                 )
                 .overlay(
@@ -27,7 +27,7 @@ struct MemberProfileBox: View {
                 )
                 .padding(.horizontal, 7)
  
-            Text(meetingRoomMember.nickname)
+            Text(memberData.nickname)
                 .pretendardFont(.caption1_m_13)
                 .foregroundStyle(.gray10)
         }

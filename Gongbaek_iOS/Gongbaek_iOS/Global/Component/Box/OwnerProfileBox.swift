@@ -20,7 +20,7 @@ struct OwnerProfileData {
 }
 
 struct OwnerProfileBox: View {
-    var ownerData: OwnerProfileData
+    @Binding var ownerData: OwnerProfileData
     
     var body: some View {
         HStack(spacing: 12) {

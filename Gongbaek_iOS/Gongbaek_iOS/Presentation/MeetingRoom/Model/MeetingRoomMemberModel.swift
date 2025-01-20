@@ -5,48 +5,48 @@
 //  Created by 김희은 on 1/19/25.
 //
 
-struct MeetingRoomMemberData {
+struct MeetingRoomMemberModel {
     let maxPeopleCount: Int
     let currentPeopleCount: Int
-    let members: [MeetingRoomMember]
-}                
+    let members: [MemberModel]
+}
 
-struct MeetingRoomMember {
+struct MemberModel {
     let profileImage: Int // server: profileImg
     let isHost: Bool
     let nickname: String
 }
 
-let dummyMeetingRoomMemberData: MeetingRoomMemberData = MeetingRoomMemberData(
+let dummyMeetingRoomMemberData: MeetingRoomMemberModel = MeetingRoomMemberModel(
     maxPeopleCount: 7,
     currentPeopleCount: 6,
     members: [
-        MeetingRoomMember(
+        MemberModel(
             profileImage: 1,
             isHost: true,
             nickname: "희은이"
         ),
-        MeetingRoomMember(
+        MemberModel(
             profileImage: 2,
             isHost: false,
             nickname: "파이리"
         ),
-        MeetingRoomMember(
+        MemberModel(
             profileImage: 3,
             isHost: false,
             nickname: "훈발놈"
         ),
-        MeetingRoomMember(
+        MemberModel(
             profileImage: 4,
             isHost: false,
             nickname: "노는게젤조아"
         ),
-        MeetingRoomMember(
+        MemberModel(
             profileImage: 4,
             isHost: false,
             nickname: "응애기"
         ),
-        MeetingRoomMember(
+        MemberModel(
             profileImage: 4,
             isHost: false,
             nickname: "퇴사핑"

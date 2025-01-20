@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct MeetingRoomView: View {
-    @State var meetingDetailData: MeetingDetailData
-    @State var memberData: MeetingRoomMemberData
-    @State var commentData: CommentData
+    @State var meetingDetailData: MeetingDetailModel
+    @State var memberData: MeetingRoomMemberModel
+    @State var commentData: CommentModel
     
     var body: some View {
         VStack {
@@ -65,7 +65,7 @@ struct MeetingRoomView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 6) {
                             ForEach(memberData.members.indices, id: \.self) { index in
-                                MemberProfileBox(meetingRoomMember: dummyMeetingRoomMemberData.members[index])
+                                MemberProfileBox(memberData: dummyMeetingRoomMemberData.members[index])
                             }
                         }
                         .padding(.horizontal, 9)
@@ -95,8 +95,4 @@ struct MeetingRoomView: View {
         memberData: dummyMeetingRoomMemberData,
         commentData: dummyMeetingRoomCommentData
     )
-}
-
-struct DisabledCommentView {
-    
 }

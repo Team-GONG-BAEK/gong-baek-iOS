@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CommentView: View {
-    @Binding var commentData: CommentData
+    @Binding var commentData: CommentModel
     
     var body: some View {
         VStack {
@@ -29,7 +29,7 @@ struct CommentView: View {
 #Preview {
     MeetingDetailView(
         meetingDetailData: dummymeetingDetailData,
-        commentData: dummyCommentData,
-        ownerInfoData: dummyOwnerInfoData
+        ownerInfoData: dummyOwnerInfoData,
+        commentData: dummyCommentData
     )
 }

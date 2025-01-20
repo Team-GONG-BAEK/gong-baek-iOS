@@ -42,8 +42,13 @@ struct CommentCell: View {
                     .foregroundColor(.gray05)
             }
             .padding(.vertical, 14)
-            Color.gray02.frame(height: 1)
+            
+            divider()
         }
+    }
+    
+    func divider() -> some View {
+        Color.gray02.frame(height: 1)
     }
 }
 
