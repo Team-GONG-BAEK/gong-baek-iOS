@@ -31,7 +31,7 @@ struct MeetingDetailView: View {
             )
             .padding(16)
             
-            Color.gray02.frame(height: 8)
+            divider()
             
             MeetingDetailSegmentControlBar(
                 introduction: $meetingDetailData.introduction,
@@ -42,6 +42,10 @@ struct MeetingDetailView: View {
                 meetingStatus: $meetingDetailData.status
             )
         }
+    }
+    
+    func divider() -> some View {
+        Color.gray02.frame(height: 8)
     }
 }
 

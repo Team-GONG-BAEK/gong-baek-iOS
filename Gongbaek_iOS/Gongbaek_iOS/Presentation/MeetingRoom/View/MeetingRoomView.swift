@@ -51,6 +51,7 @@ struct MeetingRoomView: View {
                                 .resizable()
                                 .frame(width: 18, height: 18)
                                 .foregroundStyle(.gray06)
+                            
                             Text("멤버 (\(meetingDetailData.currentPeopleCount)/\(meetingDetailData.maxPeopleCount)명)")
                                 .pretendardFont(.title2_sb_18)
                                 .foregroundStyle(.gray10)
@@ -72,7 +73,8 @@ struct MeetingRoomView: View {
                         .padding(.bottom, 16)
                     }
                     .background(.grayWhite)
-                    Color.gray02.frame(height: 8)
+                    
+                    divider()
                     
                     commentData.groupStatus == "CLOSED" ? CommentDisabledBox() : nil
                     
@@ -86,6 +88,10 @@ struct MeetingRoomView: View {
             }
             commentData.groupStatus == "CLOSED" ? nil : CommentTextField()
         }
+    }
+    
+    func divider() -> some View {
+        Color.gray02.frame(height: 8)
     }
 }
 
