@@ -40,33 +40,33 @@ enum MBTI {
 }
 
 enum MBTI_ei: String, CaseIterable {
-    case e = "E"
-    case i = "I"
+    case E
+    case I
 }
 
 enum MBTI_sn: String, CaseIterable {
-    case s = "S"
-    case n = "N"
+    case S
+    case N
 }
 
 enum MBTI_tf: String, CaseIterable {
-    case t = "T"
-    case f = "F"
+    case T
+    case F
 }
 
 enum MBTI_jp: String, CaseIterable {
-    case j = "J"
-    case p = "P"
+    case J
+    case P
 }
 
 enum SexType: String, CaseIterable {
-    case man = "MAN"
-    case woman = "WOMAN"
+    case MAN
+    case WOMAN
     
     var text: String {
         switch self {
-        case .man: "남자"
-        case .woman: "여자"
+        case .MAN: "남자"
+        case .WOMAN: "여자"
         }
     }
 }
