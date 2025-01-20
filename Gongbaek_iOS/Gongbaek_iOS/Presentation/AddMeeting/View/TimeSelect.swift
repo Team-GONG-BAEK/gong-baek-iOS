@@ -9,53 +9,53 @@ import SwiftUI
 
 struct TimeSelect: View {
     @ObservedObject var viewModel: AddMeetingViewModel
-
+    
     var body: some View {
-            VStack(alignment: .leading, spacing: 0) {
-                TitleTextBox(title: "공백을 채울 시간을 선택해주세요.", subtitle: nil)
-                    .padding(.bottom, 20)
-
+        VStack(alignment: .leading, spacing: 0) {
+            TitleTextBox(title: "공백을 채울 시간을 선택해주세요.", subtitle: nil)
+                .padding(.bottom, 20)
+            
+            HStack(spacing: 12) {
+                SelectedTimeBox(time: viewModel.selectedTimeRange.start.formatTime())
+                Rectangle()
+                    .fill(.gray04)
+                    .frame(width: 16, height: 2)
+                SelectedTimeBox(time: viewModel.selectedTimeRange.end.formatTime())
+            }
+            .padding(.bottom, 30)
+            
+            ScrollView {
                 HStack(spacing: 12) {
-                    SelectedTimeBox(time: viewModel.selectedTimeRange.start.formatTime())
-                    Rectangle()
-                        .fill(.gray04)
-                        .frame(width: 16, height: 2)
-                    SelectedTimeBox(time: viewModel.selectedTimeRange.end.formatTime())
-                }
-                .padding(.bottom, 30)
-                
-                ScrollView {
-                    HStack(spacing: 12) {
-                        Text("나의 시간표")
-                            .font(.pretendard(.body1_b_16))
-                            .foregroundColor(.gray08)
-                        Spacer()
-                        Button(action: {
-                            viewModel.selectedTimeRange = (start: 0, end: 0)
-                            viewModel.selectedCells.removeAll()
-                        }) {
-                            HStack(spacing: 0) {
-                                Text("다시 선택")
-                                    .font(.pretendard(.caption2_m_12))
-                                    .foregroundColor(.mainOrange)
-                                Image(.icOptionReset18)
-                                    .foregroundColor(.mainOrange)
-                                    .frame(width: 18, height: 18)
-                            }
+                    Text("나의 시간표")
+                        .font(.pretendard(.body1_b_16))
+                        .foregroundColor(.gray08)
+                    Spacer()
+                    Button(action: {
+                        viewModel.selectedTimeRange = (start: 0, end: 0)
+                        viewModel.selectedCells.removeAll()
+                    }) {
+                        HStack(spacing: 0) {
+                            Text("다시 선택")
+                                .font(.pretendard(.caption2_m_12))
+                                .foregroundColor(.mainOrange)
+                            Image(.icOptionReset18)
+                                .foregroundColor(.mainOrange)
+                                .frame(width: 18, height: 18)
                         }
                     }
-                    .padding(.bottom, 10)
-
-                    AddMeetingTimeTable(
-                        viewModel: viewModel,
-                        freeTimeTable: viewModel.freeTimeTable,
-                        selectedDay: viewModel.getSelectedWeekDayEnum() ?? .MON,
-                        selectedTimeRange: $viewModel.selectedTimeRange,
-                        selectedCells: $viewModel.selectedCells
-                    )
                 }
-
+                .padding(.bottom, 10)
+                
+                AddMeetingTimeTable(
+                    viewModel: viewModel,
+                    freeTimeTable: viewModel.freeTimeTable,
+                    selectedDay: viewModel.getSelectedWeekDayEnum() ?? .MON,
+                    selectedTimeRange: $viewModel.selectedTimeRange,
+                    selectedCells: $viewModel.selectedCells
+                )
             }
-            .padding(.horizontal, 16)
+            
+        }
+        .padding(.horizontal, 16)
     }
 }

@@ -15,7 +15,7 @@ struct CheckInputInfo: View {
             TitleTextBox(title: "입력한 정보가 맞는지 확인해주세요!", subtitle: nil)
                 .padding(.bottom, 28)
             
-            Image(.sample)
+            Image(viewModel.getSelectedCoverImage())
                 .resizable()
                 .frame(maxWidth: .infinity)
                 .frame(height: 283)

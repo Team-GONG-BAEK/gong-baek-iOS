@@ -10,9 +10,7 @@ import SwiftUI
 struct LocationInput: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
-    
-    @State private var isNextEnabled: Bool = false
-    
+        
     @State private var location: String = ""
     @State var showError: Bool = false
     @State var isFocused: Bool = false
@@ -27,9 +25,6 @@ struct LocationInput: View {
                 showError: $showError,
                 state: .location
             )
-            .onChange(of: viewModel.location) { newValue in
-                isNextEnabled = newValue.trimmingCharacters(in: .whitespacesAndNewlines).count >= 2
-            }
             .padding(.bottom, 40)
             
             TitleTextBox(title: "인원을 선택해주세요.", subtitle: "본인 포함 최소 2명부터 최대 10명까지 모집 가능해요.", highlightSubtitleText: "최소 2명부터 최대 10명")

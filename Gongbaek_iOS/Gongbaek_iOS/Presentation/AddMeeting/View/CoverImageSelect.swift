@@ -10,9 +10,6 @@ import SwiftUI
 struct CoverImageSelect: View {
     @ObservedObject var viewModel: AddMeetingViewModel
     
-    @State private var selectedCoverIndex: Int? = nil
-    @State private var isNextEnabled: Bool = false
-    
     private let columns = [
         GridItem(.flexible(), spacing: 12),
         GridItem(.flexible(), spacing: 12)

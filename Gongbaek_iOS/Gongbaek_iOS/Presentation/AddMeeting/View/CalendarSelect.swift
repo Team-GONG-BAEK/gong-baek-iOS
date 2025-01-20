@@ -9,18 +9,13 @@ import SwiftUI
 
 struct CalendarSelect: View {
     @ObservedObject var viewModel: AddMeetingViewModel
-    
-    @State private var isNextEnabled: Bool = false
-    
+        
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             TitleTextBox(title: "활동주기를 선택해주세요.", subtitle: nil)
                 .padding(.bottom, 68)
             
             CustomCalendar(selectedDate: $viewModel.selectedWeekDate)
-                .onChange(of: viewModel.selectedWeekDate) { _ in
-                    isNextEnabled = true
-                }
         }
         .padding(.horizontal, 16)
     }

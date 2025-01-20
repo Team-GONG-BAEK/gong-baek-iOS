@@ -66,9 +66,10 @@ struct AddMeetingView: View {
                     if isLastStep {
                         showAlert = true  // ✅ Alert 표시
                     } else {
-                        viewModel.currentIndex += 1
+                        viewModel.goToNextPage()
                     }
                 }
+                .disabled(!viewModel.isNextEnabled) 
                 .padding(.vertical, 20)
                 .padding(.horizontal, 16)
             }

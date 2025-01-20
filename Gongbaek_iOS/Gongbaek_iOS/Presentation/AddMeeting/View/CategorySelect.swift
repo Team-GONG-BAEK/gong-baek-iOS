@@ -11,8 +11,6 @@ struct CategorySelect: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
     
-    @State private var isNextEnabled: Bool = false
-
     private let columns = [
         GridItem(.flexible(), spacing: 8),
         GridItem(.flexible(), spacing: 8)
@@ -31,7 +29,6 @@ struct CategorySelect: View {
                             isSelected: viewModel.selectedCategory == category,
                             onTap: {
                                 viewModel.selectedCategory = category
-                                isNextEnabled = true
                             })
                     }
                 }

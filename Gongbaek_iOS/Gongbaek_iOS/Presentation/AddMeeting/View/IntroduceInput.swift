@@ -10,9 +10,7 @@ import SwiftUI
 struct IntroduceInput: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
-    
-    @State private var isNextEnabled: Bool = false
-    
+        
     @State var showError: Bool = false
     @State var isFocused: Bool = false
     
@@ -35,11 +33,3 @@ struct IntroduceInput: View {
     }
 }
 
-extension IntroduceInput {
-    private func updateNextButtonState() {
-        let isTitleValid = viewModel.title.trimmingCharacters(in: .whitespacesAndNewlines).count >= 2
-        let isIntroductionValid = viewModel.introduction.trimmingCharacters(in: .whitespacesAndNewlines).count >= 20
-        
-        isNextEnabled = isTitleValid && isIntroductionValid
-    }
-}

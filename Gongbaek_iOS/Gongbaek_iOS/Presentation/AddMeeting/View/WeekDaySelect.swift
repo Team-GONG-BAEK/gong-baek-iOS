@@ -10,9 +10,7 @@ import SwiftUI
 struct WeekDaySelect: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
-    
-    @State private var isNextEnabled: Bool = false
-    
+        
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             TitleTextBox(title: "활동주기를 선택해주세요.", subtitle: nil)
@@ -25,7 +23,6 @@ struct WeekDaySelect: View {
                         isTapped: viewModel.selectedWeekDay == day
                     ){
                         viewModel.selectedWeekDay = day
-                        isNextEnabled = true
                     }
                 }
             }
