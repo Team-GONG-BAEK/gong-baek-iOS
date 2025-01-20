@@ -21,7 +21,7 @@ struct CommentView: View {
                 onTapRefreshButton: nil
             )
             
-            CommentTextField()
+            commentData.groupStatus == "CLOSED" ? nil : CommentTextField()
         }
     }
 }
