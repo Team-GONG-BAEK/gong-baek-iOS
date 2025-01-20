@@ -6,11 +6,11 @@
 //
 
 struct CommentData {
-    let commentCount: Int
+    var commentCount: Int
     let groupId: Int
     let groupType: String
     let groupStatus: String
-    let comments: [Comment]
+    var comments: [Comment]
 }
 
 let dummyCommentData: CommentData = CommentData(
