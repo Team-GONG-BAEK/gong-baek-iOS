@@ -52,7 +52,7 @@ struct MeetingInfoBase: View {
                     }
                 }
             }
-            
+            .frame(maxWidth: .infinity, alignment: .topLeading)
         }
     }
 }
@@ -71,5 +71,13 @@ struct MeetingInfoBase: View {
             endTime: 15.0,
             location: "학교 정문인데 어쩌구 저쩌구 20자 넘으면"
         )
+    )
+}
+
+#Preview {
+    MeetingDetailView(
+        meetingDetailData: dummymeetingDetailData,
+        ownerInfoData: dummyOwnerInfoData,
+        commentData: dummyCommentData
     )
 }

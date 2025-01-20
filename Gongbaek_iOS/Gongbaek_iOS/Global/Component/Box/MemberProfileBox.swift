@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct MemberProfileBox: View {
-    var profileImage: String //TODO: 추후 Int값으로 바꿔야함 - 고정값임.
-    var nickname: String
-    var isOwner: Bool
+    @Binding var profileImage: String //TODO: 추후 Int값으로 바꿔야함 - 고정값임.
+    @Binding var nickname: String
+    @Binding var isOwner: Bool
     
     var body: some View {
         VStack(spacing: 6) {
@@ -35,5 +35,5 @@ struct MemberProfileBox: View {
 }
 
 #Preview {
-    MemberProfileBox(profileImage: "sample", nickname: "희은이입니다람쥐깡깡", isOwner: true)
+    MemberProfileBox(profileImage: .constant("sample"), nickname: .constant("희은이입니다람쥐깡깡"), isOwner: .constant(true))
 }
