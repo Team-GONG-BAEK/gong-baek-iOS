@@ -77,15 +77,17 @@ struct SignupView: View {
             .padding(.bottom, 20)
         }
         .customNavigationBar(
-            // 뒤로가기 버튼 인덱스 -1 처리
-            // 다음버튼 활성화
             showBackButton:
                 !(stepIndex == .profileSelection
-            || stepIndex == .signupCompletion)
+                  || stepIndex == .signupCompletion),
+            onBackButtonTap: {
+                // 다음버튼 활성화
+                stepIndex = .allCases[stepIndex.rawValue - 1]
+            }
         )
     }
 }
 
 #Preview {
-    SignupView()
+    SignupNavigationView()
 }
