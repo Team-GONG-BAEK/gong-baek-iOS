@@ -24,6 +24,9 @@ final class SignupViewModel: ObservableObject {
     @Published var textFieldText = ""
     @Published var searchWord = ""
     @Published var searchResultList: [String] = []
+    // 학년입학연도 입력
+    @Published var grade: GradeState? = nil
+    @Published var yearOfAdmission: Int? = nil
     
     func isNextButtonEnabled(_ stepIndex: SignupStep) -> Bool {
         switch stepIndex {
@@ -33,7 +36,8 @@ final class SignupViewModel: ObservableObject {
             return !nickname.isEmpty
         case .schoolMajorInput:
             return !schoolName.isEmpty && !majorName.isEmpty
-//        case .gradeAdmissionYearInput: return schoolGrade != nil && enterYear != nil
+        case .gradeAdmissionYearInput:
+            return grade != nil && yearOfAdmission != nil
 //        case .mbtiSelection: return !mbti.isEmpty
 //        case .sexSelection: return sex != nil
 //        case .selfIntroductionWriting: return !introduction.isEmpty

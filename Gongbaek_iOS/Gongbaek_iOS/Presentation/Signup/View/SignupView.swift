@@ -11,7 +11,6 @@ enum SignupStep: Int, CaseIterable {
     case profileSelection = 0
     case nicknameInput
     case schoolMajorInput
-    // 검색 화면 내비게이션 프레젠트 전환
     case gradeAdmissionYearInput
     case mbtiSelection
     case sexSelection
@@ -43,7 +42,7 @@ enum SignupStep: Int, CaseIterable {
                 }
             )
         case .gradeAdmissionYearInput:
-            GradeAdmissionYearInputView()
+            GradeAdmissionYearInputView(viewModel: viewModel)
         case .mbtiSelection:
             MbtiSelectionView()
         case .sexSelection:
