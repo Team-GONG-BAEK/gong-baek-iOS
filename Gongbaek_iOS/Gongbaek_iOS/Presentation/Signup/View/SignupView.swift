@@ -21,14 +21,25 @@ enum SignupStep: Int, CaseIterable {
     case signupCompletion
     
     @ViewBuilder
-    func view(viewModel: SignupViewModel) -> some View {
+    func view(
+        viewModel: SignupViewModel,
+        navigationManager: NavigationManager
+    ) -> some View {
         switch self {
         case .profileSelection:
             ProfileSelectionView(viewModel: viewModel)
         case .nicknameInput:
             NicknameInputView(viewModel: viewModel)
         case .schoolMajorInput:
-            SchoolMajorInputView()
+            SchoolMajorInputView(
+                viewModel: viewModel,
+                onSchoolSearchButtonTap: {
+                    navigationManager.present(.schoolMajorSearchView(viewModel, .school))
+                },
+                onMajorSearchButtonTap: {
+                    navigationManager.present(.schoolMajorSearchView(viewModel, .major))
+                }
+            )
         case .gradeAdmissionYearInput:
             GradeAdmissionYearInputView()
         case .mbtiSelection:
@@ -58,7 +69,7 @@ struct SignupView: View {
         VStack(spacing: 0) {
             ProgressBar(currentIndex: stepIndex.rawValue)
             
-            stepIndex.view(viewModel: viewModel)
+            stepIndex.view(viewModel: viewModel, navigationManager: navigationManager)
             
             Spacer()
             
@@ -69,9 +80,6 @@ struct SignupView: View {
                 stepIndex = .allCases[stepIndex.rawValue + 1]
                 
                 // 해당 뷰 뷰모델 변수 init
-                
-                // 검색 화면
-//                navigationManager.push(view: SignupDestination.nicknameInput)
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 20)

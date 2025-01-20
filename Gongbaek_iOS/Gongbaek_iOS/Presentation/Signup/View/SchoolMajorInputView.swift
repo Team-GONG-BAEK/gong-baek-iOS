@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct SchoolMajorInputView: View {
-    @EnvironmentObject var navigationManager: NavigationManager
-    @State var schoolName = ""
-    @State var majorName = ""
+    @ObservedObject var viewModel: SignupViewModel
+    let onSchoolSearchButtonTap: (() -> Void)?
+    let onMajorSearchButtonTap: (() -> Void)?
     
     var body: some View {
         VStack(spacing: 0) {
@@ -25,20 +25,20 @@ struct SchoolMajorInputView: View {
             
             Group {
                 SearchTextField(
-                    inputText: $schoolName,
+                    inputText: $viewModel.schoolName,
                     isButton: true,
                     state: .school
                 ) { _ in
-                    navigationManager.present(.schoolMajorSearchView($schoolName, .school))
+                    onSchoolSearchButtonTap?()
                 }
                 .padding(.bottom, 24)
                 
                 SearchTextField(
-                    inputText: $majorName,
+                    inputText: $viewModel.majorName,
                     isButton: true,
                     state: .major
                 ) { _ in
-                    navigationManager.present(.schoolMajorSearchView($majorName, .major))
+                    onMajorSearchButtonTap?()
                 }
             }
             .padding(.horizontal, 16)
@@ -49,5 +49,9 @@ struct SchoolMajorInputView: View {
 }
 
 #Preview {
-    SchoolMajorInputView()
+    SchoolMajorInputView(
+        viewModel: SignupViewModel(),
+        onSchoolSearchButtonTap: {},
+        onMajorSearchButtonTap: {}
+    )
 }

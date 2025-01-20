@@ -11,19 +11,28 @@ final class SignupViewModel: ObservableObject {
     
     // MARK: - Properties
     
-    // ProfileSelection
-    @Published var selectedProfileImageIndex: Int? = nil
-    // NicknameInput
+    // 프로필 선택
+    @Published var profileImageIndex: Int? = nil
+    // 닉네임 입력
     @Published var nickname = ""
     @Published var showNicknameError = false
+    // 학교학과 입력
+    @Published var schoolName = ""
+    @Published var majorName = ""
+    // 학교학과 검색
+    @Published var selectedSearchResult: String = ""
+    @Published var textFieldText = ""
+    @Published var searchWord = ""
+    @Published var searchResultList: [String] = []
     
     func isNextButtonEnabled(_ stepIndex: SignupStep) -> Bool {
         switch stepIndex {
         case .profileSelection:
-            return selectedProfileImageIndex != nil
+            return profileImageIndex != nil
         case .nicknameInput:
             return !nickname.isEmpty
-//        case .schoolMajorInput: return !schoolName.isEmpty && !schoolMajor.isEmpty
+        case .schoolMajorInput:
+            return !schoolName.isEmpty && !majorName.isEmpty
 //        case .gradeAdmissionYearInput: return schoolGrade != nil && enterYear != nil
 //        case .mbtiSelection: return !mbti.isEmpty
 //        case .sexSelection: return sex != nil
