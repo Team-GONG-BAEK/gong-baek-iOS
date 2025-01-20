@@ -31,7 +31,7 @@ struct ApplyBar: View {
                         .fill(apply.isActivated ? .gray09 : .gray04)
                 )
             
-            BasicButton(text: "엘렐레", isActivated: apply.isActivated, onTap: apply.onTap)
+            BasicButton(text: apply.buttonText, isActivated: apply.isActivated, onTap: apply.onTap)
         }
         .padding(.vertical, 20)
         .padding(.horizontal, 16)
