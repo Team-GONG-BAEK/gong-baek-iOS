@@ -54,8 +54,7 @@ enum SignupStep: Int, CaseIterable {
         case .freeTimeTableConversion:
             FreeTimeTableConversionView(viewModel: viewModel)
         case .signupCompletion:
-            // TODO: 회원가입 성공 화면 만들기
-            MbtiSelectionView(viewModel: viewModel)
+            SignupCompletionView()
         }
     }
 }

@@ -10,11 +10,13 @@ import SwiftUI
 struct SignupView: View {
     @EnvironmentObject private var navigationManager: NavigationManager
     @StateObject private var viewModel = SignupViewModel()
-    @State private var currentStep: SignupStep = .profileSelection
+    @State private var currentStep: SignupStep = .signupCompletion
     
     var body: some View {
         VStack(spacing: 0) {
-            ProgressBar(currentIndex: currentStep.rawValue)
+            if currentStep != .signupCompletion {            
+                ProgressBar(currentIndex: currentStep.rawValue)
+            }
             
             /// currentStepIndex에 따라 변경되는 View
             currentStep.view(
@@ -33,7 +35,8 @@ struct SignupView: View {
                 )
             } else {
                 BasicButton(
-                    text: "다음",
+                    text: currentStep == .signupCompletion
+                    ? "공백 채우러 가기" : "다음",
                     isActivated: viewModel.isNextButtonEnabled(currentStep)
                 ) {
                     /// 다음 뷰 기존 상태값 리셋
