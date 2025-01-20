@@ -7,6 +7,6 @@
 
 import SwiftUI
 
-class MeetingDetailViewModel {
+class MeetingDetailViewModel: ObservableObject {
 
 }
