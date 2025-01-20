@@ -53,9 +53,8 @@ struct SchoolMajorSearchView: View {
         }
         .onSubmit {
             viewModel.searchWord = viewModel.textFieldText
+            viewModel.selectedSearchResult = ""
             getSearchResultList()
-            print(viewModel.textFieldText)
-            print(viewModel.searchWord)
         }
         .submitLabel(.search)
         .environment(\.locale, Locale(identifier: "ko_KR"))
