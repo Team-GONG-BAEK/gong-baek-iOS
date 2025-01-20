@@ -40,9 +40,10 @@ final class SignupViewModel: ObservableObject {
     @Published var selectedCells: Set<TimeTableCellId> = []
     @Published var classTimeTable: [(day: WeekDay, start: Double, end: Double)] = []
     
+    // MARK: - Methods
     
-    func isNextButtonEnabled(_ stepIndex: SignupStep) -> Bool {
-        switch stepIndex {
+    func isNextButtonEnabled(_ step: SignupStep) -> Bool {
+        switch step {
         case .profileSelection:
             return profileImageIndex != nil
         case .nicknameInput:
@@ -70,6 +71,35 @@ final class SignupViewModel: ObservableObject {
         textFieldText = ""
         searchWord = ""
         searchResultList = []
+    }
+    
+    /// 상태값 초기화 (다음 화면으로 이동 시 기존 값들 리셋)
+    func resetState(at step: SignupStep) {
+        switch step {
+        case .nicknameInput:
+            nickname = ""
+            showNicknameError = false
+        case .schoolMajorInput:
+            schoolName = ""
+            majorName = ""
+        case .gradeAdmissionYearInput:
+            grade = nil
+            yearOfAdmission = nil
+        case .mbtiSelection:
+            e_i = nil
+            s_n = nil
+            t_f = nil
+            j_p = nil
+        case .sexSelection:
+            sex = nil
+        case .selfIntroductionWriting:
+            introduction = ""
+        case .classTimeTableInput:
+            selectedCells = []
+            classTimeTable = []
+        default:
+            return
+        }
     }
 }
 

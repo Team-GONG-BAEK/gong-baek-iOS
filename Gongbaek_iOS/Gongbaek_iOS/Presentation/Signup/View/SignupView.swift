@@ -63,21 +63,21 @@ enum SignupStep: Int, CaseIterable {
 struct SignupView: View {
     @EnvironmentObject private var navigationManager: NavigationManager
     @StateObject private var viewModel = SignupViewModel()
-    @State private var currentStepIndex: SignupStep = .profileSelection
+    @State private var currentStep: SignupStep = .profileSelection
     
     var body: some View {
         VStack(spacing: 0) {
-            ProgressBar(currentIndex: currentStepIndex.rawValue)
+            ProgressBar(currentIndex: currentStep.rawValue)
             
             /// currentStepIndex에 따라 변경되는 View
-            currentStepIndex.view(
+            currentStep.view(
                 viewModel: viewModel,
                 navigationManager: navigationManager
             )
             
             Spacer()
             
-            if currentStepIndex == .freeTimeTableConversion {
+            if currentStep == .freeTimeTableConversion {
                 OnboardingConfirmBar(
                     grayButtonText: "시간표 변경",
                     orangeButtonText: "가입 완료",
@@ -87,10 +87,12 @@ struct SignupView: View {
             } else {
                 BasicButton(
                     text: "다음",
-                    isActivated: viewModel.isNextButtonEnabled(currentStepIndex)
+                    isActivated: viewModel.isNextButtonEnabled(currentStep)
                 ) {
+                    /// 다음 뷰 기존 상태값 리셋
+                    let nextStep = SignupStep.allCases[currentStep.rawValue + 1]
+                    viewModel.resetState(at: nextStep)
                     push()
-                    // 다음 뷰 뷰모델 변수 init
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 20)                
@@ -98,8 +100,8 @@ struct SignupView: View {
         }
         .customNavigationBar(
             showBackButton:
-                !(currentStepIndex == .profileSelection
-                  || currentStepIndex == .signupCompletion),
+                !(currentStep == .profileSelection
+                  || currentStep == .signupCompletion),
             onBackButtonTap: {
                 pop()
             }
@@ -110,11 +112,11 @@ struct SignupView: View {
 extension SignupView {
     
     private func push() {
-        currentStepIndex = .allCases[currentStepIndex.rawValue + 1]
+        currentStep = .allCases[currentStep.rawValue + 1]
     }
     
     private func pop() {
-        currentStepIndex = .allCases[currentStepIndex.rawValue - 1]
+        currentStep = .allCases[currentStep.rawValue - 1]
     }
 }
 
