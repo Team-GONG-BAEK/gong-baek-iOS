@@ -34,6 +34,9 @@ final class SignupViewModel: ObservableObject {
     @Published var j_p: MBTI_jp? = nil
     // 성별 선택
     @Published var sex: SexType? = nil
+    // 자기소개글 작성
+    @Published var introduction: String = ""
+    
     
     func isNextButtonEnabled(_ stepIndex: SignupStep) -> Bool {
         switch stepIndex {
@@ -49,7 +52,8 @@ final class SignupViewModel: ObservableObject {
             return e_i != nil && s_n != nil && t_f != nil && j_p != nil
         case .sexSelection:
             return sex != nil
-//        case .selfIntroductionWriting: return !introduction.isEmpty
+        case .selfIntroductionWriting:
+            return !introduction.isEmpty
 //        case .classTimeTableInput: return !timeTable.isEmpty
 //        case .freeTimeTableConversion, .signupCompletion: return true
         default: return false

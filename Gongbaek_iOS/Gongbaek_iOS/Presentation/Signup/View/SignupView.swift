@@ -48,7 +48,7 @@ enum SignupStep: Int, CaseIterable {
         case .sexSelection:
             SexSelectionView(viewModel: viewModel)
         case .selfIntroductionWriting:
-            SelfIntroductionWritingView()
+            SelfIntroductionWritingView(viewModel: viewModel)
         case .classTimeTableInput:
             ClassTimeTableInputView()
         case .freeTimeTableConversion:

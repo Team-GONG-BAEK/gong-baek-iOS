@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct SelfIntroductionWritingView: View {
-    @EnvironmentObject var navigationManager: NavigationManager
-    @State private var textFieldText: String = ""
+    @ObservedObject var viewModel: SignupViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -24,7 +23,7 @@ struct SelfIntroductionWritingView: View {
             .padding(.bottom, 24)
             
             CustomTextEditor(
-                text: $textFieldText,
+                text: $viewModel.introduction,
                 isSignupView: true
             )
             .padding(.horizontal, 16)
@@ -35,5 +34,5 @@ struct SelfIntroductionWritingView: View {
 }
 
 #Preview {
-    SelfIntroductionWritingView()
+    SelfIntroductionWritingView(viewModel: SignupViewModel())
 }
