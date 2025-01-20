@@ -17,8 +17,6 @@ struct MbtiSelectionView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            ProgressBar(currentIndex: 4)
-            
             TitleTextBox(
                 title: "MBTI를 선택해주세요.",
                 subtitle: "프로필에 표시되는 정보로, 언제든 변경할 수 있어요."
@@ -42,17 +40,9 @@ struct MbtiSelectionView: View {
             
             Spacer()
             
-            let isAllMbtiSelected = e_i != nil && s_n != nil && t_f != nil && j_p != nil
-            BasicButton(
-                text: "다음",
-                isActivated: isAllMbtiSelected
-            ) {
-                navigationManager.push(view: SignupDestination.sexSelection)
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 20)
+//            let isAllMbtiSelected = e_i != nil && s_n != nil && t_f != nil && j_p != nil
+            
         }
-        .customNavigationBar(showBackButton: true)
     }
     
     private func mbtiButtons(type: MBTI) -> some View {

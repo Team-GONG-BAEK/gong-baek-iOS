@@ -14,8 +14,6 @@ struct SexSelectionView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            ProgressBar(currentIndex: 5)
-            
             TitleTextBox(
                 title: "성별을 선택해주세요.",
                 subtitle: "프로필에 표시되는 정보로, 언제든 변경할 수 있어요."
@@ -28,18 +26,7 @@ struct SexSelectionView: View {
             sexButtons()
             
             Spacer()
-            
-            BasicButton(
-                text: "다음",
-                isActivated: selectedSex != nil
-            ) {
-                print()
-                navigationManager.push(view: SignupDestination.selfIntroductionWriting)
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 20)
         }
-        .customNavigationBar(showBackButton: true)
     }
     
     private func sexButtons() -> some View {

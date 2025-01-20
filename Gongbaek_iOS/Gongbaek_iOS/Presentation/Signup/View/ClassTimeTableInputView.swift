@@ -16,8 +16,6 @@ struct ClassTimeTableInputView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            ProgressBar(currentIndex: 7)
-            
             // TODO: 스크롤 영역 수정 가능성 있음
             ScrollView {
                 TitleTextBox(
@@ -39,21 +37,7 @@ struct ClassTimeTableInputView: View {
             }
             
             Spacer()
-            
-            BasicButton(
-                text: "공강 시간표로 변환",
-                isActivated: !selectedCells.isEmpty
-            ) {
-                navigationManager.push(
-                    view: SignupDestination.freeTimeTableConversion(
-                        selectedCells: selectedCells
-                    )
-                )
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 20)
         }
-        .customNavigationBar(showBackButton: true)
     }
 }
 

@@ -8,38 +8,31 @@
 import SwiftUI
 
 enum SignupDestination: Hashable {
-    case profileSelection
-    case nicknameInput
-    case schoolMajorInput
-    case gradeAdmissionYearInput
-    case mbtiSelection
-    case sexSelection
-    case selfIntroductionWriting
-    case classTimeTableInput
-    case freeTimeTableConversion(selectedCells: Set<TimeTableCellId>)
-//    case signupCompletion
+    case signup
     
     @ViewBuilder
     func view() -> some View {
         switch self {
-        case .profileSelection:
-            ProfileSelectionView()
-        case .nicknameInput:
-            NicknameInputView()
-        case .schoolMajorInput:
-            SchoolMajorInputView()
-        case .gradeAdmissionYearInput:
-            GradeAdmissionYearInputView()
-        case .mbtiSelection:
-            MbtiSelectionView()
-        case .sexSelection:
-            SexSelectionView()
-        case .selfIntroductionWriting:
-            SelfIntroductionWritingView()
-        case .classTimeTableInput:
-            ClassTimeTableInputView()
-        case let .freeTimeTableConversion(selectedCells):
-            FreeTimeTableConversionView(selectedCells: selectedCells)
+        case .signup:
+            SignupView()
+//        case .profileSelection:
+//            ProfileSelectionView()
+//        case .nicknameInput:
+//            NicknameInputView()
+//        case .schoolMajorInput:
+//            SchoolMajorInputView()
+//        case .gradeAdmissionYearInput:
+//            GradeAdmissionYearInputView()
+//        case .mbtiSelection:
+//            MbtiSelectionView()
+//        case .sexSelection:
+//            SexSelectionView()
+//        case .selfIntroductionWriting:
+//            SelfIntroductionWritingView()
+//        case .classTimeTableInput:
+//            ClassTimeTableInputView()
+//        case let .freeTimeTableConversion(selectedCells):
+//            FreeTimeTableConversionView(selectedCells: selectedCells)
 //        case .signupCompletion:
 //            SignupCompletionView()
         }

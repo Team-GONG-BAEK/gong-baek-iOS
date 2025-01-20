@@ -14,8 +14,6 @@ struct FreeTimeTableConversionView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            ProgressBar(currentIndex: 7)
-            
             // TODO: 스크롤 영역 수정 가능성 있음
             ScrollView {
                 TitleTextBox(
@@ -44,7 +42,6 @@ struct FreeTimeTableConversionView: View {
 //                navigationManager.push(view: SignupDestination.freeTimeTableConversion)
             }
         }
-        .customNavigationBar(showBackButton: true)
     }
     
     /// 공강 시간표 CellId 배열로 변환

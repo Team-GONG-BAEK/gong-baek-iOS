@@ -14,8 +14,6 @@ struct NicknameInputView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            ProgressBar(currentIndex: 1)
-            
             TitleTextBox(
                 title: "닉네임을 설정해주세요.",
                 subtitle: "프로필에 표시되는 이름으로, 언제든 변경할 수 있어요."
@@ -33,17 +31,7 @@ struct NicknameInputView: View {
             .padding(.horizontal, 16)
             
             Spacer()
-            
-            BasicButton(
-                text: "다음",
-                isActivated: !nickname.isEmpty
-            ) {
-                navigationManager.push(view: SignupDestination.schoolMajorInput)
-            }
-            .padding(.horizontal, 16)
-            .padding(.bottom, 20)
         }
-        .customNavigationBar(showBackButton: true)
     }
 }
 

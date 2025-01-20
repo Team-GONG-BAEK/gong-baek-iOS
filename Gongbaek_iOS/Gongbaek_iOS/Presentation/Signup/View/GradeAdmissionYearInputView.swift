@@ -15,8 +15,6 @@ struct GradeAdmissionYearInputView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            ProgressBar(currentIndex: 3)
-            
             TitleTextBox(
                 title: "학년과 입학연도를 입력해주세요.",
                 subtitle: "프로필에 표시되는 정보로, 언제든 변경할 수 있어요."
@@ -35,17 +33,7 @@ struct GradeAdmissionYearInputView: View {
             .padding(.horizontal, 16)
             
             Spacer()
-            
-            BasicButton(
-                text: "다음",
-                isActivated: selectedGrade != nil && selectedYear != nil
-            ) {
-                navigationManager.push(view: SignupDestination.mbtiSelection)
-            }
-            .padding(.horizontal, 16)
-            .padding(.bottom, 20)
         }
-        .customNavigationBar(showBackButton: true)
     }
     
     private func gradeButtons() -> some View {
