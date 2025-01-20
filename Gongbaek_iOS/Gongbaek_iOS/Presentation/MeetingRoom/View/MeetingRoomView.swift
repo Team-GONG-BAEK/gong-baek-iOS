@@ -10,7 +10,7 @@ import SwiftUI
 struct MeetingRoomView: View {
     @State var meetingDetailData: MeetingDetailData
     @State var memberData: MeetingRoomMemberData
-    @State var commentData: MeetingRoomCommentData
+    @State var commentData: CommentData
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -74,32 +74,7 @@ struct MeetingRoomView: View {
                     .background(.grayWhite)
                     Color.gray02.frame(height: 8)
                     
-                    VStack(spacing: 0) {
-                        HStack(alignment: .center) {
-                            Text("댓글 \(commentData.commentCount)개")
-                                .pretendardFont(.body1_sb_16)
-                                .frame(alignment: .leading)
-                                .padding(.vertical, 16)
-                            Spacer()
-                            Button(action: {}) {
-                                Image(.icRefresh32)
-                                    .foregroundStyle(.gray05)
-                            }
-                        }
-                        .padding(.leading, 16)
-                        .padding(.trailing, 8)
-                        .frame(maxWidth: .infinity)
-                        .background(.grayWhite)
-                        
-                        VStack(alignment:.leading, spacing: 0) {
-                            ForEach (commentData.comments.indices, id: \.self) { index in
-                                CommentCell(comment: commentData.comments[index])
-                            }
-                        }
-                        .padding(.bottom, 70)
-                        .padding(.horizontal, 16)
-                        .background(.grayWhite)
-                    }
+                    CommentList(commentCount: $commentData.commentCount, comments: $commentData.comments, isScolled: false)
                 }
             }
             CommentTextField()
@@ -113,4 +88,8 @@ struct MeetingRoomView: View {
         memberData: dummyMeetingRoomMemberData,
         commentData: dummyMeetingRoomCommentData
     )
+}
+
+struct DisabledCommentView {
+    
 }
