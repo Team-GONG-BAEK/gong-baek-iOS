@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MeetingInfoView: View {
-    @Binding var ownerInfo: OwnerInfoData
+    @Binding var ownerInfo: OwnerInfoModel
     @Binding var introduction: String
     
     var body: some View {

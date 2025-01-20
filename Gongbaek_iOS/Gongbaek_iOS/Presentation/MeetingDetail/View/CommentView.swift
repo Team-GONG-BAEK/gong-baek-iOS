@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CommentView: View {
-    @Binding var commentData: CommentData
+    @Binding var commentData: CommentModel
     
     var body: some View {
         ZStack(alignment: .bottom) {

@@ -5,7 +5,7 @@
 //  Created by 김희은 on 1/19/25.
 //
 
-struct OwnerInfoData: Decodable {
+struct OwnerInfoModel: Decodable {
     var profileImg: Int
     var nickname: String
     var sex: String
@@ -16,7 +16,7 @@ struct OwnerInfoData: Decodable {
     var introduction: String
 }
 
-let dummyOwnerInfoData: OwnerInfoData = OwnerInfoData(
+let dummyOwnerInfoData: OwnerInfoModel = OwnerInfoModel(
     profileImg: 1,
     nickname: "나공일히은",
     sex: "FEMALE",

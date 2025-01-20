@@ -5,7 +5,7 @@
 //  Created by 김희은 on 1/19/25.
 //
 
-struct CommentData {
+struct CommentModel {
     let commentCount: Int
     let groupId: Int
     let groupType: String
@@ -13,7 +13,7 @@ struct CommentData {
     let comments: [Comment]
 }
 
-let dummyCommentData: CommentData = CommentData(
+let dummyCommentData: CommentModel = CommentModel(
     commentCount: 3,
     groupId: 1,
     groupType: "ONCE",

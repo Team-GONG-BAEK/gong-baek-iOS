@@ -15,8 +15,8 @@ enum MeetingDetailType: String, CaseIterable {
 
 struct MeetingDetailSegmentControlBar: View {
     @Binding var introduction: String
-    @Binding var ownerInfo: OwnerInfoData
-    @Binding var commentData: CommentData
+    @Binding var ownerInfo: OwnerInfoModel
+    @Binding var commentData: CommentModel
     @State private var selectedIndex = 0
     
     var body: some View {
