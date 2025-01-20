@@ -17,15 +17,19 @@ struct CommentList: View {
         VStack(spacing: 0) {
             headerCommentCell()
             
-            ScrollView {
-                VStack(alignment:.leading, spacing: 0) {
-                    ForEach (comments.indices, id: \.self) { index in
-                        CommentCell(comment: comments[index])
+            if commentCount == 0 {
+                commentEmptyView()
+            } else {
+                ScrollView {
+                    VStack(alignment:.leading, spacing: 0) {
+                        ForEach (comments.indices, id: \.self) { index in
+                            CommentCell(comment: comments[index])
+                        }
                     }
+                    .padding(.horizontal, 16)
                 }
-                .padding(.horizontal, 16)
+                .scrollDisabled(!isScolled)
             }
-            .scrollDisabled(!isScolled)
         }
         .background(.grayWhite)
     }
@@ -47,6 +51,13 @@ struct CommentList: View {
         .padding(.leading, 16)
         .padding(.trailing, 8)
         .frame(maxWidth: .infinity)
+    }
+    
+    func commentEmptyView() -> some View {
+        Text("아직 댓글이 없어요! 궁금한 것을 댓글로 작성해주세요.")
+            .pretendardFont(.caption1_m_13)
+            .foregroundStyle(.gray06)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
 }
 
