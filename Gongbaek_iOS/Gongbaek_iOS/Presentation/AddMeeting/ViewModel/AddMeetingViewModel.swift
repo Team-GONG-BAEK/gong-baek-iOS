@@ -8,9 +8,7 @@
 import SwiftUI
 
 class AddMeetingViewModel: ObservableObject {
-    @Published var currentIndex: Int = 0 {
-        didSet { updateNextButtonState() }
-    }
+    @Published var currentIndex: Int = 0
     
     @Published var isNextEnabled: Bool = false
     
@@ -44,7 +42,6 @@ class AddMeetingViewModel: ObservableObject {
     
     @Published var selectedTimeRange: (start: Double, end: Double) = (0, 0) {
         didSet {
-            print("⏰ 선택된 시간: start=\(selectedTimeRange.start), end=\(selectedTimeRange.end)")
             updateNextButtonState()
         }
     }
@@ -63,7 +60,18 @@ class AddMeetingViewModel: ObservableObject {
         didSet { updateNextButtonState() }
     }
     
+    
     let totalSteps: Int = 8
+    
+
+    var selectedFormattedDate: String? {
+        guard let date = selectedWeekDate else { return nil }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+        
+        return formatter.string(from: date)
+    }
     
     func goToNextPage() {
         if isNextEnabled && currentIndex < totalSteps - 1 {
@@ -73,14 +81,6 @@ class AddMeetingViewModel: ObservableObject {
         }
     }
     
-    var selectedFormattedDate: String? {
-        guard let date = selectedWeekDate else { return nil }
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
-        
-        return formatter.string(from: date)
-    }
     
     func updateNextButtonState() {
         DispatchQueue.main.async {
@@ -178,7 +178,7 @@ class AddMeetingViewModel: ObservableObject {
     func getSelectedCoverImage() -> String {
         guard let category = selectedCategory,
               let selectedIndex = selectedCoverIndex,
-              selectedIndex > 0,
+              selectedIndex >= 0,
               selectedIndex <= category.coverImage.count else {
             return "img_cover_default"
         }
@@ -209,5 +209,42 @@ class AddMeetingViewModel: ObservableObject {
         }
         
         return "날짜와 시간을 선택해주세요."
+    }
+    
+    //TODO: 여기가 API 호출 메서드 부분
+    func checkFinalInfo() {
+        isSuccessGetData = true
+        
+        print("📝 최종 입력된 모임 정보:")
+        print("▶ groupType: \(selectedCycle == .once ? "ONCE" : "WEEKLY")")
+        
+        if let weekDate = selectedFormattedDate {
+            print("▶ weekDate: \(weekDate)")
+        } else {
+            print("▶ weekDate: nil")
+        }
+
+        if let weekDay = selectedWeekDay?.englishName {
+            print("▶ weekDay: \(weekDay)") // ✅ 옵셔널 바인딩하여 안전하게 출력
+        } else {
+            print("▶ weekDay: 없음")
+        }
+        
+        print("▶ startTime: \(selectedTimeRange.start)")
+        print("▶ endTime: \(selectedTimeRange.end)")
+        print("▶ dueDate: \(selectedFormattedDate ?? nil)")
+
+        if let category = selectedCategory?.rawString {
+            print("▶ category: \(category)")
+        } else {
+            print("▶ category: 없음")
+        }
+
+        //이미지 인덱스는 + 1 해서 보내기
+        print("▶ coverImg: \(selectedCoverIndex ?? -1)")
+        print("▶ location: \(location)")
+        print("▶ maxPeopleCount: \(maxPeopleCount)")
+        print("▶ groupTitle: \(title)")
+        print("▶ introduction: \(introduction)")
     }
 }

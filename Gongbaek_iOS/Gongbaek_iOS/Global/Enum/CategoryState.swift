@@ -16,6 +16,10 @@ enum CategoryState: Int, CaseIterable {
     case PLAYING = 5
     case OTHERS = 6
     
+    var rawString: String {
+        return String(describing: self) 
+    }
+    
     var categoryImage: Image? {
         switch self {
         case .ALL: return nil
