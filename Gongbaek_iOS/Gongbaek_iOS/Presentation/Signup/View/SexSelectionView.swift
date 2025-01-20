@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct SexSelectionView: View {
-    @EnvironmentObject var navigationManager: NavigationManager
-    @State private var selectedSex: SexType? = nil
+    @ObservedObject var viewModel: SignupViewModel
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 2)
     
     var body: some View {
@@ -45,9 +44,9 @@ struct SexSelectionView: View {
                 ForEach(SexType.allCases.indices, id: \.self) { index in
                     SmallButton(
                         text: SexType.allCases[index].text,
-                        isTapped: selectedSex == SexType.allCases[index]
+                        isTapped: viewModel.sex == SexType.allCases[index]
                     ) {
-                        selectedSex = SexType.allCases[index]
+                        viewModel.sex = SexType.allCases[index]
                     }
                 }
             }
@@ -57,5 +56,5 @@ struct SexSelectionView: View {
 }
 
 #Preview {
-    SexSelectionView()
+    SexSelectionView(viewModel: SignupViewModel())
 }

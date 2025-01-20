@@ -46,17 +46,17 @@ enum SignupStep: Int, CaseIterable {
         case .mbtiSelection:
             MbtiSelectionView(viewModel: viewModel)
         case .sexSelection:
-            SexSelectionView()
+            SexSelectionView(viewModel: viewModel)
         case .selfIntroductionWriting:
             SelfIntroductionWritingView()
         case .classTimeTableInput:
             ClassTimeTableInputView()
         case .freeTimeTableConversion:
-            SexSelectionView()
+            MbtiSelectionView(viewModel: viewModel)
 //            FreeTimeTableConversionView()
         case .signupCompletion:
             // TODO: 회원가입 성공 화면 만들기
-            SexSelectionView()
+            MbtiSelectionView(viewModel: viewModel)
         }
     }
 }
