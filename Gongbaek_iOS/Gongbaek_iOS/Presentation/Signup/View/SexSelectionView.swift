@@ -34,7 +34,7 @@ struct SexSelectionView: View {
                 isActivated: selectedSex != nil
             ) {
                 print()
-                navigationManager.push(view: SignupDestination.mbtiSelection)
+                navigationManager.push(view: SignupDestination.selfIntroductionWriting)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 20)
