@@ -64,7 +64,8 @@ struct AddMeetingView: View {
                     isActivated: viewModel.isNextEnabled
                 ) {
                     if isLastStep {
-                        showAlert = true  // ✅ Alert 표시
+                        viewModel.checkFinalInfo()
+                        showAlert = true
                     } else {
                         viewModel.goToNextPage()
                     }
@@ -76,12 +77,14 @@ struct AddMeetingView: View {
             
             if showAlert {
                 CustomedAlert(
-                    alertImage: "sample",
-                    titleText: "모임 등록이 완료됐어요!",
+                    alertImage: viewModel.isSuccessGetData ? "img_success" : "img_fail",
+                    titleText: viewModel.isSuccessGetData ? "모임 등록이 완료됐어요!" : "모임 등록에 실패했어요!",
                     orangeButtonText: "확인",
                     onTapOrangeButton: {
                         showAlert = false
-                        print("닫기 버튼 클릭")
+                        if viewModel.isSuccessGetData {
+                            //TODO: 나의 채움 탭으로 이동
+                        }
                     }
                 )
             }
@@ -93,3 +96,6 @@ struct AddMeetingView: View {
     @Previewable @State var viewModel = AddMeetingViewModel()
     CoverImageSelect(viewModel: viewModel)
 }
+
+
+

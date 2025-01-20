@@ -60,6 +60,7 @@ class AddMeetingViewModel: ObservableObject {
         didSet { updateNextButtonState() }
     }
     
+    @Published var isSuccessGetData: Bool = false
     
     let totalSteps: Int = 8
     
