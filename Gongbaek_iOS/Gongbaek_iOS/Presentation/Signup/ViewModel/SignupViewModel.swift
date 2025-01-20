@@ -13,12 +13,16 @@ final class SignupViewModel: ObservableObject {
     
     // ProfileSelection
     @Published var selectedProfileImageIndex: Int? = nil
-    
+    // NicknameInput
+    @Published var nickname = ""
+    @Published var showNicknameError = false
     
     func isNextButtonEnabled(_ stepIndex: SignupStep) -> Bool {
         switch stepIndex {
         case .profileSelection:
             return selectedProfileImageIndex != nil
+        case .nicknameInput:
+            return !nickname.isEmpty
 //        case .schoolMajorInput: return !schoolName.isEmpty && !schoolMajor.isEmpty
 //        case .gradeAdmissionYearInput: return schoolGrade != nil && enterYear != nil
 //        case .mbtiSelection: return !mbti.isEmpty

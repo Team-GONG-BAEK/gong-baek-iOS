@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct NicknameInputView: View {
-    @EnvironmentObject var navigationManager: NavigationManager
-    @State var nickname = ""
-    @State var showError = false
+    @ObservedObject var viewModel: SignupViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -24,8 +22,8 @@ struct NicknameInputView: View {
             .padding(.bottom, 44)
             
             CustomTextField(
-                text: $nickname,
-                showError: $showError,
+                text: $viewModel.nickname,
+                showError: $viewModel.showNicknameError,
                 state: .nickname
             )
             .padding(.horizontal, 16)
@@ -36,5 +34,5 @@ struct NicknameInputView: View {
 }
 
 #Preview {
-    NicknameInputView()
+    NicknameInputView(viewModel: SignupViewModel())
 }

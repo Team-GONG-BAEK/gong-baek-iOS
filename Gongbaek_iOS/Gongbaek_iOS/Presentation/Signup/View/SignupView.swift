@@ -26,7 +26,7 @@ enum SignupStep: Int, CaseIterable {
         case .profileSelection:
             ProfileSelectionView(viewModel: viewModel)
         case .nicknameInput:
-            NicknameInputView()
+            NicknameInputView(viewModel: viewModel)
         case .schoolMajorInput:
             SchoolMajorInputView()
         case .gradeAdmissionYearInput:
