@@ -6,14 +6,14 @@
 //
 
 struct OwnerInfoData: Decodable {
-    let profileImg: Int
-    let nickname: String
-    let sex: String
-    let schoolMajor: String
-    let enterYear: Int
-    let schoolGrade: Int
-    let mbti: String
-    let introduction: String
+    var profileImg: Int
+    var nickname: String
+    var sex: String
+    var schoolMajor: String
+    var enterYear: Int
+    var schoolGrade: Int
+    var mbti: String
+    var introduction: String
 }
 
 let dummyOwnerInfoData: OwnerInfoData = OwnerInfoData(

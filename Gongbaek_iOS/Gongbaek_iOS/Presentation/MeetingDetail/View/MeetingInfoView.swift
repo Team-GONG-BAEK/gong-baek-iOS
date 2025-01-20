@@ -30,7 +30,7 @@ struct MeetingInfoView: View {
                     Text("모집자 프로필")
                         .pretendardFont(.body1_b_16)
                     
-                    OwnerProfileBox(ownerData: OwnerProfileData(
+                    OwnerProfileBox(ownerData: .constant(OwnerProfileData(
                         profileImage: ownerInfo.profileImg,
                         nickname: ownerInfo.nickname,
                         sex: ownerInfo.sex,
@@ -38,7 +38,7 @@ struct MeetingInfoView: View {
                         enterYear: ownerInfo.enterYear,
                         schoolGrade: ownerInfo.schoolGrade,
                         mbti: ownerInfo.mbti
-                    ))
+                    )))
                     
                     Text(ownerInfo.introduction)
                         .pretendardFont(.body2_r_14)
@@ -55,7 +55,7 @@ struct MeetingInfoView: View {
             .padding(.horizontal, 16)
             
             ApplyBar(
-                apply: .init(
+                applyData: .init(
                     isActivated: true,
                     currentPeopleCount: 5,
                     maxPeopleCount: 10,
