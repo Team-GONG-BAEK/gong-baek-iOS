@@ -33,9 +33,9 @@ struct ProfileSelectionView: View {
             ForEach(ProfileImageMap.allCases.indices, id: \.self) { index in
                 CoverImageButton(
                     image: ProfileImageMap.allCases[index].rawValue,
-                    isSelected: index == viewModel.selectedProfileImageIndex
+                    isSelected: index == viewModel.profileImageIndex
                 ) {
-                    viewModel.selectedProfileImageIndex = index
+                    viewModel.profileImageIndex = index
                 }
                 .aspectRatio(contentMode: .fit)
             }
