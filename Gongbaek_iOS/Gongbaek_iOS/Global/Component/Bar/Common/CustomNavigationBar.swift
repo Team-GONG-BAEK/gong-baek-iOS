@@ -14,6 +14,7 @@ struct CustomNavigationBarModifier: ViewModifier {
     let viewName: String?
     let showBackButton: Bool
     let showXButton: Bool
+    let onBackButtonTap: (() -> Void)?
 
     func body(content: Content) -> some View {
         VStack(spacing: 0) {
@@ -33,7 +34,11 @@ struct CustomNavigationBarModifier: ViewModifier {
         HStack {
             if showBackButton {
                 Button(action: {
-                    navigationManager.pop()
+                    if let onBackButtonTap = onBackButtonTap {
+                        onBackButtonTap()
+                    } else {
+                        navigationManager.pop()
+                    }
                 }) {
                     HStack(spacing: 4) {
                         Image(.icArrowLeft48)

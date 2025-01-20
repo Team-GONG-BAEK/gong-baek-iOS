@@ -8,43 +8,60 @@
 import SwiftUI
 
 struct SearchTextField: View {
-    @State var inputText: String
-    @FocusState private var isFocused: Bool 
-    var state: SearchTextFieldState
+    @Binding var inputText: String
+    @FocusState private var isFocused: Bool
+    let isButton: Bool
+    var state: SearchViewState
     var buttonAction: (String) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(state.rawValue)
-                .font(.pretendard(.body2_sb_14))
-                .foregroundColor(.gray08)
-            
-            ZStack {
-                TextField(
-                    "\(state.rawValue)을 검색하세요.",
-                    text: $inputText
-                )
-                .focused($isFocused) 
-                .font(.pretendard(.body1_m_16))
-                .padding(.vertical, 14)
-                .padding(.leading, 16)
-                .padding(.trailing, 48)
-                .background(.gray01)
-                .accentColor(.gray05)
-                .cornerRadius(6)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 6)
-                        .stroke(isFocused ? .gray10 : .clear, lineWidth: 1)
-                )
+            Group {
+                Text(state.rawValue)
+                    .font(.pretendard(.body2_sb_14))
+                    .foregroundColor(.gray08)
                 
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        buttonAction(inputText)
-                    }) {
-                        Image(.icSearchGray48)
-                            .foregroundColor(isFocused ? .gray10 : .gray04)
+                ZStack {
+                    TextField(
+                        "\(state.rawValue)을 검색하세요.",
+                        text: $inputText
+                    )
+                    .disabled(isButton)
+                    .focused($isFocused)
+                    .font(.pretendard(.body1_m_16))
+                    .padding(.vertical, 14)
+                    .padding(.leading, 16)
+                    .padding(.trailing, 48)
+                    .background(.gray01)
+                    .accentColor(.gray04)
+                    .cornerRadius(6)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(isFocused ? .gray10 : .clear, lineWidth: 1)
+                    )
+                    
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            if !isButton {
+                                isFocused = false
+                                buttonAction(inputText)
+                            }
+                        }) {
+                            Image(.icSearchGray48)
+                                .foregroundColor(isFocused ? .gray10 : .gray04)
+                        }
+                        .disabled(isButton)
                     }
+                    .onSubmit {
+                        isFocused = false
+                    }
+                }
+            }
+            .onTapGesture {
+                if isButton {
+                    isFocused = false
+                    buttonAction(inputText)
                 }
             }
         }
@@ -52,12 +69,14 @@ struct SearchTextField: View {
 }
 
 #Preview {
+    @Previewable @State var name = ""
+    
     VStack(spacing: 20) {
-        SearchTextField(inputText: "", state: .school) { text in
+        SearchTextField(inputText: $name, isButton: true, state: .school) { text in
             print("Search button clicked for School with input: \(text)")
         }
         
-        SearchTextField(inputText: "", state: .major) { text in
+        SearchTextField(inputText: $name, isButton: false, state: .major) { text in
             print("Search button clicked for Major with input: \(text)")
         }
     }
