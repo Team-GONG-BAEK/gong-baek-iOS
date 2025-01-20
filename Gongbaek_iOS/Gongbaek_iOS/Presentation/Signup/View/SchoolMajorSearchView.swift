@@ -49,7 +49,6 @@ struct SchoolMajorSearchView: View {
                 // TODO: 뷰모델 검색 api 연결
                 viewModel.searchWord = viewModel.textFieldText
                 getSearchResultList()
-//                viewModel.isTextFieldFocused = false
             }
         }
         .onSubmit {

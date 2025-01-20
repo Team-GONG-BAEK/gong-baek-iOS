@@ -34,9 +34,11 @@ enum SignupStep: Int, CaseIterable {
             SchoolMajorInputView(
                 viewModel: viewModel,
                 onSchoolSearchButtonTap: {
+                    viewModel.resetSearchState()
                     navigationManager.present(.schoolMajorSearchView(viewModel, .school))
                 },
                 onMajorSearchButtonTap: {
+                    viewModel.resetSearchState()
                     navigationManager.present(.schoolMajorSearchView(viewModel, .major))
                 }
             )

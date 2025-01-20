@@ -42,4 +42,16 @@ final class SignupViewModel: ObservableObject {
         default: return false
         }
     }
+    
+    /// 학교학과 검색 화면 프로퍼티 초기화
+    func resetSearchState() {
+        selectedSearchResult = ""
+        textFieldText = ""
+        searchWord = ""
+        searchResultList = []
+    }
+}
+
+extension SignupViewModel {
+    
 }
