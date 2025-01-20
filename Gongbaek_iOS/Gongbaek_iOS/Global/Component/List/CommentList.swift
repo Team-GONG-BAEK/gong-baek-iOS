@@ -11,6 +11,7 @@ struct CommentList: View {
     @Binding var commentCount: Int
     @Binding var comments: [Comment]
     let isScolled: Bool
+    var onTapRefreshButton: (() -> Void)?
     
     var body: some View {
         VStack(spacing: 0) {
@@ -20,7 +21,9 @@ struct CommentList: View {
                     .frame(alignment: .leading)
                     .padding(.vertical, 16)
                 Spacer()
-                Button(action: {}) {
+                Button(action: {
+                    onTapRefreshButton?()
+                }) {
                     Image(.icRefresh32)
                         .foregroundStyle(.gray05)
                 }

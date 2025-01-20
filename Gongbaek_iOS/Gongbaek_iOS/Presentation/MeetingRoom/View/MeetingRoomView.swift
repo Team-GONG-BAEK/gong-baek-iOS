@@ -74,7 +74,12 @@ struct MeetingRoomView: View {
                     .background(.grayWhite)
                     Color.gray02.frame(height: 8)
                     
-                    CommentList(commentCount: $commentData.commentCount, comments: $commentData.comments, isScolled: false)
+                    CommentList(
+                        commentCount: $commentData.commentCount,
+                        comments: $commentData.comments,
+                        isScolled: false,
+                        onTapRefreshButton: nil
+                    )
                 }
             }
             CommentTextField()

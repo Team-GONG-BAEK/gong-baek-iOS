@@ -15,7 +15,8 @@ struct CommentView: View {
             CommentList(
                 commentCount: $commentData.commentCount,
                 comments: $commentData.comments,
-                isScolled: true
+                isScolled: true,
+                onTapRefreshButton: nil
             )
             
             CommentTextField()
