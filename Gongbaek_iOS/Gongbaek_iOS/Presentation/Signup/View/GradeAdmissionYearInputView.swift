@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GradeAdmissionYearInputView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
     @State private var selectedGrade: GradeState? = nil
     @State private var selectedYear: Int? = nil
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 2)
@@ -39,8 +40,7 @@ struct GradeAdmissionYearInputView: View {
                 text: "다음",
                 isActivated: selectedGrade != nil && selectedYear != nil
             ) {
-                print()
-//                navigationManager.push(view: SignupDestination.mbtiSelection)
+                navigationManager.push(view: SignupDestination.mbtiSelection)
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 20)

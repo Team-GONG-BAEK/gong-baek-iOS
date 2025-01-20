@@ -12,7 +12,7 @@ enum SignupDestination: Hashable {
     case nicknameInput
     case schoolMajorInput
     case gradeAdmissionYearInput
-//    case mbtiSelection
+    case mbtiSelection
 //    case sexSelection
 //    case selfIntroductionWriting
 //    case classTimeTableInput
@@ -30,8 +30,8 @@ enum SignupDestination: Hashable {
             SchoolMajorInputView()
         case .gradeAdmissionYearInput:
             GradeAdmissionYearInputView()
-//        case .mbtiSelection:
-//            MbtiSelectionView()
+        case .mbtiSelection:
+            MbtiSelectionView()
 //        case .sexSelection:
 //            SexSelectionView()
 //        case .selfIntroductionWriting:
