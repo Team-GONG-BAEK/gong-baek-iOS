@@ -15,23 +15,7 @@ struct CommentList: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            
-            HStack(alignment: .center) {
-                Text("댓글 \(commentCount)개")
-                    .pretendardFont(.body1_sb_16)
-                    .frame(alignment: .leading)
-                    .padding(.vertical, 16)
-                Spacer()
-                Button(action: {
-                    onTapRefreshButton?()
-                }) {
-                    Image(.icRefresh32)
-                        .foregroundStyle(.gray05)
-                }
-            }
-            .padding(.leading, 16)
-            .padding(.trailing, 8)
-            .frame(maxWidth: .infinity)
+            headerCommentCell()
             
             ScrollView {
                 VStack(alignment:.leading, spacing: 0) {
@@ -40,11 +24,29 @@ struct CommentList: View {
                     }
                 }
                 .padding(.horizontal, 16)
-                
             }
             .scrollDisabled(!isScolled)
         }
         .background(.grayWhite)
+    }
+    
+    func headerCommentCell() -> some View {
+        HStack(alignment: .center) {
+            Text("댓글 \(commentCount)개")
+                .pretendardFont(.body1_sb_16)
+                .frame(alignment: .leading)
+                .padding(.vertical, 16)
+            Spacer()
+            Button(action: {
+                onTapRefreshButton?()
+            }) {
+                Image(.icRefresh32)
+                    .foregroundStyle(.gray05)
+            }
+        }
+        .padding(.leading, 16)
+        .padding(.trailing, 8)
+        .frame(maxWidth: .infinity)
     }
 }
 
