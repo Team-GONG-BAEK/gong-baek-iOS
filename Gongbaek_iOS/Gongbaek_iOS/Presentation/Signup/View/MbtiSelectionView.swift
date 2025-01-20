@@ -47,8 +47,7 @@ struct MbtiSelectionView: View {
                 text: "다음",
                 isActivated: isAllMbtiSelected
             ) {
-                print()
-                navigationManager.push(view: SignupDestination.mbtiSelection)
+                navigationManager.push(view: SignupDestination.sexSelection)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 20)

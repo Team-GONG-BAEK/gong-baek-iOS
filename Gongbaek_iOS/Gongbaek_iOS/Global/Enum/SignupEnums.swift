@@ -58,3 +58,15 @@ enum MBTI_jp: String, CaseIterable {
     case j = "J"
     case p = "P"
 }
+
+enum SexType: String, CaseIterable {
+    case man = "MAN"
+    case woman = "WOMAN"
+    
+    var text: String {
+        switch self {
+        case .man: "남자"
+        case .woman: "여자"
+        }
+    }
+}
