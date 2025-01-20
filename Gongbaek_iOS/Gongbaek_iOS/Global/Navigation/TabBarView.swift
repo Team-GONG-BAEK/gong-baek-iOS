@@ -19,9 +19,10 @@ struct TabBarView: View {
                 CustomTabBar(selectedTab: $selectedTab)
             }
             .navigationDestination(for: FillingDestination.self) { type in
-//                type.view()
-//                    .toolbar(.hidden, for: .navigationBar)
+                type.view(viewModel: AddMeetingViewModel())
+                    .toolbar(.hidden, for: .navigationBar)
             }
+                        
             .navigationDestination(for: MyFillingDestination.self) { type in
 //                type.view()
 //                    .toolbar(.hidden, for: .navigationBar)

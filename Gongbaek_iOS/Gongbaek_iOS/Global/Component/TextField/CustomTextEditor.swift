@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomTextEditor: View {
-    @State var text = ""
+    @Binding var text: String
     @FocusState var isEditing: Bool
     let maxCharacterCount = 100
 
@@ -56,7 +56,4 @@ struct CustomTextEditor: View {
     }
 }
 
-#Preview {
-    CustomTextEditor()
-        .padding(16)
-}
+

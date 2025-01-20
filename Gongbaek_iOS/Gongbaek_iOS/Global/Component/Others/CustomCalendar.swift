@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CustomCalendar: View {
     @State private var month: Date = Date()
-    @State private var clickedCurrentMonthDates: Date?
+    @Binding private var selectedDate: Date?
     
     var today: Date {
         let now = Date()
@@ -31,10 +31,10 @@ struct CustomCalendar: View {
     
     init(
         month: Date = Date(),
-        clickedCurrentMonthDates: Date? = nil
+        selectedDate: Binding<Date?>
     ) {
         _month = State(initialValue: month)
-        _clickedCurrentMonthDates = State(initialValue: clickedCurrentMonthDates)
+        _selectedDate = selectedDate
     }
     
     var body: some View {
@@ -70,7 +70,7 @@ struct CustomCalendar: View {
                     }
                     .disabled(false)
             }
-                .padding(.bottom, 24)
+            .padding(.bottom, 24)
             
             HStack {
                 ForEach(Self.weekdaySymbols.indices, id: \.self) { index in
@@ -109,7 +109,7 @@ struct CustomCalendar: View {
                         let day = Calendar.current.component(.day, from: date)
                         let weekday = Calendar.current.component(.weekday, from: date)
                         // 현재 선택한 날짜인지 여부
-                        let clicked = clickedCurrentMonthDates == date
+                        let clicked = selectedDate == date
                         // 오늘인지 여부
                         let isToday = date.formattedCalendarDayDate == today.formattedCalendarDayDate
                         // 과거 날짜인지 여부
@@ -125,7 +125,7 @@ struct CustomCalendar: View {
                         .onTapGesture {
                             // 주말, 과거가 아닌 경우
                             if !isWeekend(weekday) && !isPast {
-                                clickedCurrentMonthDates = date
+                                selectedDate = date
                             }
                         }
                     }
@@ -140,7 +140,7 @@ struct CustomCalendar: View {
                         to: previousMonth()
                     ) {
                         let day = Calendar.current.component(.day, from: prevMonthDate)
-                      
+                        
                         CalendarCell(
                             day: day,
                             isDisabled: true
@@ -213,7 +213,7 @@ private struct CalendarCell: View {
 }
 
 extension CustomCalendar {
-
+    
     func getDate(for index: Int) -> Date {
         let calendar = Calendar.current
         guard let firstDayOfMonth = calendar.date(
@@ -240,15 +240,15 @@ extension CustomCalendar {
     func numberOfDays(in date: Date) -> Int {
         return Date.numberOfDays(in: date)
     }
-
+    
     func firstWeekdayOfMonth(in date: Date) -> Int {
         return Date.firstWeekdayOfMonth(in: date)
     }
-
+    
     func previousMonth() -> Date {
         return Date.previousMonth(from: month)
     }
-
+    
     func adjustedMonth(by value: Int) -> Date {
         return Date.adjustedMonth(from: month, by: value)
     }
@@ -258,8 +258,8 @@ extension CustomCalendar {
     }
 }
 
-#Preview {
-    CustomCalendar()
-        .padding(16)
-    Spacer()
-}
+//#Preview {
+//    CustomCalendar()
+//        .padding(16)
+//    Spacer()
+//}
