@@ -16,6 +16,7 @@ enum SignupDestination: Hashable {
     case sexSelection
     case selfIntroductionWriting
     case classTimeTableInput
+    case freeTimeTableConversion(selectedCells: Set<TimeTableCellId>)
 //    case signupCompletion
     
     @ViewBuilder
@@ -37,6 +38,8 @@ enum SignupDestination: Hashable {
             SelfIntroductionWritingView()
         case .classTimeTableInput:
             ClassTimeTableInputView()
+        case let .freeTimeTableConversion(selectedCells):
+            FreeTimeTableConversionView(selectedCells: selectedCells)
 //        case .signupCompletion:
 //            SignupCompletionView()
         }

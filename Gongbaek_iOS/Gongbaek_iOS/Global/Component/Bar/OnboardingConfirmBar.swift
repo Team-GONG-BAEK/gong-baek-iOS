@@ -10,12 +10,13 @@ import SwiftUI
 struct OnboardingConfirmBar: View {
     let grayButtonText: String
     let orangeButtonText: String
-    var onTap: (() -> Void)?
+    var onTapGrayButton: (() -> Void)?
+    var onTapOrangeButton: (() -> Void)?
     
     var body: some View {
         HStack(spacing: 16) {
             Button(action: {
-                onTap?()
+                onTapGrayButton?()
             }) {
                 Text(grayButtonText)
                     .pretendardFont(.title2_sb_18)
@@ -28,7 +29,7 @@ struct OnboardingConfirmBar: View {
                     )
             }
             
-            BasicButton(text: orangeButtonText, onTap: onTap)
+            BasicButton(text: orangeButtonText, onTap: onTapOrangeButton)
         }
         .padding(.vertical, 20)
         .padding(.horizontal, 16)
@@ -37,5 +38,5 @@ struct OnboardingConfirmBar: View {
 }
 
 #Preview {
-    OnboardingConfirmBar(grayButtonText: "시간표 변경", orangeButtonText: "가입 완료", onTap: nil)
+    OnboardingConfirmBar(grayButtonText: "시간표 변경", orangeButtonText: "가입 완료")
 }

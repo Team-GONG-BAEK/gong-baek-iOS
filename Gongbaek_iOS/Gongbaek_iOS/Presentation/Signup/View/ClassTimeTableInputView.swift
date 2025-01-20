@@ -10,6 +10,7 @@ import SwiftUI
 struct ClassTimeTableInputView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @State var selectedCells: Set<TimeTableCellId> = []
+    /// 수업시간표 DTO
     @State var classTimeTable: [(day: WeekDay, start: Double, end: Double)] = []
     private let hours = Array(stride(from: 9, through: 17.5, by: 0.5))
     
@@ -34,7 +35,7 @@ struct ClassTimeTableInputView: View {
                     classTimeTable: $classTimeTable
                 )
                 .padding(.horizontal, 16)
-                .padding(.bottom, 60)
+                .padding(.bottom, 30)
             }
             
             Spacer()
@@ -43,7 +44,11 @@ struct ClassTimeTableInputView: View {
                 text: "공강 시간표로 변환",
                 isActivated: !selectedCells.isEmpty
             ) {
-                navigationManager.push(view: SignupDestination.mbtiSelection)
+                navigationManager.push(
+                    view: SignupDestination.freeTimeTableConversion(
+                        selectedCells: selectedCells
+                    )
+                )
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 20)
