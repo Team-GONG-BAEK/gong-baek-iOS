@@ -22,7 +22,7 @@ struct MeetingDetailView: View {
                     coverImg: "sample",//TODO: Int로 넘기기 meetingDetailData.coverImg,
                     groupType: meetingDetailData.groupType,
                     groupTitle: meetingDetailData.groupTitle,
-                    weekDay: .monday,//TODO: meetingDetail.weekDay,
+                    weekDay: .MON,//TODO: meetingDetail.weekDay,
                     weekDate: meetingDetailData.weekDate,
                     startTime: meetingDetailData.startTime,
                     endTime: meetingDetailData.endTime,
