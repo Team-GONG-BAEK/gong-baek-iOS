@@ -16,16 +16,15 @@ enum CategoryState: Int, CaseIterable {
     case PLAYING = 5
     case OTHERS = 6
     
-    //TODO: 일러스트 이미지 추가
-    var categoryImage: String? {
+    var categoryImage: Image? {
         switch self {
         case .ALL: return nil
-        case .STUDY: return "sample"
-        case .DINING: return ""
-        case .EXERCISE: return ""
-        case .NETWORKING: return ""
-        case .PLAYING: return ""
-        case .OTHERS: return ""
+        case .STUDY: return Image(.imgCategoryStudy)
+        case .DINING: return Image(.imgCategoryDining)
+        case .EXERCISE: return Image(.imgCategoryExercise)
+        case .NETWORKING: return Image(.imgCategoryNetworking)
+        case .PLAYING: return Image(.imgCategoryPlay)
+        case .OTHERS: return Image(.imgCategoryOthers)
         }
     }
     
@@ -40,4 +39,16 @@ enum CategoryState: Int, CaseIterable {
         case .OTHERS: return "기타"
         }
     }
+    
+    var coverImage: [String] {
+           switch self {
+           case .ALL: return []
+           case .STUDY: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           case .DINING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           case .EXERCISE: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           case .NETWORKING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           case .PLAYING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           case .OTHERS: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+           }
+       }
 }
