@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: TODO - Model 분리 예정
 
-struct Apply {
+struct ApplyModel {
     var isActivated: Bool
     var currentPeopleCount: Int
     var maxPeopleCount: Int
@@ -18,20 +18,20 @@ struct Apply {
 }
 
 struct ApplyBar: View {
-    var apply: Apply
+    var applyData: ApplyModel
     
     var body: some View {
         HStack(spacing: 16) {
-            Text("\(apply.currentPeopleCount) / \(apply.maxPeopleCount) 명")
+            Text("\(applyData.currentPeopleCount) / \(applyData.maxPeopleCount) 명")
                 .pretendardFont(.title2_sb_18)
                 .padding(16)
-                .foregroundStyle(apply.isActivated ? .gray01 : .grayWhite)
+                .foregroundStyle(applyData.isActivated ? .gray01 : .grayWhite)
                 .background(
                     RoundedRectangle(cornerRadius: 6)
-                        .fill(apply.isActivated ? .gray09 : .gray04)
+                        .fill(applyData.isActivated ? .gray09 : .gray04)
                 )
             
-            BasicButton(text: apply.buttonText, isActivated: apply.isActivated, onTap: apply.onTap)
+            BasicButton(text: applyData.buttonText, isActivated: applyData.isActivated, onTap: applyData.onTap)
         }
         .padding(.vertical, 20)
         .padding(.horizontal, 16)
@@ -41,7 +41,7 @@ struct ApplyBar: View {
 
 #Preview {
     ApplyBar(
-        apply: Apply(
+        applyData: ApplyModel(
             isActivated: true,
             currentPeopleCount: 3,
             maxPeopleCount: 4,
