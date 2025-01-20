@@ -52,9 +52,70 @@ class AddMeetingViewModel: ObservableObject {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+        
         return formatter.string(from: date)
     }
     
+    func updateNextButtonState() {
+        DispatchQueue.main.async {
+            switch self.currentIndex {
+            case 0:
+                self.isNextEnabled = self.selectedCycle != nil
+            case 1:
+                self.isNextEnabled = self.selectedCycle == .once
+                ? self.selectedWeekDate != nil
+                : self.selectedWeekDay != nil
+            case 2:
+                self.isNextEnabled = self.selectedTimeRange.start > 0 && self.selectedTimeRange.end > self.selectedTimeRange.start
+            case 3:
+                self.isNextEnabled = self.selectedCategory != nil
+            case 4:
+                self.isNextEnabled = self.selectedCoverIndex != nil
+            case 5:
+                self.isNextEnabled = !self.location.isEmpty
+            case 6:
+                self.isNextEnabled = !self.title.isEmpty && !self.introduction.isEmpty
+            case 7:
+                self.isNextEnabled = true
+            default:
+                self.isNextEnabled = false
+            }
+            
+            print("🟢 isNextEnabled: \(self.isNextEnabled)")
+        }
+    }
+    
+    func resetValuesForNextPage() {
+        switch self.currentIndex {
+        case 0:
+            self.selectedWeekDate = nil
+            self.selectedWeekDay = nil
+            
+        case 1:
+            self.selectedTimeRange = (0, 0)
+            self.selectedCells = Set([])
+            
+        case 2:
+            self.selectedCategory = nil
+            
+        case 3:
+            self.selectedCoverIndex = nil
+            
+        case 4:
+            self.location = ""
+            
+        case 5:
+            self.title = ""
+            self.introduction = ""
+            
+        default:
+            break
+        }
+        
+        DispatchQueue.main.async { self.updateNextButtonState() }
+    }
+    
+    // ✅ 선택된 날짜의 요일 업데이트
     func updateSelectedWeekDay() {
         guard let date = selectedWeekDate else {
             selectedWeekDay = nil
