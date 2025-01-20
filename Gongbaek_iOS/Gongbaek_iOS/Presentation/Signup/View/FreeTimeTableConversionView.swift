@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct FreeTimeTableConversionView: View {
-    @EnvironmentObject var navigationManager: NavigationManager
-    let selectedCells: Set<TimeTableCellId>
+    @ObservedObject var viewModel: SignupViewModel
     private let hours = Array(stride(from: 9, through: 17.5, by: 0.5))
     
     var body: some View {
@@ -31,16 +30,6 @@ struct FreeTimeTableConversionView: View {
             }
                 
             Spacer()
-            
-            OnboardingConfirmBar(
-                grayButtonText: "시간표 변경",
-                orangeButtonText: "가입 완료",
-                onTapGrayButton: {
-                    navigationManager.pop()
-                }
-            ) {
-//                navigationManager.push(view: SignupDestination.freeTimeTableConversion)
-            }
         }
     }
     
@@ -53,10 +42,10 @@ struct FreeTimeTableConversionView: View {
                 }
             }
         )
-        return allCells.subtracting(selectedCells)
+        return allCells.subtracting(viewModel.selectedCells)
     }
 }
 
 #Preview {
-    FreeTimeTableConversionView(selectedCells: [])
+    FreeTimeTableConversionView(viewModel: SignupViewModel())
 }

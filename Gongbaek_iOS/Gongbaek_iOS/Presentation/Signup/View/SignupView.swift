@@ -32,11 +32,11 @@ enum SignupStep: Int, CaseIterable {
         case .schoolMajorInput:
             SchoolMajorInputView(
                 viewModel: viewModel,
-                onSchoolSearchButtonTap: {
+                onTapSchoolSearchButton: {
                     viewModel.resetSearchState()
                     navigationManager.present(.schoolMajorSearchView(viewModel, .school))
                 },
-                onMajorSearchButtonTap: {
+                onTapMajorSearchButton: {
                     viewModel.resetSearchState()
                     navigationManager.present(.schoolMajorSearchView(viewModel, .major))
                 }
@@ -50,10 +50,9 @@ enum SignupStep: Int, CaseIterable {
         case .selfIntroductionWriting:
             SelfIntroductionWritingView(viewModel: viewModel)
         case .classTimeTableInput:
-            ClassTimeTableInputView()
+            ClassTimeTableInputView(viewModel: viewModel)
         case .freeTimeTableConversion:
-            MbtiSelectionView(viewModel: viewModel)
-//            FreeTimeTableConversionView()
+            FreeTimeTableConversionView(viewModel: viewModel)
         case .signupCompletion:
             // TODO: 회원가입 성공 화면 만들기
             MbtiSelectionView(viewModel: viewModel)
@@ -64,35 +63,58 @@ enum SignupStep: Int, CaseIterable {
 struct SignupView: View {
     @EnvironmentObject private var navigationManager: NavigationManager
     @StateObject private var viewModel = SignupViewModel()
-    @State private var stepIndex: SignupStep = .profileSelection
+    @State private var currentStepIndex: SignupStep = .profileSelection
     
     var body: some View {
         VStack(spacing: 0) {
-            ProgressBar(currentIndex: stepIndex.rawValue)
+            ProgressBar(currentIndex: currentStepIndex.rawValue)
             
-            stepIndex.view(viewModel: viewModel, navigationManager: navigationManager)
+            /// currentStepIndex에 따라 변경되는 View
+            currentStepIndex.view(
+                viewModel: viewModel,
+                navigationManager: navigationManager
+            )
             
             Spacer()
             
-            BasicButton(
-                text: "다음",
-                isActivated: viewModel.isNextButtonEnabled(stepIndex)
-            ) {
-                stepIndex = .allCases[stepIndex.rawValue + 1]
-                
-                // 해당 뷰 뷰모델 변수 init
+            if currentStepIndex == .freeTimeTableConversion {
+                OnboardingConfirmBar(
+                    grayButtonText: "시간표 변경",
+                    orangeButtonText: "가입 완료",
+                    onTapGrayButton: { pop() },
+                    onTapOrangeButton: { push() }
+                )
+            } else {
+                BasicButton(
+                    text: "다음",
+                    isActivated: viewModel.isNextButtonEnabled(currentStepIndex)
+                ) {
+                    push()
+                    // 다음 뷰 뷰모델 변수 init
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 20)                
             }
-            .padding(.horizontal, 16)
-            .padding(.bottom, 20)
         }
         .customNavigationBar(
             showBackButton:
-                !(stepIndex == .profileSelection
-                  || stepIndex == .signupCompletion),
+                !(currentStepIndex == .profileSelection
+                  || currentStepIndex == .signupCompletion),
             onBackButtonTap: {
-                stepIndex = .allCases[stepIndex.rawValue - 1]
+                pop()
             }
         )
+    }
+}
+
+extension SignupView {
+    
+    private func push() {
+        currentStepIndex = .allCases[currentStepIndex.rawValue + 1]
+    }
+    
+    private func pop() {
+        currentStepIndex = .allCases[currentStepIndex.rawValue - 1]
     }
 }
 

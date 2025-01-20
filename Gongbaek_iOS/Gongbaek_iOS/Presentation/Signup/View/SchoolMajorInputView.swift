@@ -9,8 +9,8 @@ import SwiftUI
 
 struct SchoolMajorInputView: View {
     @ObservedObject var viewModel: SignupViewModel
-    let onSchoolSearchButtonTap: (() -> Void)?
-    let onMajorSearchButtonTap: (() -> Void)?
+    let onTapSchoolSearchButton: (() -> Void)?
+    let onTapMajorSearchButton: (() -> Void)?
     
     var body: some View {
         VStack(spacing: 0) {
@@ -29,7 +29,7 @@ struct SchoolMajorInputView: View {
                     isButton: true,
                     state: .school
                 ) { _ in
-                    onSchoolSearchButtonTap?()
+                    onTapSchoolSearchButton?()
                 }
                 .padding(.bottom, 24)
                 
@@ -38,7 +38,7 @@ struct SchoolMajorInputView: View {
                     isButton: true,
                     state: .major
                 ) { _ in
-                    onMajorSearchButtonTap?()
+                    onTapMajorSearchButton?()
                 }
             }
             .padding(.horizontal, 16)
@@ -51,7 +51,7 @@ struct SchoolMajorInputView: View {
 #Preview {
     SchoolMajorInputView(
         viewModel: SignupViewModel(),
-        onSchoolSearchButtonTap: {},
-        onMajorSearchButtonTap: {}
+        onTapSchoolSearchButton: {},
+        onTapMajorSearchButton: {}
     )
 }

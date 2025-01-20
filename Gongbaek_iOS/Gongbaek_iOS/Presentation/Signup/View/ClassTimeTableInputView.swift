@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct ClassTimeTableInputView: View {
-    @EnvironmentObject var navigationManager: NavigationManager
-    @State var selectedCells: Set<TimeTableCellId> = []
-    /// 수업시간표 DTO
-    @State var classTimeTable: [(day: WeekDay, start: Double, end: Double)] = []
-    private let hours = Array(stride(from: 9, through: 17.5, by: 0.5))
+    @ObservedObject var viewModel: SignupViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -29,8 +25,8 @@ struct ClassTimeTableInputView: View {
                 .padding(.bottom, 24)
                 
                 OnboardingTimeTable(
-                    selectedCells: $selectedCells,
-                    classTimeTable: $classTimeTable
+                    selectedCells: $viewModel.selectedCells,
+                    classTimeTable: $viewModel.classTimeTable
                 )
                 .padding(.horizontal, 16)
                 .padding(.bottom, 30)
@@ -42,5 +38,5 @@ struct ClassTimeTableInputView: View {
 }
 
 #Preview {
-    ClassTimeTableInputView()
+    ClassTimeTableInputView(viewModel: SignupViewModel())
 }

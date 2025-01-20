@@ -36,6 +36,9 @@ final class SignupViewModel: ObservableObject {
     @Published var sex: SexType? = nil
     // 자기소개글 작성
     @Published var introduction: String = ""
+    // 수업시간표 입력
+    @Published var selectedCells: Set<TimeTableCellId> = []
+    @Published var classTimeTable: [(day: WeekDay, start: Double, end: Double)] = []
     
     
     func isNextButtonEnabled(_ stepIndex: SignupStep) -> Bool {
@@ -54,9 +57,10 @@ final class SignupViewModel: ObservableObject {
             return sex != nil
         case .selfIntroductionWriting:
             return !introduction.isEmpty
-//        case .classTimeTableInput: return !timeTable.isEmpty
-//        case .freeTimeTableConversion, .signupCompletion: return true
-        default: return false
+        case .classTimeTableInput:
+            return !selectedCells.isEmpty
+        case .freeTimeTableConversion, .signupCompletion:
+            return true
         }
     }
     
