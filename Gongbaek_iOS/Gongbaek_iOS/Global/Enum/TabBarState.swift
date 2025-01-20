@@ -51,7 +51,7 @@ extension TabBarState {
         switch self {
         case .filling: Color.gray01 // View 연결
         case .myFilling: Color.gray02 // View 연결
-        case .home: Color.gray03 // View 연결
+        case .home: HomeView()
         case .timetable: Color.gray04 // View 연결
         case .myPage: Color.gray05 // View
         }
