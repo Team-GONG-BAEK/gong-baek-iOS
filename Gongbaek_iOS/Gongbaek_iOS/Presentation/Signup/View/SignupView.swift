@@ -7,58 +7,6 @@
 
 import SwiftUI
 
-enum SignupStep: Int, CaseIterable {
-    case profileSelection = 0
-    case nicknameInput
-    case schoolMajorInput
-    case gradeAdmissionYearInput
-    case mbtiSelection
-    case sexSelection
-    case selfIntroductionWriting
-    case classTimeTableInput
-    case freeTimeTableConversion
-    case signupCompletion
-    
-    @ViewBuilder
-    func view(
-        viewModel: SignupViewModel,
-        navigationManager: NavigationManager
-    ) -> some View {
-        switch self {
-        case .profileSelection:
-            ProfileSelectionView(viewModel: viewModel)
-        case .nicknameInput:
-            NicknameInputView(viewModel: viewModel)
-        case .schoolMajorInput:
-            SchoolMajorInputView(
-                viewModel: viewModel,
-                onTapSchoolSearchButton: {
-                    viewModel.resetSearchState()
-                    navigationManager.present(.schoolMajorSearchView(viewModel, .school))
-                },
-                onTapMajorSearchButton: {
-                    viewModel.resetSearchState()
-                    navigationManager.present(.schoolMajorSearchView(viewModel, .major))
-                }
-            )
-        case .gradeAdmissionYearInput:
-            GradeAdmissionYearInputView(viewModel: viewModel)
-        case .mbtiSelection:
-            MbtiSelectionView(viewModel: viewModel)
-        case .sexSelection:
-            SexSelectionView(viewModel: viewModel)
-        case .selfIntroductionWriting:
-            SelfIntroductionWritingView(viewModel: viewModel)
-        case .classTimeTableInput:
-            ClassTimeTableInputView(viewModel: viewModel)
-        case .freeTimeTableConversion:
-            FreeTimeTableConversionView(viewModel: viewModel)
-        case .signupCompletion:
-            // TODO: 회원가입 성공 화면 만들기
-            MbtiSelectionView(viewModel: viewModel)
-        }
-    }
-}
 
 struct SignupView: View {
     @EnvironmentObject private var navigationManager: NavigationManager
