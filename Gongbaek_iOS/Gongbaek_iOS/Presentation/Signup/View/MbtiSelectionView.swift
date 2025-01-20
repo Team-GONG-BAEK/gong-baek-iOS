@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct MbtiSelectionView: View {
-    @EnvironmentObject var navigationManager: NavigationManager
-    @State private var e_i: MBTI_ei? = nil
-    @State private var s_n: MBTI_sn? = nil
-    @State private var t_f: MBTI_tf? = nil
-    @State private var j_p: MBTI_jp? = nil
+    @ObservedObject var viewModel: SignupViewModel
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 2)
     
     var body: some View {
@@ -39,9 +35,6 @@ struct MbtiSelectionView: View {
             .scrollIndicators(.never)
             
             Spacer()
-            
-//            let isAllMbtiSelected = e_i != nil && s_n != nil && t_f != nil && j_p != nil
-            
         }
     }
     
@@ -55,36 +48,36 @@ struct MbtiSelectionView: View {
                     ForEach(MBTI_ei.allCases.indices, id: \.self) { index in
                         SmallButton(
                             text: MBTI_ei.allCases[index].rawValue,
-                            isTapped: e_i == MBTI_ei.allCases[index]
+                            isTapped: viewModel.e_i == MBTI_ei.allCases[index]
                         ) {
-                            e_i = MBTI_ei.allCases[index]
+                            viewModel.e_i = MBTI_ei.allCases[index]
                         }
                     }
                 case .sn:
                     ForEach(MBTI_sn.allCases.indices, id: \.self) { index in
                         SmallButton(
                             text: MBTI_sn.allCases[index].rawValue,
-                            isTapped: s_n == MBTI_sn.allCases[index]
+                            isTapped: viewModel.s_n == MBTI_sn.allCases[index]
                         ) {
-                            s_n = MBTI_sn.allCases[index]
+                            viewModel.s_n = MBTI_sn.allCases[index]
                         }
                     }
                 case .tf:
                     ForEach(MBTI_tf.allCases.indices, id: \.self) { index in
                         SmallButton(
                             text: MBTI_tf.allCases[index].rawValue,
-                            isTapped: t_f == MBTI_tf.allCases[index]
+                            isTapped: viewModel.t_f == MBTI_tf.allCases[index]
                         ) {
-                            t_f = MBTI_tf.allCases[index]
+                            viewModel.t_f = MBTI_tf.allCases[index]
                         }
                     }
                 case .jp:
                     ForEach(MBTI_jp.allCases.indices, id: \.self) { index in
                         SmallButton(
                             text: MBTI_jp.allCases[index].rawValue,
-                            isTapped: j_p == MBTI_jp.allCases[index]
+                            isTapped: viewModel.j_p == MBTI_jp.allCases[index]
                         ) {
-                            j_p = MBTI_jp.allCases[index]
+                            viewModel.j_p = MBTI_jp.allCases[index]
                         }
                     }
                 }
@@ -104,5 +97,5 @@ struct MbtiSelectionView: View {
 }
 
 #Preview {
-    MbtiSelectionView()
+    MbtiSelectionView(viewModel: SignupViewModel())
 }

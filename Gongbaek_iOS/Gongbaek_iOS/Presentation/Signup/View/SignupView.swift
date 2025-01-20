@@ -44,7 +44,7 @@ enum SignupStep: Int, CaseIterable {
         case .gradeAdmissionYearInput:
             GradeAdmissionYearInputView(viewModel: viewModel)
         case .mbtiSelection:
-            MbtiSelectionView()
+            MbtiSelectionView(viewModel: viewModel)
         case .sexSelection:
             SexSelectionView()
         case .selfIntroductionWriting:
@@ -90,7 +90,6 @@ struct SignupView: View {
                 !(stepIndex == .profileSelection
                   || stepIndex == .signupCompletion),
             onBackButtonTap: {
-                // 다음버튼 활성화
                 stepIndex = .allCases[stepIndex.rawValue - 1]
             }
         )

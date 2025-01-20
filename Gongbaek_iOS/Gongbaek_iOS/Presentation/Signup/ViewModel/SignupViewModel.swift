@@ -27,6 +27,11 @@ final class SignupViewModel: ObservableObject {
     // 학년입학연도 입력
     @Published var grade: GradeState? = nil
     @Published var yearOfAdmission: Int? = nil
+    // MBTI 입력
+    @Published var e_i: MBTI_ei? = nil
+    @Published var s_n: MBTI_sn? = nil
+    @Published var t_f: MBTI_tf? = nil
+    @Published var j_p: MBTI_jp? = nil
     
     func isNextButtonEnabled(_ stepIndex: SignupStep) -> Bool {
         switch stepIndex {
@@ -38,7 +43,8 @@ final class SignupViewModel: ObservableObject {
             return !schoolName.isEmpty && !majorName.isEmpty
         case .gradeAdmissionYearInput:
             return grade != nil && yearOfAdmission != nil
-//        case .mbtiSelection: return !mbti.isEmpty
+        case .mbtiSelection:
+            return e_i != nil && s_n != nil && t_f != nil && j_p != nil
 //        case .sexSelection: return sex != nil
 //        case .selfIntroductionWriting: return !introduction.isEmpty
 //        case .classTimeTableInput: return !timeTable.isEmpty
