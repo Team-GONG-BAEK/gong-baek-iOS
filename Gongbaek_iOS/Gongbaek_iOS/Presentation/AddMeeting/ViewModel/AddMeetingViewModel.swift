@@ -8,43 +8,69 @@
 import SwiftUI
 
 class AddMeetingViewModel: ObservableObject {
-    @Published var selectedCycle: CycleState? = nil
+    @Published var currentIndex: Int = 0 {
+        didSet { updateNextButtonState() }
+    }
+    
+    @Published var isNextEnabled: Bool = false
+    
+    @Published var selectedCycle: CycleState? = nil {
+        didSet { updateNextButtonState() }
+    }
+    
     @Published var selectedWeekDate: Date? = nil {
         didSet {
             updateSelectedWeekDay()
+            updateNextButtonState()
         }
     }
     
-    @Published var selectedWeekDay: WeekDay? = nil
+    @Published var selectedWeekDay: WeekDay? = nil {
+        didSet { updateNextButtonState() }
+    }
     
-    @Published var selectedCategory: CategoryState? = nil
-    @Published var selectedCoverImage: String? = nil
+    @Published var selectedCategory: CategoryState? = nil {
+        didSet { updateNextButtonState() }
+    }
+    
+    @Published var selectedCoverIndex: Int? = nil {
+        didSet { updateNextButtonState() }
+    }
     
     @Published var freeTimeTable: [TimeTableModel] = dummyFreeTimeTable
-    @Published var selectedTimeRange: (start: Double, end: Double) = (0, 0)
-    @Published var selectedCells: Set<TimeTableCellId> = []
-    @Published var freeTimeIdToCellsMap: [Int: [TimeTableCellId]] = [:]
-    @Published var isNextEnabled: Bool = false
+    @Published var selectedCells: Set<TimeTableCellId> = [] {
+        didSet { updateNextButtonState() }
+    }
     
-    @Published var location: String = ""
+    @Published var selectedTimeRange: (start: Double, end: Double) = (0, 0) {
+        didSet {
+            print("⏰ 선택된 시간: start=\(selectedTimeRange.start), end=\(selectedTimeRange.end)")
+            updateNextButtonState()
+        }
+    }
+    
+    @Published var location: String = "" {
+        didSet { updateNextButtonState() }
+    }
+    
     @Published var maxPeopleCount: Int = 2
     
-    @Published var title: String = ""
-    @Published var introduction: String = ""
+    @Published var title: String = "" {
+        didSet { updateNextButtonState() }
+    }
     
-    @Published var currentIndex: Int = 0
+    @Published var introduction: String = "" {
+        didSet { updateNextButtonState() }
+    }
     
     let totalSteps: Int = 8
     
     func goToNextPage() {
-        if currentIndex < totalSteps - 1 {
+        if isNextEnabled && currentIndex < totalSteps - 1 {
+            resetValuesForNextPage()
             currentIndex += 1
+            DispatchQueue.main.async { self.updateNextButtonState() }
         }
-    }
-    
-    func getSelectedWeekDayEnum() -> WeekDay? {
-        guard let selectedDay = selectedWeekDay else { return nil }
-        return WeekDay(rawValue: selectedDay.rawValue) ?? WeekDay.fromRawValue(selectedDay.rawValue)
     }
     
     var selectedFormattedDate: String? {
@@ -130,8 +156,13 @@ class AddMeetingViewModel: ObservableObject {
             selectedWeekDay = WeekDay.fromWeekdayIndex(weekDayIndex)
         }
         
-        print("✅ 선택된 날짜: \(selectedFormattedDate ?? "N/A")")  
+        print("✅ 선택된 날짜: \(selectedFormattedDate ?? "N/A")")
         print("✅ 선택된 요일: \(selectedWeekDay?.rawValue ?? "N/A")")
+    }
+    
+    func getSelectedWeekDayEnum() -> WeekDay? {
+        guard let selectedDay = selectedWeekDay else { return nil }
+        return WeekDay(rawValue: selectedDay.rawValue) ?? WeekDay.fromRawValue(selectedDay.rawValue)
     }
     
     func increasePeopleCount() {
@@ -146,4 +177,14 @@ class AddMeetingViewModel: ObservableObject {
         }
     }
     
+    func getSelectedCoverImage() -> String {
+        guard let category = selectedCategory, 
+              let selectedIndex = selectedCoverIndex,
+              selectedIndex > 0,
+              selectedIndex <= category.coverImage.count else {
+            return "img_cover_default"
+        }
+        
+        return category.coverImage[selectedIndex]
+    }
 }

@@ -27,11 +27,10 @@ struct CoverImageSelect: View {
                 ForEach(enumeratedCoverImages, id: \.0) { index, image in
                     CoverImageButton(
                         image: image,
-                        isSelected: selectedCoverIndex == index,
+                        isSelected: viewModel.selectedCoverIndex == index,
                         onTap: {
-                            selectedCoverIndex = index
-                            viewModel.selectedCoverImage = image
-                            isNextEnabled = true
+                            viewModel.selectedCoverIndex = index
+                            print("✅ 선택된 커버 인덱스 (서버 기준): \(viewModel.selectedCoverIndex)")
                         }
                     )
                     .frame(height: 138)
