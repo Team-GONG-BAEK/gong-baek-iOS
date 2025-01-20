@@ -36,7 +36,10 @@ struct MeetingDetailView: View {
             MeetingDetailSegmentControlBar(
                 introduction: $meetingDetailData.introduction,
                 ownerInfo: $ownerInfoData,
-                commentData: $commentData
+                commentData: $commentData,
+                currentPeopleCount: $meetingDetailData.currentPeopleCount,
+                maxPeopleCount: $meetingDetailData.maxPeopleCount,
+                meetingStatus: $meetingDetailData.status
             )
         }
     }

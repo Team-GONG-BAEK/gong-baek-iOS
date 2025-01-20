@@ -10,11 +10,11 @@ struct MeetingDetailModel {
     let groupType: String
     let groupTitle: String
     let location: String
-    let status: String
+    var status: String
     let isHost: Bool
-    let isApply: Bool
-    let currentPeopleCount: Int
-    let maxPeopleCount: Int
+    var isApply: Bool
+    var currentPeopleCount: Int
+    var maxPeopleCount: Int
     var introduction: String
     let category: String
     let coverImg: Int

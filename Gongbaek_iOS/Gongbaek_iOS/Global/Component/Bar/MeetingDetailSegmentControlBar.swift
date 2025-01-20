@@ -17,6 +17,9 @@ struct MeetingDetailSegmentControlBar: View {
     @Binding var introduction: String
     @Binding var ownerInfo: OwnerInfoModel
     @Binding var commentData: CommentModel
+    @Binding var currentPeopleCount: Int
+    @Binding var maxPeopleCount: Int
+    @Binding var meetingStatus: String
     @State private var selectedIndex = 0
     
     var body: some View {
@@ -54,7 +57,13 @@ struct MeetingDetailSegmentControlBar: View {
         let type = MeetingDetailType.allCases[selectedIndex]
         switch type {
         case .meetingInfo:
-            MeetingInfoView(ownerInfo: $ownerInfo, introduction: $introduction)
+            MeetingInfoView(
+                ownerInfo: $ownerInfo,
+                introduction: $introduction,
+                currentPeopleCount: $currentPeopleCount,
+                maxPeopleCount: $maxPeopleCount,
+                meetingStatus: $meetingStatus
+            )
         case .comment:
             CommentView(commentData: $commentData)
         }
