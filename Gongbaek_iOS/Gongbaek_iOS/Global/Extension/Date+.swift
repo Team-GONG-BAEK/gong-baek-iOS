@@ -56,14 +56,14 @@ extension Date {
         
         return "시간 정보 없음"
     }
-
+    
     // 시간 포맷 함수
     static func formatTime(_ time: Double) -> String {
         let hours = Int(time)
         let minutes = Int((time - Double(hours)) * 60)
         return minutes == 0 ? "\(hours)시" : "\(hours)시 \(minutes)분"
     }
-
+    
     // 날짜 포맷 함수
     static func formatDate(_ dateString: String) -> String {
         let formatter = DateFormatter()
@@ -73,4 +73,10 @@ extension Date {
         formatter.dateFormat = "MM월 dd일"
         return formatter.string(from: date)
     }
+    
+    static func currentYear(asString: Bool = false) -> Any {
+        let year = Calendar.current.component(.year, from: Date())
+        return asString ? "\(year)" : year
+    }
+    
 }
