@@ -8,13 +8,9 @@
 import SwiftUI
 
 struct TimeSelect: View {
-    @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            ProgressBar(currentIndex: 2)
-                .padding(.bottom, 40)
             VStack(alignment: .leading, spacing: 0) {
                 TitleTextBox(title: "공백을 채울 시간을 선택해주세요.", subtitle: nil)
                     .padding(.bottom, 20)
@@ -27,29 +23,29 @@ struct TimeSelect: View {
                     SelectedTimeBox(time: viewModel.selectedTimeRange.end.formatTime())
                 }
                 .padding(.bottom, 30)
-
-                HStack(spacing: 12) {
-                    Text("나의 시간표")
-                        .font(.pretendard(.body1_b_16))
-                        .foregroundColor(.gray08)
-                    Spacer()
-                    Button(action: {
-                        viewModel.selectedTimeRange = (start: 0, end: 0)
-                        viewModel.selectedCells.removeAll()
-                    }) {
-                        HStack(spacing: 0) {
-                            Text("다시 선택")
-                                .font(.pretendard(.caption2_m_12))
-                                .foregroundColor(.mainOrange)
-                            Image(.icOptionReset18)
-                                .foregroundColor(.mainOrange)
-                                .frame(width: 18, height: 18)
+                
+                ScrollView {
+                    HStack(spacing: 12) {
+                        Text("나의 시간표")
+                            .font(.pretendard(.body1_b_16))
+                            .foregroundColor(.gray08)
+                        Spacer()
+                        Button(action: {
+                            viewModel.selectedTimeRange = (start: 0, end: 0)
+                            viewModel.selectedCells.removeAll()
+                        }) {
+                            HStack(spacing: 0) {
+                                Text("다시 선택")
+                                    .font(.pretendard(.caption2_m_12))
+                                    .foregroundColor(.mainOrange)
+                                Image(.icOptionReset18)
+                                    .foregroundColor(.mainOrange)
+                                    .frame(width: 18, height: 18)
+                            }
                         }
                     }
-                }
-                .padding(.bottom, 10)
+                    .padding(.bottom, 10)
 
-                ScrollView {
                     AddMeetingTimeTable(
                         viewModel: viewModel,
                         freeTimeTable: viewModel.freeTimeTable,
@@ -61,14 +57,5 @@ struct TimeSelect: View {
 
             }
             .padding(.horizontal, 16)
-
-            Spacer()
-            BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
-                navigationManager.push(view: AddMeetingDestination.categorySelect(viewModel: viewModel))
-            }
-            .padding(.vertical, 20)
-            .padding(.horizontal, 16)
-        }
-        .customNavigationBar(showBackButton: true)
     }
 }

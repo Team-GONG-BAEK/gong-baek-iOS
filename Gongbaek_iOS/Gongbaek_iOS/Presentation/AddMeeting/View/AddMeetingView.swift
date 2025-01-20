@@ -8,61 +8,87 @@
 import SwiftUI
 
 struct AddMeetingView: View {
-    @EnvironmentObject var navigationManager: NavigationManager
-    @StateObject var viewModel = AddMeetingViewModel()
-    @State private var isNextEnabled: Bool = false
+    @StateObject var viewModel: AddMeetingViewModel
+    @State private var showAlert: Bool = false  // ✅ Alert 표시 여부를 관리하는 상태 변수
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            ProgressBar(currentIndex: 0)
-                .padding(.bottom, 40)
-            
+        ZStack {
             VStack(alignment: .leading, spacing: 0) {
-                TitleTextBox(title: "활동주기를 선택해주세요.", subtitle: nil)
-                    .padding(.bottom, 20)
-                
-                HStack(spacing: 8) {
-                    SmallButton(text: "한번만 볼래요", isTapped: viewModel.selectedCycle == .once) {
-                        viewModel.selectedCycle = .once
-                        isNextEnabled = true
-                    }
-                    SmallButton(text: "매주 볼래요", isTapped: viewModel.selectedCycle == .weekly) {
-                        viewModel.selectedCycle = .weekly
-                        isNextEnabled = true
-                    }
-                }
-                .padding(.bottom, 48)
-                
                 HStack {
-                    Image(.icMark16)
-                        .foregroundColor(.mainOrange)
-                        .frame(width: 16, height: 16)
-                    Text("매주 볼래요의 경우 모임은 한 학기동안 유효합니다.")
-                        .pretendardFont(.body2_sb_14)
-                        .foregroundColor(.mainOrange)
+                    if viewModel.currentIndex > 0 {
+                        Button(action: {
+                            viewModel.currentIndex -= 1
+                        }) {
+                            Image(.icArrowLeft48)
+                                .foregroundColor(.gray04)
+                                .frame(width: 48, height: 48)
+                        }
+                    } else {
+                        Spacer().frame(width: 48, height: 48)
+                    }
                 }
-                .padding(.bottom, 10)
                 
-                Text("1학기는 6월 30일 0시까지, 2학기는 12월 31일 0시까지가 기준입니다.\n모임 개설자는 원한다면 중간에 언제든 모임을 삭제할 수 있습니다.")
-                    .pretendardFont(.caption2_r_12)
-                    .foregroundColor(.gray08)
-            }
-            .padding(.horizontal, 16)
-            
-            Spacer()
-            BasicButton(text: "다음", isActivated: isNextEnabled) {
-                if viewModel.selectedCycle == .once {
-                    navigationManager.push(view: AddMeetingDestination.calendarSelect(viewModel: viewModel))
-                } else {
-                    navigationManager.push(view: AddMeetingDestination.weekDaySelect(viewModel: viewModel))
+                ProgressBar(currentIndex: viewModel.currentIndex)
+                    .padding(.bottom, 40)
+                
+                switch viewModel.currentIndex {
+                case 0:
+                    CycleSelect(viewModel: viewModel)
+                case 1:
+                    if viewModel.selectedCycle == .once {
+                        CalendarSelect(viewModel: viewModel)
+                    } else if viewModel.selectedCycle == .weekly {
+                        WeekDaySelect(viewModel: viewModel)
+                    }
+                case 2:
+                    TimeSelect(viewModel: viewModel)
+                case 3:
+                    CategorySelect(viewModel: viewModel)
+                case 4:
+                    CoverImageSelect(viewModel: viewModel)
+                case 5:
+                    LocationInput(viewModel: viewModel)
+                case 6:
+                    IntroduceInput(viewModel: viewModel)
+                default:
+                    CheckInputInfo(viewModel: viewModel)
                 }
+                
+                Spacer()
+                
+                // ✅ 버튼 동적 변경을 위한 변수 추가
+                let isLastStep = viewModel.currentIndex == viewModel.totalSteps - 1
+                
+                BasicButton(
+                    text: isLastStep ? "등록하기" : "다음",
+                    isActivated: viewModel.isNextEnabled
+                ) {
+                    if isLastStep {
+                        showAlert = true  // ✅ Alert 표시
+                    } else {
+                        viewModel.currentIndex += 1
+                    }
+                }
+                .padding(.vertical, 20)
+                .padding(.horizontal, 16)
             }
-            .disabled(!isNextEnabled)
-            .padding(.vertical, 20)
-            .padding(.horizontal, 16)
+            
+            if showAlert {
+                CustomedAlert(
+                    alertImage: "sample",
+                    titleText: "모임 등록이 완료됐어요!",
+                    orangeButtonText: "확인",
+                    onTapOrangeButton: {
+                        showAlert = false
+                        print("닫기 버튼 클릭")
+                    }
+                )
+            }
         }
-        .customNavigationBar(showBackButton: true)
     }
 }
 
-
+#Preview {
+    @Previewable @State var viewModel = AddMeetingViewModel()
+    CoverImageSelect(viewModel: viewModel)
+}

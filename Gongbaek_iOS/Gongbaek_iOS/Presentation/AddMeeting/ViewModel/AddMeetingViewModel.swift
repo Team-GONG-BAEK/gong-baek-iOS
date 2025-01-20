@@ -8,25 +8,20 @@
 import SwiftUI
 
 class AddMeetingViewModel: ObservableObject {
-    let id = UUID()
-    
     @Published var selectedCycle: CycleState? = nil
     @Published var selectedWeekDate: Date? = nil {
         didSet {
             updateSelectedWeekDay()
         }
     }
+    
     @Published var selectedWeekDay: WeekDay? = nil
     
     @Published var selectedCategory: CategoryState? = nil
     @Published var selectedCoverImage: String? = nil
     
     @Published var freeTimeTable: [TimeTableModel] = dummyFreeTimeTable
-    @Published var selectedTimeRange: (start: Double, end: Double) = (0,0) {
-           didSet {
-               updateNextButtonState()
-           }
-       }
+    @Published var selectedTimeRange: (start: Double, end: Double) = (0, 0)
     @Published var selectedCells: Set<TimeTableCellId> = []
     @Published var freeTimeIdToCellsMap: [Int: [TimeTableCellId]] = [:]
     @Published var isNextEnabled: Bool = false
@@ -37,7 +32,30 @@ class AddMeetingViewModel: ObservableObject {
     @Published var title: String = ""
     @Published var introduction: String = ""
     
-    private func updateSelectedWeekDay() {
+    @Published var currentIndex: Int = 0
+    
+    let totalSteps: Int = 8
+    
+    func goToNextPage() {
+        if currentIndex < totalSteps - 1 {
+            currentIndex += 1
+        }
+    }
+    
+    func getSelectedWeekDayEnum() -> WeekDay? {
+        guard let selectedDay = selectedWeekDay else { return nil }
+        return WeekDay(rawValue: selectedDay.rawValue) ?? WeekDay.fromRawValue(selectedDay.rawValue)
+    }
+    
+    var selectedFormattedDate: String? {
+        guard let date = selectedWeekDate else { return nil }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+        return formatter.string(from: date)
+    }
+    
+    func updateSelectedWeekDay() {
         guard let date = selectedWeekDate else {
             selectedWeekDay = nil
             return
@@ -51,21 +69,8 @@ class AddMeetingViewModel: ObservableObject {
             selectedWeekDay = WeekDay.fromWeekdayIndex(weekDayIndex)
         }
         
-        print("✅ 선택된 날짜: \(formattedDate ?? "N/A")")  // 📅 디버깅 로그
+        print("✅ 선택된 날짜: \(selectedFormattedDate ?? "N/A")")  
         print("✅ 선택된 요일: \(selectedWeekDay?.rawValue ?? "N/A")")
-    }
-    
-    
-    var formattedDate: String? {
-        guard let date = selectedWeekDate else { return nil }
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
-        return formatter.string(from: date)
-    }
-    
-    func getSelectedWeekDayEnum() -> WeekDay? {
-        return selectedWeekDay
     }
     
     func increasePeopleCount() {
@@ -78,10 +83,6 @@ class AddMeetingViewModel: ObservableObject {
         if maxPeopleCount > 2 {
             maxPeopleCount -= 1
         }
-    }
-    
-    private func updateNextButtonState() {
-        isNextEnabled = selectedTimeRange.start > 0 && selectedTimeRange.end > 0
     }
     
 }

@@ -18,49 +18,35 @@ struct LocationInput: View {
     @State var isFocused: Bool = false
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0){
-            ProgressBar(currentIndex: 5)
-                .padding(.bottom, 40)
+        VStack(alignment: .leading, spacing: 0) {
+            TitleTextBox(title: "활동주기를 선택해주세요.", subtitle: nil)
+                .padding(.bottom, 20)
             
-            VStack(alignment: .leading, spacing: 0) {
-                TitleTextBox(title: "활동주기를 선택해주세요.", subtitle: nil)
-                    .padding(.bottom, 20)
-                
-                CustomTextField(
-                    text: $viewModel.location,
-                    showError: $showError,
-                    state: .location
-                )
-                .onChange(of: viewModel.location) { newValue in
-                    isNextEnabled = newValue.trimmingCharacters(in: .whitespacesAndNewlines).count >= 2
-                }
-                .padding(.bottom, 40)
-                
-                TitleTextBox(title: "인원을 선택해주세요.", subtitle: "본인 포함 최소 2명부터 최대 10명까지 모집 가능해요.", highlightSubtitleText: "최소 2명부터 최대 10명")
-                    .padding(.bottom, 20)
-                
-                HStack(spacing: 10) {
-                    CounterButton(state: .decrease, onTap: {
-                        viewModel.decreasePeopleCount()
-                    })
-                    PersonCountBox(num: viewModel.maxPeopleCount)
-                    CounterButton(state: .increase, onTap: {
-                        viewModel.increasePeopleCount()
-                    })
-                }
-                
+            CustomTextField(
+                text: $viewModel.location,
+                showError: $showError,
+                state: .location
+            )
+            .onChange(of: viewModel.location) { newValue in
+                isNextEnabled = newValue.trimmingCharacters(in: .whitespacesAndNewlines).count >= 2
             }
-            .padding(.horizontal, 16)
+            .padding(.bottom, 40)
             
-            Spacer()
-            BasicButton(text: "다음", isActivated: isNextEnabled) {
-                navigationManager.push(view: AddMeetingDestination.introduceInput(viewModel: viewModel))
+            TitleTextBox(title: "인원을 선택해주세요.", subtitle: "본인 포함 최소 2명부터 최대 10명까지 모집 가능해요.", highlightSubtitleText: "최소 2명부터 최대 10명")
+                .padding(.bottom, 20)
+            
+            HStack(spacing: 10) {
+                CounterButton(state: .decrease, onTap: {
+                    viewModel.decreasePeopleCount()
+                })
+                PersonCountBox(num: viewModel.maxPeopleCount)
+                CounterButton(state: .increase, onTap: {
+                    viewModel.increasePeopleCount()
+                })
             }
-            .disabled(!isNextEnabled)
-            .padding(.vertical, 20)
-            .padding(.horizontal, 16)
+            
         }
-        .customNavigationBar(showBackButton: true)
+        .padding(.horizontal, 16)
     }
 }
 
