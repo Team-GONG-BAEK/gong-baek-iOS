@@ -242,7 +242,7 @@ class AddMeetingViewModel: ObservableObject {
         }
 
         //이미지 인덱스는 + 1 해서 보내기
-        print("▶ coverImg: \(selectedCoverIndex ?? -1)")
+        print("▶ coverImg: \(selectedCoverIndex ?? +1)")
         print("▶ location: \(location)")
         print("▶ maxPeopleCount: \(maxPeopleCount)")
         print("▶ groupTitle: \(title)")
