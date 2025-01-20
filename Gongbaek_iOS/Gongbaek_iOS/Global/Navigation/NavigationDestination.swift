@@ -15,8 +15,7 @@ enum SignupDestination: Hashable {
     case mbtiSelection
     case sexSelection
     case selfIntroductionWriting
-//    case classTimeTableInput
-//    case freeTimeTableConversion
+    case classTimeTableInput
 //    case signupCompletion
     
     @ViewBuilder
@@ -36,10 +35,8 @@ enum SignupDestination: Hashable {
             SexSelectionView()
         case .selfIntroductionWriting:
             SelfIntroductionWritingView()
-//        case .classTimeTableInput:
-//            ClassTimeTableInputView()
-//        case .freeTimeTableConversion:
-//            FreeTimeTableConversionView()
+        case .classTimeTableInput:
+            ClassTimeTableInputView()
 //        case .signupCompletion:
 //            SignupCompletionView()
         }

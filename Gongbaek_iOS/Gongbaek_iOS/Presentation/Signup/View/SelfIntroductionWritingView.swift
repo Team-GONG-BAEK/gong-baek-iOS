@@ -37,7 +37,7 @@ struct SelfIntroductionWritingView: View {
                 text: "다음",
                 isActivated: !textFieldText.isEmpty
             ) {
-                navigationManager.push(view: SignupDestination.mbtiSelection)
+                navigationManager.push(view: SignupDestination.classTimeTableInput)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 20)
