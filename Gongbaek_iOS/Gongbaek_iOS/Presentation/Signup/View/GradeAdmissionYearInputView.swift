@@ -8,15 +8,11 @@
 import SwiftUI
 
 struct GradeAdmissionYearInputView: View {
-    @EnvironmentObject var navigationManager: NavigationManager
-    @State private var selectedGrade: GradeState? = nil
-    @State private var selectedYear: Int? = nil
+    @ObservedObject var viewModel: SignupViewModel
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 2)
     
     var body: some View {
         VStack(spacing: 0) {
-            ProgressBar(currentIndex: 3)
-            
             TitleTextBox(
                 title: "학년과 입학연도를 입력해주세요.",
                 subtitle: "프로필에 표시되는 정보로, 언제든 변경할 수 있어요."
@@ -27,25 +23,15 @@ struct GradeAdmissionYearInputView: View {
             .padding(.bottom, 44)
             
             gradeButtons()
-            YearSelectButton(isSelected: selectedYear != nil) {
+            YearSelectButton(isSelected: viewModel.yearOfAdmission != nil) {
                 // TODO: 연도 피커뷰 바텀시트
-                selectedYear = 2025
+                viewModel.yearOfAdmission = 2025
             }
             .padding(.top, 24)
             .padding(.horizontal, 16)
             
             Spacer()
-            
-            BasicButton(
-                text: "다음",
-                isActivated: selectedGrade != nil && selectedYear != nil
-            ) {
-                navigationManager.push(view: SignupDestination.mbtiSelection)
-            }
-            .padding(.horizontal, 16)
-            .padding(.bottom, 20)
         }
-        .customNavigationBar(showBackButton: true)
     }
     
     private func gradeButtons() -> some View {
@@ -64,9 +50,9 @@ struct GradeAdmissionYearInputView: View {
                 ForEach(GradeState.allCases.indices, id: \.self) { index in
                     SmallButton(
                         text: GradeState.allCases[index].rawValue,
-                        isTapped: selectedGrade == GradeState.allCases[index]
+                        isTapped: viewModel.grade == GradeState.allCases[index]
                     ) {
-                        selectedGrade = GradeState.allCases[index]
+                        viewModel.grade = GradeState.allCases[index]
                     }
                 }
             }
@@ -76,5 +62,5 @@ struct GradeAdmissionYearInputView: View {
 }
 
 #Preview {
-    GradeAdmissionYearInputView()
+    GradeAdmissionYearInputView(viewModel: SignupViewModel())
 }

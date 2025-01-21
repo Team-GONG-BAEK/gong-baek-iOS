@@ -8,14 +8,11 @@
 import SwiftUI
 
 struct SexSelectionView: View {
-    @EnvironmentObject var navigationManager: NavigationManager
-    @State private var selectedSex: SexType? = nil
+    @ObservedObject var viewModel: SignupViewModel
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 2)
     
     var body: some View {
         VStack(spacing: 0) {
-            ProgressBar(currentIndex: 5)
-            
             TitleTextBox(
                 title: "성별을 선택해주세요.",
                 subtitle: "프로필에 표시되는 정보로, 언제든 변경할 수 있어요."
@@ -28,18 +25,7 @@ struct SexSelectionView: View {
             sexButtons()
             
             Spacer()
-            
-            BasicButton(
-                text: "다음",
-                isActivated: selectedSex != nil
-            ) {
-                print()
-                navigationManager.push(view: SignupDestination.selfIntroductionWriting)
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 20)
         }
-        .customNavigationBar(showBackButton: true)
     }
     
     private func sexButtons() -> some View {
@@ -58,9 +44,9 @@ struct SexSelectionView: View {
                 ForEach(SexType.allCases.indices, id: \.self) { index in
                     SmallButton(
                         text: SexType.allCases[index].text,
-                        isTapped: selectedSex == SexType.allCases[index]
+                        isTapped: viewModel.sex == SexType.allCases[index]
                     ) {
-                        selectedSex = SexType.allCases[index]
+                        viewModel.sex = SexType.allCases[index]
                     }
                 }
             }
@@ -70,5 +56,5 @@ struct SexSelectionView: View {
 }
 
 #Preview {
-    SexSelectionView()
+    SexSelectionView(viewModel: SignupViewModel())
 }

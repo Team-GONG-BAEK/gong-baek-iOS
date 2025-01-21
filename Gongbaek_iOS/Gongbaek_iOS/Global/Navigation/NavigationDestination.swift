@@ -8,38 +8,31 @@
 import SwiftUI
 
 enum SignupDestination: Hashable {
-    case profileSelection
-    case nicknameInput
-    case schoolMajorInput
-    case gradeAdmissionYearInput
-    case mbtiSelection
-    case sexSelection
-    case selfIntroductionWriting
-    case classTimeTableInput
-    case freeTimeTableConversion(selectedCells: Set<TimeTableCellId>)
-//    case signupCompletion
+    case signup
     
     @ViewBuilder
     func view() -> some View {
         switch self {
-        case .profileSelection:
-            ProfileSelectionView()
-        case .nicknameInput:
-            NicknameInputView()
-        case .schoolMajorInput:
-            SchoolMajorInputView()
-        case .gradeAdmissionYearInput:
-            GradeAdmissionYearInputView()
-        case .mbtiSelection:
-            MbtiSelectionView()
-        case .sexSelection:
-            SexSelectionView()
-        case .selfIntroductionWriting:
-            SelfIntroductionWritingView()
-        case .classTimeTableInput:
-            ClassTimeTableInputView()
-        case let .freeTimeTableConversion(selectedCells):
-            FreeTimeTableConversionView(selectedCells: selectedCells)
+        case .signup:
+            SignupView()
+//        case .profileSelection:
+//            ProfileSelectionView()
+//        case .nicknameInput:
+//            NicknameInputView()
+//        case .schoolMajorInput:
+//            SchoolMajorInputView()
+//        case .gradeAdmissionYearInput:
+//            GradeAdmissionYearInputView()
+//        case .mbtiSelection:
+//            MbtiSelectionView()
+//        case .sexSelection:
+//            SexSelectionView()
+//        case .selfIntroductionWriting:
+//            SelfIntroductionWritingView()
+//        case .classTimeTableInput:
+//            ClassTimeTableInputView()
+//        case let .freeTimeTableConversion(selectedCells):
+//            FreeTimeTableConversionView(selectedCells: selectedCells)
 //        case .signupCompletion:
 //            SignupCompletionView()
         }
@@ -92,7 +85,7 @@ enum HomeDestination: Hashable {
 
 /// Present 방식으로 화면 전환되는 Destination 정의
 enum PresentableDestination: Identifiable {
-    case schoolMajorSearchView(Binding<String>, SearchViewState)
+    case schoolMajorSearchView(SignupViewModel, SearchViewState)
 
     var id: String {
         switch self {
@@ -104,8 +97,8 @@ enum PresentableDestination: Identifiable {
     @ViewBuilder
     func view() -> some View {
         switch self {
-        case let .schoolMajorSearchView(result, state):
-            SchoolMajorSearchView(selectedResult: result, state: state)
+        case let .schoolMajorSearchView(viewModel, state):
+            SchoolMajorSearchView(viewModel: viewModel, state: state)
         }
     }
 }

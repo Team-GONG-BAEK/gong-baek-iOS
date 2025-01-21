@@ -8,16 +8,10 @@
 import SwiftUI
 
 struct ClassTimeTableInputView: View {
-    @EnvironmentObject var navigationManager: NavigationManager
-    @State var selectedCells: Set<TimeTableCellId> = []
-    /// 수업시간표 DTO
-    @State var classTimeTable: [(day: WeekDay, start: Double, end: Double)] = []
-    private let hours = Array(stride(from: 9, through: 17.5, by: 0.5))
+    @ObservedObject var viewModel: SignupViewModel
     
     var body: some View {
         VStack(spacing: 0) {
-            ProgressBar(currentIndex: 7)
-            
             // TODO: 스크롤 영역 수정 가능성 있음
             ScrollView {
                 TitleTextBox(
@@ -31,32 +25,18 @@ struct ClassTimeTableInputView: View {
                 .padding(.bottom, 24)
                 
                 OnboardingTimeTable(
-                    selectedCells: $selectedCells,
-                    classTimeTable: $classTimeTable
+                    selectedCells: $viewModel.selectedCells,
+                    classTimeTable: $viewModel.classTimeTable
                 )
                 .padding(.horizontal, 16)
                 .padding(.bottom, 30)
             }
             
             Spacer()
-            
-            BasicButton(
-                text: "공강 시간표로 변환",
-                isActivated: !selectedCells.isEmpty
-            ) {
-                navigationManager.push(
-                    view: SignupDestination.freeTimeTableConversion(
-                        selectedCells: selectedCells
-                    )
-                )
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 20)
         }
-        .customNavigationBar(showBackButton: true)
     }
 }
 
 #Preview {
-    ClassTimeTableInputView()
+    ClassTimeTableInputView(viewModel: SignupViewModel())
 }

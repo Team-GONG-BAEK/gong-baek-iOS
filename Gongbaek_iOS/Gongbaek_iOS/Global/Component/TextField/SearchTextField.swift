@@ -43,17 +43,26 @@ struct SearchTextField: View {
                     HStack {
                         Spacer()
                         Button(action: {
-                            if !isButton { buttonAction(inputText) }
+                            if !isButton {
+                                isFocused = false
+                                buttonAction(inputText)
+                            }
                         }) {
                             Image(.icSearchGray48)
                                 .foregroundColor(isFocused ? .gray10 : .gray04)
                         }
                         .disabled(isButton)
                     }
+                    .onSubmit {
+                        isFocused = false
+                    }
                 }
             }
             .onTapGesture {
-                if isButton { buttonAction(inputText) }
+                if isButton {
+                    isFocused = false
+                    buttonAction(inputText)
+                }
             }
         }
     }

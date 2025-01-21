@@ -17,10 +17,20 @@ struct MeetingRoomView: View {
             ScrollView {
                 VStack(spacing: 0) {
                     VStack(alignment: .leading, spacing: 0) {
-                        HStack {
-                            MeetingChip(state: .recruiting(RecruitingState(meetingDetailData.status))) // SexState(from: ownerData.sex) == .MAN
-                            MeetingChip(state: .category(CategoryState(meetingDetailData.category)))
-                            MeetingChip(state: .weekly(GroupState(meetingDetailData.groupType)))
+                        HStack(spacing: 5) {
+                            let states: [MeetingChipState] = [
+                                RecruitingState(meetingDetailData.status).map { .recruiting($0) },
+                                CategoryState(meetingDetailData.category).map { .category($0) },
+                                GroupState(meetingDetailData.groupType).map { .weekly($0) }
+                            ].compactMap { $0 }
+
+                            if states.isEmpty {
+                                // TODO: 디코딩 에러대응뷰
+                            } else {
+                                ForEach(states.indices, id: \.self) { index in
+                                    MeetingChip(state: states[index])
+                                }
+                            }
                         }
                         .padding(.top, 18)
                         .padding(.bottom, 6)

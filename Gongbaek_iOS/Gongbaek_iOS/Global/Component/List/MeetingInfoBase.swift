@@ -20,11 +20,18 @@ struct MeetingInfoBase: View {
                 .cornerRadius(2)
             
             VStack(alignment: .leading, spacing: 6) {
+                
                 // 모임 태그
                 HStack(spacing: 4) {
-                    MeetingChip(state: .recruiting(RecruitingState(meeting.status)))
-                    MeetingChip(state: .category(CategoryState(meeting.category)))
-                    MeetingChip(state: .weekly(GroupState(meeting.groupType)))
+                    let states: [MeetingChipState] = [
+                        RecruitingState(meeting.status).map { .recruiting($0) },
+                        CategoryState(meeting.category).map { .category($0) },
+                        GroupState(meeting.groupType).map { .weekly($0) }
+                    ].compactMap { $0 }
+
+                    ForEach(states.indices, id: \.self) { index in
+                        MeetingChip(state: states[index])
+                    }
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
