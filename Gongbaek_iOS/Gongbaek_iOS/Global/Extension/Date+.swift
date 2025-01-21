@@ -44,7 +44,7 @@ extension Date {
     }
     
     // 날짜와 시간을 포맷팅하는 함수
-    static func formattedDateAndTime(weekDay: WeekDay?, weekDate: String?, time: Double) -> String {
+    static func formattedDateAndTime(weekDay: WeekDay?, weekDate: String?, time: Double) -> String { // endTime도 필요
         let formattedTime = formatTime(time)
         
         if let weekDay = weekDay {

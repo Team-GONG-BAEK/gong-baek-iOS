@@ -15,6 +15,28 @@ enum CategoryState: Int, CaseIterable {
     case NETWORKING = 4
     case PLAYING = 5
     case OTHERS = 6
+    case error
+    
+    init(from serverValue: String) {
+        switch serverValue.uppercased() {
+        case "ALL":
+            self = .ALL
+        case "STUDY":
+            self = .STUDY
+        case "DINING":
+            self = .DINING
+        case "EXERCISE":
+            self = .EXERCISE
+        case "NETWORKING":
+            self = .NETWORKING
+        case "PLAYING":
+            self = .PLAYING
+        case "OTHERS":
+            self = .OTHERS
+        default:
+            self = .error
+        }
+    }
     
     var categoryImage: Image? {
         switch self {
@@ -25,6 +47,7 @@ enum CategoryState: Int, CaseIterable {
         case .NETWORKING: return Image(.imgCategoryNetworking)
         case .PLAYING: return Image(.imgCategoryPlay)
         case .OTHERS: return Image(.imgCategoryOthers)
+        case .error: return nil
         }
     }
     
@@ -37,18 +60,20 @@ enum CategoryState: Int, CaseIterable {
         case .NETWORKING: return "네트워킹"
         case .PLAYING: return "취미/오락"
         case .OTHERS: return "기타"
+        case .error: return ""
         }
     }
     
     var coverImage: [String] {
-           switch self {
-           case .ALL: return []
-           case .STUDY: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-           case .DINING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-           case .EXERCISE: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-           case .NETWORKING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-           case .PLAYING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-           case .OTHERS: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-           }
-       }
+        switch self {
+        case .ALL: return []
+        case .STUDY: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+        case .DINING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+        case .EXERCISE: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+        case .NETWORKING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+        case .PLAYING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+        case .OTHERS: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+        case .error: return []
+        }
+    }
 }
