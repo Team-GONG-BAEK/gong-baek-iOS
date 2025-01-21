@@ -17,9 +17,10 @@ struct MeetingDetailView: View {
             MeetingInfoBase(
                 state: .detail,
                 meeting: .init(
+                    groupId: 1,
                     status: "모집 중",
                     category: meetingDetailData.category,
-                    coverImg: "sample",//TODO: Int로 넘기기 meetingDetailData.coverImg,
+                    coverImg: 5,//TODO: Int로 넘기기 meetingDetailData.coverImg,
                     groupType: meetingDetailData.groupType,
                     groupTitle: meetingDetailData.groupTitle,
                     weekDay: .MON,//TODO: meetingDetail.weekDay,

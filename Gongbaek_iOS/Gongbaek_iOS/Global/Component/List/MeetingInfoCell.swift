@@ -43,9 +43,10 @@ struct MeetingInfoCell: View {
 #Preview {
     MeetingInfoCell(
         meeting: Meeting(
+            groupId: 1,
             status: "모집 중",
             category: "스터디",
-            coverImg: "sample",
+            coverImg: 2,
             groupType: "소규모",
             groupTitle: "나는 개바보다 나랑 친구하고 싶으면 들어오덩가 ㅋㅋㅋ",
             weekDay: .MON,

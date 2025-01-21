@@ -50,7 +50,7 @@ extension TabBarState {
     func view() -> some View {
         switch self {
         case .filling: FillingView()
-        case .myFilling: Color.gray02 // View 연결
+        case .myFilling: MyFillingView()
         case .home: HomeView()
         case .timetable: Color.gray04 // View 연결
         case .myPage: Color.gray05 // View
