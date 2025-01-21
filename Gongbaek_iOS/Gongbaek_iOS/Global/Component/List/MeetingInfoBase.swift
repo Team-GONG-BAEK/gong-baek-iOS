@@ -40,10 +40,11 @@ struct MeetingInfoBase: View {
                     VStack(alignment: .leading, spacing: 2) {
                         TimeBox(
                             state: .gray,
-                            text: Date.formattedDateAndTime(
+                            text: Date.formattedDateAndStartEndTime(
                                 weekDay: meeting.weekDay,
                                 weekDate: meeting.weekDate,
-                                time: meeting.startTime
+                                startTime: meeting.startTime,
+                                endTime: meeting.endTime
                             ),
                             font: state.infoFont
                         )
