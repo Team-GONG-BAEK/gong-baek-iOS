@@ -1,0 +1,118 @@
+//
+//  MbtiSelectionView.swift
+//  Gongbaek_iOS
+//
+//  Created by 김나연 on 1/20/25.
+//
+
+import SwiftUI
+
+struct MbtiSelectionView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
+    @State private var e_i: MBTI_ei? = nil
+    @State private var s_n: MBTI_sn? = nil
+    @State private var t_f: MBTI_tf? = nil
+    @State private var j_p: MBTI_jp? = nil
+    private let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 2)
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            ProgressBar(currentIndex: 4)
+            
+            TitleTextBox(
+                title: "MBTI를 선택해주세요.",
+                subtitle: "프로필에 표시되는 정보로, 언제든 변경할 수 있어요."
+            )
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.top, 54)
+            .padding(.horizontal, 16)
+            
+            ScrollView {
+                VStack(spacing: 28) {
+                    mbtiButtons(type: .ei)
+                    mbtiButtons(type: .sn)
+                    mbtiButtons(type: .tf)
+                    mbtiButtons(type: .jp)
+                    Spacer()
+                }
+                .padding(.top, 44)
+                .padding(.horizontal, 16)
+            }
+            .scrollIndicators(.never)
+            
+            Spacer()
+            
+            let isAllMbtiSelected = e_i != nil && s_n != nil && t_f != nil && j_p != nil
+            BasicButton(
+                text: "다음",
+                isActivated: isAllMbtiSelected
+            ) {
+                navigationManager.push(view: SignupDestination.sexSelection)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 20)
+        }
+        .customNavigationBar(showBackButton: true)
+    }
+    
+    private func mbtiButtons(type: MBTI) -> some View {
+        VStack(spacing: 0) {
+            mbtiText(text: type.text)
+            
+            LazyVGrid(columns: columns) {
+                switch type {
+                case .ei:
+                    ForEach(MBTI_ei.allCases.indices, id: \.self) { index in
+                        SmallButton(
+                            text: MBTI_ei.allCases[index].rawValue,
+                            isTapped: e_i == MBTI_ei.allCases[index]
+                        ) {
+                            e_i = MBTI_ei.allCases[index]
+                        }
+                    }
+                case .sn:
+                    ForEach(MBTI_sn.allCases.indices, id: \.self) { index in
+                        SmallButton(
+                            text: MBTI_sn.allCases[index].rawValue,
+                            isTapped: s_n == MBTI_sn.allCases[index]
+                        ) {
+                            s_n = MBTI_sn.allCases[index]
+                        }
+                    }
+                case .tf:
+                    ForEach(MBTI_tf.allCases.indices, id: \.self) { index in
+                        SmallButton(
+                            text: MBTI_tf.allCases[index].rawValue,
+                            isTapped: t_f == MBTI_tf.allCases[index]
+                        ) {
+                            t_f = MBTI_tf.allCases[index]
+                        }
+                    }
+                case .jp:
+                    ForEach(MBTI_jp.allCases.indices, id: \.self) { index in
+                        SmallButton(
+                            text: MBTI_jp.allCases[index].rawValue,
+                            isTapped: j_p == MBTI_jp.allCases[index]
+                        ) {
+                            j_p = MBTI_jp.allCases[index]
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func mbtiText(text: String) -> some View {
+        HStack {
+            Text(text)
+                .pretendardFont(.body2_sb_14)
+                .foregroundStyle(.gray08)
+            Spacer()
+        }
+        .padding(.bottom, 10)
+    }
+}
+
+#Preview {
+    MbtiSelectionView()
+}

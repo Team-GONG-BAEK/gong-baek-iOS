@@ -18,16 +18,18 @@ struct SmallButton: View {
         }) {
             Text(text)
                 .font(isTapped ? .pretendard(.body1_b_16) : .pretendard(.body1_m_16))
-                .padding(.vertical, 14)
                 .frame(maxWidth: .infinity)
+                .padding(.vertical, 14)
                 .background(isTapped ? .subOrange : .gray01)
                 .foregroundColor(isTapped ? .mainOrange : .gray07)
-                .clipShape(RoundedRectangle(cornerRadius: 6))
         }
         .buttonStyle(PlainButtonStyle())
+        .clipShape(RoundedRectangle(cornerRadius: 6))
+        .clipped()
     }
 }
 
 #Preview {
     SmallButton(text: "Button", isTapped: true)
+    SmallButton(text: "Button", isTapped: false)
 }

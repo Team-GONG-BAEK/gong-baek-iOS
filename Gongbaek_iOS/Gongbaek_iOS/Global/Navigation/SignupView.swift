@@ -15,6 +15,10 @@ struct SignupView: View {
             SignupDestination.profileSelection.view()
             .navigationDestination(for: SignupDestination.self) { type in
                 type.view()
+                    .toolbar(.hidden, for: .navigationBar)
+            }
+            .fullScreenCover(item: $navigationManager.presentedDestination) { type in
+                type.view()
             }
         }
         .environmentObject(navigationManager)

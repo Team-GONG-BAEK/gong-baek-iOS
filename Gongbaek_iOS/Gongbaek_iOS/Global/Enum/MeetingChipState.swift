@@ -25,8 +25,6 @@ extension MeetingChipState {
                 return .gray06
             case .CLOSED:
                 return .gray02
-            case .error:
-                return .subOrange
             }
         case .category, .weekly:
             return .gray01
@@ -41,8 +39,6 @@ extension MeetingChipState {
                 return .grayWhite
             case .CLOSED:
                 return .gray07
-            case .error:
-                return .errorRed
             }
         case .category:
             return .mainOrange
@@ -60,10 +56,7 @@ extension MeetingChipState {
             case .RECRUITED:
                 return "인원마감"
             case .CLOSED:
-                return "마감"
-            case .error:
-                return "오류"
-            }
+                return "마감"            }
         case .category(let categoryState):
             return categoryState.categoryName
         case .weekly(let isWeekly):
