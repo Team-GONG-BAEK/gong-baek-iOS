@@ -76,7 +76,7 @@ struct MeetingRoomView: View {
                     
                     divider()
                     
-                    commentData.groupStatus == "CLOSED" ? CommentDisabledBox() : nil
+                    RecruitingState(from: commentData.groupStatus) == .CLOSED ? CommentDisabledBox() : nil
                     
                     CommentList(
                         commentCount: $commentData.commentCount,
@@ -86,7 +86,7 @@ struct MeetingRoomView: View {
                     )
                 }
             }
-            commentData.groupStatus == "CLOSED" ? nil : CommentTextField()
+            RecruitingState(from: commentData.groupStatus) == .CLOSED ? nil : CommentTextField()
         }
     }
     
