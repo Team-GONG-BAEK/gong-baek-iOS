@@ -10,6 +10,13 @@ import SwiftUI
 struct MeetingInfoView: View {
     @Binding var ownerInfo: OwnerInfoModel
     @Binding var introduction: String
+    @Binding var currentPeopleCount: Int
+    @Binding var maxPeopleCount: Int
+    @Binding var meetingStatus: String
+    @Binding var isHost: Bool
+    @Binding var isApply: Bool
+    @State private var selectedIndex = 0
+    var buttonText: String = "신청하기"
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -54,12 +61,18 @@ struct MeetingInfoView: View {
             .padding(.top, 20)
             .padding(.horizontal, 16)
             
+            // ButtonTextLogic처리 필요
+            
+            // isHost == true >>> buttonText = "삭제하기" // onTap = nil
+            // isHost == false >>> isApply == false >>> buttonText = "신청하기" // onTap = "isApply = true"
+            // isHost == false >>> isApply == true >>> buttonText = "취소하기" // onTap = "isApply = false"
+            
             ApplyBar(
                 applyData: .init(
-                    isActivated: true,
-                    currentPeopleCount: 5,
-                    maxPeopleCount: 10,
-                    buttonText: "신청하기",
+                    isActivated: true, // closed일 때만 false <<< meetingStatus
+                    currentPeopleCount: currentPeopleCount,
+                    maxPeopleCount: maxPeopleCount,
+                    buttonText: "신청하기", // buttonText 변환 로직 필요 <<< meetingStatus
                     onTap: nil
                 )
             )

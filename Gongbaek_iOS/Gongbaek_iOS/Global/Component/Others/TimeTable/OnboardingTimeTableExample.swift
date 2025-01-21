@@ -32,7 +32,7 @@ struct OnboardingTimeTableExample: View {
         }
     }
     
-    /// 공강 시간표로 변경
+    /// 공강 시간표 CellId 배열로 변환
     private func getFreeTimeCells() -> Set<TimeTableCellId> {
         let allCells: Set<TimeTableCellId> = Set(
             WeekDay.allCases.indices.flatMap { dayIndex in

@@ -17,7 +17,6 @@ struct CategorySelect: View {
     ]
     
     var body: some View {
-            
             VStack(alignment: .leading, spacing: 0) {
                 TitleTextBox(title: "카테고리를 선택해주세요.", subtitle: "6가지 카테고리 중 하나를 선택할 수 있어요.")
                     .padding(.bottom, 28)

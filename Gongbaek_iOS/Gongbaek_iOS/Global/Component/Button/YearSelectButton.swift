@@ -8,19 +8,21 @@
 import SwiftUI
 
 struct YearSelectButton: View {
-    var isTapped: Bool
+    var isSelected: Bool
     var onTap: (() -> Void)?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("입학년도")
+            Text("입학연도")
                 .pretendardFont(.body2_sb_14)
                 .foregroundColor(.gray08)
-            Button(action: {}) {
+            Button(action: {
+                onTap?()
+            }) {
                 HStack {
                     Text("\(Date.currentYear())년")
                         .pretendardFont(.body1_m_16)
-                        .foregroundColor(isTapped ? .gray10 : .gray04)
+                        .foregroundColor(isSelected ? .gray10 : .gray04)
                     Spacer()
                     Image(.icArrowBottomGray24)
                         .foregroundColor(.gray04)
@@ -39,6 +41,6 @@ struct YearSelectButton: View {
 }
 
 #Preview {
-    YearSelectButton(isTapped: true)
+    YearSelectButton(isSelected: true)
         .padding(16)
 }

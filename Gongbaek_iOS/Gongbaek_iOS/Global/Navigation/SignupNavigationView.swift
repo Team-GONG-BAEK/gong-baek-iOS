@@ -1,5 +1,5 @@
 //
-//  SignupView.swift
+//  SignupNavigationView.swift
 //  Gongbaek_iOS
 //
 //  Created by 김나연 on 1/19/25.
@@ -7,13 +7,17 @@
 
 import SwiftUI
 
-struct SignupView: View {
+struct SignupNavigationView: View {
     @StateObject private var navigationManager = NavigationManager()
     
     var body: some View {
         NavigationStack(path: $navigationManager.path) {
-            SignupDestination.profileSelection.view()
+            SignupDestination.signup.view()
             .navigationDestination(for: SignupDestination.self) { type in
+                type.view()
+                    .toolbar(.hidden, for: .navigationBar)
+            }
+            .fullScreenCover(item: $navigationManager.presentedDestination) { type in
                 type.view()
             }
         }
@@ -22,5 +26,5 @@ struct SignupView: View {
 }
 
 #Preview {
-    SignupView()
+    SignupNavigationView()
 }

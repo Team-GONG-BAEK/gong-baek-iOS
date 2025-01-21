@@ -27,6 +27,7 @@ struct BasicButton: View {
                         .fill(isActivated ? .mainOrange : .gray03)
                 )
         }
+        .disabled(!isActivated)
     }
 }
 
