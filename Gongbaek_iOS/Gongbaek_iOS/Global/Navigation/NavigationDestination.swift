@@ -39,38 +39,14 @@ enum SignupDestination: Hashable {
     }
 }
 
-enum FillingDestination: Hashable {
+enum FillingDestination: Hashable, CaseIterable {
     case addMeeting
-    case calendarSelect
-    case weekDaySelect
-    case timeSelect
-    case categorySelect
-    case coverImageSelect
-    case locationInput
-    case introduceInput
-    case checkInputInfo
     
     @ViewBuilder
-    func view(viewModel: AddMeetingViewModel) -> some View { 
+    func view() -> some View {
         switch self {
         case .addMeeting:
-            AddMeetingView(viewModel: viewModel)
-        case .calendarSelect:
-            CalendarSelectView(viewModel: viewModel)
-        case .weekDaySelect:
-            WeekDaySelect(viewModel: viewModel)
-        case .timeSelect:
-            TimeSelect(viewModel: viewModel)
-        case .categorySelect:
-            CategorySelect(viewModel: viewModel)
-        case .coverImageSelect:
-            CoverImageSelect(viewModel: viewModel)
-        case .locationInput:
-            LocationInput(viewModel: viewModel, showError: false, isFocused: false)
-        case .introduceInput:
-            IntroduceInput(viewModel: viewModel, showError: false, isFocused: false)
-        case .checkInputInfo:
-            CheckInputInfo(viewModel: viewModel)
+            AddMeetingView(viewModel: AddMeetingViewModel())
         }
     }
 }

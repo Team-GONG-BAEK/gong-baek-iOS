@@ -17,10 +17,6 @@ struct CategorySelect: View {
     ]
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            ProgressBar(currentIndex: viewModel.currentIndex)
-                .padding(.bottom, 40)
-            
             VStack(alignment: .leading, spacing: 0) {
                 TitleTextBox(title: "카테고리를 선택해주세요.", subtitle: "6가지 카테고리 중 하나를 선택할 수 있어요.")
                     .padding(.bottom, 28)
@@ -32,22 +28,11 @@ struct CategorySelect: View {
                             isSelected: viewModel.selectedCategory == category,
                             onTap: {
                                 viewModel.selectedCategory = category
-                                viewModel.isNextEnabled = true
                             })
                     }
                 }
             }
             .padding(.horizontal, 16)
-            
-            Spacer()
-            BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
-                viewModel.goToNextPage()
-                navigationManager.push(view: FillingDestination.coverImageSelect)
-            }
-            .padding(.vertical, 20)
-            .padding(.horizontal, 16)
-        }
-        .customNavigationBar(showBackButton: true)
     }
 }
 

@@ -10,44 +10,26 @@ import SwiftUI
 struct IntroduceInput: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
-    
-    @State var showError: Bool
-    @State var isFocused: Bool
+        
+    @State var showError: Bool = false
+    @State var isFocused: Bool = false
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0){
-            ProgressBar(currentIndex: viewModel.currentIndex)
-                .padding(.bottom, 40)
-            
-            VStack(alignment: .leading, spacing: 0) {
-                TitleTextBox(title: "소개글을 작성해주세요.", subtitle: nil)
-                    .padding(.bottom, 28)
-                
-                CustomTextField(
-                    text: $viewModel.title,
-                    showError: $showError,
-                    state: .title
-                )
+        VStack(alignment: .leading, spacing: 0) {
+            TitleTextBox(title: "소개글을 작성해주세요.", subtitle: nil)
                 .padding(.bottom, 28)
-                .onChange(of: viewModel.title) { _ in
-                    viewModel.updateNextButtonState()
-                }
-                
-                CustomTextEditor(text: $viewModel.introduction)
-                    .onChange(of: viewModel.introduction) { _ in
-                        viewModel.updateNextButtonState()
-                    }
-            }
-            .padding(.horizontal, 16)
             
-            Spacer()
-            BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
-                viewModel.goToNextPage()
-                navigationManager.push(view: FillingDestination.checkInputInfo)
-            }
-            .padding(.vertical, 20)
-            .padding(.horizontal, 16)
+            CustomTextField(
+                text: $viewModel.title,
+                showError: $showError,
+                state: .title
+            )
+            .padding(.bottom, 28)
+            
+            CustomTextEditor(text: $viewModel.introduction)
+                .padding(.bottom, 40)
         }
-        .customNavigationBar(showBackButton: true)
+        .padding(.horizontal, 16)
     }
 }
+
