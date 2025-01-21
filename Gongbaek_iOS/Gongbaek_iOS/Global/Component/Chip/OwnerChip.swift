@@ -7,7 +7,14 @@
 
 import SwiftUI
 
+enum OwnerChipColorType {
+    case gray09
+    case gray01
+}
+
 struct OwnerChip: View {
+    var ownerChipColor: OwnerChipColorType = .gray01
+    
     var body: some View {
         Text("모집자")
             .pretendardFont(.caption2_m_12)
@@ -15,7 +22,7 @@ struct OwnerChip: View {
             .padding(.vertical, 1)
             .background(
                 RoundedRectangle(cornerRadius: 4)
-                    .fill(.gray01)
+                    .fill(ownerChipColor == .gray09 ? .gray09 : .gray01 )
             )
             .foregroundStyle(.mainOrange)
     }

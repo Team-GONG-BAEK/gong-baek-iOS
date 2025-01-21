@@ -10,13 +10,7 @@ import SwiftUI
 enum MeetingChipState {
     case recruiting(RecruitingState)
     case category(CategoryState)
-    case weekly(Bool)
-    
-    enum RecruitingState {
-        case recruiting
-        case recruited
-        case closed
-    }
+    case weekly(GroupState)
 }
 
 extension MeetingChipState {
@@ -25,12 +19,14 @@ extension MeetingChipState {
         switch self {
         case .recruiting(let recruitingState):
             switch recruitingState {
-            case .recruiting:
+            case .RECRUITING:
                 return .gray08
-            case .recruited:
+            case .RECRUITED:
                 return .gray06
-            case .closed:
+            case .CLOSED:
                 return .gray02
+            case .error:
+                return .subOrange
             }
         case .category, .weekly:
             return .gray01
@@ -41,15 +37,17 @@ extension MeetingChipState {
         switch self {
         case .recruiting(let recruitingState):
             switch recruitingState {
-            case .recruiting, .recruited:
+            case .RECRUITING, .RECRUITED:
                 return .grayWhite
-            case .closed:
+            case .CLOSED:
                 return .gray07
+            case .error:
+                return .errorRed
             }
         case .category:
             return .mainOrange
         case .weekly(let isWeekly):
-            return isWeekly ? .subGreen : .subBlue
+            return isWeekly == .WEEKLY ? .subGreen : .subBlue
         }
     }
     
@@ -57,18 +55,19 @@ extension MeetingChipState {
         switch self {
         case .recruiting(let recruitingState):
             switch recruitingState {
-            case .recruiting:
+            case .RECRUITING:
                 return "모집중"
-            case .recruited:
-                return "모집마감"
-            case .closed:
+            case .RECRUITED:
+                return "인원마감"
+            case .CLOSED:
                 return "마감"
+            case .error:
+                return "오류"
             }
         case .category(let categoryState):
             return categoryState.categoryName
         case .weekly(let isWeekly):
-            return isWeekly ? "매주 보기" : "한번 보기"
+            return isWeekly == .WEEKLY ? "매주 보기" : "한번 보기"
         }
     }
 }
-
