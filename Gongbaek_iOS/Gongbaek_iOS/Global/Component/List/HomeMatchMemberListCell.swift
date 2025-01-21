@@ -70,7 +70,7 @@ struct HomeMatchMemberListCell: View {
     private func divider() -> some View {
         Rectangle()
             .fill(.gray02)
-            .frame(width: .infinity, height: 1)
+            .frame(height: 1)
     }
 }
 
