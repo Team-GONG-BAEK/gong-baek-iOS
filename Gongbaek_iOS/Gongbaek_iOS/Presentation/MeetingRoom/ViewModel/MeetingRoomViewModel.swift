@@ -30,4 +30,8 @@ class MeetingRoomViewModel: ObservableObject {
     var isCommentDisabled: Bool {
         RecruitingState(commentData.groupStatus) == .CLOSED
     }
+    
+    //TODO: 댓글 작성 API 로직 필요
+    func postComment(content: String, completion: @escaping (Bool) -> Void) {
+    }
 }
