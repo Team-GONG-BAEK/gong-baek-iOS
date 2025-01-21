@@ -20,9 +20,9 @@ struct CoverImageButton: View {
                 }) {
                     Image(image)
                         .resizable()
-                        .scaledToFill() // 이미지를 프레임에 꽉 채우되 비율 유지
+                        .scaledToFill()
                         .frame(width: geometry.size.width, height: geometry.size.height)
-                        .clipped() // 초과된 부분 제거
+                        .clipped()
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 4))
             }
