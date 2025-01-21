@@ -10,21 +10,21 @@ import SwiftUI
 struct AddMeetingView: View {
     @StateObject var viewModel: AddMeetingViewModel
     @State private var showAlert: Bool = false  // ✅ Alert 표시 여부를 관리하는 상태 변수
-    
+
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 0) {
                 HStack {
-                    if viewModel.currentIndex > 0 {
-                        Button(action: {
+                    Button(action: {
+                        if viewModel.currentIndex == 0 {
+
+                        } else {
                             viewModel.currentIndex -= 1
-                        }) {
-                            Image(.icArrowLeft48)
-                                .foregroundColor(.gray04)
-                                .frame(width: 48, height: 48)
                         }
-                    } else {
-                        Spacer().frame(width: 48, height: 48)
+                    }) {
+                        Image(.icArrowLeft48)
+                            .foregroundColor(.gray04)
+                            .frame(width: 48, height: 48)
                     }
                 }
                 
@@ -70,7 +70,6 @@ struct AddMeetingView: View {
                         viewModel.goToNextPage()
                     }
                 }
-                .disabled(!viewModel.isNextEnabled) 
                 .padding(.vertical, 20)
                 .padding(.horizontal, 16)
             }
@@ -96,6 +95,8 @@ struct AddMeetingView: View {
     @Previewable @State var viewModel = AddMeetingViewModel()
     CoverImageSelect(viewModel: viewModel)
 }
+
+
 
 
 
