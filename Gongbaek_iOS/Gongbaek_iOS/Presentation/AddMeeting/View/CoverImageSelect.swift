@@ -20,7 +20,7 @@ struct CoverImageSelect: View {
     
     var body: some View {
         VStack {
-            ProgressBar(currentIndex: $viewModel.currentIndex)
+            ProgressBar(currentIndex: viewModel.currentIndex)
                 .padding(.bottom, 40)
             
             VStack(alignment: .leading, spacing: 0) {

@@ -22,7 +22,9 @@ struct MeetingChip: View {
 }
 
 #Preview {
-    MeetingChip(state: .recruiting(RecruitingState("RECRUITING")))
+    if let recruitingState = RecruitingState("RECRUITING") {
+        MeetingChip(state: .recruiting(recruitingState))
+    }
     MeetingChip(state: .recruiting(.RECRUITED))
     MeetingChip(state: .recruiting(.CLOSED))
     MeetingChip(state: .category(.PLAYING))
