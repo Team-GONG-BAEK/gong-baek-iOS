@@ -11,6 +11,13 @@ enum SignupDestination: Hashable {
     case profileSelection
     case nicknameInput
     case schoolMajorInput
+    case gradeAdmissionYearInput
+    case mbtiSelection
+    case sexSelection
+    case selfIntroductionWriting
+    case classTimeTableInput
+    case freeTimeTableConversion(selectedCells: Set<TimeTableCellId>)
+//    case signupCompletion
     
     @ViewBuilder
     func view() -> some View {
@@ -18,9 +25,23 @@ enum SignupDestination: Hashable {
         case .profileSelection:
             ProfileSelectionView()
         case .nicknameInput:
-            Text("nicknameInput")
+            NicknameInputView()
         case .schoolMajorInput:
-            Text("schoolMajorInput")
+            SchoolMajorInputView()
+        case .gradeAdmissionYearInput:
+            GradeAdmissionYearInputView()
+        case .mbtiSelection:
+            MbtiSelectionView()
+        case .sexSelection:
+            SexSelectionView()
+        case .selfIntroductionWriting:
+            SelfIntroductionWritingView()
+        case .classTimeTableInput:
+            ClassTimeTableInputView()
+        case let .freeTimeTableConversion(selectedCells):
+            FreeTimeTableConversionView(selectedCells: selectedCells)
+//        case .signupCompletion:
+//            SignupCompletionView()
         }
     }
 }
@@ -67,4 +88,24 @@ enum MyFillingDestination: Hashable {
 
 enum HomeDestination: Hashable {
     // TODO: 홈화면 모든 화면 작성
+}
+
+/// Present 방식으로 화면 전환되는 Destination 정의
+enum PresentableDestination: Identifiable {
+    case schoolMajorSearchView(Binding<String>, SearchViewState)
+
+    var id: String {
+        switch self {
+        case let .schoolMajorSearchView(_, state):
+            return state.rawValue
+        }
+    }
+
+    @ViewBuilder
+    func view() -> some View {
+        switch self {
+        case let .schoolMajorSearchView(result, state):
+            SchoolMajorSearchView(selectedResult: result, state: state)
+        }
+    }
 }

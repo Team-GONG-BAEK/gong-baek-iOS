@@ -10,9 +10,14 @@ import SwiftUI
 /// `NavigationPath` 관리하는 전역 내비게이션 매니저
 final class NavigationManager: ObservableObject {
     @Published var path = NavigationPath()
+    @Published var presentedDestination: PresentableDestination? = nil
 
     func push<T: Hashable>(view: T) {
         path.append(view)
+    }
+    
+    func present(_ destination: PresentableDestination) {
+        presentedDestination = destination
     }
 
     func pop() {
@@ -22,5 +27,9 @@ final class NavigationManager: ObservableObject {
 
     func popToRoot() {
         path = NavigationPath()
+    }
+    
+    func dismissPresented() {
+        presentedDestination = nil
     }
 }
