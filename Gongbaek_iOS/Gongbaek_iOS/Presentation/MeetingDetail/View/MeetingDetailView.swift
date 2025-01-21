@@ -22,7 +22,7 @@ struct MeetingDetailView: View {
                     coverImg: "sample",//TODO: Int로 넘기기 meetingDetailData.coverImg,
                     groupType: meetingDetailData.groupType,
                     groupTitle: meetingDetailData.groupTitle,
-                    weekDay: WeekDay(from: meetingDetailData.weekDay ?? ""),
+                    weekDay: meetingDetailData.weekDay,
                     weekDate: meetingDetailData.weekDate,
                     startTime: meetingDetailData.startTime,
                     endTime: meetingDetailData.endTime,
@@ -51,6 +51,14 @@ struct MeetingDetailView: View {
 #Preview {
     MeetingDetailView(
         meetingDetailData: dummymeetingDetailData,
+        ownerInfoData: dummyOwnerInfoData,
+        commentData: dummyCommentData
+    )
+}
+
+#Preview {
+    MeetingDetailView(
+        meetingDetailData: dummymeetingDateDetailData,
         ownerInfoData: dummyOwnerInfoData,
         commentData: dummyCommentData
     )

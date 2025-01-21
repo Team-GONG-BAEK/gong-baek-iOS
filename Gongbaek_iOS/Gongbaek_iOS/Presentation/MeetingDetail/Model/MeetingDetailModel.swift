@@ -56,7 +56,7 @@ let dummymeetingDateDetailData: MeetingDetailModel = MeetingDetailModel(
     introduction: "복학하고 친구가 없어요 ㅠㅠ 밥 먹을 사람?",
     category: "STUDY",
     coverImg: 1,
-    weekDay: "MON",
+    weekDay: nil,
     weekDate: "2025-08-01",
     startTime: 10.5,
     endTime: 12

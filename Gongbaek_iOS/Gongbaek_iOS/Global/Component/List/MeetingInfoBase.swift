@@ -41,7 +41,7 @@ struct MeetingInfoBase: View {
                         TimeBox(
                             state: .gray,
                             text: Date.formattedDateAndStartEndTime(
-                                weekDay: meeting.weekDay,
+                                weekDay: WeekDay(from: meeting.weekDay ?? ""),
                                 weekDate: meeting.weekDate,
                                 startTime: meeting.startTime,
                                 endTime: meeting.endTime
@@ -67,9 +67,25 @@ struct MeetingInfoBase: View {
             status: "RECRUITING",
             category: "STUDY",
             coverImg: "sample",
+            groupType: "ONCE",
+            groupTitle: "나는 개바보다 나랑 친구하고 싶으면 들어오덩가 ㅋㅋㅋ",
+            weekDay: nil,
+            weekDate: "2024-12-23",
+            startTime: 13.0,
+            endTime: 15.0,
+            location: "학교 정문인데 어쩌구 저쩌구 20자 넘으면"
+        )))
+}
+
+#Preview {
+    MeetingInfoBase(
+        state: .constant(.cell), meeting: .constant(Meeting(
+            status: "RECRUITING",
+            category: "STUDY",
+            coverImg: "sample",
             groupType: "WEEKLY",
             groupTitle: "나는 개바보다 나랑 친구하고 싶으면 들어오덩가 ㅋㅋㅋ",
-            weekDay: .MON,
+            weekDay: "THU",
             weekDate: nil,
             startTime: 13.0,
             endTime: 15.0,
