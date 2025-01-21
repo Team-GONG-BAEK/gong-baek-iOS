@@ -72,6 +72,21 @@ extension Date {
         return "시간 정보 없음"
     }
     
+    func formattedCommentDateTime(_ createdAt: String) -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd-HH:mm"
+        
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "M/d HH:mm"
+        
+        guard let date = inputFormatter.date(from: createdAt) else {
+            return "변환 실패"
+        }
+        
+        return outputFormatter.string(from: date)
+    }
+
+    
     // 시간 포맷 함수
     static func formatTime(_ time: Double) -> String {
         let hours = Int(time)
@@ -85,7 +100,7 @@ extension Date {
         formatter.dateFormat = "yyyy-MM-dd"
         guard let date = formatter.date(from: dateString) else { return dateString }
         
-        formatter.dateFormat = "MM월 dd일"
+        formatter.dateFormat = "MM/dd"
         return formatter.string(from: date)
     }
     
