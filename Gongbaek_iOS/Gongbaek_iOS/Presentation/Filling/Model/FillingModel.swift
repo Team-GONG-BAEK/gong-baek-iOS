@@ -13,7 +13,7 @@ struct Meeting {
     let coverImg: String
     let groupType: String
     let groupTitle: String
-    let weekDay: WeekFullDay?
+    let weekDay: WeekDay?
     let weekDate: String?
     let startTime: Double
     let endTime: Double
@@ -27,7 +27,7 @@ let dummyMeetings: [Meeting] = [
         coverImg: "sample",
         groupType: "WEEKLY",
         groupTitle: "iOS 개발 스터디",
-        weekDay: .monday,
+        weekDay: .MON,
         weekDate: nil,
         startTime: 19.0,
         endTime: 21.0,
@@ -51,7 +51,7 @@ let dummyMeetings: [Meeting] = [
         coverImg: "sample",
         groupType: "WEEKLY",
         groupTitle: "한 달 한 권 독서 모임",
-        weekDay: .thursday,
+        weekDay: .THU,
         weekDate: nil,
         startTime: 18.5,
         endTime: 20.5,
@@ -75,7 +75,7 @@ let dummyMeetings: [Meeting] = [
         coverImg: "sample",
         groupType: "WEEKLY",
         groupTitle: "보드게임 같이 할 사람!",
-        weekDay: .saturday,
+        weekDay: .TUE,
         weekDate: nil,
         startTime: 16.0,
         endTime: 19.0,
@@ -87,7 +87,7 @@ let dummyMeetings: [Meeting] = [
         coverImg: "sample",
         groupType: "WEEKLY",
         groupTitle: "밴드 합주 모임",
-        weekDay: .friday,
+        weekDay: .FRI,
         weekDate: nil,
         startTime: 20.0,
         endTime: 22.0,
@@ -111,7 +111,7 @@ let dummyMeetings: [Meeting] = [
         coverImg: "sample",
         groupType: "WEEKLY",
         groupTitle: "아침 요가 클래스",
-        weekDay: .wednesday,
+        weekDay: .WED,
         weekDate: nil,
         startTime: 7.0,
         endTime: 8.0,
@@ -147,7 +147,7 @@ let dummyMeetings: [Meeting] = [
         coverImg: "sample",
         groupType: "WEEKLY",
         groupTitle: "유기동물 보호소 봉사",
-        weekDay: .sunday,
+        weekDay: .MON,
         weekDate: nil,
         startTime: 10.0,
         endTime: 13.0,
