@@ -17,9 +17,12 @@ struct CategoryImageButton: View {
             onTap?()
         }) {
             VStack(spacing: 10) {
-                Image(category.categoryImage ?? "")
-                    .resizable()
-                    .frame(width: 78, height: 78)
+                if let image = category.categoryImage { image
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 78, height: 78)
+                }
+                
                 Text(category.categoryName)
                     .font(.pretendard(.body1_m_16))
                     .frame(maxWidth: .infinity)
@@ -34,5 +37,5 @@ struct CategoryImageButton: View {
 }
 
 #Preview {
-    CategoryImageButton(category: .study, isSelected: true)
+    CategoryImageButton(category: .STUDY, isSelected: true)
 }

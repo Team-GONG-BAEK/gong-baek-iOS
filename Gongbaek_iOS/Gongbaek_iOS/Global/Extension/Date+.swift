@@ -44,11 +44,11 @@ extension Date {
     }
     
     // 날짜와 시간을 포맷팅하는 함수
-    static func formattedDateAndTime(weekDay: WeekFullDay?, weekDate: String?, time: Double) -> String {
+    static func formattedDateAndTime(weekDay: WeekDay?, weekDate: String?, time: Double) -> String {
         let formattedTime = formatTime(time)
         
         if let weekDay = weekDay {
-            return "매주 \(weekDay.displayName) \(formattedTime)"
+            return "매주 \(weekDay.koreanName) \(formattedTime)"
         } else if let weekDate = weekDate {
             let formattedDate = formatDate(weekDate)
             return "\(formattedDate) \(formattedTime)"
@@ -56,14 +56,14 @@ extension Date {
         
         return "시간 정보 없음"
     }
-
+    
     // 시간 포맷 함수
     static func formatTime(_ time: Double) -> String {
         let hours = Int(time)
         let minutes = Int((time - Double(hours)) * 60)
         return minutes == 0 ? "\(hours)시" : "\(hours)시 \(minutes)분"
     }
-
+    
     // 날짜 포맷 함수
     static func formatDate(_ dateString: String) -> String {
         let formatter = DateFormatter()
@@ -73,4 +73,10 @@ extension Date {
         formatter.dateFormat = "MM월 dd일"
         return formatter.string(from: date)
     }
+    
+    static func currentYear(asString: Bool = false) -> Any {
+        let year = Calendar.current.component(.year, from: Date())
+        return asString ? "\(year)" : year
+    }
+    
 }

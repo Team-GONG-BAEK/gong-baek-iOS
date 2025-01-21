@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MyFillingView: View {
     var body: some View {
-        CustomSegmentControlBar(segmentState: .myfill)
+        MyFillSegmentControlBar()
     }
 }
 

@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-enum CycleState {
+enum CycleState: String {
     case all
-    case weekly
-    case once 
+    case weekly = "WEEKLY"
+    case once = "ONCE"
 }
 
 extension CycleState {
