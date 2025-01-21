@@ -31,8 +31,22 @@ struct MeetingRoomView: View {
                             .lineLimit(nil)
                             .padding(.bottom, 12)
                         
-                        TimeBox(state: .white, text: meetingDetailData.startTime.formatTime(), font: .pretendard(.caption2_r_12))
-                            .padding(.bottom, 2)
+                        TimeBox(
+                            state: .white,
+                            text: Date.formattedDateAndStartEndTime(
+                                weekDay: WeekDay(from: meetingDetailData.weekDay ?? "ERROR"),
+                                weekDate: meetingDetailData.weekDate ?? "ERROR",
+                                startTime: meetingDetailData.startTime,
+                                endTime: meetingDetailData.endTime
+                            ),
+                            font: .pretendard(
+                                .caption2_r_12
+                            )
+                        )
+                        .padding(
+                            .bottom,
+                            2
+                        )
                         
                         LocationBox(state: .white, text: meetingDetailData.location, font: .pretendard(.caption2_r_12))
                     }
