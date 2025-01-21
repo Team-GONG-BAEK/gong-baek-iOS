@@ -11,6 +11,7 @@ struct HighlightTextView: View {
     let text: String
     let textColor: Color
     let font: FontFamily
+    var highlightFont: FontFamily? = nil
     var highlightString: String = ""
     var highlightColor: Color = .mainOrange
     
@@ -34,6 +35,7 @@ struct HighlightTextView: View {
             .foregroundColor(textColor)
         let targetText = Text(targetString)
             .foregroundColor(highlightColor)
+            .font(.pretendard(highlightFont ?? font))
         let trailingText = Text(trailingString)
             .foregroundColor(textColor)
         
