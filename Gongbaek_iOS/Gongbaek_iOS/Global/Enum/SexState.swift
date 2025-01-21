@@ -10,7 +10,7 @@ enum SexState {
     case WOMAN
     case error
     
-    init(from serverValue: String) {
+    init(_ serverValue: String) {
         switch serverValue.uppercased() {
         case "MAN":
             self = .MAN

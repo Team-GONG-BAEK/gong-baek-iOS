@@ -10,7 +10,7 @@ enum GroupState {
     case WEEKLY
     case error
     
-    init(from serverValue: String) {
+    init(_ serverValue: String) {
         switch serverValue.uppercased() {
         case "ONCE":
             self = .ONCE

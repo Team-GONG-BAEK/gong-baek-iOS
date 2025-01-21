@@ -22,7 +22,7 @@ struct MeetingChip: View {
 }
 
 #Preview {
-    MeetingChip(state: .recruiting(RecruitingState(from: "RECRUITING")))
+    MeetingChip(state: .recruiting(RecruitingState("RECRUITING")))
     MeetingChip(state: .recruiting(.RECRUITED))
     MeetingChip(state: .recruiting(.CLOSED))
     MeetingChip(state: .category(.PLAYING))

@@ -22,9 +22,9 @@ struct MeetingInfoBase: View {
             VStack(alignment: .leading, spacing: 6) {
                 // 모임 태그
                 HStack(spacing: 4) {
-                    MeetingChip(state: .recruiting(RecruitingState(from: meeting.status)))
-                    MeetingChip(state: .category(CategoryState(from: meeting.category)))
-                    MeetingChip(state: .weekly(GroupState(from: meeting.groupType)))
+                    MeetingChip(state: .recruiting(RecruitingState(meeting.status)))
+                    MeetingChip(state: .category(CategoryState(meeting.category)))
+                    MeetingChip(state: .weekly(GroupState(meeting.groupType)))
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {

@@ -17,7 +17,7 @@ enum CategoryState: Int, CaseIterable {
     case OTHERS = 6
     case error
     
-    init(from serverValue: String) {
+    init(_ serverValue: String) {
         switch serverValue.uppercased() {
         case "ALL":
             self = .ALL

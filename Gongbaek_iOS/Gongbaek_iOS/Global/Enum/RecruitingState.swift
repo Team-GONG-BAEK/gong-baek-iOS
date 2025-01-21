@@ -11,7 +11,7 @@ enum RecruitingState: String, CaseIterable {
     case CLOSED
     case error
     
-    init(from serverValue: String) {
+    init(_ serverValue: String) {
         switch serverValue.uppercased() {
         case "RECRUITING":
             self = .RECRUITING

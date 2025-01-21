@@ -18,9 +18,9 @@ struct MeetingRoomView: View {
                 VStack(spacing: 0) {
                     VStack(alignment: .leading, spacing: 0) {
                         HStack {
-                            MeetingChip(state: .recruiting(RecruitingState(from: meetingDetailData.status))) // SexState(from: ownerData.sex) == .MAN
-                            MeetingChip(state: .category(CategoryState(from: meetingDetailData.category)))
-                            MeetingChip(state: .weekly(GroupState(from: meetingDetailData.groupType)))
+                            MeetingChip(state: .recruiting(RecruitingState(meetingDetailData.status))) // SexState(from: ownerData.sex) == .MAN
+                            MeetingChip(state: .category(CategoryState(meetingDetailData.category)))
+                            MeetingChip(state: .weekly(GroupState(meetingDetailData.groupType)))
                         }
                         .padding(.top, 18)
                         .padding(.bottom, 6)
@@ -90,7 +90,7 @@ struct MeetingRoomView: View {
                     
                     divider()
                     
-                    RecruitingState(from: commentData.groupStatus) == .CLOSED ? CommentDisabledBox() : nil
+                    RecruitingState(commentData.groupStatus) == .CLOSED ? CommentDisabledBox() : nil
                     
                     CommentList(
                         commentCount: $commentData.commentCount,
@@ -100,7 +100,7 @@ struct MeetingRoomView: View {
                     )
                 }
             }
-            RecruitingState(from: commentData.groupStatus) == .CLOSED ? nil : CommentTextField()
+            RecruitingState(commentData.groupStatus) == .CLOSED ? nil : CommentTextField()
         }
     }
     

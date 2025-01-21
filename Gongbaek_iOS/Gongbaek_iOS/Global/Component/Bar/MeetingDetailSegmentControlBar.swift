@@ -65,7 +65,7 @@ struct MeetingDetailSegmentControlBar: View {
                 currentPeopleCount: $currentPeopleCount,
                 maxPeopleCount: $maxPeopleCount,
                 meetingStatus: $meetingStatus,
-                isHost: $isHost
+                isHost: $isHost,
                 isApply: $isApply
             )
         case .comment:
