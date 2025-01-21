@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TabBarView: View {
-    @StateObject private var navigationManager = NavigationManager()
+    @EnvironmentObject var navigationManager: NavigationManager
     @State var selectedTab: TabBarState = .home
     
     var body: some View {
@@ -32,7 +32,6 @@ struct TabBarView: View {
 //                    .toolbar(.hidden, for: .navigationBar)
             }
         }
-        .environmentObject(navigationManager)
     }
 }
 

@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct Gongbaek_iOSApp: App {
+    @StateObject private var navigationManager = NavigationManager()
+
     var body: some Scene {
         WindowGroup {
-            TabBarView()
+            RootViewSwitcher()
+                .environmentObject(navigationManager)
         }
     }
 }
