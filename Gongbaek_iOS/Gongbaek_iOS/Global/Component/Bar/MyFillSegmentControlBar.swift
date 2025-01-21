@@ -7,25 +7,25 @@
 
 import SwiftUI
 
-enum MyFillType: String, CaseIterable {
-    case recruit = "내가 모집한"
+enum MyFillingType: String, CaseIterable {
+    case register = "내가 모집한"
     case apply = "내가 신청한"
 }
 
 struct MyFillSegmentControlBar: View {
-    //@Binding var recruit의binding될_데이터: binding될_데이터
-    //@Binding var apply의binding될_데이터: binding될_데이터
     @State private var selectedIndex = 0
+    @ObservedObject var viewModel: MyFillingViewModel
     
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                ForEach(MyFillType.allCases.indices, id: \.self) { index in
-                    let type = MyFillType.allCases[index]
+                ForEach(MyFillingType.allCases.indices, id: \.self) { index in
+                    let type = MyFillingType.allCases[index]
                     let isSelected = selectedIndex == index
-
+                    
                     Button {
                         selectedIndex = index
+                        fetchMeetings(for: type)
                     } label: {
                         ZStack(alignment: .bottom) {
                             Text(type.rawValue)
@@ -45,20 +45,26 @@ struct MyFillSegmentControlBar: View {
             selectedView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .onAppear {
+            fetchMeetings(for: MyFillingType.register) // 기본값 설정
+        }
     }
     
     @ViewBuilder
     private func selectedView() -> some View {
-        let type = MyFillType.allCases[selectedIndex]
+        let type = MyFillingType.allCases[selectedIndex]
         switch type {
-        case .recruit:
+        case .register:
             MyFillingList()
         case .apply:
             MyFillingList()
         }
     }
+    
+    private func fetchMeetings(for type: MyFillingType) {
+        let category: MyFillingType = (type == .register) ? .register : .apply
+        
+        viewModel.fetchMeetings(category: category)
+    }
 }
 
-#Preview {
-    MyFillSegmentControlBar()
-}
