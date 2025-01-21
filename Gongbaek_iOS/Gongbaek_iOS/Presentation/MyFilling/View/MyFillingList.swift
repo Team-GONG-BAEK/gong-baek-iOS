@@ -13,42 +13,23 @@ struct MyFillingList: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                HStack(spacing: 4) {
-                    Image(.icFire18)
-                        .renderingMode(.original)
-                        .frame(width: 18, height: 18)
-                    Text("현재 활동중인 모임")
-                        .font(.pretendard(.title2_sb_18))
+                MyFillingHeader(icon: .icFire18, title: "현재 활동중인 모임")
+                if viewModel.activeMeetings.isEmpty {
+                    MyFillingEmptyCell(state: .active)
+                } else {
                     ForEach(viewModel.activeMeetings, id: \.groupId) { meeting in
                         MeetingInfoCell(meeting: meeting, state: .myFill)
                     }
                 }
-                .padding(.top, 28)
-                .padding(.horizontal, 16)
-               
-                ForEach(meetings, id: \.groupTitle) { meeting in
-                    MeetingInfoCell(meeting: meeting, state: .myFill)
-                }
-                .padding(.top, 6)
                 
-                HStack(spacing: 4) {
-                    Image(.icLock18)
-                        .renderingMode(.original)
-                        .frame(width: 18, height: 18)
-                    Text("종료된 모임")
-                        .font(.pretendard(.title2_sb_18))
-                }
-                .padding(.top, 28)
-                .padding(.horizontal, 16)
-               
-                ForEach(meetings, id: \.groupTitle) { meeting in
-                    MeetingInfoCell(meeting: meeting, state: .myFill)
                 MyFillingHeader(icon: .icLock18, title: "종료된 모임")
+                if viewModel.endedMeetings.isEmpty {
+                    MyFillingEmptyCell(state: .end)
+                } else {
                     ForEach(viewModel.endedMeetings, id: \.groupId) { meeting in
                         MeetingInfoCell(meeting: meeting, state: .myFill)
                     }
                 }
-                
             }
         }
     }
@@ -57,3 +38,5 @@ struct MyFillingList: View {
 #Preview {
     MyFillingList()
 }
+
+
