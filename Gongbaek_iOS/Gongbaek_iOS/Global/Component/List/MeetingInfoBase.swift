@@ -10,9 +10,6 @@ import SwiftUI
 struct MeetingInfoBase: View {
     @Binding var state: MeetingInfoState
     @Binding var meeting: Meeting
-//    let state: MeetingInfoState
-//    let meeting: Meeting
-//
     
     var body: some View {
         HStack(spacing: 12) {
@@ -41,13 +38,14 @@ struct MeetingInfoBase: View {
                         TimeBox(
                             state: .gray,
                             text: Date.formattedDateAndStartEndTime(
-                                weekDay: WeekDay(from: meeting.weekDay ?? ""),
+                                weekDay: WeekDay(meeting.weekDay), // String 처리 후 전달
                                 weekDate: meeting.weekDate,
                                 startTime: meeting.startTime,
                                 endTime: meeting.endTime
                             ),
                             font: state.infoFont
                         )
+                        
                         LocationBox(
                             state: .gray,
                             text: meeting.location,
@@ -85,7 +83,7 @@ struct MeetingInfoBase: View {
             coverImg: "sample",
             groupType: "WEEKLY",
             groupTitle: "나는 개바보다 나랑 친구하고 싶으면 들어오덩가 ㅋㅋㅋ",
-            weekDay: "THU",
+            weekDay: "MON",
             weekDate: nil,
             startTime: 13.0,
             endTime: 15.0,

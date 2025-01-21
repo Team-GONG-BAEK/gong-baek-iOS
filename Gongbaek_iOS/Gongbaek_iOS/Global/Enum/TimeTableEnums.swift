@@ -13,10 +13,13 @@ enum WeekDay: String, CaseIterable {
     case WED = "수"
     case THU = "목"
     case FRI = "금"
-    case error
     
-    init(from serverValue: String) {
-        switch serverValue.uppercased() {
+    init?(_ serverValue: String?) {
+        guard let value = serverValue?.uppercased() else {
+            return nil
+        }
+        
+        switch value {
         case "MON":
             self = .MON
         case "TUE":
@@ -28,7 +31,7 @@ enum WeekDay: String, CaseIterable {
         case "FRI":
             self = .FRI
         default:
-            self = .error
+            return nil
         }
     }
     

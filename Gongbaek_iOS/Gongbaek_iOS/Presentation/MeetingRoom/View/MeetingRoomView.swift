@@ -34,8 +34,8 @@ struct MeetingRoomView: View {
                         TimeBox(
                             state: .white,
                             text: Date.formattedDateAndStartEndTime(
-                                weekDay: WeekDay(from: meetingDetailData.weekDay ?? ""),
-                                weekDate: meetingDetailData.weekDate ?? "",
+                                weekDay: WeekDay(meetingDetailData.weekDay),
+                                weekDate: meetingDetailData.weekDate,
                                 startTime: meetingDetailData.startTime,
                                 endTime: meetingDetailData.endTime
                             ),
