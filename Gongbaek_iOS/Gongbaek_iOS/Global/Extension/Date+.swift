@@ -73,7 +73,7 @@ extension Date {
     }
     
     // 댓글에 사용되는 시간 변경 로직
-    func formattedCommentDateTime(_ createdAt: String) -> String {
+    static func formattedCommentDateTime(_ createdAt: String) -> String {
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd-HH:mm"
         
