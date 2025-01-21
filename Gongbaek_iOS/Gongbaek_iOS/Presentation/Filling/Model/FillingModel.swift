@@ -22,7 +22,7 @@ struct Meeting {
 
 let dummyMeetings: [Meeting] = [
     Meeting(
-        status: "모집 중",
+        status: "RECRUITING",
         category: "스터디",
         coverImg: "sample",
         groupType: "WEEKLY",
