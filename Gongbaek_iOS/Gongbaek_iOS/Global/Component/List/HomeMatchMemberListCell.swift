@@ -28,6 +28,7 @@ struct HomeMatchMemberListCell: View {
             }
             divider()
         }
+        .padding(.top, 10)
     }
     
     private func memberProfile() -> some View {
@@ -37,7 +38,7 @@ struct HomeMatchMemberListCell: View {
                     .pretendardFont(.body2_sb_14)
                     .foregroundStyle(.gray09)
                 
-                Image(.icFemale20)
+                Image(data.sex == "MAN" ? .icMale20 : .icFemale20)
                     .resizable()
                     .renderingMode(.original)
                     .scaledToFit()

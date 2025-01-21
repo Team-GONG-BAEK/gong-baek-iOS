@@ -21,19 +21,19 @@ extension PerfectMatchMemberModel {
             PerfectMatchMemberModel(
                 profileImage: 1,
                 nickname: "나여니",
-                sex: "FEMALE",
+                sex: "WOMAN",
                 major: "컴퓨터공학과"
             ),
             PerfectMatchMemberModel(
                 profileImage: 4,
                 nickname: "아름다웠던그대다시볼수있다면",
-                sex: "MALE",
+                sex: "MAN",
                 major: "클래식피아노전공"
             ),
             PerfectMatchMemberModel(
                 profileImage: 5,
                 nickname: "목청좋은아이",
-                sex: "FEMALE",
+                sex: "WOMAN",
                 major: "성악과"
             )
         ]
