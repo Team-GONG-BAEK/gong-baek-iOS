@@ -16,18 +16,8 @@ struct MeetingRoomView: View {
                 VStack(spacing: 0) {
                     VStack(alignment: .leading, spacing: 0) {
                         HStack(spacing: 5) {
-                            let states: [MeetingChipState] = [
-                                RecruitingState(viewModel.meetingDetailData.status).map { .recruiting($0) },
-                                CategoryState(viewModel.meetingDetailData.category).map { .category($0) },
-                                GroupState(viewModel.meetingDetailData.groupType).map { .weekly($0) }
-                            ].compactMap { $0 }
-                            
-                            if states.isEmpty {
-                                // TODO: 디코딩 에러대응뷰
-                            } else {
-                                ForEach(states.indices, id: \.self) { index in
-                                    MeetingChip(state: states[index])
-                                }
+                            ForEach(viewModel.meetingStates.indices, id: \.self) { index in
+                                MeetingChip(state: viewModel.meetingStates[index])
                             }
                         }
                         .padding(.top, 18)
@@ -69,7 +59,7 @@ struct MeetingRoomView: View {
                                 .frame(width: 18, height: 18)
                                 .foregroundStyle(.gray06)
                             
-                            Text("멤버 (\(viewModel.meetingDetailData.currentPeopleCount)/\(viewModel.meetingDetailData.maxPeopleCount)명)")
+                            Text(viewModel.memberCount)
                                 .pretendardFont(.title2_sb_18)
                                 .foregroundStyle(.gray10)
                         }
@@ -93,7 +83,7 @@ struct MeetingRoomView: View {
                     
                     divider()
                     
-                    RecruitingState(viewModel.commentData.groupStatus) == .CLOSED ? CommentDisabledBox() : nil
+                    viewModel.isCommentDisabled ? CommentDisabledBox() : nil
                     
                     CommentList(
                         commentCount: $viewModel.commentData.commentCount,
@@ -103,7 +93,7 @@ struct MeetingRoomView: View {
                     )
                 }
             }
-            RecruitingState(viewModel.commentData.groupStatus) == .CLOSED ? nil : CommentTextField()
+            viewModel.isCommentDisabled ? nil : CommentTextField()
         }
     }
     
