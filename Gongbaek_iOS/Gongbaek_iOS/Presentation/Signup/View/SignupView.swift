@@ -10,7 +10,7 @@ import SwiftUI
 struct SignupView: View {
     @EnvironmentObject private var navigationManager: NavigationManager
     @StateObject private var viewModel = SignupViewModel()
-    @State private var currentStep: SignupStep = .signupCompletion
+    @State private var currentStep: SignupStep = .profileSelection
     
     var body: some View {
         VStack(spacing: 0) {
@@ -30,8 +30,11 @@ struct SignupView: View {
                 OnboardingConfirmBar(
                     grayButtonText: "시간표 변경",
                     orangeButtonText: "가입 완료",
-                    onTapGrayButton: { pop() },
-                    onTapOrangeButton: { push() }
+                    onTapGrayButton: { goBackToPreviousStep() },
+                    onTapOrangeButton: {
+                        // TODO: 회원가입 API
+                        goToNextStep()
+                    }
                 )
             } else {
                 BasicButton(
@@ -39,10 +42,14 @@ struct SignupView: View {
                     ? "공백 채우러 가기" : "다음",
                     isActivated: viewModel.isNextButtonEnabled(currentStep)
                 ) {
-                    /// 다음 뷰 기존 상태값 리셋
-                    let nextStep = SignupStep.allCases[currentStep.rawValue + 1]
-                    viewModel.resetState(at: nextStep)
-                    push()
+                    if currentStep == .signupCompletion {
+                        goToTabBarView()
+                    } else {
+                        /// 다음 뷰 기존 상태값 리셋
+                        let nextStep = SignupStep.allCases[currentStep.rawValue + 1]
+                        viewModel.resetState(at: nextStep)
+                        goToNextStep()
+                    }
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 20)                
@@ -53,7 +60,7 @@ struct SignupView: View {
                 !(currentStep == .profileSelection
                   || currentStep == .signupCompletion),
             onBackButtonTap: {
-                pop()
+                goBackToPreviousStep()
             }
         )
     }
@@ -61,12 +68,18 @@ struct SignupView: View {
 
 extension SignupView {
     
-    private func push() {
+    private func goToNextStep() {
         currentStep = .allCases[currentStep.rawValue + 1]
     }
     
-    private func pop() {
+    private func goBackToPreviousStep() {
         currentStep = .allCases[currentStep.rawValue - 1]
+    }
+    
+    private func goToTabBarView() {
+        withAnimation(.easeInOut(duration: 0.3)) {
+            navigationManager.rootView = .tabBar
+        }
     }
 }
 
