@@ -8,14 +8,11 @@
 import SwiftUI
 
 struct FreeTimeTableConversionView: View {
-    @EnvironmentObject var navigationManager: NavigationManager
-    let selectedCells: Set<TimeTableCellId>
+    @ObservedObject var viewModel: SignupViewModel
     private let hours = Array(stride(from: 9, through: 17.5, by: 0.5))
     
     var body: some View {
         VStack(spacing: 0) {
-            ProgressBar(currentIndex: 7)
-            
             // TODO: 스크롤 영역 수정 가능성 있음
             ScrollView {
                 TitleTextBox(
@@ -33,18 +30,7 @@ struct FreeTimeTableConversionView: View {
             }
                 
             Spacer()
-            
-            OnboardingConfirmBar(
-                grayButtonText: "시간표 변경",
-                orangeButtonText: "가입 완료",
-                onTapGrayButton: {
-                    navigationManager.pop()
-                }
-            ) {
-//                navigationManager.push(view: SignupDestination.freeTimeTableConversion)
-            }
         }
-        .customNavigationBar(showBackButton: true)
     }
     
     /// 공강 시간표 CellId 배열로 변환
@@ -56,10 +42,10 @@ struct FreeTimeTableConversionView: View {
                 }
             }
         )
-        return allCells.subtracting(selectedCells)
+        return allCells.subtracting(viewModel.selectedCells)
     }
 }
 
 #Preview {
-    FreeTimeTableConversionView(selectedCells: [])
+    FreeTimeTableConversionView(viewModel: SignupViewModel())
 }

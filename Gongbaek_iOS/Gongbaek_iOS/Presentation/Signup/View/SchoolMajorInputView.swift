@@ -8,14 +8,12 @@
 import SwiftUI
 
 struct SchoolMajorInputView: View {
-    @EnvironmentObject var navigationManager: NavigationManager
-    @State var schoolName = ""
-    @State var majorName = ""
+    @ObservedObject var viewModel: SignupViewModel
+    let onTapSchoolSearchButton: (() -> Void)?
+    let onTapMajorSearchButton: (() -> Void)?
     
     var body: some View {
         VStack(spacing: 0) {
-            ProgressBar(currentIndex: 2)
-            
             TitleTextBox(
                 title: "학교와 학과를 입력해주세요.",
                 subtitle: "프로필에 표시되는 정보로, 언제든 변경할 수 있어요."
@@ -27,39 +25,33 @@ struct SchoolMajorInputView: View {
             
             Group {
                 SearchTextField(
-                    inputText: $schoolName,
+                    inputText: $viewModel.schoolName,
                     isButton: true,
                     state: .school
                 ) { _ in
-                    navigationManager.present(.schoolMajorSearchView($schoolName, .school))
+                    onTapSchoolSearchButton?()
                 }
                 .padding(.bottom, 24)
                 
                 SearchTextField(
-                    inputText: $majorName,
+                    inputText: $viewModel.majorName,
                     isButton: true,
                     state: .major
                 ) { _ in
-                    navigationManager.present(.schoolMajorSearchView($majorName, .major))
+                    onTapMajorSearchButton?()
                 }
             }
             .padding(.horizontal, 16)
             
             Spacer()
-            
-            BasicButton(
-                text: "다음",
-                isActivated: !schoolName.isEmpty && !majorName.isEmpty
-            ) {
-                navigationManager.push(view: SignupDestination.gradeAdmissionYearInput)
-            }
-            .padding(.horizontal, 16)
-            .padding(.bottom, 20)
         }
-        .customNavigationBar(showBackButton: true)
     }
 }
 
 #Preview {
-    SchoolMajorInputView()
+    SchoolMajorInputView(
+        viewModel: SignupViewModel(),
+        onTapSchoolSearchButton: {},
+        onTapMajorSearchButton: {}
+    )
 }

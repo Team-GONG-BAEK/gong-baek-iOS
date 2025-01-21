@@ -18,7 +18,7 @@ struct MemberProfileBox: View {
                 .frame(width: 80, height: 80)
                 .clipShape(RoundedRectangle(cornerRadius: 2))
                 .overlay(
-                    memberData.isHost ? OwnerChip(ownerChipType: .gray09).padding(6) : nil,
+                    memberData.isHost ? OwnerChip(ownerChipColor: .gray09).padding(6) : nil,
                     alignment: .bottomLeading
                 )
                 .overlay(
