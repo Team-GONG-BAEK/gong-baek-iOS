@@ -14,6 +14,27 @@ enum WeekDay: String, CaseIterable {
     case THU = "목"
     case FRI = "금"
     
+    init?(_ serverValue: String?) {
+        guard let value = serverValue?.uppercased() else {
+            return nil
+        }
+        
+        switch value {
+        case "MON":
+            self = .MON
+        case "TUE":
+            self = .TUE
+        case "WED":
+            self = .WED
+        case "THU":
+            self = .THU
+        case "FRI":
+            self = .FRI
+        default:
+            return nil
+        }
+    }
+    
     private static let koreanNames: [WeekDay: String] = [
         .MON: "월요일",
         .TUE: "화요일",

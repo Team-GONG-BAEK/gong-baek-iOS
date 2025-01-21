@@ -19,7 +19,7 @@ struct OwnerInfoModel: Decodable {
 let dummyOwnerInfoData: OwnerInfoModel = OwnerInfoModel(
     profileImg: 1,
     nickname: "나공일히은",
-    sex: "FEMALE",
+    sex: "MAN",
     schoolMajor: "미디어기술콘텐츠학과",
     enterYear: 2020,
     schoolGrade: 4,
