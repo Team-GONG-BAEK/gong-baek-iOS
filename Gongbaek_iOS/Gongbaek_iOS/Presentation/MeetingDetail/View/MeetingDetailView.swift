@@ -15,36 +15,52 @@ struct MeetingDetailView: View {
     var body: some View {
         VStack(spacing: 0) {
             MeetingInfoBase(
-                state: .detail,
-                meeting: .init(
-                    status: "모집 중",
+                state: .constant(.detail),
+                meeting: .constant(Meeting(
+                    status: meetingDetailData.status,
                     category: meetingDetailData.category,
                     coverImg: "sample",//TODO: Int로 넘기기 meetingDetailData.coverImg,
                     groupType: meetingDetailData.groupType,
                     groupTitle: meetingDetailData.groupTitle,
-                    weekDay: .MON,//TODO: meetingDetail.weekDay,
+                    weekDay: meetingDetailData.weekDay,
                     weekDate: meetingDetailData.weekDate,
                     startTime: meetingDetailData.startTime,
                     endTime: meetingDetailData.endTime,
                     location: meetingDetailData.location
-                )
-            )
+                )))
             .padding(16)
             
-            Color.gray02.frame(height: 8)
+            divider()
             
             MeetingDetailSegmentControlBar(
                 introduction: $meetingDetailData.introduction,
                 ownerInfo: $ownerInfoData,
-                commentData: $commentData
+                commentData: $commentData,
+                currentPeopleCount: $meetingDetailData.currentPeopleCount,
+                maxPeopleCount: $meetingDetailData.maxPeopleCount,
+                meetingStatus: $meetingDetailData.status,
+                isHost: $meetingDetailData.isHost,
+                isApply: $meetingDetailData.isApply
             )
         }
+    }
+    
+    func divider() -> some View {
+        Color.gray02.frame(height: 8)
     }
 }
 
 #Preview {
     MeetingDetailView(
         meetingDetailData: dummymeetingDetailData,
+        ownerInfoData: dummyOwnerInfoData,
+        commentData: dummyCommentData
+    )
+}
+
+#Preview {
+    MeetingDetailView(
+        meetingDetailData: dummymeetingDateDetailData,
         ownerInfoData: dummyOwnerInfoData,
         commentData: dummyCommentData
     )

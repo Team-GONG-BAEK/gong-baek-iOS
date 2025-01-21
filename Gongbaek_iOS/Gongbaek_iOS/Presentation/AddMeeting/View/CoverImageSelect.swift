@@ -8,10 +8,7 @@
 import SwiftUI
 
 struct CoverImageSelect: View {
-    @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
-    
-    @State private var selectedCoverIndex: Int? = nil
     
     private let columns = [
         GridItem(.flexible(), spacing: 12),
@@ -19,38 +16,28 @@ struct CoverImageSelect: View {
     ]
     
     var body: some View {
-        VStack {
-            ProgressBar(currentIndex: viewModel.currentIndex)
-                .padding(.bottom, 40)
+        let coverImages = viewModel.selectedCategory?.coverImage ?? []
+        let enumeratedCoverImages = Array(coverImages.enumerated())
+        
+        VStack(alignment: .leading, spacing: 0) {
+            TitleTextBox(title: "커버 사진을 선택해주세요.", subtitle: "제공된 사진 중 하나를 선택할 수 있어요.")
+                .padding(.bottom, 28)
             
-            VStack(alignment: .leading, spacing: 0) {
-                TitleTextBox(title: "커버 사진을 선택해주세요.", subtitle: "제공된 사진 중 하나를 선택할 수 있어요.")
-                    .padding(.bottom, 28)
-                
-                LazyVGrid(columns: columns, spacing: 12) {
-                    ForEach(Array((viewModel.selectedCategory?.coverImage ?? []).enumerated()), id: \.0) { index, image in
-                        CoverImageButton(
-                            image: image,
-                            isSelected: selectedCoverIndex == index,
-                            onTap: {
-                                selectedCoverIndex = index
-                                viewModel.selectedCoverImage = image
-                                viewModel.isNextEnabled = true
-                            }
-                        )
-                        .frame(height: 138)
-                    }
+            LazyVGrid(columns: columns, spacing: 12) {
+                ForEach(enumeratedCoverImages, id: \.0) { index, image in
+                    CoverImageButton(
+                        image: image,
+                        isSelected: viewModel.selectedCoverIndex == index,
+                        onTap: {
+                            viewModel.selectedCoverIndex = index
+                            print("✅ 선택된 커버 인덱스 (서버 기준): \(viewModel.selectedCoverIndex)")
+                        }
+                    )
+                    .frame(height: 138)
                 }
             }
-            .padding(.horizontal, 16)
-            
-            BasicButton(text: "다음", isActivated: viewModel.isNextEnabled) {
-                viewModel.goToNextPage()
-                navigationManager.push(view: FillingDestination.locationInput)
-            }
-            .padding(.vertical, 20)
-            .padding(.horizontal, 16)
         }
-        .customNavigationBar(showBackButton: true)
+        .padding(.horizontal, 16)
+        
     }
 }
