@@ -235,7 +235,7 @@ class AddMeetingViewModel: ObservableObject {
         print("▶ endTime: \(selectedTimeRange.end)")
         print("▶ dueDate: \(selectedFormattedDate ?? nil)")
 
-        if let category = selectedCategory?.rawString {
+        if let category = selectedCategory {
             print("▶ category: \(category)")
         } else {
             print("▶ category: 없음")
