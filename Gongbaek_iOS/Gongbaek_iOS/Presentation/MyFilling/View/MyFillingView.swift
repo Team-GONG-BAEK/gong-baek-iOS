@@ -10,6 +10,7 @@ import SwiftUI
 struct MyFillingView: View {
     var body: some View {
         MyFillSegmentControlBar()
+            .customNavigationBar(title: "나의 채움")
     }
 }
 
