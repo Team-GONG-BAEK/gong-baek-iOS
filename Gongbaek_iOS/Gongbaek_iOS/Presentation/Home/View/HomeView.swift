@@ -27,6 +27,8 @@ struct HomeView: View {
                     highlightText: "한번만 봐요",
                     isWeekly: false
                 )
+                banner()
+                // 채팅 멤버
             }
         }
     }
@@ -86,6 +88,14 @@ struct HomeView: View {
                 .padding(.horizontal, 16)
             }
         }
+    }
+    
+    private func banner() -> some View {
+        Image(.imgHomeBanner)
+            .resizable()
+            .scaledToFill()
+            .frame(width: .infinity)
+            .padding(.top, 2)
     }
     
     private func schoolNameBar() -> some View {
