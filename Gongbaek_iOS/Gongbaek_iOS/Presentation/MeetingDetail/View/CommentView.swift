@@ -17,7 +17,7 @@ struct CommentView: View {
             CommentList(
                 commentCount: $commentData.commentCount,
                 comments: $commentData.comments,
-                isScolled: true,
+                isScrolled: true,
                 onTapRefreshButton: nil
             )
             

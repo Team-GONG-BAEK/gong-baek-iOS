@@ -8,16 +8,16 @@
 enum SexState {
     case MAN
     case WOMAN
-    case error
+//    case error
     
-    init(_ serverValue: String) {
-        switch serverValue.uppercased() {
+    init?(_ serverValue: String?) {
+        switch serverValue?.uppercased() {
         case "MAN":
             self = .MAN
         case "WOMAN":
             self = .WOMAN
         default:
-            self = .error
+            return nil
         }
     }
 }

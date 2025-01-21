@@ -8,16 +8,15 @@
 enum GroupState {
     case ONCE
     case WEEKLY
-    case error
     
-    init(_ serverValue: String) {
-        switch serverValue.uppercased() {
+    init?(_ serverValue: String?) {
+        switch serverValue?.uppercased() {
         case "ONCE":
             self = .ONCE
         case "WEEKLY":
             self = .WEEKLY
         default:
-            self = .error
+            return nil
         }
     }
 }

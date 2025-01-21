@@ -9,10 +9,9 @@ enum RecruitingState: String, CaseIterable {
     case RECRUITING
     case RECRUITED
     case CLOSED
-    case error
     
-    init(_ serverValue: String) {
-        switch serverValue.uppercased() {
+    init?(_ serverValue: String?) {
+        switch serverValue?.uppercased() {
         case "RECRUITING":
             self = .RECRUITING
         case "RECRUITED":
@@ -20,7 +19,7 @@ enum RecruitingState: String, CaseIterable {
         case "CLOSED":
             self = .CLOSED
         default:
-            self = .error
+            return nil
         }
     }
 }

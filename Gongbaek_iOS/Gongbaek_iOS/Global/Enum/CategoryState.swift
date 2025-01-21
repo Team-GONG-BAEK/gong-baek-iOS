@@ -15,10 +15,9 @@ enum CategoryState: Int, CaseIterable {
     case NETWORKING = 4
     case PLAYING = 5
     case OTHERS = 6
-    case error
     
-    init(_ serverValue: String) {
-        switch serverValue.uppercased() {
+    init?(_ serverValue: String?) {
+        switch serverValue?.uppercased() {
         case "ALL":
             self = .ALL
         case "STUDY":
@@ -34,7 +33,7 @@ enum CategoryState: Int, CaseIterable {
         case "OTHERS":
             self = .OTHERS
         default:
-            self = .error
+            return nil
         }
     }
     
@@ -47,7 +46,6 @@ enum CategoryState: Int, CaseIterable {
         case .NETWORKING: return Image(.imgCategoryNetworking)
         case .PLAYING: return Image(.imgCategoryPlay)
         case .OTHERS: return Image(.imgCategoryOthers)
-        case .error: return nil
         }
     }
     
@@ -60,7 +58,6 @@ enum CategoryState: Int, CaseIterable {
         case .NETWORKING: return "네트워킹"
         case .PLAYING: return "취미/오락"
         case .OTHERS: return "기타"
-        case .error: return ""
         }
     }
     
@@ -73,7 +70,6 @@ enum CategoryState: Int, CaseIterable {
         case .NETWORKING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
         case .PLAYING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
         case .OTHERS: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-        case .error: return []
         }
     }
 }

@@ -95,7 +95,7 @@ struct MeetingRoomView: View {
                     CommentList(
                         commentCount: $commentData.commentCount,
                         comments: $commentData.comments,
-                        isScolled: false,
+                        isScrolled: false,
                         onTapRefreshButton: nil
                     )
                 }
