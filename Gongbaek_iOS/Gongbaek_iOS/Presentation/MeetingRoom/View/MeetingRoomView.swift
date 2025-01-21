@@ -18,9 +18,9 @@ struct MeetingRoomView: View {
                 VStack(spacing: 0) {
                     VStack(alignment: .leading, spacing: 0) {
                         HStack {
-                            MeetingChip(state: .recruiting(RecruitingState(meetingDetailData.status))) // SexState(from: ownerData.sex) == .MAN
-                            MeetingChip(state: .category(CategoryState(meetingDetailData.category)))
-                            MeetingChip(state: .weekly(GroupState(meetingDetailData.groupType)))
+                            MeetingChip(state: .recruiting(RecruitingState(meetingDetailData.status)!)) // SexState(from: ownerData.sex) == .MAN
+                            MeetingChip(state: .category(CategoryState(meetingDetailData.category)!))
+                            MeetingChip(state: .weekly(GroupState(meetingDetailData.groupType)!))
                         }
                         .padding(.top, 18)
                         .padding(.bottom, 6)

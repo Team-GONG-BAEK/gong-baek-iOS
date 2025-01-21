@@ -12,7 +12,7 @@ struct CheckInputInfo: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ProgressBar(currentIndex: $viewModel.currentIndex)
+            ProgressBar(currentIndex: viewModel.currentIndex)
                 .padding(.bottom, 40)
             
             VStack(alignment: .leading, spacing: 0) {
