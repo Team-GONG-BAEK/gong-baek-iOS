@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct HomeMatchMemberListCell: View {
+    let data: PerfectMatchMemberModel
     
     var body: some View {
         VStack(spacing: 9) {
             HStack {
                 HStack(spacing: 10) {
-                    Image(.profileImage5)
+                    Image(ProfileImageMap.allCases[data.profileImage].rawValue)
                         .resizable()
                         .renderingMode(.original)
                         .scaledToFill()
@@ -32,7 +33,7 @@ struct HomeMatchMemberListCell: View {
     private func memberProfile() -> some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack(spacing: 2) {
-                Text("연유커피")
+                Text(data.nickname)
                     .pretendardFont(.body2_sb_14)
                     .foregroundStyle(.gray09)
                 
@@ -44,7 +45,7 @@ struct HomeMatchMemberListCell: View {
             }
             
             MajorChip(
-                major: "컴퓨터예술학부",
+                major: data.major,
                 targetObject: .suggestedUserProfile
             )
         }
@@ -73,5 +74,12 @@ struct HomeMatchMemberListCell: View {
 }
 
 #Preview {
-    HomeMatchMemberListCell()
+    HomeMatchMemberListCell(data:
+        PerfectMatchMemberModel(
+            profileImage: 1,
+            nickname: "나여니",
+            sex: "FEMALE",
+            major: "컴퓨터공학과"
+        )
+    )
 }

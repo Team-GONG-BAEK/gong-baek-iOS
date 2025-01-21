@@ -16,4 +16,6 @@ final class HomeViewModel: ObservableObject {
     @Published var weeklyMeetingList: [MeetingModel] = MeetingModel.weeklyMeetingList()
     // 한번봐요 모임
     @Published var oneTimeMeetingList: [MeetingModel] = MeetingModel.weeklyMeetingList()
+    // 나와 딱 맞는 멤버 (API 연결 X)
+    let perfectMatchMemberList: [PerfectMatchMemberModel] = PerfectMatchMemberModel.mockData()
 }
