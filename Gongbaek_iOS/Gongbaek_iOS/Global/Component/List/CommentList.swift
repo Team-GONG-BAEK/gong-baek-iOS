@@ -10,7 +10,7 @@ import SwiftUI
 struct CommentList: View {
     @Binding var commentCount: Int
     @Binding var comments: [Comment]
-    let isScolled: Bool
+    let isScrolled: Bool
     var onTapRefreshButton: (() -> Void)?
     
     var body: some View {
@@ -28,7 +28,7 @@ struct CommentList: View {
                     }
                     .padding(.horizontal, 16)
                 }
-                .scrollDisabled(!isScolled)
+                .scrollDisabled(!isScrolled)
             }
         }
         .background(.grayWhite)
