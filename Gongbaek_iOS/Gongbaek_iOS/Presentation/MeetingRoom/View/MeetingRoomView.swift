@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct MeetingRoomView: View {
-    @State var meetingDetailData: MeetingDetailModel
-    @State var memberData: MeetingRoomMemberModel
-    @State var commentData: CommentModel
+    @StateObject var viewModel: MeetingRoomViewModel
     
     var body: some View {
         VStack {
@@ -19,9 +17,9 @@ struct MeetingRoomView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         HStack(spacing: 5) {
                             let states: [MeetingChipState] = [
-                                RecruitingState(meetingDetailData.status).map { .recruiting($0) },
-                                CategoryState(meetingDetailData.category).map { .category($0) },
-                                GroupState(meetingDetailData.groupType).map { .weekly($0) }
+                                RecruitingState(viewModel.meetingDetailData.status).map { .recruiting($0) },
+                                CategoryState(viewModel.meetingDetailData.category).map { .category($0) },
+                                GroupState(viewModel.meetingDetailData.groupType).map { .weekly($0) }
                             ].compactMap { $0 }
 
                             if states.isEmpty {
@@ -35,7 +33,7 @@ struct MeetingRoomView: View {
                         .padding(.top, 18)
                         .padding(.bottom, 6)
                         
-                        Text(meetingDetailData.groupTitle)
+                        Text(viewModel.meetingDetailData.groupTitle)
                             .pretendardFont(.title1_b_20)
                             .foregroundColor(.grayWhite)
                             .lineLimit(nil)
@@ -44,10 +42,10 @@ struct MeetingRoomView: View {
                         TimeBox(
                             state: .white,
                             text: Date.formattedDateAndStartEndTime(
-                                weekDay: WeekDay(meetingDetailData.weekDay),
-                                weekDate: meetingDetailData.weekDate,
-                                startTime: meetingDetailData.startTime,
-                                endTime: meetingDetailData.endTime
+                                weekDay: WeekDay(viewModel.meetingDetailData.weekDay),
+                                weekDate: viewModel.meetingDetailData.weekDate,
+                                startTime: viewModel.meetingDetailData.startTime,
+                                endTime: viewModel.meetingDetailData.endTime
                             ),
                             font: .pretendard(
                                 .caption2_r_12
@@ -58,7 +56,7 @@ struct MeetingRoomView: View {
                             2
                         )
                         
-                        LocationBox(state: .white, text: meetingDetailData.location, font: .pretendard(.caption2_r_12))
+                        LocationBox(state: .white, text: viewModel.meetingDetailData.location, font: .pretendard(.caption2_r_12))
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 16)
@@ -76,7 +74,7 @@ struct MeetingRoomView: View {
                                 .frame(width: 18, height: 18)
                                 .foregroundStyle(.gray06)
                             
-                            Text("멤버 (\(meetingDetailData.currentPeopleCount)/\(meetingDetailData.maxPeopleCount)명)")
+                            Text("멤버 (\(viewModel.meetingDetailData.currentPeopleCount)/\(viewModel.meetingDetailData.maxPeopleCount)명)")
                                 .pretendardFont(.title2_sb_18)
                                 .foregroundStyle(.gray10)
                         }
@@ -89,8 +87,8 @@ struct MeetingRoomView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 6) {
-                            ForEach(memberData.members.indices, id: \.self) { index in
-                                MemberProfileBox(memberData: $memberData.members[index])
+                            ForEach($viewModel.memberData.members.indices, id: \.self) { index in
+                                MemberProfileBox(memberData: $viewModel.memberData.members[index])
                             }
                         }
                         .padding(.horizontal, 9)
@@ -100,29 +98,21 @@ struct MeetingRoomView: View {
                     
                     divider()
                     
-                    RecruitingState(commentData.groupStatus) == .CLOSED ? CommentDisabledBox() : nil
+                    RecruitingState(viewModel.commentData.groupStatus) == .CLOSED ? CommentDisabledBox() : nil
                     
                     CommentList(
-                        commentCount: $commentData.commentCount,
-                        comments: $commentData.comments,
+                        commentCount: $viewModel.commentData.commentCount,
+                        comments: $viewModel.commentData.comments,
                         isScrolled: false,
                         onTapRefreshButton: nil
                     )
                 }
             }
-            RecruitingState(commentData.groupStatus) == .CLOSED ? nil : CommentTextField()
+            RecruitingState(viewModel.commentData.groupStatus) == .CLOSED ? nil : CommentTextField()
         }
     }
     
     func divider() -> some View {
         Color.gray02.frame(height: 8)
     }
-}
-
-#Preview {
-    MeetingRoomView(
-        meetingDetailData: dummymeetingDetailData,
-        memberData: dummyMeetingRoomMemberData,
-        commentData: dummyMeetingRoomCommentData
-    )
 }
