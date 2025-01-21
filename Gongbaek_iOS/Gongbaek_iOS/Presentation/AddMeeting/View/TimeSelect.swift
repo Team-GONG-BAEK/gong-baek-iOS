@@ -13,7 +13,7 @@ struct TimeSelect: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ProgressBar(currentIndex: $viewModel.currentIndex)
+            ProgressBar(currentIndex: viewModel.currentIndex)
                 .padding(.bottom, 40)
             VStack(alignment: .leading, spacing: 0) {
                 TitleTextBox(title: "공백을 채울 시간을 선택해주세요.", subtitle: nil)

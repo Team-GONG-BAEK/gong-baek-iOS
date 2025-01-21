@@ -9,28 +9,23 @@ import SwiftUI
 
 struct SchoolMajorSearchView: View {
     @EnvironmentObject var navigationManager: NavigationManager
-    @FocusState private var isTextFieldFocused
-    @Binding var selectedResult: String
-    @State private var temporarySelectedResult: String = ""
-    @State private var textFieldText = ""
-    @State private var searchWord = ""
-    @State private var searchResultList: [String] = []
+    @ObservedObject var viewModel: SignupViewModel
     let state: SearchViewState
     
     var body: some View {
         VStack(spacing: 0) {
             searchTextField()
             
-            if !searchWord.isEmpty {
-                if searchResultList.isEmpty {
+            if !viewModel.searchWord.isEmpty {
+                if viewModel.searchResultList.isEmpty {
                     emptyView()
                 } else {
                     searchResultListView()
                 }
                 
                 if state == .major {
-                    MajorDirectRegistrationButton(majorName: searchWord) {
-                        selectedResult = searchWord
+                    MajorDirectRegistrationButton(majorName: viewModel.searchWord) {
+                        viewModel.majorName = viewModel.searchWord
                         navigationManager.dismissPresented()
                     }
                     .padding(.horizontal, 16)
@@ -46,23 +41,19 @@ struct SchoolMajorSearchView: View {
     
     private func searchTextField() -> some View {
         SearchTextField(
-            inputText: $textFieldText,
+            inputText: $viewModel.textFieldText,
             isButton: false,
             state: state
         ) { textFieldText in
             if !textFieldText.isEmpty {
                 // TODO: 뷰모델 검색 api 연결
-                self.searchWord = textFieldText
-                getSearchResultList()
-                isTextFieldFocused = false
+                onTapSearchButton()
             }
         }
         .onSubmit {
-            searchWord = textFieldText
-            getSearchResultList()
+            onTapSearchButton()
         }
         .submitLabel(.search)
-        .focused($isTextFieldFocused)
         .environment(\.locale, Locale(identifier: "ko_KR"))
         .padding(.top, 12)
         .padding(.horizontal, 16)
@@ -80,8 +71,8 @@ struct SchoolMajorSearchView: View {
     }
     
     private func searchResultListView() -> some View {
-        List(searchResultList, id: \.self) { item in
-            let isSelected = temporarySelectedResult == item
+        List(viewModel.searchResultList, id: \.self) { item in
+            let isSelected = viewModel.selectedSearchResult == item
             
             SearchListCell(
                 name: item,
@@ -89,9 +80,9 @@ struct SchoolMajorSearchView: View {
             )
             .onTapGesture {
                 if isSelected {
-                    temporarySelectedResult = ""
+                    viewModel.selectedSearchResult = ""
                 } else {
-                    temporarySelectedResult = item
+                    viewModel.selectedSearchResult = item
                 }
             }
         }
@@ -102,9 +93,14 @@ struct SchoolMajorSearchView: View {
     private func applyButton() -> some View {
         BasicButton(
             text: "적용",
-            isActivated: !temporarySelectedResult.isEmpty
+            isActivated: !viewModel.selectedSearchResult.isEmpty
         ) {
-            selectedResult = temporarySelectedResult
+            switch state {
+            case .school:
+                viewModel.schoolName = viewModel.selectedSearchResult
+            case .major:
+                viewModel.majorName = viewModel.selectedSearchResult
+            }
             navigationManager.dismissPresented()
         }
         .padding(.top, 20)
@@ -115,18 +111,22 @@ struct SchoolMajorSearchView: View {
 
 extension SchoolMajorSearchView {
     
+    private func onTapSearchButton() {
+        viewModel.searchWord = viewModel.textFieldText
+        viewModel.selectedSearchResult = ""
+        getSearchResultList()
+    }
+    
     private func getSearchResultList() {
         switch state {
         case .school:
-            searchResultList = SchoolNameListModel.mockData().schoolNames
+            viewModel.searchResultList = SchoolNameListModel.mockData().schoolNames
         case .major:
-            searchResultList = MajorNameListModel.mockData().schoolMajors
+            viewModel.searchResultList = MajorNameListModel.mockData().schoolMajors
         }
     }
 }
 
 #Preview {
-    @Previewable @State var result = ""
-    
-    SchoolMajorSearchView(selectedResult: $result, state: .major)
+    SchoolMajorSearchView(viewModel: SignupViewModel(), state: .major)
 }

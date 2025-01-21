@@ -5,7 +5,59 @@
 //  Created by 김나연 on 1/20/25.
 //
 
-import Foundation
+import SwiftUI
+
+enum SignupStep: Int, CaseIterable {
+    case profileSelection = 0
+    case nicknameInput
+    case schoolMajorInput
+    case gradeAdmissionYearInput
+    case mbtiSelection
+    case sexSelection
+    case selfIntroductionWriting
+    case classTimeTableInput
+    case freeTimeTableConversion
+    case signupCompletion
+    
+    @ViewBuilder
+    func view(
+        viewModel: SignupViewModel,
+        navigationManager: NavigationManager
+    ) -> some View {
+        switch self {
+        case .profileSelection:
+            ProfileSelectionView(viewModel: viewModel)
+        case .nicknameInput:
+            NicknameInputView(viewModel: viewModel)
+        case .schoolMajorInput:
+            SchoolMajorInputView(
+                viewModel: viewModel,
+                onTapSchoolSearchButton: {
+                    viewModel.resetSearchState()
+                    navigationManager.present(.schoolMajorSearchView(viewModel, .school))
+                },
+                onTapMajorSearchButton: {
+                    viewModel.resetSearchState()
+                    navigationManager.present(.schoolMajorSearchView(viewModel, .major))
+                }
+            )
+        case .gradeAdmissionYearInput:
+            GradeAdmissionYearInputView(viewModel: viewModel)
+        case .mbtiSelection:
+            MbtiSelectionView(viewModel: viewModel)
+        case .sexSelection:
+            SexSelectionView(viewModel: viewModel)
+        case .selfIntroductionWriting:
+            SelfIntroductionWritingView(viewModel: viewModel)
+        case .classTimeTableInput:
+            ClassTimeTableInputView(viewModel: viewModel)
+        case .freeTimeTableConversion:
+            FreeTimeTableConversionView(viewModel: viewModel)
+        case .signupCompletion:
+            SignupCompletionView()
+        }
+    }
+}
 
 enum ProfileImageMap: String, CaseIterable {
     case profile0 = "profile_image_0"
@@ -40,33 +92,33 @@ enum MBTI {
 }
 
 enum MBTI_ei: String, CaseIterable {
-    case e = "E"
-    case i = "I"
+    case E
+    case I
 }
 
 enum MBTI_sn: String, CaseIterable {
-    case s = "S"
-    case n = "N"
+    case S
+    case N
 }
 
 enum MBTI_tf: String, CaseIterable {
-    case t = "T"
-    case f = "F"
+    case T
+    case F
 }
 
 enum MBTI_jp: String, CaseIterable {
-    case j = "J"
-    case p = "P"
+    case J
+    case P
 }
 
 enum SexType: String, CaseIterable {
-    case man = "MAN"
-    case woman = "WOMAN"
+    case MAN
+    case WOMAN
     
     var text: String {
         switch self {
-        case .man: "남자"
-        case .woman: "여자"
+        case .MAN: "남자"
+        case .WOMAN: "여자"
         }
     }
 }
