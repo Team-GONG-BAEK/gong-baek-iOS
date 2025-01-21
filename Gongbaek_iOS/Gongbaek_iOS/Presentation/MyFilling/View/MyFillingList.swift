@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MyFillingList: View {
-    let meetings: [Meeting] = dummyMeetings
+    @StateObject var viewModel = MyFillingViewModel()
     
     var body: some View {
         ScrollView {
@@ -19,6 +19,9 @@ struct MyFillingList: View {
                         .frame(width: 18, height: 18)
                     Text("현재 활동중인 모임")
                         .font(.pretendard(.title2_sb_18))
+                    ForEach(viewModel.activeMeetings, id: \.groupId) { meeting in
+                        MeetingInfoCell(meeting: meeting, state: .myFill)
+                    }
                 }
                 .padding(.top, 28)
                 .padding(.horizontal, 16)
@@ -40,6 +43,10 @@ struct MyFillingList: View {
                
                 ForEach(meetings, id: \.groupTitle) { meeting in
                     MeetingInfoCell(meeting: meeting, state: .myFill)
+                MyFillingHeader(icon: .icLock18, title: "종료된 모임")
+                    ForEach(viewModel.endedMeetings, id: \.groupId) { meeting in
+                        MeetingInfoCell(meeting: meeting, state: .myFill)
+                    }
                 }
                 
             }
