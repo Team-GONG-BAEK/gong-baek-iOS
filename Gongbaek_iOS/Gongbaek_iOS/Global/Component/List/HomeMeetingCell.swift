@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeMeetingCell: View {
     let data: MeetingModel
+    let isWeekly: Bool
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -28,14 +29,17 @@ struct HomeMeetingCell: View {
                 userProfiles()
             }
         }
-        .frame(width: 116)
+        .frame(width: isWeekly ? 116 : 160)
     }
     
     private func meetingImage() -> some View {
         Image(.sample)
             .resizable()
             .scaledToFill()
-            .frame(width: 116, height: 108)
+            .frame(
+                width: isWeekly ? 116 : 160,
+                height: isWeekly ? 108 : 104
+            )
             .clipShape(
                 RoundedRectangle(cornerRadius: 4)
             )
@@ -54,7 +58,7 @@ struct HomeMeetingCell: View {
         Text(data.groupTitle)
             .pretendardFont(.body2_sb_14)
             .foregroundStyle(.gray10)
-            .lineLimit(2)
+            .lineLimit(1)
     }
     
     private func meetingTime() -> some View {
@@ -64,10 +68,14 @@ struct HomeMeetingCell: View {
                 .scaledToFit()
                 .frame(width: 16, height: 16)
             
-            Text("월요일 14-16시")
-                .pretendardFont(.caption2_m_12)
-                .foregroundStyle(.gray06)
-                .lineLimit(1)
+            Text(
+                isWeekly
+                ? data.weekDate + " 14시-16시"
+                : (data.groupDate ?? "") + " 수요일 14시 30분-15시"
+            )
+            .pretendardFont(.caption2_m_12)
+            .foregroundStyle(.gray06)
+            .lineLimit(1)
             
             Spacer()
         }
@@ -92,8 +100,8 @@ struct HomeMeetingCell: View {
 }
 
 #Preview {
-    HomeMeetingCell(data:
-        MeetingModel(
+    HomeMeetingCell(
+        data: MeetingModel(
             groupId: 0,
             category: "DINING",
             coverImg: 4,
@@ -101,10 +109,11 @@ struct HomeMeetingCell: View {
             groupType: "WEEKLY",
             groupTitle: "같이 저녁 먹을 사람들 구합니다",
             weekDate: "FRI",
-            groupDate: nil,
+            groupDate: "2025-05-15",
             startTime: 17.0,
             endTime: 18.0,
             location: "학교 정문 앞"
-        )
+        ),
+        isWeekly: false
     )
 }

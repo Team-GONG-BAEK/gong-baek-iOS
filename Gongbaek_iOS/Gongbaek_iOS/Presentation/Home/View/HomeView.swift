@@ -82,10 +82,13 @@ struct HomeView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 10) {
                     ForEach(viewModel.weeklyMeetingList, id: \.groupId) { data in
-                        HomeMeetingCell(data: data)
-                            .onTapGesture {
-                                // TODO: 모임 상세 화면 내비게이션 이동
-                            }
+                        HomeMeetingCell(
+                            data: data,
+                            isWeekly: isWeekly
+                        )
+                        .onTapGesture {
+                            // TODO: 모임 상세 화면 내비게이션 이동
+                        }
                     }
                 }
                 .padding(.horizontal, 16)
@@ -97,7 +100,6 @@ struct HomeView: View {
         Image(.imgHomeBanner)
             .resizable()
             .scaledToFill()
-            .frame(width: .infinity)
             .padding(.top, 2)
     }
     
