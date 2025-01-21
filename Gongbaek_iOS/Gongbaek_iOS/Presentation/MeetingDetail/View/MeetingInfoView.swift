@@ -13,8 +13,10 @@ struct MeetingInfoView: View {
     @Binding var currentPeopleCount: Int
     @Binding var maxPeopleCount: Int
     @Binding var meetingStatus: String
+    @Binding var isHost: Bool
+    @Binding var isApply: Bool
     @State private var selectedIndex = 0
-    
+    var buttonText: String = "신청하기"
     
     var body: some View {
         ZStack(alignment: .bottom) {

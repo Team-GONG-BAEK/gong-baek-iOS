@@ -38,7 +38,9 @@ struct MeetingDetailView: View {
                 commentData: $commentData,
                 currentPeopleCount: $meetingDetailData.currentPeopleCount,
                 maxPeopleCount: $meetingDetailData.maxPeopleCount,
-                meetingStatus: $meetingDetailData.status
+                meetingStatus: $meetingDetailData.status,
+                isHost: $meetingDetailData.isHost,
+                isApply: $meetingDetailData.isApply
             )
         }
     }

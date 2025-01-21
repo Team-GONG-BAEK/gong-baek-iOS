@@ -11,7 +11,7 @@ struct MeetingDetailModel {
     let groupTitle: String
     let location: String
     var status: String
-    let isHost: Bool
+    var isHost: Bool
     var isApply: Bool
     var currentPeopleCount: Int
     var maxPeopleCount: Int

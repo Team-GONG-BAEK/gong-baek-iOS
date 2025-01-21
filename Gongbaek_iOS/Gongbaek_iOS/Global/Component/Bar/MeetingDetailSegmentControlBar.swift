@@ -21,6 +21,8 @@ struct MeetingDetailSegmentControlBar: View {
     @Binding var maxPeopleCount: Int
     @Binding var meetingStatus: String
     @State private var selectedIndex = 0
+    @Binding var isHost: Bool
+    @Binding var isApply: Bool
     
     var body: some View {
         VStack(spacing: 0) {
@@ -62,7 +64,9 @@ struct MeetingDetailSegmentControlBar: View {
                 introduction: $introduction,
                 currentPeopleCount: $currentPeopleCount,
                 maxPeopleCount: $maxPeopleCount,
-                meetingStatus: $meetingStatus
+                meetingStatus: $meetingStatus,
+                isHost: $isHost
+                isApply: $isApply
             )
         case .comment:
             CommentView(commentData: $commentData)
