@@ -24,57 +24,59 @@ struct ApplyBar: View {
     //TODO: buttonText, isActivated, buttonAction ViewModel로 분리
     
     private var buttonText: String {
-        if applyData.isHost {
-            return "삭제하기"
+        guard let state = RecruitingState(applyData.meetingStatus) else {
+            return "알 수 없는 상태"
         }
-        
-        switch RecruitingState(applyData.meetingStatus) {
+
+        if applyData.isHost {
+            return state == .CLOSED ? "종료된 모임입니다." : "삭제하기"
+        }
+
+        switch state {
         case .CLOSED:
             return "종료된 모임입니다."
         case .RECRUITED:
             return applyData.isApply ? "취소하기" : "인원 마감"
         case .RECRUITING:
             return applyData.isApply ? "취소하기" : "신청하기"
-        case nil:
-            return "nil"
         }
     }
-    
+
     private var isActivated: Bool {
-        if applyData.isHost {
-            return true
+        guard let state = RecruitingState(applyData.meetingStatus) else {
+            return false
         }
         
-        switch RecruitingState(applyData.meetingStatus) {
+        if applyData.isHost {
+            return state != .CLOSED
+        }
+
+        switch state {
         case .CLOSED:
             return false
         case .RECRUITED:
             return applyData.isApply
         case .RECRUITING:
             return true
-        case nil:
-            return false
         }
     }
-    
+
     private var buttonAction: (() -> Void)? {
-        if applyData.isHost {
-            return {
-                print("삭제하기 동작 수행") // 앱잼 내 구현 X
-            }
+        guard let state = RecruitingState(applyData.meetingStatus) else {
+            return nil
         }
         
-        switch RecruitingState(applyData.meetingStatus) {
-        case .RECRUITING:
-            return {
-                if applyData.isApply {
-                    print("신청 취소 처리")
-                } else {
-                    print("모임 신청 처리")
-                }
-            }
-        case .RECRUITED, .CLOSED, nil:
+        if applyData.isHost {
+            return state == .CLOSED ? nil : { print("삭제하기 처리") } //TODO: viewModel에서 action으로 변경
+        }
+
+        switch state {
+        case .CLOSED:
             return nil
+        case .RECRUITED:
+            return applyData.isApply ? { print("신청 취소 처리") } : nil //TODO: viewModel에서 action으로 변경
+        case .RECRUITING:
+            return applyData.isApply ? { print("신청 취소 처리") } : { print("모임 신청 처리") } //TODO: viewModel에서 action으로 변경
         }
     }
     
@@ -103,8 +105,8 @@ struct ApplyBar: View {
             currentPeopleCount: 3,
             maxPeopleCount: 4,
             isHost: false,
-            meetingStatus: "RECRUITED",
-            isApply: true,
+            meetingStatus: "RECRUITING",
+            isApply: false,
             onTap: nil
         )
     ))
