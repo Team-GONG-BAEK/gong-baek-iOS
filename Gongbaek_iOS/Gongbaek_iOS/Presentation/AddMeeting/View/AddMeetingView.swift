@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct AddMeetingView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
     @StateObject var viewModel: AddMeetingViewModel
-    @State private var showAlert: Bool = false  // ✅ Alert 표시 여부를 관리하는 상태 변수
+    @State private var showAlert: Bool = false  
 
     var body: some View {
         ZStack {
@@ -17,7 +18,7 @@ struct AddMeetingView: View {
                 HStack {
                     Button(action: {
                         if viewModel.currentIndex == 0 {
-
+                            navigationManager.pop()
                         } else {
                             viewModel.currentIndex -= 1
                         }
