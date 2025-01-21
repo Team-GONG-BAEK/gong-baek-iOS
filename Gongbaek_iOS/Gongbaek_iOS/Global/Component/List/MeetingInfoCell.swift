@@ -9,12 +9,12 @@ import SwiftUI
 
 struct MeetingInfoCell: View {
     @State private var selectedButton: String?
-    let meeting: Meeting
+    @State var meeting: Meeting
     let state: MeetingInfoState.FillItemState
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            MeetingInfoBase(state: .cell, meeting: meeting)
+            MeetingInfoBase(state: .constant(.cell), meeting: $meeting)
             
             if state == .myFill {
                 HStack(spacing: 0) {

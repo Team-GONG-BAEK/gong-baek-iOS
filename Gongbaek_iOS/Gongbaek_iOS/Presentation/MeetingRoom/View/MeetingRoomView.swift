@@ -18,9 +18,9 @@ struct MeetingRoomView: View {
                 VStack(spacing: 0) {
                     VStack(alignment: .leading, spacing: 0) {
                         HStack {
-                            MeetingChip(state: .recruiting(.closed))
-                            MeetingChip(state: .category(.DINING))
-                            MeetingChip(state: .weekly(true))
+                            MeetingChip(state: .recruiting(RecruitingState(from: meetingDetailData.status))) // SexState(from: ownerData.sex) == .MAN
+                            MeetingChip(state: .category(CategoryState(from: meetingDetailData.category)))
+                            MeetingChip(state: .weekly(GroupState(from: meetingDetailData.groupType)))
                         }
                         .padding(.top, 18)
                         .padding(.bottom, 6)
@@ -31,7 +31,7 @@ struct MeetingRoomView: View {
                             .lineLimit(nil)
                             .padding(.bottom, 12)
                         
-                        TimeBox(state: .white, text: String(meetingDetailData.startTime), font: .pretendard(.caption2_r_12))
+                        TimeBox(state: .white, text: meetingDetailData.startTime.formatTime(), font: .pretendard(.caption2_r_12))
                             .padding(.bottom, 2)
                         
                         LocationBox(state: .white, text: meetingDetailData.location, font: .pretendard(.caption2_r_12))
@@ -66,7 +66,7 @@ struct MeetingRoomView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 6) {
                             ForEach(memberData.members.indices, id: \.self) { index in
-                                MemberProfileBox(memberData: dummyMeetingRoomMemberData.members[index])
+                                MemberProfileBox(memberData: $memberData.members[index])
                             }
                         }
                         .padding(.horizontal, 9)

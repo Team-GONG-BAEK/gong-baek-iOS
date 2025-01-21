@@ -15,20 +15,19 @@ struct MeetingDetailView: View {
     var body: some View {
         VStack(spacing: 0) {
             MeetingInfoBase(
-                state: .detail,
-                meeting: .init(
-                    status: "CLOSED",
+                state: .constant(.detail),
+                meeting: .constant(Meeting(
+                    status: meetingDetailData.status,
                     category: meetingDetailData.category,
                     coverImg: "sample",//TODO: Int로 넘기기 meetingDetailData.coverImg,
                     groupType: meetingDetailData.groupType,
                     groupTitle: meetingDetailData.groupTitle,
-                    weekDay: .monday,//TODO: meetingDetail.weekDay,
+                    weekDay: WeekDay(from: meetingDetailData.weekDay ?? ""),
                     weekDate: meetingDetailData.weekDate,
                     startTime: meetingDetailData.startTime,
                     endTime: meetingDetailData.endTime,
                     location: meetingDetailData.location
-                )
-            )
+                )))
             .padding(16)
             
             divider()

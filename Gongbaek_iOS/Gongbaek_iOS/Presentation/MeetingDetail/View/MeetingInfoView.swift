@@ -59,6 +59,12 @@ struct MeetingInfoView: View {
             .padding(.top, 20)
             .padding(.horizontal, 16)
             
+            // ButtonTextLogic처리 필요
+            
+            // isHost == true >>> buttonText = "삭제하기" // onTap = nil
+            // isHost == false >>> isApply == false >>> buttonText = "신청하기" // onTap = "isApply = true"
+            // isHost == false >>> isApply == true >>> buttonText = "취소하기" // onTap = "isApply = false"
+            
             ApplyBar(
                 applyData: .init(
                     isActivated: true, // closed일 때만 false <<< meetingStatus

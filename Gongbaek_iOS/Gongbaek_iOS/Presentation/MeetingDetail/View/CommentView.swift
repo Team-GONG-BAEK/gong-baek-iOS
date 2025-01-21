@@ -12,7 +12,7 @@ struct CommentView: View {
     
     var body: some View {
         VStack {
-            commentData.groupStatus == "CLOSED" ? CommentDisabledBox() : nil
+            RecruitingState(from: commentData.groupStatus) == .CLOSED ? CommentDisabledBox() : nil
             
             CommentList(
                 commentCount: $commentData.commentCount,
@@ -21,7 +21,7 @@ struct CommentView: View {
                 onTapRefreshButton: nil
             )
             
-            commentData.groupStatus == "CLOSED" ? nil : CommentTextField()
+            RecruitingState(from: commentData.groupStatus) == .CLOSED ? nil : CommentTextField()
         }
     }
 }

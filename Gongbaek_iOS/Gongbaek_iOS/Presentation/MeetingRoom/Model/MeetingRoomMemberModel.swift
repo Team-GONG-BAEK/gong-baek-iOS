@@ -6,15 +6,15 @@
 //
 
 struct MeetingRoomMemberModel {
-    let maxPeopleCount: Int
-    let currentPeopleCount: Int
-    let members: [MemberModel]
+    var maxPeopleCount: Int
+    var currentPeopleCount: Int
+    var members: [MemberModel]
 }
 
 struct MemberModel {
-    let profileImage: Int // server: profileImg
-    let isHost: Bool
-    let nickname: String
+    var profileImage: Int // server: profileImg
+    var isHost: Bool
+    var nickname: String
 }
 
 let dummyMeetingRoomMemberData: MeetingRoomMemberModel = MeetingRoomMemberModel(

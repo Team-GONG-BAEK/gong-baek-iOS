@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct MeetingInfoBase: View {
-    let state: MeetingInfoState
-    let meeting: Meeting
+    @Binding var state: MeetingInfoState
+    @Binding var meeting: Meeting
+//    let state: MeetingInfoState
+//    let meeting: Meeting
+//
     
     var body: some View {
         HStack(spacing: 12) {
@@ -22,9 +25,9 @@ struct MeetingInfoBase: View {
             VStack(alignment: .leading, spacing: 6) {
                 // 모임 태그
                 HStack(spacing: 4) {
-                    MeetingChip(state: .recruiting(.recruiting))
-                    MeetingChip(state: .category(.EXERCISE))
-                    MeetingChip(state: .weekly(true))
+                    MeetingChip(state: .recruiting(RecruitingState(from: meeting.status)))
+                    MeetingChip(state: .category(CategoryState(from: meeting.category)))
+                    MeetingChip(state: .weekly(GroupState(from: meeting.groupType)))
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
@@ -59,9 +62,9 @@ struct MeetingInfoBase: View {
 
 #Preview {
     MeetingInfoBase(
-        state: .cell, meeting: Meeting(
-            status: "모집 중",
-            category: "스터디",
+        state: .constant(.cell), meeting: .constant(Meeting(
+            status: "RECRUITING",
+            category: "STUDY",
             coverImg: "sample",
             groupType: "WEEKLY",
             groupTitle: "나는 개바보다 나랑 친구하고 싶으면 들어오덩가 ㅋㅋㅋ",
@@ -70,8 +73,7 @@ struct MeetingInfoBase: View {
             startTime: 13.0,
             endTime: 15.0,
             location: "학교 정문인데 어쩌구 저쩌구 20자 넘으면"
-        )
-    )
+        )))
 }
 
 #Preview {
