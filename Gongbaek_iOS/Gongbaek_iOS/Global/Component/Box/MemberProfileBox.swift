@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MemberProfileBox: View {
-    let memberData: MemberModel
+    @Binding var memberData: MemberModel
     
     var body: some View {
         VStack(spacing: 6) {
