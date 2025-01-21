@@ -108,6 +108,7 @@ class AddMeetingViewModel: ObservableObject {
                 self.isNextEnabled = false
             }
         }
+        DispatchQueue.main.async { self.updateNextButtonState() }
     }
     
     func resetValuesForNextPage() {
