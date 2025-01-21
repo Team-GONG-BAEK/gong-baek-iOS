@@ -21,7 +21,7 @@ struct MeetingRoomView: View {
                                 CategoryState(viewModel.meetingDetailData.category).map { .category($0) },
                                 GroupState(viewModel.meetingDetailData.groupType).map { .weekly($0) }
                             ].compactMap { $0 }
-
+                            
                             if states.isEmpty {
                                 // TODO: 디코딩 에러대응뷰
                             } else {
@@ -47,14 +47,9 @@ struct MeetingRoomView: View {
                                 startTime: viewModel.meetingDetailData.startTime,
                                 endTime: viewModel.meetingDetailData.endTime
                             ),
-                            font: .pretendard(
-                                .caption2_r_12
-                            )
+                            font: .pretendard(.caption2_r_12)
                         )
-                        .padding(
-                            .bottom,
-                            2
-                        )
+                        .padding(.bottom, 2)
                         
                         LocationBox(state: .white, text: viewModel.meetingDetailData.location, font: .pretendard(.caption2_r_12))
                     }
