@@ -10,6 +10,12 @@ import SwiftUI
 struct SplashView: View {
     
     var body: some View {
-        
+        LottieView(animationName:  "splash", loopMode: .playOnce)
+            .ignoresSafeArea(.all)
+            .scaledToFill()
     }
+}
+
+#Preview {
+    SplashView()
 }
