@@ -15,26 +15,6 @@ enum SignupDestination: Hashable {
         switch self {
         case .signup:
             SignupView()
-//        case .profileSelection:
-//            ProfileSelectionView()
-//        case .nicknameInput:
-//            NicknameInputView()
-//        case .schoolMajorInput:
-//            SchoolMajorInputView()
-//        case .gradeAdmissionYearInput:
-//            GradeAdmissionYearInputView()
-//        case .mbtiSelection:
-//            MbtiSelectionView()
-//        case .sexSelection:
-//            SexSelectionView()
-//        case .selfIntroductionWriting:
-//            SelfIntroductionWritingView()
-//        case .classTimeTableInput:
-//            ClassTimeTableInputView()
-//        case let .freeTimeTableConversion(selectedCells):
-//            FreeTimeTableConversionView(selectedCells: selectedCells)
-//        case .signupCompletion:
-//            SignupCompletionView()
         }
     }
 }
