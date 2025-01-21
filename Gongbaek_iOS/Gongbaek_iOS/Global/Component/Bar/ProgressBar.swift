@@ -34,10 +34,9 @@ struct ProgressBar: View {
 }
 
 #Preview {
-    @Previewable var currentIndex = 1
     VStack(spacing: 16) {
         ForEach(0..<8) { index in
-            ProgressBar(currentIndex: currentIndex)
+            ProgressBar(currentIndex: 1)
         }
     }
 }

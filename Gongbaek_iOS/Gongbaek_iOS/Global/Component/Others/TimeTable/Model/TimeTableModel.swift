@@ -14,6 +14,11 @@ struct TimeTableModel {
     let endTime: Double
 }
 
+struct TimeRange: Equatable {
+    var start: Double
+    var end: Double
+}
+
 let dummyFreeTimeTable: [TimeTableModel] = [
     TimeTableModel(id: 0, weekDay: .MON, startTime: 9, endTime: 12),
     TimeTableModel(id: 1, weekDay: .MON, startTime: 14, endTime: 17.5),
