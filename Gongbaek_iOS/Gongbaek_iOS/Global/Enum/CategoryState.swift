@@ -16,6 +16,27 @@ enum CategoryState: Int, CaseIterable {
     case PLAYING = 5
     case OTHERS = 6
     
+    init?(_ serverValue: String?) {
+        switch serverValue?.uppercased() {
+        case "ALL":
+            self = .ALL
+        case "STUDY":
+            self = .STUDY
+        case "DINING":
+            self = .DINING
+        case "EXERCISE":
+            self = .EXERCISE
+        case "NETWORKING":
+            self = .NETWORKING
+        case "PLAYING":
+            self = .PLAYING
+        case "OTHERS":
+            self = .OTHERS
+        default:
+            return nil
+        }
+    }
+    
     var categoryImage: Image? {
         switch self {
         case .ALL: return nil
@@ -41,14 +62,14 @@ enum CategoryState: Int, CaseIterable {
     }
     
     var coverImage: [String] {
-           switch self {
-           case .ALL: return []
-           case .STUDY: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-           case .DINING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-           case .EXERCISE: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-           case .NETWORKING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-           case .PLAYING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-           case .OTHERS: return ["sample", "sample", "sample", "sample", "sample", "sample"]
-           }
-       }
+        switch self {
+        case .ALL: return []
+        case .STUDY: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+        case .DINING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+        case .EXERCISE: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+        case .NETWORKING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+        case .PLAYING: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+        case .OTHERS: return ["sample", "sample", "sample", "sample", "sample", "sample"]
+        }
+    }
 }

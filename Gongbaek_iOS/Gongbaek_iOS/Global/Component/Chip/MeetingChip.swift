@@ -21,12 +21,4 @@ struct MeetingChip: View {
     }
 }
 
-#Preview {
-    MeetingChip(state: .recruiting(.recruiting))
-    MeetingChip(state: .recruiting(.recruited))
-    MeetingChip(state: .recruiting(.closed))
-    MeetingChip(state: .category(.PLAYING))
-    MeetingChip(state: .category(.NETWORKING))
-    MeetingChip(state: .weekly(true))
-    MeetingChip(state: .weekly(false))
-}
+

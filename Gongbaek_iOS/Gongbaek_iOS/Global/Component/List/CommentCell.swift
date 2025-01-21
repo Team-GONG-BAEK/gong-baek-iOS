@@ -17,7 +17,7 @@ struct Comment {
 }
 
 struct CommentCell: View {
-    let comment: Comment
+    let comment: Comment //TODO: Binding 추가
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -37,7 +37,7 @@ struct CommentCell: View {
                     .foregroundColor(.gray08)
                     .padding(.bottom, 4)
                 
-                Text(comment.createdAt)
+                Text(Date.formattedCommentDateTime(comment.createdAt))
                     .pretendardFont(.caption2_r_12)
                     .foregroundColor(.gray05)
             }
