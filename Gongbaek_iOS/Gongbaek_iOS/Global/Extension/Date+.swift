@@ -57,6 +57,21 @@ extension Date {
         return "시간 정보 없음"
     }
     
+    // 날짜와 시간을 포맷팅하는 함수
+    static func formattedDateAndStartEndTime(weekDay: WeekDay?, weekDate: String?, startTime: Double, endTime: Double) -> String { // endTime도 필요
+        let formattedStartTime = formatTime(startTime)
+        let formattedEndTime = formatTime(endTime)
+        
+        if let weekDay = weekDay {
+            return "매주 \(weekDay.koreanName) \(formattedStartTime) - \(formattedEndTime)"
+        } else if let weekDate = weekDate {
+            let formattedDate = formatDate(weekDate)
+            return "\(formattedDate) \(formattedStartTime) - \(formattedEndTime)"
+        }
+        
+        return "시간 정보 없음"
+    }
+    
     // 시간 포맷 함수
     static func formatTime(_ time: Double) -> String {
         let hours = Int(time)
