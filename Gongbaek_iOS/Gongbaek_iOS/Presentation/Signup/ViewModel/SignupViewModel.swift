@@ -198,6 +198,11 @@ extension SignupViewModel {
             instance: BaseResponse<PostSignupResponseDTO>.self
         ) { response in
             if response.success {
+                guard let accessToken = response.data?.accessToken,
+                      let refreshToken = response.data?.refreshToken
+                else { return }
+                
+                TokenManager.shared.updateToken(accessToken, refreshToken)
                 completion(true)
             } else {
                 completion(false)
