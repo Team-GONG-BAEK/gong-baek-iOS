@@ -10,8 +10,8 @@ import SwiftUI
 struct AddMeetingView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @StateObject var viewModel: AddMeetingViewModel
-    @State private var showAlert: Bool = false  
-
+    @State private var showAlert: Bool = false
+    
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 0) {
@@ -65,7 +65,7 @@ struct AddMeetingView: View {
                     isActivated: viewModel.isNextEnabled
                 ) {
                     if isLastStep {
-                        viewModel.checkFinalInfo()
+                        viewModel.postMeeting()
                         showAlert = true
                     } else {
                         viewModel.goToNextPage()
@@ -75,9 +75,11 @@ struct AddMeetingView: View {
                 .padding(.horizontal, 16)
             }
             
+            var image = viewModel.isSuccessGetData ? "img_success" : "img_fail"
+            
             if showAlert {
                 CustomedAlert(
-                    alertImage: viewModel.isSuccessGetData ? "img_success" : "img_fail",
+                    alertImage: image ,
                     titleText: viewModel.isSuccessGetData ? "모임 등록이 완료됐어요!" : "모임 등록에 실패했어요!",
                     orangeButtonText: "확인",
                     onTapOrangeButton: {

@@ -37,6 +37,18 @@ enum CategoryState: Int, CaseIterable {
         }
     }
     
+    var serverName: String {
+        switch self {
+        case .ALL: return "ALL"
+        case .STUDY: return "STUDY"
+        case .DINING: return "DINING"
+        case .EXERCISE: return "EXERCISE"
+        case .NETWORKING: return "NETWORKING"
+        case .PLAYING: return "PLAYING"
+        case .OTHERS: return "OTHERS"
+        }
+    }
+    
     var categoryImage: Image? {
         switch self {
         case .ALL: return nil
