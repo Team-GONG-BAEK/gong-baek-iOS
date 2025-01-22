@@ -54,17 +54,13 @@ struct MyFillSegmentControlBar: View {
     private func selectedView() -> some View {
         let type = MyFillingType.allCases[selectedIndex]
         switch type {
-        case .register:
-            MyFillingList()
-        case .apply:
+        case .register, .apply:
             MyFillingList()
         }
     }
     
     private func fetchMeetings(for type: MyFillingType) {
-        let category: MyFillingType = (type == .register) ? .register : .apply
-        
-        viewModel.fetchMeetings(category: category)
+        viewModel.fetchMeetings(category: type)
     }
 }
 

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MyFillingList: View {
-    @StateObject var viewModel = MyFillingViewModel()
+    @ObservedObject var viewModel = MyFillingViewModel()
     
     var body: some View {
         ScrollView {
