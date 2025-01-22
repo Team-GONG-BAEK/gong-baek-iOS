@@ -47,7 +47,7 @@ struct SignupView: View {
                     ) {
                         if currentStep == .nicknameInput {
                             validateNickname()
-                        else if currentStep == .signupCompletion {
+                        } else if currentStep == .signupCompletion {
                             goToTabBarView()
                         } else {
                             goToNextStep()
@@ -113,7 +113,7 @@ extension SignupView {
         viewModel.postNicknameValidation { isSuccess in
             if isSuccess {
                 viewModel.showNicknameError = false
-                push()
+                goToNextStep()
             }
             else {
                 viewModel.showNicknameError = true
@@ -124,7 +124,7 @@ extension SignupView {
     private func signup() {
         viewModel.postSignup() { isSuccess in
             if isSuccess {
-                push()
+                goToNextStep()
             } else {
                 // TODO: 에러대응 뷰
             }
