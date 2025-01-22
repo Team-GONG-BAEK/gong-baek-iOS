@@ -22,7 +22,6 @@
 			membershipExceptions = (
 				Global/Component/BottomSheet/.gitkeep,
 				Network/Service/DTO/Filling/.gitkeep,
-				Presentation/Home/ViewModel/.gitkeep,
 			);
 			target = 954A490A2D2DA7AE00FD6964 /* Gongbaek_iOS */;
 		};
@@ -286,6 +285,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Gongbaek_iOS/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Gongbaek-iOS-Info.plist";
@@ -315,6 +315,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Gongbaek_iOS/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Gongbaek-iOS-Info.plist";
