@@ -71,7 +71,9 @@ struct SchoolMajorSearchView: View {
     }
     
     private func searchResultListView() -> some View {
-        List(viewModel.searchResultList, id: \.self) { item in
+        let results = Array(Set(viewModel.searchResultList)).sorted()
+        
+        return List(results, id: \.self) { item in
             let isSelected = viewModel.selectedSearchResult == item
             
             SearchListCell(
@@ -121,10 +123,12 @@ extension SchoolMajorSearchView {
         switch state {
         case .school:
             viewModel.getSchoolSearchResults() { response in
-                
+                // TODO: 에러대응
             }
         case .major:
-            viewModel.searchResultList = MajorNameListModel.mockData().schoolMajors
+            viewModel.getMajorSearchResults() { response in
+                // TODO: 에러대응
+            }
         }
     }
 }

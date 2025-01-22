@@ -142,4 +142,21 @@ extension SignupViewModel {
             }
         }
     }
+    
+    /// 학과 검색 API
+    func getMajorSearchResults(completion: @escaping (Bool) -> ()) {
+        Providers.SignupProvider.request(
+            target: .getMajorSearchResults(
+                schoolName: schoolName,
+                majorName: searchWord
+            ),
+            instance: BaseResponse<GetMajorSearchResponseDTO>.self
+        ) { response in
+            print(response)
+            if response.success {
+                guard let data = response.data else { return }
+                self.searchResultList = data.schoolMajors
+            }
+        }
+    }
 }
