@@ -8,5 +8,6 @@
 import Foundation
 
 struct GetMyFillingResponseDTO: Codable {
-    let meetings: [Meeting]
+    let groups: [Meeting]
 }
+

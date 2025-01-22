@@ -47,7 +47,7 @@ struct FillingList: View {
 
 let dummyMeetings: [Meeting] = [
     Meeting(
-        groupId: 1,
+        groupId: 0,
         status: "RECRUITING",
         category: "STUDY",
         coverImg: 1,

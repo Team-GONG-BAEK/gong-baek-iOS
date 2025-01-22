@@ -12,6 +12,11 @@ enum MyFillingType: String, CaseIterable {
     case apply = "내가 신청한"
 }
 
+enum MyFillingCategory: String, CaseIterable {
+    case register = "REGISTER"
+    case apply = "APPLY"
+}
+
 struct MyFillSegmentControlBar: View {
     @State private var selectedIndex = 0
     @ObservedObject var viewModel: MyFillingViewModel
@@ -25,7 +30,8 @@ struct MyFillSegmentControlBar: View {
                     
                     Button {
                         selectedIndex = index
-                        fetchMeetings(for: type)
+                        viewModel.selectedCategory = index == 0 ? .register : .apply
+                        viewModel.fetchMeetings()
                     } label: {
                         ZStack(alignment: .bottom) {
                             Text(type.rawValue)
@@ -33,7 +39,7 @@ struct MyFillSegmentControlBar: View {
                                 .foregroundColor(isSelected ? .gray10 : .gray05)
                                 .padding(.vertical, 15)
                             
-                            selectedIndex == index ?
+                            isSelected ?
                             Color(.gray09).frame(height: 2) :
                             Color(.gray02).frame(height: 1)
                         }
@@ -46,21 +52,12 @@ struct MyFillSegmentControlBar: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .onAppear {
-            fetchMeetings(for: MyFillingType.register) // 기본값 설정
+            viewModel.fetchMeetings() 
         }
     }
     
     @ViewBuilder
     private func selectedView() -> some View {
-        let type = MyFillingType.allCases[selectedIndex]
-        switch type {
-        case .register, .apply:
-            MyFillingList()
-        }
-    }
-    
-    private func fetchMeetings(for type: MyFillingType) {
-        viewModel.fetchMeetings(category: type)
+        MyFillingList(viewModel: viewModel)
     }
 }
-
