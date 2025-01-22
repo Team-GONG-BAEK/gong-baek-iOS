@@ -72,8 +72,10 @@ struct MeetingRoomView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 6) {
-                            ForEach($viewModel.memberData.members.indices, id: \.self) { index in
-                                MemberProfileBox(memberData: $viewModel.memberData.members[index])
+                            if let memberData = viewModel.memberData {
+                                ForEach(memberData.members.indices, id: \.self) { index in
+                                    MemberProfileBox(memberData: memberData.members[index])
+                                }
                             }
                         }
                         .padding(.horizontal, 9)
@@ -94,6 +96,10 @@ struct MeetingRoomView: View {
                 }
             }
             viewModel.isCommentDisabled ? nil : CommentTextField()
+        }
+        .onAppear {
+            viewModel.getMembers(groupId: 1, groupType: "ONCE") {_ in
+            }
         }
     }
     

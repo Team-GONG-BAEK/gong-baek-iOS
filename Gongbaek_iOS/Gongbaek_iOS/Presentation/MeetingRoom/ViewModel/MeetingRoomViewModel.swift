@@ -9,7 +9,7 @@ import SwiftUI
 
 final class MeetingRoomViewModel: ObservableObject {
     @Published var meetingDetailData: MeetingDetailModel = dummymeetingDetailData
-    @Published var memberData: MeetingRoomMemberModel = dummyMeetingRoomMemberData
+    @Published var memberData: GetMeetingRoomMembersResponseDTO? = nil
     @Published var commentData: CommentModel = dummyCommentData
     
     var meetingStates: [MeetingChipState] {
@@ -30,5 +30,21 @@ final class MeetingRoomViewModel: ObservableObject {
     
     //TODO: 댓글 작성 API 로직 필요
     func postComment(content: String, completion: @escaping (Bool) -> Void) {
+    }
+}
+
+extension MeetingRoomViewModel {
+    func getMembers(
+        groupId: Int,
+        groupType: String,
+        completion: @escaping (GetMeetingRoomMembersResponseDTO) -> ()
+    ) {
+        Providers.meetingRoomProvider.request(
+            target: .getMembers(groupId: groupId, groupType: groupType),
+            instance: BaseResponse<GetMeetingRoomMembersResponseDTO>.self
+        ) { response in
+            print(response)
+            self.memberData = response.data
+        }
     }
 }
