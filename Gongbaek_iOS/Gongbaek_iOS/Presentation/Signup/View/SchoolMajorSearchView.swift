@@ -120,7 +120,9 @@ extension SchoolMajorSearchView {
     private func getSearchResultList() {
         switch state {
         case .school:
-            viewModel.searchResultList = SchoolNameListModel.mockData().schoolNames
+            viewModel.getSchoolSearchResults() { response in
+                
+            }
         case .major:
             viewModel.searchResultList = MajorNameListModel.mockData().schoolMajors
         }

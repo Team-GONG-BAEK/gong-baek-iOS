@@ -105,6 +105,7 @@ final class SignupViewModel: ObservableObject {
 
 extension SignupViewModel {
     
+    /// 닉네임 검증 API
     func postNicknameValidation(completion: @escaping (Bool) -> ()) {
         Providers.SignupProvider.request(
             target: .postNicknameValidation(nickname: nickname),
@@ -124,6 +125,20 @@ extension SignupViewModel {
                     print("❗️서버 통신 에러 발생")
                     completion(false)
                 }
+            }
+        }
+    }
+    
+    /// 학교 검색 API
+    func getSchoolSearchResults(completion: @escaping (Bool) -> ()) {
+        Providers.SignupProvider.request(
+            target: .getSchoolSearchResults(schoolName: searchWord),
+            instance: BaseResponse<GetSchoolSearchResponseDTO>.self
+        ) { response in
+            print(response)
+            if response.success {
+                guard let data = response.data else { return }
+                self.searchResultList = data.schoolNames
             }
         }
     }
