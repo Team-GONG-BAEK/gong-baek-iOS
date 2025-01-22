@@ -36,6 +36,7 @@ struct HomeView: View {
         }
         .onAppear {
             viewModel.getUserProfile()
+            viewModel.getUpcomingMeeting()
         }
     }
     
@@ -148,7 +149,7 @@ struct HomeView: View {
     
     private func meetingInfo() -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("화석의 튜스데이 점심클럽")
+            Text(viewModel.upcomingMeetingData?.groupTitle ?? "공백을 채워주세요!")
                 .pretendardFont(.title1_b_20)
                 .foregroundStyle(.grayWhite)
             
@@ -158,7 +159,7 @@ struct HomeView: View {
                     .scaledToFit()
                     .frame(width: 16, height: 16)
                 
-                Text("12/6 수요일 14시 30분 - 16시 20분")
+                Text(viewModel.upcomingMeetingDate)
                     .pretendardFont(.caption2_m_12)
                     .foregroundStyle(.gray05)
             }
@@ -167,13 +168,17 @@ struct HomeView: View {
     
     private func enterSpaceButton() -> some View {
         Button {
-            // TODO: 모임방 내비게이션 화면 이동
+            // TODO: O - 모임방 내비게이션 화면 이동
+            // TODO: X - 채우기 탭으로 이동
         } label: {
-            Text("스페이스 입장")
-                .pretendardFont(.caption2_b_12)
-                .foregroundStyle(.grayWhite)
-                .padding(.horizontal, 10)
-                .padding(.vertical, 6)
+            Text(
+                viewModel.upcomingMeetingData != nil
+                 ? "스페이스 입장" : "채우기 입장"
+            )
+            .pretendardFont(.caption2_b_12)
+            .foregroundStyle(.grayWhite)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
         }
         .background(.mainOrange)
         .clipShape(
