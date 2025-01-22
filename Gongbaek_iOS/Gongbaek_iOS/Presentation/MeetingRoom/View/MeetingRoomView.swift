@@ -23,7 +23,7 @@ struct MeetingRoomView: View {
                         .padding(.top, 18)
                         .padding(.bottom, 6)
                         
-                        Text(viewModel.meetingDetailData.groupTitle)
+                        Text(viewModel.groupTitle)
                             .pretendardFont(.title1_b_20)
                             .foregroundColor(.grayWhite)
                             .lineLimit(nil)
@@ -32,16 +32,16 @@ struct MeetingRoomView: View {
                         TimeBox(
                             state: .white,
                             text: Date.formattedDateAndStartEndTime(
-                                weekDay: WeekDay(viewModel.meetingDetailData.weekDay),
-                                weekDate: viewModel.meetingDetailData.weekDate,
-                                startTime: viewModel.meetingDetailData.startTime,
-                                endTime: viewModel.meetingDetailData.endTime
+                                weekDay: WeekDay(viewModel.weekDay),
+                                weekDate: viewModel.weekDate,
+                                startTime: viewModel.startTime,
+                                endTime: viewModel.endTime
                             ),
                             font: .pretendard(.caption2_r_12)
                         )
                         .padding(.bottom, 2)
                         
-                        LocationBox(state: .white, text: viewModel.meetingDetailData.location, font: .pretendard(.caption2_r_12))
+                        LocationBox(state: .white, text: viewModel.location, font: .pretendard(.caption2_r_12))
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 16)
@@ -94,11 +94,18 @@ struct MeetingRoomView: View {
                         onTapRefreshButton: nil
                     )
                 }
+                viewModel.isCommentDisabled ? nil : CommentTextField()
             }
-            viewModel.isCommentDisabled ? nil : CommentTextField()
-        }
-        .onAppear {
-            viewModel.getMembers(groupId: 1, groupType: "ONCE") {_ in
+            .onAppear {
+                print("onAppear called")
+                
+                viewModel.getDetails(groupId: 1, groupType: "ONCE") { _ in
+                    print("getDetails finished, meetingDetailData: \(String(describing: viewModel.meetingDetailData))")
+                }
+                
+                viewModel.getMembers(groupId: 1, groupType: "ONCE") { _ in
+                    print("getMembers finished, memberData: \(String(describing: viewModel.memberData))")
+                }
             }
         }
     }

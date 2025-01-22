@@ -8,20 +8,46 @@
 import SwiftUI
 
 final class MeetingRoomViewModel: ObservableObject {
-    @Published var meetingDetailData: MeetingDetailModel = dummymeetingDetailData
+    @Published var meetingDetailData: GetMeetingRoomDetailsResponseDTO? = nil
     @Published var memberData: GetMeetingRoomMembersResponseDTO? = nil
     @Published var commentData: CommentModel = dummyCommentData
     
     var meetingStates: [MeetingChipState] {
         [
-            RecruitingState(meetingDetailData.status).map { .recruiting($0) },
-            CategoryState(meetingDetailData.category).map { .category($0) },
-            GroupState(meetingDetailData.groupType).map { .weekly($0) }
+            RecruitingState(meetingDetailData?.status).map { .recruiting($0) },
+            CategoryState(meetingDetailData?.category).map { .category($0) },
+            GroupState(meetingDetailData?.groupType).map { .weekly($0) }
         ].compactMap { $0 }
     }
     
+    var groupTitle: String {
+        meetingDetailData?.groupTitle ?? ""
+    }
+    
+    var weekDay: String {
+        meetingDetailData?.weekDay ?? ""
+    }
+    
+    var weekDate: String {
+        meetingDetailData?.weekDate ?? ""
+    }
+    
+    var startTime: Double {
+        meetingDetailData?.startTime ?? 0
+    }
+    
+    var endTime: Double {
+        meetingDetailData?.endTime ?? 0
+    }
+    
+    var location: String {
+        meetingDetailData?.location ?? ""
+    }
+    
     var memberCount: String {
-        "멤버(\(meetingDetailData.currentPeopleCount)/\(meetingDetailData.maxPeopleCount)명)"
+        let current = meetingDetailData?.currentPeopleCount ?? 0
+        let max = meetingDetailData?.maxPeopleCount ?? 0
+        return "멤버 (\(current)/\(max)명)"
     }
     
     var isCommentDisabled: Bool {
@@ -45,6 +71,20 @@ extension MeetingRoomViewModel {
         ) { response in
             print(response)
             self.memberData = response.data
+        }
+    }
+    
+    func getDetails(
+        groupId: Int,
+        groupType: String,
+        completion: @escaping (GetMeetingRoomDetailsResponseDTO) -> ()
+    ) {
+        Providers.meetingRoomProvider.request(
+            target: .getMeetingDetails(groupId: groupId, groupType: groupType),
+            instance: BaseResponse<GetMeetingRoomDetailsResponseDTO>.self
+        ) { response in
+            print(response)
+            self.meetingDetailData = response.data
         }
     }
 }

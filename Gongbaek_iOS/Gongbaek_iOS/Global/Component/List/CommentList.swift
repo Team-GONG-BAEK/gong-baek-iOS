@@ -61,10 +61,10 @@ struct CommentList: View {
     }
 }
 
-#Preview {
-    MeetingDetailView(
-        meetingDetailData: dummymeetingDetailData,
-        ownerInfoData: dummyOwnerInfoData,
-        commentData: dummyCommentData
-    )
-}
+//#Preview {
+//    MeetingDetailView(
+//        meetingDetailData: dummymeetingDetailData,
+//        ownerInfoData: dummyOwnerInfoData,
+//        commentData: dummyCommentData
+//    )
+//}
