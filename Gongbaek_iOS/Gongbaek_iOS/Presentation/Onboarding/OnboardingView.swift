@@ -14,7 +14,7 @@ struct OnboardingPage {
     let image: String
 }
 
-struct OnBoardingView: View {
+struct OnboardingView: View {
     @State private var currentPage = 0
     
     private let pages: [OnboardingPage] = [
@@ -40,56 +40,19 @@ struct OnBoardingView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // 뒤로 가기 버튼
-            HStack {
-                if currentPage > 0 {
-                    Button(action: {
-                        withAnimation { currentPage -= 1 }
-                    }) {
-                        Image(.icArrowLeft48)
-                            .foregroundColor(.gray04)
-                            .frame(width: 48, height: 48)
-                    }
-                } else {
-                    Spacer().frame(width: 48, height: 48)
-                }
-            }
-            .padding(.bottom, 54)
-       
+            OnboardingNavigation(currentPage: $currentPage, pageCount: pages.count)
+            
             VStack(spacing: 0) {
-                // 타이틀 + 이미지 (Paging)
                 TabView(selection: $currentPage) {
-                    ForEach(pages.indices, id: \.self) { index in
-                        VStack(alignment: .leading, spacing: 0) {
-                            TitleTextBox(
-                                title: pages[index].title,
-                                subtitle: pages[index].subtitle,
-                                highlightSubtitleText: pages[index].highlight
-                            )
-                            .padding(.bottom, 54)
-                            
-                            Image(pages[index].image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(maxWidth: .infinity)
-                        }
-                        .padding(.horizontal, 16)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .tag(index)
+                    ForEach(pages.indices, id: \..self) { index in
+                        OnboardingPageView(page: pages[index])
+                            .tag(index)
                     }
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                HStack(spacing: 6) {
-                    ForEach(pages.indices, id: \.self) { dotIndex in
-                        Circle()
-                            .fill(dotIndex == currentPage ? .gray08 : .gray03)
-                            .frame(width: 6, height: 6)
-                    }
-                }
-                .frame(height: 6)
-                .padding(.vertical, 46)
-              
-                // 다음 버튼
+                
+                OnboardingIndicator(pageCount: pages.count, currentPage: currentPage)
+                
                 BasicButton(
                     text: currentPage == pages.count - 1 ? "시작하기" : "다음",
                     onTap: {
@@ -110,5 +73,5 @@ struct OnBoardingView: View {
 }
 
 #Preview {
-    OnBoardingView()
+    OnboardingView()
 }
