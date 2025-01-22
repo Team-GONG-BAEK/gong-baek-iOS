@@ -8,12 +8,15 @@
 import Moya
 
 enum HomeTargetType {
+    case getUserProfile
     case getUpcomingMeeting
 }
 
 extension HomeTargetType: BaseTargetType {
     var headers: Parameters? {
         switch self {
+        case .getUserProfile:
+            return APIConstants.hasTokenHeader
         case .getUpcomingMeeting:
             return APIConstants.hasTokenHeader
         }
@@ -21,13 +24,17 @@ extension HomeTargetType: BaseTargetType {
     
     var path: String {
         switch self {
+        case .getUserProfile:
+            return "/api/v1/user/home/profile"
         case .getUpcomingMeeting:
-            return "api/v1/group/my/participation"
+            return "/api/v1/group/my/participation"
         }
     }
     
     var method: Moya.Method {
         switch self {
+        case .getUserProfile:
+            return .get
         case .getUpcomingMeeting:
             return .get
         }
@@ -35,6 +42,8 @@ extension HomeTargetType: BaseTargetType {
     
     var task: Moya.Task {
         switch self {
+        case .getUserProfile:
+            return .requestPlain
         case .getUpcomingMeeting:
             return .requestPlain
         }

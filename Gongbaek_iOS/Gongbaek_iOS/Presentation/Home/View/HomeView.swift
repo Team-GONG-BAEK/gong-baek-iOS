@@ -34,6 +34,9 @@ struct HomeView: View {
             }
             .ignoresSafeArea(edges: .top)
         }
+        .onAppear {
+            viewModel.getUserProfile()
+        }
     }
     
     private func header(_ geometry: GeometryProxy) -> some View {
@@ -130,7 +133,7 @@ struct HomeView: View {
                 .scaledToFit()
                 .frame(width: 20, height: 20)
             
-            Text("건국대학교 서울캠퍼스")
+            Text(viewModel.schoolName)
                 .pretendardFont(.body1_m_16)
                 .foregroundStyle(.gray03)
             
