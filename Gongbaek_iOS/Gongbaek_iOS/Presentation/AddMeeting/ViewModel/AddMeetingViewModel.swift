@@ -35,7 +35,7 @@ class AddMeetingViewModel: ObservableObject {
         didSet { updateNextButtonState() }
     }
     
-    @Published var freeTimeTable: [TimeTableModel] = dummyFreeTimeTable
+    @Published var timeTable: [TimeTableModel] = []
     @Published var selectedCells: Set<TimeTableCellId> = [] {
         didSet { updateNextButtonState() }
     }
@@ -62,7 +62,9 @@ class AddMeetingViewModel: ObservableObject {
     
     @Published var isSuccessGetData: Bool = false
     
-    let totalSteps: Int = 8
+    init() {
+        getTimeTable()
+    }
     
 
     var selectedFormattedDate: String? {
@@ -224,6 +226,16 @@ class AddMeetingViewModel: ObservableObject {
             print("▶ weekDate: \(weekDate)")
         } else {
             print("▶ weekDate: nil")
+    func getTimeTable() {
+        Providers.fillingProvider.request(target: .getTimeTable, instance: BaseResponse<GetTimeTableResponseDTO>.self) { response in
+            guard response.success, let timeTableResponse = response.data else {
+                print("❌ 시간표 불러오기 실패: \(response.message ?? "알 수 없는 오류")")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.timeTable = timeTableResponse.timeTable
+            }
         }
 
         if let weekDay = selectedWeekDay?.englishName {
