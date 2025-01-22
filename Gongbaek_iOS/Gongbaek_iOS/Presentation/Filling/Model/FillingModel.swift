@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Meeting: Codable {
+struct Meeting: Codable, Identifiable {
+    var id: String { "\(groupId)-\(groupType)" }
     let groupId: Int
     let status: String
     let category: String
