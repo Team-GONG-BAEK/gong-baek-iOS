@@ -10,7 +10,7 @@ import SwiftUI
 final class MeetingRoomViewModel: ObservableObject {
     @Published var meetingDetailData: GetMeetingRoomDetailsResponseDTO? = nil
     @Published var memberData: GetMeetingRoomMembersResponseDTO? = nil
-    @Published var commentData: CommentModel = dummyCommentData
+    @Published var commentData: GetMeetingRoomCommentsResponseDTO? = nil
     
     var meetingStates: [MeetingChipState] {
         [
@@ -51,7 +51,7 @@ final class MeetingRoomViewModel: ObservableObject {
     }
     
     var isCommentDisabled: Bool {
-        RecruitingState(commentData.groupStatus) == .CLOSED
+        RecruitingState(commentData?.groupStatus) == .CLOSED
     }
     
     //TODO: 댓글 작성 API 로직 필요
@@ -85,6 +85,20 @@ extension MeetingRoomViewModel {
         ) { response in
             print(response)
             self.meetingDetailData = response.data
+        }
+    }
+    
+    func getComments(
+        groupId: Int,
+        groupType: String,
+        completion: @escaping (GetMeetingRoomCommentsResponseDTO) -> ()
+    ) {
+        Providers.meetingRoomProvider.request(
+            target: .getComments(groupId: groupId, groupType: groupType),
+            instance: BaseResponse<GetMeetingRoomCommentsResponseDTO>.self
+        ) { response in
+            print(response)
+            self.commentData = response.data
         }
     }
 }

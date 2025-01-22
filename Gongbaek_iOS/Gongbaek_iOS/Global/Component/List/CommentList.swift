@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CommentList: View {
-    @Binding var commentCount: Int
-    @Binding var comments: [Comment]
+    var commentCount: Int
+    var comments: [Comment]
     let isScrolled: Bool
     var onTapRefreshButton: (() -> Void)?
     

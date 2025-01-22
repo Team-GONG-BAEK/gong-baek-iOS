@@ -88,8 +88,8 @@ struct MeetingRoomView: View {
                     viewModel.isCommentDisabled ? CommentDisabledBox() : nil
                     
                     CommentList(
-                        commentCount: $viewModel.commentData.commentCount,
-                        comments: $viewModel.commentData.comments,
+                        commentCount: viewModel.commentData?.commentCount ?? 0,
+                        comments: viewModel.commentData?.comments ?? [],
                         isScrolled: false,
                         onTapRefreshButton: nil
                     )
@@ -99,12 +99,16 @@ struct MeetingRoomView: View {
             .onAppear {
                 print("onAppear called")
                 
-                viewModel.getDetails(groupId: 1, groupType: "ONCE") { _ in
+                viewModel.getDetails(groupId: 7, groupType: "WEEKLY") { _ in
                     print("getDetails finished, meetingDetailData: \(String(describing: viewModel.meetingDetailData))")
                 }
                 
-                viewModel.getMembers(groupId: 1, groupType: "ONCE") { _ in
+                viewModel.getMembers(groupId: 7, groupType: "WEEKLY") { _ in
                     print("getMembers finished, memberData: \(String(describing: viewModel.memberData))")
+                }
+                
+                viewModel.getComments(groupId: 7, groupType: "WEEKLY") { _ in
+                    print("getComments finished, memberData: \(String(describing: viewModel.commentData))")
                 }
             }
         }

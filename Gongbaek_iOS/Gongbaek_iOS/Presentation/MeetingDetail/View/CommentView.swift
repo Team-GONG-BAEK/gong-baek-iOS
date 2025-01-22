@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct CommentView: View {
-    @Binding var commentData: CommentModel
+    var commentData: CommentModel
     
     var body: some View {
         VStack {
             RecruitingState(commentData.groupStatus) == .CLOSED ? CommentDisabledBox() : nil
             
             CommentList(
-                commentCount: $commentData.commentCount,
-                comments: $commentData.comments,
+                commentCount: commentData.commentCount,
+                comments: commentData.comments,
                 isScrolled: true,
                 onTapRefreshButton: nil
             )
