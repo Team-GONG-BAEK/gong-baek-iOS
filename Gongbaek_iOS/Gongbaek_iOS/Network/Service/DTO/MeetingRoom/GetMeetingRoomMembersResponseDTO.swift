@@ -13,7 +13,7 @@ struct GetMeetingRoomMembersResponseDTO: Codable {
     var members: [MemberModel]
 }
 
-struct MemberModel {
+struct MemberModel: Codable {
     var profileImage: Int // server: profileImg
     var isHost: Bool
     var nickname: String
