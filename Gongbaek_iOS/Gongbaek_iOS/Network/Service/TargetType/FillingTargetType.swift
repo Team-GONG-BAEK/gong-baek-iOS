@@ -10,12 +10,13 @@ import Moya
 enum FillingTargetType {
     case postMeeting(data: AddMeetingModel)
     case getTimeTable
+    case getFilling(category: String)
 }
 
 extension FillingTargetType: BaseTargetType {
     var headers: Parameters? {
         switch self {
-        case .postMeeting, .getTimeTable:
+        case .postMeeting, .getTimeTable, .getFilling:
             return APIConstants.hasTokenHeader
         }
     }
@@ -26,6 +27,8 @@ extension FillingTargetType: BaseTargetType {
             return "/api/v1/gongbaek"
         case .getTimeTable:
             return "/api/v1/my/timeTable"
+        case .getFilling:
+            return "/api/v1/fill/groups"
         }
     }
     
@@ -34,6 +37,8 @@ extension FillingTargetType: BaseTargetType {
         case .postMeeting:
             return .post
         case .getTimeTable:
+            return .get
+        case .getFilling:
             return .get
         }
     }
@@ -44,6 +49,8 @@ extension FillingTargetType: BaseTargetType {
             return .requestJSONEncodable(data)
         case .getTimeTable:
             return .requestPlain
+        case .getFilling(let category):
+            return .requestParameters(parameters: ["category": category], encoding: URLEncoding.default)
         }
     }
 }
