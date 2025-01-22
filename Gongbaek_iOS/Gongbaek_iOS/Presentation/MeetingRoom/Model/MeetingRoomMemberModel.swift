@@ -11,12 +11,6 @@ struct MeetingRoomMemberModel {
     var members: [MemberModel]
 }
 
-struct MemberModel {
-    var profileImage: Int // server: profileImg
-    var isHost: Bool
-    var nickname: String
-}
-
 let dummyMeetingRoomMemberData: MeetingRoomMemberModel = MeetingRoomMemberModel(
     maxPeopleCount: 7,
     currentPeopleCount: 6,
