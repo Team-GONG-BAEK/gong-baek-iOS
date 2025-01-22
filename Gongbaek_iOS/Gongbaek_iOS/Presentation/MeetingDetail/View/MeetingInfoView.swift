@@ -16,7 +16,6 @@ struct MeetingInfoView: View {
     @Binding var isHost: Bool
     @Binding var isApply: Bool
     @State private var selectedIndex = 0
-    var buttonText: String = "신청하기"
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -68,14 +67,14 @@ struct MeetingInfoView: View {
             // isHost == false >>> isApply == true >>> buttonText = "취소하기" // onTap = "isApply = false"
             
             ApplyBar(
-                applyData: .init(
-                    isActivated: true, // closed일 때만 false <<< meetingStatus
+                applyData: .constant(ApplyModel(
                     currentPeopleCount: currentPeopleCount,
                     maxPeopleCount: maxPeopleCount,
-                    buttonText: "신청하기", // buttonText 변환 로직 필요 <<< meetingStatus
-                    onTap: nil
+                    isHost: isHost,
+                    meetingStatus: meetingStatus,
+                    isApply: isApply
                 )
-            )
+            ))
         }
     }
 }
