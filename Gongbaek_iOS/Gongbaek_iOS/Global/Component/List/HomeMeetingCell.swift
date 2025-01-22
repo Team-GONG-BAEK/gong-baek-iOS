@@ -58,7 +58,7 @@ struct HomeMeetingCell: View {
         Text(data.groupTitle)
             .pretendardFont(.body2_sb_14)
             .foregroundStyle(.gray10)
-            .lineLimit(1)
+            .lineLimit(isWeekly ? 2 : 1)
     }
     
     private func meetingTime() -> some View {
