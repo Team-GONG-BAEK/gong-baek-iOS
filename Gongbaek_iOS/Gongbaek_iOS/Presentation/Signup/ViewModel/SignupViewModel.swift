@@ -105,4 +105,12 @@ final class SignupViewModel: ObservableObject {
 
 extension SignupViewModel {
     
+    func postNicknameValidation() {
+        Providers.SignupProvider.request(
+            target: .postNicknameValidation(nickname: nickname),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            print(response)
+        }
+    }
 }

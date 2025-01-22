@@ -39,6 +39,10 @@ struct SignupView: View {
                     ? "공백 채우러 가기" : "다음",
                     isActivated: viewModel.isNextButtonEnabled(currentStep)
                 ) {
+                    if currentStep == .nicknameInput {
+                        viewModel.postNicknameValidation()
+                    }
+                    
                     /// 다음 뷰 기존 상태값 리셋
                     let nextStep = SignupStep.allCases[currentStep.rawValue + 1]
                     viewModel.resetState(at: nextStep)
