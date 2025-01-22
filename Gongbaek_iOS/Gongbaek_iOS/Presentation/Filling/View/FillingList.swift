@@ -10,7 +10,7 @@ import SwiftUI
 struct FillingList: View {
     @ObservedObject var viewModel = FillingViewModel()
     
-    let meetings: [Meeting] = dummyMeetings
+    let meetings: [Meeting]
     
     var body: some View {
         
@@ -41,35 +41,3 @@ struct FillingList: View {
 }
 
 
-#Preview {
-    FillingList()
-}
-
-let dummyMeetings: [Meeting] = [
-    Meeting(
-        groupId: 1,
-        status: "RECRUITING",
-        category: "STUDY",
-        coverImg: 1,
-        groupType: "WEEKLY",
-        groupTitle: "공강팅",
-        weekDay: "MON",
-        weekDate: nil,
-        startTime: 10.5,
-        endTime: 12.0,
-        location: "학교 정문"
-    ),
-    Meeting(
-        groupId: 2,
-        status: "RECRUITIED",
-        category: "PLAYING",
-        coverImg: 3,
-        groupType: "ONCE",
-        groupTitle: "공강팅",
-        weekDay: "TUE",
-        weekDate: "2025-12-11",
-        startTime: 10.5,
-        endTime: 12.0,
-        location: "학교 정문"
-    )
-]
