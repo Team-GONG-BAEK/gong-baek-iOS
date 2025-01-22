@@ -7,12 +7,9 @@
 
 import SwiftUI
 
-class MeetingRoomViewModel: ObservableObject {
-    
+final class MeetingRoomViewModel: ObservableObject {
     @Published var meetingDetailData: MeetingDetailModel = dummymeetingDetailData
-    
     @Published var memberData: MeetingRoomMemberModel = dummyMeetingRoomMemberData
-    
     @Published var commentData: CommentModel = dummyCommentData
     
     var meetingStates: [MeetingChipState] {
