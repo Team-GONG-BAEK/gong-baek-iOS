@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+struct myFillStatus {
+    let category: String
+    let status: Bool
+}
+
 class MyFillingViewModel: ObservableObject {
     @Published var activeMeetings: [Meeting] = []
     @Published var endedMeetings: [Meeting] = []
@@ -15,7 +20,7 @@ class MyFillingViewModel: ObservableObject {
     @Published var isEndedEmpty: Bool = false
     
     init() {
-        fetchMeetings(category: .register)
+//        getTimeTable()
     }
     
     
@@ -29,10 +34,20 @@ class MyFillingViewModel: ObservableObject {
     //        isEndedEmpty = endedMeetings.isEmpty
     //    }
     
+//    func getTimeTable() {
+//        Providers.fillingProvider.request(target: .getMyFilling(category: "REGISTER", status: true), instance: BaseResponse<GetTimeTableResponseDTO>.self) { response in
+//            guard response.success, let timeTableResponse = response.data else {
+//                print("❌ 시간표 불러오기 실패: \(response.message ?? "알 수 없는 오류")")
+//                return
+//            }
+//        }
+//    }
+    
     func fetchMeetings(category: MyFillingType) {
         let dispatchGroup = DispatchGroup()
         var activeMeetings: [Meeting] = []
         var endedMeetings: [Meeting] = []
+        
         
        
         // TargetType의 getMeetings의 category: MyfillType / status: Bool

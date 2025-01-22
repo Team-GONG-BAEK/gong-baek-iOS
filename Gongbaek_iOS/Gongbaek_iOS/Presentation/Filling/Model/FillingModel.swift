@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Meeting {
+struct Meeting: Codable {
     let groupId: Int
     let status: String
     let category: String

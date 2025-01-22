@@ -15,4 +15,6 @@ class FillingViewModel: ObservableObject {
             print("📌 선택된 카테고리 변경됨: \(selectedCategory)")
         }
     }
+    
+    
 }
