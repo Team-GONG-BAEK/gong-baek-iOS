@@ -12,7 +12,7 @@ struct MemberProfileBox: View {
     
     var body: some View {
         VStack(spacing: 6) {
-            Image("\(memberData.profileImage)") //TODO: 이미지 네이밍 수정
+            Image("\(memberData.profileImg)") //TODO: 이미지 네이밍 수정
                 .resizable()
                 .scaledToFill()
                 .frame(width: 80, height: 80)
