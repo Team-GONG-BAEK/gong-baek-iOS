@@ -8,9 +8,9 @@
 import Moya
 
 enum MeetingRoomTargetType {
-    case getMembers(groupId: Int, groupType: String)
+    case getMembers(isPublic: Bool, groupId: Int, groupType: String)
     case getMeetingDetails(groupId: Int, groupType: String)
-    case getComments(groupId: Int, groupType: String)
+    case getComments(isPublic: Bool,groupId: Int, groupType: String)
 }
 
 extension MeetingRoomTargetType: BaseTargetType {
@@ -49,9 +49,10 @@ extension MeetingRoomTargetType: BaseTargetType {
     
     var task: Moya.Task {
         switch self {
-        case .getMembers(let groupId, let groupType):
+        case .getMembers(_, let groupId, let groupType):
             return .requestParameters(
                 parameters: [
+                    "isPublic": false,
                     "groupId": groupId,
                     "groupType": groupType
                 ],
@@ -65,9 +66,10 @@ extension MeetingRoomTargetType: BaseTargetType {
                 ],
                 encoding: URLEncoding.queryString
             )
-        case .getComments(let groupId, let groupType):
+        case .getComments(_, let groupId, let groupType):
             return .requestParameters(
                 parameters: [
+                    "isPublic": false,
                     "groupId": groupId,
                     "groupType": groupType
                 ],
