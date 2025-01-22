@@ -30,9 +30,14 @@ struct FillingList: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 12)
                 
-                VStack(alignment:.leading, spacing: 0) {
-                    ForEach(meetings, id: \.groupTitle) { meeting in
-                        MeetingInfoCell(meeting: meeting, state: .fill)
+                if meetings.isEmpty {
+                    FillingEmptyView()
+                        .padding(.top, 39)
+                } else {
+                    VStack(alignment:.leading, spacing: 0) {
+                        ForEach(meetings, id: \..groupTitle) { meeting in
+                            MeetingInfoCell(meeting: meeting, state: .fill)
+                        }
                     }
                 }
             }
