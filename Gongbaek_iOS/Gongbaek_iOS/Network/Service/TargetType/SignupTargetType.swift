@@ -11,6 +11,7 @@ enum SignupTargetType {
     case postNicknameValidation(nickname: String)
     case getSchoolSearchResults(schoolName: String)
     case getMajorSearchResults(schoolName: String, majorName: String)
+    case postSignup(data: PostSignupRequestDTO)
 }
 
 extension SignupTargetType: BaseTargetType {
@@ -21,6 +22,8 @@ extension SignupTargetType: BaseTargetType {
         case .getSchoolSearchResults:
             return APIConstants.hasContentTypeHeader
         case .getMajorSearchResults:
+            return APIConstants.hasContentTypeHeader
+        case .postSignup:
             return APIConstants.hasContentTypeHeader
         }
     }
@@ -33,6 +36,8 @@ extension SignupTargetType: BaseTargetType {
             return "/api/v1/school/search"
         case .getMajorSearchResults:
             return "/api/v1/school/major/search"
+        case .postSignup:
+            return "/api/v1/user/signup"
         }
     }
     
@@ -44,6 +49,8 @@ extension SignupTargetType: BaseTargetType {
             return .get
         case .getMajorSearchResults:
             return .get
+        case .postSignup:
+            return .post
         }
     }
     
@@ -67,6 +74,8 @@ extension SignupTargetType: BaseTargetType {
                 ],
                 encoding: URLEncoding.queryString
             )
+        case .postSignup(let data):
+            return .requestJSONEncodable(data)
         }
     }
 }

@@ -101,6 +101,16 @@ final class SignupViewModel: ObservableObject {
             return
         }
     }
+    
+    func convertToTimeTableModel() -> [TimeTableRequestModel] {
+        return classTimeTable.map {
+            TimeTableRequestModel(
+                weekDay: $0.day.rawValue,
+                startTime: $0.start,
+                endTime: $0.end
+            )
+        }
+    }
 }
 
 extension SignupViewModel {
@@ -156,6 +166,41 @@ extension SignupViewModel {
             if response.success {
                 guard let data = response.data else { return }
                 self.searchResultList = data.schoolMajors
+            }
+        }
+    }
+    
+    /// 회원가입 API
+    func postSignup(completion: @escaping (Bool) -> ()) {
+        guard let profileImage = profileImageIndex,
+              let grade = grade,
+              let gradeInt = GradeState.allCases.firstIndex(of: grade),
+              let yearOfAdmission = yearOfAdmission,
+              let e_i, let s_n, let t_f, let j_p,
+              let sex = sex
+        else { return }
+        
+        let data = PostSignupRequestDTO(
+            profileImg: profileImage + 1,
+            nickname: nickname,
+            mbti: e_i.rawValue + s_n.rawValue + t_f.rawValue + j_p.rawValue,
+            schoolName: schoolName,
+            schoolMajor: majorName,
+            schoolGrade: gradeInt,
+            enterYear: yearOfAdmission,
+            introduction: introduction,
+            sex: sex.rawValue,
+            timeTable: convertToTimeTableModel()
+        )
+        
+        Providers.SignupProvider.request(
+            target: .postSignup(data: data),
+            instance: BaseResponse<PostSignupResponseDTO>.self
+        ) { response in
+            if response.success {
+                completion(true)
+            } else {
+                completion(false)
             }
         }
     }

@@ -31,7 +31,7 @@ struct SignupView: View {
                     grayButtonText: "시간표 변경",
                     orangeButtonText: "가입 완료",
                     onTapGrayButton: { pop() },
-                    onTapOrangeButton: { push() }
+                    onTapOrangeButton: { signup() }
                 )
             } else {
                 BasicButton(
@@ -64,9 +64,11 @@ extension SignupView {
     
     private func push() {
         /// 다음 뷰 기존 상태값 리셋
-        let nextStep = SignupStep.allCases[currentStep.rawValue + 1]
-        viewModel.resetState(at: nextStep)
-        currentStep = nextStep
+        if currentStep != .signupCompletion {
+            let nextStep = SignupStep.allCases[currentStep.rawValue + 1]
+            viewModel.resetState(at: nextStep)
+            currentStep = nextStep
+        }
     }
     
     private func pop() {
@@ -74,6 +76,7 @@ extension SignupView {
     }
 }
 
+/// API Functions
 extension SignupView {
     
     private func validateNickname() {
@@ -84,6 +87,16 @@ extension SignupView {
             }
             else {
                 viewModel.showNicknameError = true
+            }
+        }
+    }
+    
+    private func signup() {
+        viewModel.postSignup() { isSuccess in
+            if isSuccess {
+                push()
+            } else {
+                // TODO: 에러대응 뷰
             }
         }
     }
