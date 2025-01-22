@@ -10,59 +10,72 @@ import SwiftUI
 struct SignupView: View {
     @EnvironmentObject private var navigationManager: NavigationManager
     @StateObject private var viewModel = SignupViewModel()
-    @State private var currentStep: SignupStep = .profileSelection
+    @State private var currentStep: SignupStep = .classTimeTableInput
+    @State private var showLottie = false
     
     var body: some View {
-        VStack(spacing: 0) {
-            if currentStep != .signupCompletion {            
-                ProgressBar(currentIndex: currentStep.rawValue)
-            }
-            
-            /// currentStepIndex에 따라 변경되는 View
-            currentStep.view(
-                viewModel: viewModel,
-                navigationManager: navigationManager
-            )
-            
-            Spacer()
-            
-            if currentStep == .freeTimeTableConversion {
-                OnboardingConfirmBar(
-                    grayButtonText: "시간표 변경",
-                    orangeButtonText: "가입 완료",
-                    onTapGrayButton: { goBackToPreviousStep() },
-                    onTapOrangeButton: {
-                        // TODO: 회원가입 API
-                        goToNextStep()
-                    }
-                )
-            } else {
-                BasicButton(
-                    text: currentStep == .signupCompletion
-                    ? "공백 채우러 가기" : "다음",
-                    isActivated: viewModel.isNextButtonEnabled(currentStep)
-                ) {
-                    if currentStep == .signupCompletion {
-                        goToTabBarView()
-                    } else {
-                        /// 다음 뷰 기존 상태값 리셋
-                        let nextStep = SignupStep.allCases[currentStep.rawValue + 1]
-                        viewModel.resetState(at: nextStep)
-                        goToNextStep()
-                    }
+        if showLottie {
+            LottieView(animationName: "timetable", loopMode: .playOnce)
+                .ignoresSafeArea(edges: [.horizontal, .bottom])
+                .scaledToFill()
+        } else {
+            VStack(spacing: 0) {
+                if currentStep != .signupCompletion {
+                    ProgressBar(currentIndex: currentStep.rawValue)
                 }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 20)                
+                
+                /// currentStepIndex에 따라 변경되는 View
+                currentStep.view(
+                    viewModel: viewModel,
+                    navigationManager: navigationManager
+                )
+                
+                Spacer()
+                
+                if currentStep == .freeTimeTableConversion {
+                    OnboardingConfirmBar(
+                        grayButtonText: "시간표 변경",
+                        orangeButtonText: "가입 완료",
+                        onTapGrayButton: { goBackToPreviousStep() },
+                        onTapOrangeButton: {
+                            // TODO: 회원가입 API
+                            goToNextStep()
+                        }
+                    )
+                } else {
+                    BasicButton(
+                        text: currentStep == .signupCompletion
+                        ? "공백 채우러 가기" : "다음",
+                        isActivated: viewModel.isNextButtonEnabled(currentStep)
+                    ) {
+                        if currentStep == .signupCompletion {
+                            goToTabBarView()
+                        } else {
+                            /// 다음 뷰 기존 상태값 리셋
+                            let nextStep = SignupStep.allCases[currentStep.rawValue + 1]
+                            viewModel.resetState(at: nextStep)
+                            goToNextStep()
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 20)
+                }
             }
+            .onChange(of: currentStep) { oldValue, newValue in
+                if newValue == .freeTimeTableConversion {
+                    showLottieAnimation()
+                }
+            }
+            .customNavigationBar(
+                showBackButton:
+                    !(currentStep == .profileSelection
+                      || currentStep == .freeTimeTableConversion
+                      || currentStep == .signupCompletion),
+                onBackButtonTap: {
+                    goBackToPreviousStep()
+                }
+            )
         }
-        .customNavigationBar(
-            showBackButton:
-                !(currentStep == .profileSelection
-                  || currentStep == .signupCompletion),
-            onBackButtonTap: {
-                goBackToPreviousStep()
-            }
-        )
     }
 }
 
@@ -79,6 +92,15 @@ extension SignupView {
     private func goToTabBarView() {
         withAnimation(.easeInOut(duration: 0.3)) {
             navigationManager.rootView = .tabBar
+        }
+    }
+    
+    private func showLottieAnimation() {
+        showLottie = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            withAnimation {
+                showLottie = false
+            }
         }
     }
 }
