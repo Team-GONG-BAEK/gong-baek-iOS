@@ -10,6 +10,7 @@ import Moya
 enum MeetingRoomTargetType {
     case getMembers(groupId: Int, groupType: String)
     case getMeetingDetails(groupId: Int, groupType: String)
+    case getComments(groupId: Int, groupType: String)
 }
 
 extension MeetingRoomTargetType: BaseTargetType {
@@ -18,6 +19,8 @@ extension MeetingRoomTargetType: BaseTargetType {
         case .getMembers:
             return APIConstants.hasTokenHeader
         case .getMeetingDetails:
+            return APIConstants.hasTokenHeader
+        case .getComments:
             return APIConstants.hasTokenHeader
         }
     }
@@ -28,6 +31,8 @@ extension MeetingRoomTargetType: BaseTargetType {
             return "/api/v1/fill/members"
         case .getMeetingDetails:
             return "/api/v1/fill/info"
+        case .getComments:
+            return "/api/v1/comments"
         }
     }
     
@@ -36,6 +41,8 @@ extension MeetingRoomTargetType: BaseTargetType {
         case .getMembers:
             return .get
         case .getMeetingDetails:
+            return .get
+        case .getComments:
             return .get
         }
     }
@@ -51,6 +58,14 @@ extension MeetingRoomTargetType: BaseTargetType {
                 encoding: URLEncoding.queryString
             )
         case .getMeetingDetails(let groupId, let groupType):
+            return .requestParameters(
+                parameters: [
+                    "groupId": groupId,
+                    "groupType": groupType
+                ],
+                encoding: URLEncoding.queryString
+            )
+        case .getComments(let groupId, let groupType):
             return .requestParameters(
                 parameters: [
                     "groupId": groupId,
