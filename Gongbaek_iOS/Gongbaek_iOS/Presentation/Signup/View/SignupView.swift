@@ -10,7 +10,7 @@ import SwiftUI
 struct SignupView: View {
     @EnvironmentObject private var navigationManager: NavigationManager
     @StateObject private var viewModel = SignupViewModel()
-    @State private var currentStep: SignupStep = .signupCompletion
+    @State private var currentStep: SignupStep = .profileSelection
     
     var body: some View {
         VStack(spacing: 0) {
@@ -40,13 +40,18 @@ struct SignupView: View {
                     isActivated: viewModel.isNextButtonEnabled(currentStep)
                 ) {
                     if currentStep == .nicknameInput {
-                        viewModel.postNicknameValidation()
+                        viewModel.postNicknameValidation { isSuccess in
+                            if isSuccess {
+                                viewModel.showNicknameError = false
+                                push()
+                            }
+                            else {
+                                viewModel.showNicknameError = true
+                            }
+                        }
+                    } else {
+                        push()
                     }
-                    
-                    /// 다음 뷰 기존 상태값 리셋
-                    let nextStep = SignupStep.allCases[currentStep.rawValue + 1]
-                    viewModel.resetState(at: nextStep)
-                    push()
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 20)                
@@ -66,7 +71,10 @@ struct SignupView: View {
 extension SignupView {
     
     private func push() {
-        currentStep = .allCases[currentStep.rawValue + 1]
+        /// 다음 뷰 기존 상태값 리셋
+        let nextStep = SignupStep.allCases[currentStep.rawValue + 1]
+        viewModel.resetState(at: nextStep)
+        currentStep = nextStep
     }
     
     private func pop() {

@@ -105,12 +105,26 @@ final class SignupViewModel: ObservableObject {
 
 extension SignupViewModel {
     
-    func postNicknameValidation() {
+    func postNicknameValidation(completion: @escaping (Bool) -> ()) {
         Providers.SignupProvider.request(
             target: .postNicknameValidation(nickname: nickname),
             instance: BaseResponse<EmptyResponseDTO>.self
         ) { response in
-            print(response)
+            if response.success {
+                completion(true)
+            } else {
+                switch response.code {
+                case 4092:
+                    /// 닉네임 중복 에러
+                    completion(false)
+                case 4000..<5000:
+                    print(response.message ?? "❗️유효하지 않은 요청")
+                    completion(false)
+                default:
+                    print("❗️서버 통신 에러 발생")
+                    completion(false)
+                }
+            }
         }
     }
 }
