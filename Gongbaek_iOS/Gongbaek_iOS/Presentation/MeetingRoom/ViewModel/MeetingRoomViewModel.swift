@@ -66,7 +66,7 @@ extension MeetingRoomViewModel {
         completion: @escaping (GetMeetingRoomMembersResponseDTO) -> ()
     ) {
         Providers.meetingRoomProvider.request(
-            target: .getMembers(groupId: groupId, groupType: groupType),
+            target: .getMembers(isPublic: false, groupId: groupId, groupType: groupType),
             instance: BaseResponse<GetMeetingRoomMembersResponseDTO>.self
         ) { response in
             print(response)
@@ -94,7 +94,7 @@ extension MeetingRoomViewModel {
         completion: @escaping (GetMeetingRoomCommentsResponseDTO) -> ()
     ) {
         Providers.meetingRoomProvider.request(
-            target: .getComments(groupId: groupId, groupType: groupType),
+            target: .getComments(isPublic: false,groupId: groupId, groupType: groupType),
             instance: BaseResponse<GetMeetingRoomCommentsResponseDTO>.self
         ) { response in
             print(response)
