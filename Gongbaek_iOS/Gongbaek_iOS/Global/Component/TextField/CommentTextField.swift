@@ -15,7 +15,7 @@ struct CommentTextField: View {
     var body: some View {
         HStack(alignment: .bottom, spacing: 4) {
             TextField(
-                "댓글을 입력해주세요.",
+                "댓글을 작성해주세요.",
                 text: $comment,
                 axis: .vertical
             )

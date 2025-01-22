@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct FillingView: View {
-    @StateObject var viewModel = FillingViewModel()
+    @StateObject private var viewModel = FillingViewModel()
+    @EnvironmentObject var navigationManager: NavigationManager
     
     var body: some View {
-        ZStack(alignment: .bottomTrailing){
+        ZStack(alignment: .bottomTrailing) {
             VStack(spacing: 0) {
                 WeekFilterBar()
                     .padding(.bottom, 8)
@@ -24,10 +25,14 @@ struct FillingView: View {
                 Spacer()
             }
             
-            AddMeetingButton()
-                .padding(.trailing, 16)
-                .padding(.bottom, 24)
+            AddMeetingButton {
+                navigationManager.push(view: FillingDestination.addMeeting) 
+            }
+            .padding(.trailing, 16)
+            .padding(.bottom, 24)
+            
         }
+        .customNavigationBar(title: "채우기", showXButton: false)
     }
 }
 

@@ -8,23 +8,30 @@
 import SwiftUI
 
 struct MeetingInfoBase: View {
-    let state: MeetingInfoState
-    let meeting: Meeting
+    @Binding var state: MeetingInfoState
+    @Binding var meeting: Meeting
     
     var body: some View {
         HStack(spacing: 12) {
-            Image(meeting.coverImg)
+            Image(.sample)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 102, height: 102)
                 .cornerRadius(2)
             
             VStack(alignment: .leading, spacing: 6) {
+                
                 // 모임 태그
                 HStack(spacing: 4) {
-                    MeetingChip(state: .recruiting(.recruiting))
-                    MeetingChip(state: .category(.EXERCISE))
-                    MeetingChip(state: .weekly(true))
+                    let states: [MeetingChipState] = [
+                        RecruitingState(meeting.status).map { .recruiting($0) },
+                        CategoryState(meeting.category).map { .category($0) },
+                        GroupState(meeting.groupType).map { .weekly($0) }
+                    ].compactMap { $0 }
+
+                    ForEach(states.indices, id: \.self) { index in
+                        MeetingChip(state: states[index])
+                    }
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
@@ -37,13 +44,15 @@ struct MeetingInfoBase: View {
                     VStack(alignment: .leading, spacing: 2) {
                         TimeBox(
                             state: .gray,
-                            text: Date.formattedDateAndTime(
-                                weekDay: meeting.weekDay,
+                            text: Date.formattedDateAndStartEndTime(
+                                weekDay: WeekDay(meeting.weekDay), // String 처리 후 전달
                                 weekDate: meeting.weekDate,
-                                time: meeting.startTime
+                                startTime: meeting.startTime,
+                                endTime: meeting.endTime
                             ),
                             font: state.infoFont
                         )
+                        
                         LocationBox(
                             state: .gray,
                             text: meeting.location,
@@ -52,24 +61,8 @@ struct MeetingInfoBase: View {
                     }
                 }
             }
-            
+            .frame(maxWidth: .infinity, alignment: .topLeading)
         }
     }
 }
 
-#Preview {
-    MeetingInfoBase(
-        state: .cell, meeting: Meeting(
-            status: "모집 중",
-            category: "스터디",
-            coverImg: "sample",
-            groupType: "WEEKLY",
-            groupTitle: "나는 개바보다 나랑 친구하고 싶으면 들어오덩가 ㅋㅋㅋ",
-            weekDay: .monday,
-            weekDate: nil,
-            startTime: 13.0,
-            endTime: 15.0,
-            location: "학교 정문인데 어쩌구 저쩌구 20자 넘으면"
-        )
-    )
-}

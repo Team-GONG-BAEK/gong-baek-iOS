@@ -13,13 +13,15 @@ extension View {
         title: String? = nil,
         viewName: String? = nil,
         showBackButton: Bool = false,
-        showXButton: Bool = false
+        showXButton: Bool = false,
+        onBackButtonTap: (() -> Void)? = nil
     ) -> some View {
         self.modifier(CustomNavigationBarModifier(
             title: title,
             viewName: viewName,
             showBackButton: showBackButton,
-            showXButton: showXButton
+            showXButton: showXButton,
+            onBackButtonTap: onBackButtonTap
         ))
     }
 }

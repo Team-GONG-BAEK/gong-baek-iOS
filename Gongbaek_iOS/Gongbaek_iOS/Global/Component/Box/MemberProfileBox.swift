@@ -8,32 +8,29 @@
 import SwiftUI
 
 struct MemberProfileBox: View {
-    var profileImage: String //TODO: 추후 Int값으로 바꿔야함 - 고정값임.
-    var nickname: String
-    var isOwner: Bool
+    @Binding var memberData: MemberModel
     
     var body: some View {
         VStack(spacing: 6) {
-            Image(profileImage) // MARK: - TODO: 이미지 네이밍 수정
+            Image("\(memberData.profileImage)") //TODO: 이미지 네이밍 수정
                 .resizable()
-                .frame(width: 80, height: 80)
                 .scaledToFill()
-                .background(.gray04) // MARK: - TODO: 이미지 삽입 시 삭제
-                .foregroundStyle(.mainOrange) // MARK: - TODO: 이미지 삽입 시 삭제
+                .frame(width: 80, height: 80)
+                .clipShape(RoundedRectangle(cornerRadius: 2))
                 .overlay(
-                    isOwner ? OwnerChip().padding(6) : nil,
+                    memberData.isHost ? OwnerChip(ownerChipColor: .gray09).padding(6) : nil,
                     alignment: .bottomLeading
                 )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 2)
+                        .stroke(.gray02, lineWidth: 1)
+                )
                 .padding(.horizontal, 7)
-            
-            Text(nickname)
+ 
+            Text(memberData.nickname)
                 .pretendardFont(.caption1_m_13)
                 .foregroundStyle(.gray10)
         }
-        .background(Color.red)
+        .background(.grayWhite)
     }
-}
-
-#Preview {
-    MemberProfileBox(profileImage: "sample", nickname: "희은이입니다람쥐깡깡", isOwner: true)
 }
