@@ -40,15 +40,7 @@ struct SignupView: View {
                     isActivated: viewModel.isNextButtonEnabled(currentStep)
                 ) {
                     if currentStep == .nicknameInput {
-                        viewModel.postNicknameValidation { isSuccess in
-                            if isSuccess {
-                                viewModel.showNicknameError = false
-                                push()
-                            }
-                            else {
-                                viewModel.showNicknameError = true
-                            }
-                        }
+                        validateNickname()
                     } else {
                         push()
                     }
@@ -79,6 +71,21 @@ extension SignupView {
     
     private func pop() {
         currentStep = .allCases[currentStep.rawValue - 1]
+    }
+}
+
+extension SignupView {
+    
+    private func validateNickname() {
+        viewModel.postNicknameValidation { isSuccess in
+            if isSuccess {
+                viewModel.showNicknameError = false
+                push()
+            }
+            else {
+                viewModel.showNicknameError = true
+            }
+        }
     }
 }
 
