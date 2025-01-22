@@ -29,7 +29,7 @@ struct CoverImageButton: View {
             
             if isSelected {
                 Rectangle()
-                    .fill(Color.black.opacity(0.3))
+                    .fill(Color.grayBlack.opacity(0.6))
                     .cornerRadius(4)
                 Image(.icCheckFill24)
                     .resizable()

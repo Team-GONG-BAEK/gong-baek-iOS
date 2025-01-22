@@ -25,14 +25,15 @@ struct CategoryImageButton: View {
                 
                 Text(category.categoryName)
                     .font(.pretendard(.body1_m_16))
-                    .frame(maxWidth: .infinity)
                     .foregroundColor(.gray08)
             }
+            .frame(maxWidth: .infinity, minHeight: 120)
             .padding(.vertical, 15)
+            .background(isSelected ? .subOrange : .gray01)
+            .clipShape(RoundedRectangle(cornerRadius: 5))
         }
         .buttonStyle(PlainButtonStyle())
-        .background(isSelected ? .subOrange : .gray01)
-        .clipShape(RoundedRectangle(cornerRadius: 5))
+        .frame(maxWidth: .infinity, minHeight: 120)
     }
 }
 
