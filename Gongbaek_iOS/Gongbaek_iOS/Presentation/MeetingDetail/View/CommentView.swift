@@ -15,6 +15,7 @@ struct CommentView: View {
             RecruitingState(commentData.groupStatus) == .CLOSED ? CommentDisabledBox() : nil
             
             CommentList(
+                viewModel: MeetingRoomViewModel(),
                 commentCount: commentData.commentCount,
                 comments: commentData.comments,
                 isScrolled: true,

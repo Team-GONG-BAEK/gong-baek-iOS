@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CommentList: View {
+    @ObservedObject var viewModel: MeetingRoomViewModel
     var commentCount: Int
     var comments: [Comment]
     let isScrolled: Bool
@@ -41,8 +42,16 @@ struct CommentList: View {
                 .frame(alignment: .leading)
                 .padding(.vertical, 16)
             Spacer()
-            Button(action: {
-                onTapRefreshButton?()
+            Button(
+                action: {
+                    onTapRefreshButton?()
+                    
+                    viewModel.getComments(
+                        groupId: viewModel.meetingDetailData?.groupId ?? 0,
+                        groupType: viewModel.meetingDetailData?.groupType ?? ""
+                    ) { _ in
+                    print("새로고쳤지롱! ㅋㅋ")
+                }
             }) {
                 Image(.icRefresh32)
                     .foregroundStyle(.gray05)

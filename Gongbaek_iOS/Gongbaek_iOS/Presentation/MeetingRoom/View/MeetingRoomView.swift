@@ -88,6 +88,7 @@ struct MeetingRoomView: View {
                     viewModel.isCommentDisabled ? CommentDisabledBox() : nil
                     
                     CommentList(
+                        viewModel: viewModel,
                         commentCount: viewModel.commentData?.commentCount ?? 0,
                         comments: viewModel.commentData?.comments ?? [],
                         isScrolled: false,
