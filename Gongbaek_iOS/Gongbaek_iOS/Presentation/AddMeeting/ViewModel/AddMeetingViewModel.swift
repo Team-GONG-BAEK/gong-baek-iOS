@@ -65,10 +65,6 @@ class AddMeetingViewModel: ObservableObject {
     
     @Published var isSuccessGetData: Bool = true
     
-    init() {
-        getTimeTable()
-    }
-    
     var selectedFormattedDate: String? {
         guard let date = selectedWeekDate else { return nil }
         let formatter = DateFormatter()
@@ -165,6 +161,44 @@ class AddMeetingViewModel: ObservableObject {
     func getSelectedWeekDayEnum() -> WeekDay? {
         guard let selectedDay = selectedWeekDay else { return nil }
         return WeekDay(rawValue: selectedDay.rawValue) ?? WeekDay.fromRawValue(selectedDay.rawValue)
+    }
+    
+    /// 수업 시간표 -> 공강시간표 변환
+    func freeTimeTable() -> [TimeTableModel] {
+        WeekDay.allCases.flatMap { weekDay -> [TimeTableModel] in
+            let sortedClasses = (timeTable.filter { $0.weekDay == weekDay.englishName })
+                .sorted { $0.startTime < $1.startTime }
+            
+            var freeTimes: [TimeTableModel] = []
+            var freeTimeStart = 9.0
+
+            for classTime in sortedClasses {
+                if freeTimeStart < classTime.startTime {
+                    freeTimes.append(
+                        .init(
+                            id: UUID().hashValue,
+                            weekDay: weekDay.englishName,
+                            startTime: freeTimeStart,
+                            endTime: classTime.startTime
+                        )
+                    )
+                }
+                freeTimeStart = classTime.endTime
+            }
+
+            if freeTimeStart < 18.0 {
+                freeTimes.append(
+                    .init(
+                        id: UUID().hashValue,
+                        weekDay: weekDay.englishName,
+                        startTime: freeTimeStart,
+                        endTime: 18.0
+                    )
+                )
+            }
+
+            return freeTimes
+        }
     }
     
     func increasePeopleCount() {

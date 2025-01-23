@@ -46,13 +46,7 @@ struct TimeSelect: View {
                 }
                 .padding(.bottom, 10)
                 
-                AddMeetingTimeTable(
-                    viewModel: viewModel,
-                    timeTable: viewModel.timeTable,
-                    selectedDay: viewModel.getSelectedWeekDayEnum() ?? .MON,
-                    selectedTimeRange: $viewModel.selectedTimeRange,
-                    selectedCells: $viewModel.selectedCells
-                )
+                AddMeetingTimeTable(viewModel: viewModel)
             }
             
         }

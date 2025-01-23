@@ -91,6 +91,9 @@ struct AddMeetingView: View {
                 )
             }
         }
+        .onAppear {
+            viewModel.getTimeTable()
+        }
     }
 }
 
