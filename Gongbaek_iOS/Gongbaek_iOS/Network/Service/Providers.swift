@@ -12,6 +12,7 @@ import Moya
 struct Providers {
     static let homeProvider = NetworkProvider<HomeTargetType>(withAuth: false)
     static let SignupProvider = NetworkProvider<SignupTargetType>(withAuth: false)
+    static let fillingProvider = NetworkProvider<FillingTargetType>(withAuth: false)
 }
 
 extension MoyaProvider {

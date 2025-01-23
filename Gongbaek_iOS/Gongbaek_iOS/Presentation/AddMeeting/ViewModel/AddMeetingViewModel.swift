@@ -8,6 +8,9 @@
 import SwiftUI
 
 class AddMeetingViewModel: ObservableObject {
+    
+    let totalSteps: Int = 8
+    
     @Published var currentIndex: Int = 0
     
     @Published var isNextEnabled: Bool = false
@@ -35,7 +38,7 @@ class AddMeetingViewModel: ObservableObject {
         didSet { updateNextButtonState() }
     }
     
-    @Published var freeTimeTable: [TimeTableModel] = dummyFreeTimeTable
+    @Published var timeTable: [TimeTableModel] = []
     @Published var selectedCells: Set<TimeTableCellId> = [] {
         didSet { updateNextButtonState() }
     }
@@ -60,11 +63,12 @@ class AddMeetingViewModel: ObservableObject {
         didSet { updateNextButtonState() }
     }
     
-    @Published var isSuccessGetData: Bool = false
+    @Published var isSuccessGetData: Bool = true
     
-    let totalSteps: Int = 8
+    init() {
+        getTimeTable()
+    }
     
-
     var selectedFormattedDate: String? {
         guard let date = selectedWeekDate else { return nil }
         let formatter = DateFormatter()
@@ -137,11 +141,9 @@ class AddMeetingViewModel: ObservableObject {
         default:
             break
         }
-        
         DispatchQueue.main.async { self.updateNextButtonState() }
     }
     
-    // ✅ 선택된 날짜의 요일 업데이트
     func updateSelectedWeekDay() {
         guard let date = selectedWeekDate else {
             selectedWeekDay = nil
@@ -198,14 +200,13 @@ class AddMeetingViewModel: ObservableObject {
             guard let selectedDate = selectedWeekDate else { return "날짜 선택 필요" }
             
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "M월 d일 EEEE" // ex) "4월 8일 화요일"
+            dateFormatter.dateFormat = "M월 d일 EEEE"
             dateFormatter.locale = Locale(identifier: "ko_KR")
             
             let formattedDate = dateFormatter.string(from: selectedDate)
             return "\(formattedDate) \(startHour)시 - \(endHour)시"
             
         } else if selectedCycle == .weekly {
-            // ✅ "매주(Weekly)" 선택 시 → "매주 수요일 12시 - 15시"
             guard let selectedWeekDay = selectedWeekDay else { return "요일 선택 필요" }
             return "매주 \(selectedWeekDay.rawValue) \(startHour)시 - \(endHour)시"
         }
@@ -213,40 +214,58 @@ class AddMeetingViewModel: ObservableObject {
         return "날짜와 시간을 선택해주세요."
     }
     
-    //TODO: 여기가 API 호출 메서드 부분
-    func checkFinalInfo() {
-        isSuccessGetData = true
-        
-        print("📝 최종 입력된 모임 정보:")
-        print("▶ groupType: \(selectedCycle == .once ? "ONCE" : "WEEKLY")")
-        
-        if let weekDate = selectedFormattedDate {
-            print("▶ weekDate: \(weekDate)")
-        } else {
-            print("▶ weekDate: nil")
+    func getTimeTable() {
+        Providers.fillingProvider.request(target: .getTimeTable, instance: BaseResponse<GetTimeTableResponseDTO>.self) { response in
+            guard response.success, let timeTableResponse = response.data else {
+                print("❌ 시간표 불러오기 실패: \(response.message ?? "알 수 없는 오류")")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.timeTable = timeTableResponse.timeTable
+            }
         }
-
-        if let weekDay = selectedWeekDay?.englishName {
-            print("▶ weekDay: \(weekDay)") // ✅ 옵셔널 바인딩하여 안전하게 출력
-        } else {
-            print("▶ weekDay: 없음")
-        }
-        
-        print("▶ startTime: \(selectedTimeRange.start)")
-        print("▶ endTime: \(selectedTimeRange.end)")
-        print("▶ dueDate: \(selectedFormattedDate ?? nil)")
-
-        if let category = selectedCategory {
-            print("▶ category: \(category)")
-        } else {
-            print("▶ category: 없음")
-        }
-
-        //이미지 인덱스는 + 1 해서 보내기
-        print("▶ coverImg: \(selectedCoverIndex ?? +1)")
-        print("▶ location: \(location)")
-        print("▶ maxPeopleCount: \(maxPeopleCount)")
-        print("▶ groupTitle: \(title)")
-        print("▶ introduction: \(introduction)")
     }
+    
+    func postMeeting() {
+        guard let selectedCoverIndex = selectedCoverIndex else {
+            return
+        }
+        
+        let requestData = makeMeetingModel() // ✅ 별도 메서드에서 Model 변환
+
+        print("🛠️ 최종 weekDate 값: \(requestData.weekDate)")
+
+        Providers.fillingProvider.request(target: .postMeeting(data: requestData), instance: BaseResponse<EmptyResponseDTO>.self) { response in
+            print(requestData)
+            DispatchQueue.main.async {
+                if response.success {
+                    self.isSuccessGetData = true
+                    print("✅ 모임 등록 성공!")
+                } else {
+                    self.isSuccessGetData = false
+                    print("❌ 모임 등록 실패: \(response.message ?? "알 수 없는 오류")")
+                }
+            }
+        }
+    }
+
+    private func makeMeetingModel() -> AddMeetingModel {
+        return AddMeetingModel(
+            groupType: selectedCycle == .once ? "ONCE" : "WEEKLY",
+            weekDate: selectedFormattedDate ?? "",
+            weekDay: selectedWeekDay?.englishName ?? "MON",
+            startTime: selectedTimeRange.start,
+            endTime: selectedTimeRange.end,
+            category: selectedCategory?.serverName ?? "",
+            coverImg: (selectedCoverIndex ?? 0) + 1, // ✅ `nil` 방지 처리
+            location: location,
+            maxPeopleCount: maxPeopleCount,
+            groupTitle: title,
+            introduction: introduction
+        )
+    }
+
 }
+
+
