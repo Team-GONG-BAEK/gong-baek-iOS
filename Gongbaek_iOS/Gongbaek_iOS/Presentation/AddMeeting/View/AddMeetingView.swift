@@ -75,7 +75,7 @@ struct AddMeetingView: View {
                 .padding(.horizontal, 16)
             }
             
-            var image = viewModel.isSuccessGetData ? "img_success" : "img_fail"
+            let image = viewModel.isSuccessGetData ? "img_success" : "img_fail"
             
             if showAlert {
                 CustomedAlert(
