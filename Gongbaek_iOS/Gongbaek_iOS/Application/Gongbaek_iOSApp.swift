@@ -9,9 +9,24 @@ import SwiftUI
 
 @main
 struct Gongbaek_iOSApp: App {
+    @StateObject private var navigationManager = NavigationManager()
+    @State private var showMainView = false
+
     var body: some Scene {
         WindowGroup {
-            TabBarView()
+            if showMainView {
+                RootViewSwitcher()
+                    .environmentObject(navigationManager)
+            } else {
+                SplashView()
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                            withAnimation {
+                                showMainView = true
+                            }
+                        }
+                    }
+            }
         }
     }
 }
