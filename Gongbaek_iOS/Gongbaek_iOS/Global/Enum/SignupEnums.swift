@@ -59,19 +59,6 @@ enum SignupStep: Int, CaseIterable {
     }
 }
 
-enum ProfileImageMap: String, CaseIterable {
-    case profile0 = "profile_image_0"
-    case profile1 = "profile_image_1"
-    case profile2 = "profile_image_2"
-    case profile3 = "profile_image_3"
-    case profile4 = "profile_image_4"
-    case profile5 = "profile_image_5"
-    
-    static func from(_ profileImg: Int) -> ProfileImageMap {
-        return ProfileImageMap(rawValue: "profile_image_\(profileImg - 1)") ?? .profile0
-    }
-}
-
 enum GradeState: String, CaseIterable {
     case one = "1학년"
     case two = "2학년"
