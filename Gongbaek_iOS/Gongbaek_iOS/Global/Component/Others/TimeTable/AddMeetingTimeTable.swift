@@ -119,7 +119,7 @@ struct AddMeetingTimeTable: View {
     /// 공강시간 id에 해당하는 셀들 딕셔너리 초기화
     private func initFreeTimeIdToCellsMap() {
         for freeTime in timeTable {
-            guard let dayIndex = WeekDay.allCases.firstIndex(of: WeekDay(rawValue: freeTime.weekDate) ?? .MON)
+            guard let dayIndex = WeekDay.allCases.firstIndex(of: WeekDay(rawValue: freeTime.weekDay) ?? .MON)
             else { return }
             
             /// 공강시간 시작-종료 시간에 해당하는 모든 시간들을 30분 단위로 쪼갬
