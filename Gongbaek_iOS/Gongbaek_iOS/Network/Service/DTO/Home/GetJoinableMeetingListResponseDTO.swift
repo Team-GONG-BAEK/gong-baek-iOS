@@ -8,7 +8,7 @@
 import Foundation
 
 struct GetJoinableMeetingListResponseDTO: Codable {
-    let meetingList: [JoinableMeetingModel]
+    let groups: [JoinableMeetingModel]
 }
 
 struct JoinableMeetingModel: Codable {
@@ -20,7 +20,7 @@ struct JoinableMeetingModel: Codable {
     let groupType: String
     let groupTitle: String
     let weekDay: String
-    let weekDate: String
+    let weekDate: String?
     let startTime: Double
     let endTime: Double
     let location: String

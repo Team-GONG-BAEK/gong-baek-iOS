@@ -103,7 +103,7 @@ extension HomeMeetingCell {
         "\(Date.formatTime(data.startTime))-\(Date.formatTime(data.endTime))"
         
         if groupType == .ONCE {
-            let date = Date.formatDate(data.weekDate)
+            let date = Date.formatDate(data.weekDate ?? "")
             return "\(date) \(time)"
         } else {
             return time

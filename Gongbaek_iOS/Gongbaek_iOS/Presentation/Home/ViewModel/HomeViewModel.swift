@@ -76,9 +76,9 @@ extension HomeViewModel {
                 guard let data = response.data else { return }
                 switch groupType {
                 case .ONCE:
-                    self.oneTimeMeetingList = data.meetingList
+                    self.oneTimeMeetingList = data.groups
                 case .WEEKLY:
-                    self.weeklyMeetingList = data.meetingList
+                    self.weeklyMeetingList = data.groups
                 }
             } else {
                 self.showErrorView = true
