@@ -95,22 +95,22 @@ struct MeetingRoomView: View {
                         onTapRefreshButton: nil
                     )
                 }
-                viewModel.isCommentDisabled ? nil : CommentTextField(viewModel: viewModel)
             }
-            .onAppear {
-                print("onAppear called")
-                
-                viewModel.getDetails(groupId: 7, groupType: "WEEKLY") { _ in
-                    print("getDetails finished, meetingDetailData: \(String(describing: viewModel.meetingDetailData))")
-                }
-                
-                viewModel.getMembers(groupId: 7, groupType: "WEEKLY") { _ in
-                    print("getMembers finished, memberData: \(String(describing: viewModel.memberData))")
-                }
-                
-                viewModel.getComments(groupId: 7, groupType: "WEEKLY") { _ in
-                    print("getComments finished, memberData: \(String(describing: viewModel.commentData))")
-                }
+            viewModel.isCommentDisabled ? nil : CommentTextField(viewModel: viewModel)
+        }
+        .onAppear {
+            print("onAppear called")
+            
+            viewModel.getDetails(groupId: 7, groupType: "WEEKLY") { _ in
+                print("getDetails finished, meetingDetailData: \(String(describing: viewModel.meetingDetailData))")
+            }
+            
+            viewModel.getMembers(groupId: 7, groupType: "WEEKLY") { _ in
+                print("getMembers finished, memberData: \(String(describing: viewModel.memberData))")
+            }
+            
+            viewModel.getComments(groupId: 7, groupType: "WEEKLY") { _ in
+                print("getComments finished, memberData: \(String(describing: viewModel.commentData))")
             }
         }
     }
