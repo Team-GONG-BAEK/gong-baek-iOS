@@ -36,7 +36,7 @@ struct YearSelectBottomSheet: View {
                 }
                 
                 Picker("연도", selection: $viewModel.yearOfAdmission) {
-                    ForEach((1950...currentYear).reversed(), id: \.self) { year in
+                    ForEach((2000...currentYear).reversed(), id: \.self) { year in
                         Text("\(year.removeComma())년")
                             .pretendardFont(.head2_r_24)
                             .foregroundColor(.grayBlack)
