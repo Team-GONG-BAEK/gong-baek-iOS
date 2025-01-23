@@ -11,7 +11,7 @@ class MeetingDetailViewModel: ObservableObject {
     @Published var meetingDetailData: GetMeetingDetailsResponseDTO? = nil
     @Published var ownerInfoData: GetOwnerInfoResponseDTO? = nil
     @Published var commentData: GetCommentsResponseDTO? = nil
-    
+    @Published var isSuccessGetData: Bool = true
     
     var isHost: Bool { meetingDetailData?.isHost ?? false }
     var isApply: Bool { meetingDetailData?.isApply ?? false }
@@ -28,8 +28,6 @@ class MeetingDetailViewModel: ObservableObject {
             endTime: meetingDetailData?.endTime ?? 0,
             location: meetingDetailData?.location ?? ""
         )}
-    
-    @Published var isSuccessGetData: Bool = true
     
     // MARK: - Button Logic 처리
     
@@ -95,8 +93,6 @@ class MeetingDetailViewModel: ObservableObject {
         }
     }
 }
-                      
-
 
 extension MeetingDetailViewModel {
     func getDetails(
