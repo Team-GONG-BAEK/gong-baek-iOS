@@ -12,30 +12,37 @@ struct HomeView: View {
     @StateObject var viewModel = HomeViewModel()
     
     var body: some View {
-        GeometryReader { geometry in
-            ScrollView {
-                VStack(spacing: 34) {
-                    header(geometry)
-                    meetingList(
-                        title: "공강시간에 정기적인 활동 어때요?",
-                        subtitle: viewModel.nickname + "님과 딱 맞는 매주 봐요 모임 추천이에요.",
-                        highlightText: "매주 봐요",
-                        groupType: .WEEKLY
-                    )
-                    meetingList(
-                        title: "한번만 만나도 특별할 우리",
-                        subtitle: "한번만 봐요 모임으로 잊지 못할 추억을 만들어보세요!",
-                        highlightText: "한번만 봐요",
-                        groupType: .ONCE
-                    )
-                    banner()
-                    perfectMatchMember()
-                }
+        if viewModel.showErrorView {
+            FullErrorView() {
+                viewModel.fetchData()
             }
-            .ignoresSafeArea(edges: .top)
         }
-        .onAppear {
-            viewModel.fetchData()
+        else {
+            GeometryReader { geometry in
+                ScrollView {
+                    VStack(spacing: 34) {
+                        header(geometry)
+                        meetingList(
+                            title: "공강시간에 정기적인 활동 어때요?",
+                            subtitle: viewModel.nickname + "님과 딱 맞는 매주 봐요 모임 추천이에요.",
+                            highlightText: "매주 봐요",
+                            groupType: .WEEKLY
+                        )
+                        meetingList(
+                            title: "한번만 만나도 특별할 우리",
+                            subtitle: "한번만 봐요 모임으로 잊지 못할 추억을 만들어보세요!",
+                            highlightText: "한번만 봐요",
+                            groupType: .ONCE
+                        )
+                        banner()
+                        perfectMatchMember()
+                    }
+                }
+                .ignoresSafeArea(edges: .top)
+            }
+            .onAppear {
+                viewModel.fetchData()
+            }
         }
     }
     

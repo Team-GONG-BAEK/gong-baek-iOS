@@ -79,6 +79,7 @@ extension HomeViewModel {
                 self.upcomingMeetingData = upcomingMeeting
                 self.weeklyMeetingList = joinableWeeklyMeetings
                 self.oneTimeMeetingList = joinableOneTimeMeetings
+                self.showErrorView = false
             } else {
                 self.showErrorView = true
             }
