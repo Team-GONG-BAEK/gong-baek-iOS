@@ -7,27 +7,26 @@
 
 import Foundation
 
-struct TimeTableModel {
+struct TimeTableModel: Codable, Identifiable {
     let id: Int
-    let weekDay: WeekDay
+    let weekDay: String
     let startTime: Double
     let endTime: Double
+
+    enum CodingKeys: String, CodingKey {
+        case id = "idx"
+        case weekDay
+        case startTime
+        case endTime
+    }
+    
+    var weekDayEnum: WeekDay? {
+        return WeekDay(rawValue: weekDay)
+    }
 }
 
 struct TimeRange: Equatable {
     var start: Double
     var end: Double
 }
-
-let dummyFreeTimeTable: [TimeTableModel] = [
-    TimeTableModel(id: 0, weekDay: .MON, startTime: 9, endTime: 12),
-    TimeTableModel(id: 1, weekDay: .MON, startTime: 14, endTime: 17.5),
-    TimeTableModel(id: 1, weekDay: .MON, startTime: 14, endTime: 17.5),
-    TimeTableModel(id: 2, weekDay: .TUE, startTime: 14, endTime: 18),
-    TimeTableModel(id: 3, weekDay: .WED, startTime: 9, endTime: 11),
-    TimeTableModel(id: 4, weekDay: .THU, startTime: 12, endTime: 13),
-    TimeTableModel(id: 5, weekDay: .FRI, startTime: 13.5, endTime: 17.5),
-]
-
-let dummySelectedTimeRange: (start: Double, end: Double) = (0, 0)
 

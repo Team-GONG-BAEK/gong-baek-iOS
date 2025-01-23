@@ -37,6 +37,18 @@ enum CategoryState: Int, CaseIterable {
         }
     }
     
+    var serverName: String {
+        switch self {
+        case .ALL: return ""
+        case .STUDY: return "STUDY"
+        case .DINING: return "DINING"
+        case .EXERCISE: return "EXERCISE"
+        case .NETWORKING: return "NETWORKING"
+        case .PLAYING: return "PLAYING"
+        case .OTHERS: return "OTHERS"
+        }
+    }
+    
     var categoryImage: Image? {
         switch self {
         case .ALL: return nil
@@ -71,5 +83,11 @@ enum CategoryState: Int, CaseIterable {
         case .PLAYING: return ["img_cover_play_1", "img_cover_play_2", "img_cover_play_3", "img_cover_play_4", "img_cover_play_5", "img_cover_play_6"]
         case .OTHERS: return ["img_cover_others_1", "img_cover_others_2", "img_cover_others_3", "img_cover_others_4", "img_cover_others_5", "img_cover_others_6"]
         }
+    }
+}
+
+extension CategoryState {
+    func getCoverImage(coverImgIndex: Int) -> String {
+        return self.coverImage[coverImgIndex]
     }
 }

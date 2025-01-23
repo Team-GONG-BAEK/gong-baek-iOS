@@ -5,16 +5,15 @@
 //  Created by 김민서 on 1/18/25.
 //
 
-import SwiftUI
+import Foundation
 
-struct AddMeetingModel {
-    var groupType: CycleState
-    var weekDate: String?
+struct AddMeetingModel: Codable {
+    var groupType: String
+    var weekDate: String
     var weekDay: String
     var startTime: Double
     var endTime: Double
-    var dueDate: String
-    var category: Category
+    var category: String
     var coverImg: Int
     var location: String
     var maxPeopleCount: Int
