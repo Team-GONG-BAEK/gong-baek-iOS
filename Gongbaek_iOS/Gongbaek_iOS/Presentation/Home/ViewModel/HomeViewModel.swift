@@ -40,8 +40,8 @@ extension HomeViewModel {
 
         var userProfile: GetUserProfileResponseDTO? = nil
         var upcomingMeeting: GetUpcomingMeetingResponseDTO? = nil
-        var joinableWeeklyMeetings: GetJoinableMeetingListResponseDTO? = nil
-        var joinableOneTimeMeetings: GetJoinableMeetingListResponseDTO? = nil
+        var joinableWeeklyMeetings: [JoinableMeetingModel]? = nil
+        var joinableOneTimeMeetings: [JoinableMeetingModel]? = nil
         
         dispatchGroup.enter()
         getUserProfile { data in
@@ -77,8 +77,8 @@ extension HomeViewModel {
                 self.schoolName = userProfile.schoolName
                 self.nickname = userProfile.nickname
                 self.upcomingMeetingData = upcomingMeeting
-                self.weeklyMeetingList = joinableWeeklyMeetings.groups
-                self.oneTimeMeetingList = joinableOneTimeMeetings.groups
+                self.weeklyMeetingList = joinableWeeklyMeetings
+                self.oneTimeMeetingList = joinableOneTimeMeetings
             } else {
                 self.showErrorView = true
             }
@@ -118,11 +118,11 @@ extension HomeViewModel {
     /// 참여 가능한 모임 리스트 조회
     private func getJoinableMeetingList(
         groupType: GroupState,
-        completion: @escaping (GetJoinableMeetingListResponseDTO) -> Void
+        completion: @escaping ([JoinableMeetingModel]) -> Void
     ) {
         Providers.homeProvider.request(
             target: .getJoinableMeetingList(groupType: groupType.rawValue),
-            instance: BaseResponse<GetJoinableMeetingListResponseDTO>.self
+            instance: BaseResponse<[JoinableMeetingModel]>.self
         ) { response in
             if response.success {
                 guard let data = response.data else { return }
