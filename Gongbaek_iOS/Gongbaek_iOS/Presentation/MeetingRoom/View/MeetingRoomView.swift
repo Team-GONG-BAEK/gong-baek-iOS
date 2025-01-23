@@ -94,7 +94,7 @@ struct MeetingRoomView: View {
                         onTapRefreshButton: nil
                     )
                 }
-                viewModel.isCommentDisabled ? nil : CommentTextField()
+                viewModel.isCommentDisabled ? nil : CommentTextField(viewModel: viewModel)
             }
             .onAppear {
                 print("onAppear called")

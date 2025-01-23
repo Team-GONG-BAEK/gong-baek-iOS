@@ -21,7 +21,7 @@ struct CommentView: View {
                 onTapRefreshButton: nil
             )
             
-            RecruitingState(commentData.groupStatus) == .CLOSED ? nil : CommentTextField()
+            RecruitingState(commentData.groupStatus) == .CLOSED ? nil : CommentTextField(viewModel: MeetingRoomViewModel())
         }
     }
 }

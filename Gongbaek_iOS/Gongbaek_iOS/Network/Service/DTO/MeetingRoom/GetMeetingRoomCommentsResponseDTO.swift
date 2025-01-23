@@ -16,9 +16,9 @@ struct GetMeetingRoomCommentsResponseDTO: Codable {
 }
 
 struct Comment: Codable {
-    var commentId = UUID()
-    var isGroupHost: Bool
+    var commentId: Int
     var isWriter: Bool
+    var isGroupHost: Bool
     var nickname: String
     var body: String
     var createdAt: String

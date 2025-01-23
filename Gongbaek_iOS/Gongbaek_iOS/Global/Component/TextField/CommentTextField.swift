@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CommentTextField: View {
+    @ObservedObject var viewModel: MeetingRoomViewModel
     @State private var comment: String = ""
     @State private var textFieldHeight: CGFloat = 48
     @State var sendButtonTapped: (() -> Void)?
@@ -28,6 +29,11 @@ struct CommentTextField: View {
             
             Button(action: {
                 sendButtonTapped?() // 깡통
+                viewModel.postComment(groupId: viewModel.meetingDetailData?.groupId ?? 0, groupType: viewModel.meetingDetailData?.groupType ?? "", commentContent: comment)
+                viewModel.getComments(groupId: viewModel.meetingDetailData?.groupId ?? 0, groupType: viewModel.meetingDetailData?.groupType ?? "") { _ in
+                    print("getComments finished, memberData: \(String(describing: viewModel.commentData))")
+                }
+                
                 guard !comment.isEmpty else { return }
                 comment = ""
             }) {
@@ -51,6 +57,6 @@ struct CommentTextField: View {
     }
 }
 
-#Preview {
-    CommentTextField()
-}
+//#Preview {
+//    CommentTextField()
+//}

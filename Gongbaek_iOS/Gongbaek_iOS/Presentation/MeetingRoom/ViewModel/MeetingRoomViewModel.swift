@@ -54,9 +54,8 @@ final class MeetingRoomViewModel: ObservableObject {
         RecruitingState(commentData?.groupStatus) == .CLOSED
     }
     
-    //TODO: 댓글 작성 API 로직 필요
-    func postComment(content: String, completion: @escaping (Bool) -> Void) {
-    }
+    @Published var isSuccessGetData: Bool = true
+
 }
 
 extension MeetingRoomViewModel {
@@ -94,11 +93,34 @@ extension MeetingRoomViewModel {
         completion: @escaping (GetMeetingRoomCommentsResponseDTO) -> ()
     ) {
         Providers.meetingRoomProvider.request(
-            target: .getComments(isPublic: false,groupId: groupId, groupType: groupType),
+            target: .getComments(isPublic: false, groupId: groupId, groupType: groupType),
             instance: BaseResponse<GetMeetingRoomCommentsResponseDTO>.self
         ) { response in
             print(response)
             self.commentData = response.data
+        }
+    }
+    
+    //TODO: 댓글 작성 API 로직 필요
+    func postComment(groupId: Int, groupType: String, commentContent: String) {
+        let requestData = PostMeetingRoomRequestBodyDTO(
+            groupId: groupId,
+            groupType: groupType,
+            isPublic: false,
+            body: commentContent
+        )
+        
+        Providers.meetingRoomProvider.request(target: .postComment(data: requestData), instance: BaseResponse<EmptyResponseDTO>.self) { response in
+            print(requestData)
+            DispatchQueue.main.async {
+                if response.success {
+                    self.isSuccessGetData = true
+                    print("✅ 댓글 등록 성공!")
+                } else {
+                    self.isSuccessGetData = false
+                    print("❌ 댓글 등록 실패: \(response.message ?? "알 수 없는 오류")")
+                }
+            }
         }
     }
 }
