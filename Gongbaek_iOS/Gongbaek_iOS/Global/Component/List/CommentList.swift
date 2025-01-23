@@ -55,8 +55,8 @@ struct CommentList: View {
                         print("새로고쳤지롱! ㅋㅋ")
                     }
                     meetingRoomViewModel?.getComments(
-                        groupId: meetingDetailViewModel?.meetingDetailData?.groupId ?? 0,
-                        groupType: meetingDetailViewModel?.meetingDetailData?.groupType ?? ""
+                        groupId: meetingRoomViewModel?.meetingDetailData?.groupId ?? 0,
+                        groupType: meetingRoomViewModel?.meetingDetailData?.groupType ?? ""
                     ) { _ in
                         print("새로고쳤지롱! ㅋㅋ")
                     }
