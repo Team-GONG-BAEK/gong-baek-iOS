@@ -120,6 +120,9 @@ extension MeetingRoomViewModel {
                     self.isSuccessGetData = false
                     print("❌ 댓글 등록 실패: \(response.message ?? "알 수 없는 오류")")
                 }
+                self.getComments(groupId: groupId, groupType: groupType) { _ in
+                    print("getComments finished, memberData: \(String(describing: self.commentData))")
+                }
             }
         }
     }
