@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		954A4A282D32777800FD6964 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 954A4A272D32777800FD6964 /* Moya */; };
 		954A4A2B2D3277F100FD6964 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 954A4A2A2D3277F100FD6964 /* Lottie */; };
+		95B4EAA12D418FAE0084923B /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 95B4EAA02D418FAE0084923B /* KeychainAccess */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 			files = (
 				954A4A282D32777800FD6964 /* Moya in Frameworks */,
 				954A4A2B2D3277F100FD6964 /* Lottie in Frameworks */,
+				95B4EAA12D418FAE0084923B /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +90,7 @@
 			packageProductDependencies = (
 				954A4A272D32777800FD6964 /* Moya */,
 				954A4A2A2D3277F100FD6964 /* Lottie */,
+				95B4EAA02D418FAE0084923B /* KeychainAccess */,
 			);
 			productName = Gongbaek_iOS;
 			productReference = 954A490B2D2DA7AE00FD6964 /* Gongbaek_iOS.app */;
@@ -120,6 +123,7 @@
 			packageReferences = (
 				954A4A262D32777800FD6964 /* XCRemoteSwiftPackageReference "Moya" */,
 				954A4A292D3277F100FD6964 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				95B4EA9F2D418FAE0084923B /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 954A490C2D2DA7AE00FD6964 /* Products */;
@@ -374,6 +378,14 @@
 				minimumVersion = 4.5.1;
 			};
 		};
+		95B4EA9F2D418FAE0084923B /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -386,6 +398,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 954A4A292D3277F100FD6964 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		95B4EAA02D418FAE0084923B /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 95B4EA9F2D418FAE0084923B /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
