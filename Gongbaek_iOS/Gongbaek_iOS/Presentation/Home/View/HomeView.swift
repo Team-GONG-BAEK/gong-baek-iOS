@@ -83,15 +83,18 @@ struct HomeView: View {
             }
             
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: 10) {
-                    ForEach(viewModel.weeklyMeetingList, id: \.groupId) { data in
-                        HomeMeetingCell(
-                            data: data,
+                LazyHStack(alignment: .top, spacing: 10) {
+                    switch groupType {
+                    case .ONCE:
+                        meetingCells(
+                            meetingList: viewModel.oneTimeMeetingList,
                             groupType: groupType
                         )
-                        .onTapGesture {
-                            // TODO: 모임 상세 화면 내비게이션 이동
-                        }
+                    case .WEEKLY:
+                        meetingCells(
+                            meetingList: viewModel.weeklyMeetingList,
+                            groupType: groupType
+                        )
                     }
                 }
                 .padding(.horizontal, 16)
@@ -183,6 +186,22 @@ struct HomeView: View {
         .clipShape(
             RoundedRectangle(cornerRadius: 4)
         )
+    }
+    
+    private func meetingCells(
+        meetingList: [JoinableMeetingModel],
+        groupType: GroupState
+    ) -> some View {
+        ForEach(meetingList, id: \.groupId) { data in
+            HomeMeetingCell(
+                data: data,
+                groupType: groupType
+            )
+            .frame(maxHeight: .infinity)
+            .onTapGesture {
+                // TODO: 모임 상세 화면 내비게이션 이동
+            }
+        }
     }
 }
 

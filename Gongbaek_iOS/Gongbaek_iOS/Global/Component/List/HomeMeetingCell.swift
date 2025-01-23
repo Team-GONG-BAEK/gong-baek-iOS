@@ -59,7 +59,7 @@ struct HomeMeetingCell: View {
         Text(data.groupTitle)
             .pretendardFont(.body2_sb_14)
             .foregroundStyle(.gray10)
-            .lineLimit(groupType == .WEEKLY ? 2 : 1)
+            .lineLimit(1)
     }
     
     private func meetingTime() -> some View {
@@ -99,7 +99,7 @@ struct HomeMeetingCell: View {
 extension HomeMeetingCell {
     
     private func formattedTime(groupType: GroupState) -> String {
-        let time = (WeekDay(data.weekDay)?.rawValue ?? "") +
+        let time = (WeekDay(data.weekDay)?.koreanName ?? "") + " " +
         "\(Date.formatTime(data.startTime))-\(Date.formatTime(data.endTime))"
         
         if groupType == .ONCE {
@@ -127,6 +127,6 @@ extension HomeMeetingCell {
             endTime: 18.0,
             location: "학교 정문 앞"
         ),
-        groupType: .ONCE
+        groupType: .WEEKLY
     )
 }
