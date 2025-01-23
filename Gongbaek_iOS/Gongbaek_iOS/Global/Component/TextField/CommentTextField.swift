@@ -30,9 +30,6 @@ struct CommentTextField: View {
             Button(action: {
                 sendButtonTapped?() // 깡통
                 viewModel.postComment(groupId: viewModel.meetingDetailData?.groupId ?? 0, groupType: viewModel.meetingDetailData?.groupType ?? "", commentContent: comment)
-                viewModel.getComments(groupId: viewModel.meetingDetailData?.groupId ?? 0, groupType: viewModel.meetingDetailData?.groupType ?? "") { _ in
-                    print("getComments finished, memberData: \(String(describing: viewModel.commentData))")
-                }
                 
                 guard !comment.isEmpty else { return }
                 comment = ""
