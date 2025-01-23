@@ -15,14 +15,6 @@ enum MeetingDetailType: String, CaseIterable {
 
 struct MeetingDetailSegmentControlBar: View {
     @ObservedObject var viewModel: MeetingDetailViewModel
-//    var introduction: String
-//    var ownerInfo: GetOwnerInfoResponseDTO
-//    var commentData: GetMeetingRoomCommentsResponseDTO
-//    var currentPeopleCount: Int
-//    var maxPeopleCount: Int
-//    var meetingStatus: String
-//    var isHost: Bool
-//    var isApply: Bool
     @State private var selectedIndex = 0
     
     var body: some View {

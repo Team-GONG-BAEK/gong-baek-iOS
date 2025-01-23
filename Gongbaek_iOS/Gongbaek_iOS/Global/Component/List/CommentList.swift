@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct CommentList: View {
-    @ObservedObject var viewModel: MeetingRoomViewModel
+    var meetingRoomViewModel: MeetingRoomViewModel? = nil
+    var meetingDetailViewModel: MeetingDetailViewModel? = nil
     var commentCount: Int
     var comments: [Comment]
     let isScrolled: Bool
@@ -47,12 +48,18 @@ struct CommentList: View {
                 action: {
                     onTapRefreshButton?()
                     
-                    viewModel.getComments(
-                        groupId: viewModel.meetingDetailData?.groupId ?? 0,
-                        groupType: viewModel.meetingDetailData?.groupType ?? ""
+                    meetingDetailViewModel?.getComments(
+                        groupId: meetingDetailViewModel?.meetingDetailData?.groupId ?? 0,
+                        groupType: meetingDetailViewModel?.meetingDetailData?.groupType ?? ""
                     ) { _ in
-                    print("새로고쳤지롱! ㅋㅋ")
-                }
+                        print("새로고쳤지롱! ㅋㅋ")
+                    }
+                    meetingRoomViewModel?.getComments(
+                        groupId: meetingDetailViewModel?.meetingDetailData?.groupId ?? 0,
+                        groupType: meetingDetailViewModel?.meetingDetailData?.groupType ?? ""
+                    ) { _ in
+                        print("새로고쳤지롱! ㅋㅋ")
+                    }
             }) {
                 Image(.icRefresh32)
                     .foregroundStyle(.gray05)
@@ -71,8 +78,4 @@ struct CommentList: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .background(.grayWhite)
     }
-}
-
-#Preview {
-    CommentList(viewModel: MeetingRoomViewModel(), commentCount: 0, comments: [], isScrolled: false)
 }
