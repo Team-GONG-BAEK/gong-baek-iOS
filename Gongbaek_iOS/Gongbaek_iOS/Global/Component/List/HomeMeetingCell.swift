@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct HomeMeetingCell: View {
-    let data: MeetingModel
-    let isWeekly: Bool
+    let data: JoinableMeetingModel
+    let groupType: GroupState
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -26,27 +26,40 @@ struct HomeMeetingCell: View {
             
             VStack(spacing: 2) {
                 meetingTime()
-                userProfiles()
+                userProfile()
             }
         }
-        .frame(width: isWeekly ? 116 : 160)
+        .frame(width: groupType == .WEEKLY ? 116 : 160)
     }
     
+    @ViewBuilder
     private func meetingImage() -> some View {
-        Image(.sample)
-            .resizable()
-            .scaledToFill()
-            .frame(
-                width: isWeekly ? 116 : 160,
-                height: isWeekly ? 108 : 104
-            )
-            .clipShape(
-                RoundedRectangle(cornerRadius: 4)
-            )
+        if let coverImage = CategoryState(data.category)?.coverImage[data.coverImg - 1] {
+            Image(coverImage)
+                .resizable()
+                .scaledToFill()
+                .frame(
+                    width: groupType == .WEEKLY ? 116 : 160,
+                    height: groupType == .WEEKLY ? 108 : 104
+                )
+                .clipShape(
+                    RoundedRectangle(cornerRadius: 4)
+                )
+        } else {
+            Rectangle()
+                .fill(.gray03)
+                .frame(
+                    width: groupType == .WEEKLY ? 116 : 160,
+                    height: groupType == .WEEKLY ? 108 : 104
+                )
+                .clipShape(
+                    RoundedRectangle(cornerRadius: 4)
+                )
+        }
     }
     
     private func categoryChip() -> some View {
-        Text(CategoryState.STUDY.categoryName)
+        Text(CategoryState(data.category)?.categoryName ?? "")
             .pretendardFont(.caption2_r_12)
             .foregroundStyle(.grayWhite)
             .padding(.horizontal, 4)
@@ -58,7 +71,7 @@ struct HomeMeetingCell: View {
         Text(data.groupTitle)
             .pretendardFont(.body2_sb_14)
             .foregroundStyle(.gray10)
-            .lineLimit(isWeekly ? 2 : 1)
+            .lineLimit(1)
     }
     
     private func meetingTime() -> some View {
@@ -68,11 +81,7 @@ struct HomeMeetingCell: View {
                 .scaledToFit()
                 .frame(width: 16, height: 16)
             
-            Text(
-                isWeekly
-                ? data.weekDate + " 14시-16시"
-                : (data.groupDate ?? "") + " 수요일 14시 30분-15시"
-            )
+            Text(formattedTime(groupType: groupType))
             .pretendardFont(.caption2_m_12)
             .foregroundStyle(.gray06)
             .lineLimit(1)
@@ -81,15 +90,21 @@ struct HomeMeetingCell: View {
         }
     }
     
-    private func userProfiles() -> some View {
+    private func userProfile() -> some View {
         HStack(spacing: 2) {
-            Image(.profileImage5)
-                .resizable()
-                .renderingMode(.original)
-                .scaledToFit()
-                .frame(width: 16, height: 16)
+            if let image = ProfileDefaultImageMap(rawValue: data.profileImg - 1)?.image {
+                Image(image)
+                    .resizable()
+                    .renderingMode(.original)
+                    .scaledToFit()
+                    .frame(width: 16, height: 16)
+            } else {
+                Rectangle()
+                    .fill(.gray03)
+                    .frame(width: 16, height: 16)
+            }
             
-            Text("난밤새는게힘들다이제")
+            Text(data.nickname)
                 .pretendardFont(.caption2_r_12)
                 .foregroundStyle(.gray09)
                 .lineLimit(1)
@@ -99,21 +114,37 @@ struct HomeMeetingCell: View {
     }
 }
 
+extension HomeMeetingCell {
+    
+    private func formattedTime(groupType: GroupState) -> String {
+        let time = (WeekDay(data.weekDay)?.koreanName ?? "") + " " +
+        "\(Date.formatTime(data.startTime))-\(Date.formatTime(data.endTime))"
+        
+        if groupType == .ONCE {
+            let date = Date.formatDate(data.weekDate ?? "")
+            return "\(date) \(time)"
+        } else {
+            return time
+        }
+    }
+}
+
 #Preview {
     HomeMeetingCell(
-        data: MeetingModel(
+        data: JoinableMeetingModel(
             groupId: 0,
             category: "DINING",
             coverImg: 4,
             profileImg: 2,
+            nickname: "아요옹",
             groupType: "WEEKLY",
             groupTitle: "같이 저녁 먹을 사람들 구합니다",
-            weekDate: "FRI",
-            groupDate: "2025-05-15",
+            weekDay: "FRI",
+            weekDate: "2025-05-15",
             startTime: 17.0,
             endTime: 18.0,
             location: "학교 정문 앞"
         ),
-        isWeekly: false
+        groupType: .WEEKLY
     )
 }

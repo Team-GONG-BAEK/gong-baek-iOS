@@ -14,7 +14,7 @@ struct HomeMatchMemberListCell: View {
         VStack(spacing: 9) {
             HStack {
                 HStack(spacing: 10) {
-                    Image(ProfileImageMap.allCases[data.profileImage].rawValue)
+                    Image(ProfileDefaultImageMap.allCases[data.profileImage].image)
                         .resizable()
                         .renderingMode(.original)
                         .scaledToFill()

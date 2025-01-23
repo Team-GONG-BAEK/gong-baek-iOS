@@ -10,11 +10,12 @@ import Foundation
 struct GetUpcomingMeetingResponseDTO: Codable {
     let groupId: Int
     let category: String
-    let profileImg: Int
     let groupType: String
     let groupTitle: String
-    let weekDay: String?
-    let weekDate: String?
+    let weekDay: String
+    let weekDate: String
+    let currentPeopleCount: Int
+    let maxPeopleCount: Int
     let startTime: Double
     let endTime: Double
     let location: String
