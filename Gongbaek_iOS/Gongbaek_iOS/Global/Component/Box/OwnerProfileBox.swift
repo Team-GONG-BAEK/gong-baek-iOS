@@ -9,22 +9,12 @@ import SwiftUI
 
 //TODO: Model로 분리
 
-struct OwnerProfileData {
-    var profileImage: Int
-    var nickname: String
-    var sex: String
-    var schoolMajor: String
-    var enterYear: Int
-    var schoolGrade: Int
-    var mbti: String
-}
-
 struct OwnerProfileBox: View {
-    @Binding var ownerData: OwnerProfileData
+    @ObservedObject var viewModel: MeetingDetailViewModel
     
     var body: some View {
         HStack(spacing: 12) {
-            Image(" ") // MARK: - TODO: 이미지 네이밍 수정
+            Image(ProfileImageMap.from(viewModel.ownerInfoData?.profileImg ?? 0).rawValue) // MARK: - TODO: 이미지 네이밍 수정
                 .resizable()
                 .frame(width: 80, height: 80)
                 .background(.gray04) // MARK: - TODO: 이미지 삽입 시 삭제
@@ -32,27 +22,27 @@ struct OwnerProfileBox: View {
             
             VStack(alignment: .leading, spacing: 6) {
                 HStack(spacing: 4) {
-                    Text(ownerData.nickname)
+                    Text(viewModel.ownerInfoData?.nickname ?? "")
                         .pretendardFont(.body1_b_16)
                         .foregroundStyle(.grayBlack)
                     
-                    Image(SexState(ownerData.sex) == .MAN ? .icMale20 : .icFemale20)
+                    Image(SexState(viewModel.ownerInfoData?.sex ?? "") == .MAN ? .icMale20 : .icFemale20)
                         .resizable()
                         .frame(width: 20, height: 20)
                         .foregroundStyle(.gray06)
                     Spacer()
                 }
                 
-                MajorChip(major: ownerData.schoolMajor, targetObject: .ownerProfile)
+                MajorChip(major: viewModel.ownerInfoData?.schoolMajor ?? "", targetObject: .ownerProfile)
                 
                 HStack(spacing: 6) {
                     ProfileDetailChip(detailCategory: "학번/학년")
-                    Text("\(ownerData.enterYear%100)학번 \(ownerData.schoolGrade)학년")
+                    Text("\((viewModel.ownerInfoData?.enterYear ?? 0 )%100)학번 \(String(describing: viewModel.ownerInfoData?.schoolGrade ?? 0))학년")
                         .foregroundStyle(.gray08)
                         .pretendardFont(.caption2_m_12)
                         .padding(.trailing, 6)
                     ProfileDetailChip(detailCategory: "MBTI")
-                    Text(ownerData.mbti)
+                    Text(viewModel.ownerInfoData?.mbti ?? "")
                         .foregroundStyle(.gray08)
                         .pretendardFont(.caption2_m_12)
                 }

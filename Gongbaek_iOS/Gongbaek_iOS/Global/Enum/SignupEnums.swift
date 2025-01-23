@@ -68,7 +68,7 @@ enum ProfileImageMap: String, CaseIterable {
     case profile5 = "profile_image_5"
     
     static func from(_ profileImg: Int) -> ProfileImageMap {
-        return ProfileImageMap(rawValue: "profile_image_\(profileImg)") ?? .profile0
+        return ProfileImageMap(rawValue: "profile_image_\(profileImg - 1)") ?? .profile0
     }
 }
 

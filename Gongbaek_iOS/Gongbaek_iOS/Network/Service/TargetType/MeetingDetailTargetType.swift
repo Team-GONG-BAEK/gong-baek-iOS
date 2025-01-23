@@ -8,7 +8,8 @@
 import Moya
 
 enum MeetingDetailTargetType {
-    case getMeetingDetails(groupId: Int, groupType: String)
+    case getMeetingDetails(isPublic: Bool, groupId: Int, groupType: String)
+    case getOwnerInfo(groupId: Int, groupType: String)
     case postApplyMeeting(data: PostApplyMeetingRequestBodyDTO)
 }
 
@@ -16,6 +17,8 @@ extension MeetingDetailTargetType: BaseTargetType {
     var headers: Parameters? {
         switch self {
         case .getMeetingDetails:
+            return APIConstants.hasTokenHeader
+        case .getOwnerInfo:
             return APIConstants.hasTokenHeader
         case .postApplyMeeting:
             return APIConstants.hasTokenHeader
@@ -26,6 +29,8 @@ extension MeetingDetailTargetType: BaseTargetType {
         switch self {
         case .getMeetingDetails:
             return "/api/v1/fill/info"
+        case .getOwnerInfo:
+            return "/api/v1/fill/user/info"
         case .postApplyMeeting:
             return "/api/v1/group"
         }
@@ -35,6 +40,8 @@ extension MeetingDetailTargetType: BaseTargetType {
         switch self {
         case .getMeetingDetails:
             return .get
+        case .getOwnerInfo:
+            return .get
         case .postApplyMeeting:
             return .post
         }
@@ -42,7 +49,16 @@ extension MeetingDetailTargetType: BaseTargetType {
     
     var task: Moya.Task {
         switch self {
-        case .getMeetingDetails(let groupId, let groupType):
+        case .getMeetingDetails(_, let groupId, let groupType):
+            return .requestParameters(
+                parameters: [
+                    "isPublic": true,
+                    "groupId": groupId,
+                    "groupType": groupType
+                ],
+                encoding: URLEncoding.queryString
+            )
+        case .getOwnerInfo(let groupId, let groupType):
             return .requestParameters(
                 parameters: [
                     "groupId": groupId,

@@ -8,40 +8,40 @@
 import SwiftUI
 
 struct MeetingDetailView: View {
-    @State var meetingDetailData: MeetingDetailModel
-    @State var ownerInfoData: OwnerInfoModel
-    @State var commentData: CommentModel
+    @StateObject var viewModel = MeetingDetailViewModel()
     
     var body: some View {
         VStack(spacing: 0) {
             MeetingInfoBase(
                 state: .constant(.detail),
                 meeting: .constant(Meeting(
-                    groupId: 0, status: meetingDetailData.status,
-                    category: meetingDetailData.category,
+                    groupId: 0, status: viewModel.meetingDetailData?.status ?? "",
+                    category: viewModel.meetingDetailData?.category ?? "",
                     coverImg: 5,//TODO: Int로 넘기기 meetingDetailData.coverImg,
-                    groupType: meetingDetailData.groupType,
-                    groupTitle: meetingDetailData.groupTitle,
-                    weekDay: meetingDetailData.weekDay,
-                    weekDate: meetingDetailData.weekDate,
-                    startTime: meetingDetailData.startTime,
-                    endTime: meetingDetailData.endTime,
-                    location: meetingDetailData.location
+                    groupType: viewModel.meetingDetailData?.groupType ?? "",
+                    groupTitle: viewModel.meetingDetailData?.groupTitle ?? "",
+                    weekDay: viewModel.meetingDetailData?.weekDay ?? "",
+                    weekDate: viewModel.meetingDetailData?.weekDate ?? "",
+                    startTime: viewModel.meetingDetailData?.startTime ?? 0,
+                    endTime: viewModel.meetingDetailData?.endTime ?? 0,
+                    location: viewModel.meetingDetailData?.location ?? ""
                 )))
             .padding(16)
             
             divider()
             
-            MeetingDetailSegmentControlBar(
-                introduction: $meetingDetailData.introduction,
-                ownerInfo: $ownerInfoData,
-                commentData: $commentData,
-                currentPeopleCount: $meetingDetailData.currentPeopleCount,
-                maxPeopleCount: $meetingDetailData.maxPeopleCount,
-                meetingStatus: $meetingDetailData.status,
-                isHost: $meetingDetailData.isHost,
-                isApply: $meetingDetailData.isApply
-            )
+            MeetingDetailSegmentControlBar(viewModel: viewModel)
+        }
+        .onAppear {
+            print("onAppear called")
+            //TODO: Navigation 연결 시 수정
+            viewModel.getDetails(groupId: 8, groupType: "WEEKLY") { _ in
+                print("getDetails finished, meetingDetailData: \(String(describing: viewModel.meetingDetailData))")
+            }
+            
+            viewModel.getOwnerInfo(groupId: 8, groupType: "WEEKLY") { _ in
+                print("getOwnerInfo finished, ownerInfoData: \(String(describing: viewModel.ownerInfoData))")
+            }
         }
     }
     

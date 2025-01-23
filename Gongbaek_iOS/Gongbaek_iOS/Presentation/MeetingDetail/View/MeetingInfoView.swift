@@ -8,13 +8,7 @@
 import SwiftUI
 
 struct MeetingInfoView: View {
-    @Binding var ownerInfo: OwnerInfoModel
-    @Binding var introduction: String
-    @Binding var currentPeopleCount: Int
-    @Binding var maxPeopleCount: Int
-    @Binding var meetingStatus: String
-    @Binding var isHost: Bool
-    @Binding var isApply: Bool
+    @ObservedObject var viewModel: MeetingDetailViewModel
     @State private var selectedIndex = 0
     
     var body: some View {
@@ -23,7 +17,7 @@ struct MeetingInfoView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Text("소개글")
                         .pretendardFont(.body1_b_16)
-                    Text(introduction)
+                    Text(viewModel.meetingDetailData?.introduction ?? "시발 왜 안됨?")
                         .pretendardFont(.body2_r_14)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(16)
@@ -36,17 +30,9 @@ struct MeetingInfoView: View {
                     Text("모집자 프로필")
                         .pretendardFont(.body1_b_16)
                     
-                    OwnerProfileBox(ownerData: .constant(OwnerProfileData(
-                        profileImage: ownerInfo.profileImg,
-                        nickname: ownerInfo.nickname,
-                        sex: ownerInfo.sex,
-                        schoolMajor: ownerInfo.schoolMajor,
-                        enterYear: ownerInfo.enterYear,
-                        schoolGrade: ownerInfo.schoolGrade,
-                        mbti: ownerInfo.mbti
-                    )))
+                    OwnerProfileBox(viewModel: viewModel)
                     
-                    Text(ownerInfo.introduction)
+                    Text(viewModel.ownerInfoData?.introduction ?? "")
                         .pretendardFont(.body2_r_14)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(16)
@@ -59,22 +45,8 @@ struct MeetingInfoView: View {
             }
             .padding(.top, 20)
             .padding(.horizontal, 16)
-            
-            // ButtonTextLogic처리 필요
-            
-            // isHost == true >>> buttonText = "삭제하기" // onTap = nil
-            // isHost == false >>> isApply == false >>> buttonText = "신청하기" // onTap = "isApply = true"
-            // isHost == false >>> isApply == true >>> buttonText = "취소하기" // onTap = "isApply = false"
-            
-            ApplyBar(
-                applyData: .constant(ApplyModel(
-                    currentPeopleCount: currentPeopleCount,
-                    maxPeopleCount: maxPeopleCount,
-                    isHost: isHost,
-                    meetingStatus: meetingStatus,
-                    isApply: isApply
-                )
-            ))
+
+            ApplyBar(viewModel: viewModel)
         }
     }
 }
