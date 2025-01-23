@@ -8,29 +8,21 @@
 import SwiftUI
 
 struct CommentView: View {
-    var commentData: CommentModel
+    @ObservedObject var viewModel: MeetingDetailViewModel
     
     var body: some View {
         VStack {
-            RecruitingState(commentData.groupStatus) == .CLOSED ? CommentDisabledBox() : nil
+            RecruitingState(viewModel.commentData?.groupStatus) == .CLOSED ? CommentDisabledBox() : nil
             
             CommentList(
-                viewModel: MeetingRoomViewModel(),
-                commentCount: commentData.commentCount,
-                comments: commentData.comments,
+                meetingDetailViewModel: viewModel,
+                commentCount: viewModel.commentData?.commentCount ?? 0,
+                comments: viewModel.commentData?.comments ?? [],
                 isScrolled: true,
                 onTapRefreshButton: nil
             )
             
-            RecruitingState(commentData.groupStatus) == .CLOSED ? nil : CommentTextField(viewModel: MeetingRoomViewModel())
+            RecruitingState(viewModel.commentData?.groupStatus) == .CLOSED ? nil : CommentTextField(meetingDetailViewModel: viewModel)
         }
     }
 }
-//
-//#Preview {
-//    MeetingDetailView(
-//        meetingDetailData: dummymeetingDetailData,
-//        ownerInfoData: dummyOwnerInfoData,
-//        commentData: dummyCommentData
-//    )
-//}

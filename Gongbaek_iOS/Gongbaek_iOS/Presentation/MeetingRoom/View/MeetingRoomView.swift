@@ -93,7 +93,7 @@ struct MeetingRoomView: View {
                 
                 
                 CommentList(
-                    viewModel: viewModel,
+                    meetingRoomViewModel: viewModel,
                     commentCount: viewModel.commentData?.commentCount ?? 0,
                     comments: viewModel.commentData?.comments ?? [],
                     isScrolled: false,
@@ -102,7 +102,7 @@ struct MeetingRoomView: View {
                 .frame(maxHeight: .infinity)
             }
             
-            viewModel.isCommentDisabled ? nil : CommentTextField(viewModel: viewModel)
+            viewModel.isCommentDisabled ? nil : CommentTextField(meetingRoomViewModel: viewModel)
         }
         .onAppear {
             print("onAppear called")

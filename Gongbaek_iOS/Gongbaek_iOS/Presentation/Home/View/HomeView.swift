@@ -12,37 +12,27 @@ struct HomeView: View {
     @StateObject var viewModel = HomeViewModel()
     
     var body: some View {
-        if viewModel.showErrorView {
-            FullErrorView() {
-                viewModel.fetchData()
-            }
-        }
-        else {
-            GeometryReader { geometry in
-                ScrollView {
-                    VStack(spacing: 34) {
-                        header(geometry)
-                        meetingList(
-                            title: "공강시간에 정기적인 활동 어때요?",
-                            subtitle: viewModel.nickname + "님과 딱 맞는 매주 봐요 모임 추천이에요.",
-                            highlightText: "매주 봐요",
-                            groupType: .WEEKLY
-                        )
-                        meetingList(
-                            title: "한번만 만나도 특별할 우리",
-                            subtitle: "한번만 봐요 모임으로 잊지 못할 추억을 만들어보세요!",
-                            highlightText: "한번만 봐요",
-                            groupType: .ONCE
-                        )
-                        banner()
-                        perfectMatchMember()
-                    }
+        GeometryReader { geometry in
+            ScrollView {
+                VStack(spacing: 34) {
+                    header(geometry)
+                    meetingList(
+                        title: "공강시간에 정기적인 활동 어때요?",
+                        subtitle: viewModel.nickname + "님과 딱 맞는 매주 봐요 모임 추천이에요.",
+                        highlightText: "매주 봐요",
+                        isWeekly: true
+                    )
+                    meetingList(
+                        title: "한번만 만나도 특별할 우리",
+                        subtitle: "한번만 봐요 모임으로 잊지 못할 추억을 만들어보세요!",
+                        highlightText: "한번만 봐요",
+                        isWeekly: false
+                    )
+                    banner()
+                    perfectMatchMember()
                 }
-                .ignoresSafeArea(edges: .top)
             }
-            .onAppear {
-                viewModel.fetchData()
-            }
+            .ignoresSafeArea(edges: .top)
         }
     }
     
@@ -75,7 +65,7 @@ struct HomeView: View {
         title: String,
         subtitle: String,
         highlightText: String,
-        groupType: GroupState
+        isWeekly: Bool
     ) -> some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
@@ -90,18 +80,15 @@ struct HomeView: View {
             }
             
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(alignment: .top, spacing: 10) {
-                    switch groupType {
-                    case .ONCE:
-                        meetingCells(
-                            meetingList: viewModel.oneTimeMeetingList,
-                            groupType: groupType
+                LazyHStack(spacing: 10) {
+                    ForEach(viewModel.weeklyMeetingList, id: \.groupId) { data in
+                        HomeMeetingCell(
+                            data: data,
+                            isWeekly: isWeekly
                         )
-                    case .WEEKLY:
-                        meetingCells(
-                            meetingList: viewModel.weeklyMeetingList,
-                            groupType: groupType
-                        )
+                        .onTapGesture {
+                            // TODO: 모임 상세 화면 내비게이션 이동
+                        }
                     }
                 }
                 .padding(.horizontal, 16)
@@ -143,7 +130,7 @@ struct HomeView: View {
                 .scaledToFit()
                 .frame(width: 20, height: 20)
             
-            Text(viewModel.schoolName)
+            Text("건국대학교 서울캠퍼스")
                 .pretendardFont(.body1_m_16)
                 .foregroundStyle(.gray03)
             
@@ -158,7 +145,7 @@ struct HomeView: View {
     
     private func meetingInfo() -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(viewModel.upcomingMeetingData?.groupTitle ?? "공백을 채워주세요!")
+            Text("화석의 튜스데이 점심클럽")
                 .pretendardFont(.title1_b_20)
                 .foregroundStyle(.grayWhite)
             
@@ -168,7 +155,7 @@ struct HomeView: View {
                     .scaledToFit()
                     .frame(width: 16, height: 16)
                 
-                Text(viewModel.upcomingMeetingDate)
+                Text("12/6 수요일 14시 30분 - 16시 20분")
                     .pretendardFont(.caption2_m_12)
                     .foregroundStyle(.gray05)
             }
@@ -177,38 +164,18 @@ struct HomeView: View {
     
     private func enterSpaceButton() -> some View {
         Button {
-            // TODO: O - 모임방 내비게이션 화면 이동
-            // TODO: X - 채우기 탭으로 이동
+            // TODO: 모임방 내비게이션 화면 이동
         } label: {
-            Text(
-                viewModel.upcomingMeetingData != nil
-                 ? "스페이스 입장" : "채우기 입장"
-            )
-            .pretendardFont(.caption2_b_12)
-            .foregroundStyle(.grayWhite)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
+            Text("스페이스 입장")
+                .pretendardFont(.caption2_b_12)
+                .foregroundStyle(.grayWhite)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 6)
         }
         .background(.mainOrange)
         .clipShape(
             RoundedRectangle(cornerRadius: 4)
         )
-    }
-    
-    private func meetingCells(
-        meetingList: [JoinableMeetingModel],
-        groupType: GroupState
-    ) -> some View {
-        ForEach(meetingList, id: \.groupId) { data in
-            HomeMeetingCell(
-                data: data,
-                groupType: groupType
-            )
-            .frame(maxHeight: .infinity)
-            .onTapGesture {
-                // TODO: 모임 상세 화면 내비게이션 이동
-            }
-        }
     }
 }
 

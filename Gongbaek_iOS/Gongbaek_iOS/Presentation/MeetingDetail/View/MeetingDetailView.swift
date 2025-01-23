@@ -8,40 +8,26 @@
 import SwiftUI
 
 struct MeetingDetailView: View {
-    @State var meetingDetailData: MeetingDetailModel
-    @State var ownerInfoData: OwnerInfoModel
-    @State var commentData: CommentModel
+    @StateObject var viewModel = MeetingDetailViewModel()
     
     var body: some View {
         VStack(spacing: 0) {
             MeetingInfoBase(
-                state: .constant(.detail),
-                meeting: .constant(Meeting(
-                    groupId: 0, status: meetingDetailData.status,
-                    category: meetingDetailData.category,
-                    coverImg: 5,//TODO: Int로 넘기기 meetingDetailData.coverImg,
-                    groupType: meetingDetailData.groupType,
-                    groupTitle: meetingDetailData.groupTitle,
-                    weekDay: meetingDetailData.weekDay,
-                    weekDate: meetingDetailData.weekDate,
-                    startTime: meetingDetailData.startTime,
-                    endTime: meetingDetailData.endTime,
-                    location: meetingDetailData.location
-                )))
+                state: .detail,
+                meeting: viewModel.meeting)
             .padding(16)
             
             divider()
             
-            MeetingDetailSegmentControlBar(
-                introduction: $meetingDetailData.introduction,
-                ownerInfo: $ownerInfoData,
-                commentData: $commentData,
-                currentPeopleCount: $meetingDetailData.currentPeopleCount,
-                maxPeopleCount: $meetingDetailData.maxPeopleCount,
-                meetingStatus: $meetingDetailData.status,
-                isHost: $meetingDetailData.isHost,
-                isApply: $meetingDetailData.isApply
-            )
+            MeetingDetailSegmentControlBar(viewModel: viewModel)
+        }
+        .onAppear {
+            //TODO: Navigation 연결 시 수정
+            viewModel.getDetails(groupId: 7, groupType: "WEEKLY") { _ in }
+            
+            viewModel.getOwnerInfo(groupId: 7, groupType: "WEEKLY") { _ in }
+            
+            viewModel.getComments(groupId: 7, groupType: "WEEKLY") { _ in }
         }
     }
     
@@ -49,19 +35,3 @@ struct MeetingDetailView: View {
         Color.gray02.frame(height: 8)
     }
 }
-
-//#Preview {
-//    MeetingDetailView(
-//        meetingDetailData: dummymeetingDetailData,
-//        ownerInfoData: dummyOwnerInfoData,
-//        commentData: dummyCommentData
-//    )
-//}
-//
-//#Preview {
-//    MeetingDetailView(
-//        meetingDetailData: dummymeetingDateDetailData,
-//        ownerInfoData: dummyOwnerInfoData,
-//        commentData: dummyCommentData
-//    )
-//}

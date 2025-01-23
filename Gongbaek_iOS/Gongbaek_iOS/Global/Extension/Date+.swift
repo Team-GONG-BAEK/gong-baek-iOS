@@ -78,7 +78,7 @@ extension Date {
         inputFormatter.dateFormat = "yyyy-MM-dd-HH:mm"
         
         let outputFormatter = DateFormatter()
-        outputFormatter.dateFormat = "M/d HH:mm"
+        outputFormatter.dateFormat = "M/d   HH:mm"
         
         guard let date = inputFormatter.date(from: createdAt) else {
             return "변환 실패"

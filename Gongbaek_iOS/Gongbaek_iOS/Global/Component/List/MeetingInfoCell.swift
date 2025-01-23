@@ -14,7 +14,7 @@ struct MeetingInfoCell: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            MeetingInfoBase(state: .constant(.cell), meeting: $meeting)
+            MeetingInfoBase(state: .cell, meeting: meeting)
             
             if state == .myFill {
                 HStack(spacing: 0) {

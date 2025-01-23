@@ -1,5 +1,5 @@
 //
-//  GetMeetingRoomCommentsResponseDTO.swift
+//  GetCommentsResponseDTO.swift
 //  Gongbaek_iOS
 //
 //  Created by 김희은 on 1/23/25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GetMeetingRoomCommentsResponseDTO: Codable {
+struct GetCommentsResponseDTO: Codable {
     let commentCount: Int
     let groupId: Int
     let groupType: String

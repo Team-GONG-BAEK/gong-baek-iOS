@@ -14,15 +14,8 @@ enum MeetingDetailType: String, CaseIterable {
 }
 
 struct MeetingDetailSegmentControlBar: View {
-    @Binding var introduction: String
-    @Binding var ownerInfo: OwnerInfoModel
-    @Binding var commentData: CommentModel
-    @Binding var currentPeopleCount: Int
-    @Binding var maxPeopleCount: Int
-    @Binding var meetingStatus: String
+    @ObservedObject var viewModel: MeetingDetailViewModel
     @State private var selectedIndex = 0
-    @Binding var isHost: Bool
-    @Binding var isApply: Bool
     
     var body: some View {
         VStack(spacing: 0) {
@@ -59,17 +52,9 @@ struct MeetingDetailSegmentControlBar: View {
         let type = MeetingDetailType.allCases[selectedIndex]
         switch type {
         case .meetingInfo:
-            MeetingInfoView(
-                ownerInfo: $ownerInfo,
-                introduction: $introduction,
-                currentPeopleCount: $currentPeopleCount,
-                maxPeopleCount: $maxPeopleCount,
-                meetingStatus: $meetingStatus,
-                isHost: $isHost,
-                isApply: $isApply
-            )
+            MeetingInfoView(viewModel: viewModel)
         case .comment:
-            CommentView(commentData: commentData)
+            CommentView(viewModel: viewModel)
         }
     }
 }
