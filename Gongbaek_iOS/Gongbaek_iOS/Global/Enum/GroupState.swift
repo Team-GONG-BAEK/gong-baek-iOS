@@ -5,7 +5,7 @@
 //  Created by 김희은 on 1/21/25.
 //
 
-enum GroupState {
+enum GroupState: String, CaseIterable {
     case ONCE
     case WEEKLY
     

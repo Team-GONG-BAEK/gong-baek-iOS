@@ -9,22 +9,21 @@ import SwiftUI
 
 struct TabBarView: View {
     @EnvironmentObject var navigationManager: NavigationManager
-    @State var selectedTab: TabBarState = .home
     
     var body: some View {
         NavigationStack(path: $navigationManager.path) {
             VStack(spacing: 0) {
-                selectedTab.view()
+                navigationManager.selectedTab.view()
                     .frame(maxHeight: .infinity)
-                CustomTabBar(selectedTab: $selectedTab)
+                CustomTabBar(selectedTab: $navigationManager.selectedTab)
             }
             .navigationDestination(for: FillingDestination.self) { type in
                 type.view()
                     .toolbar(.hidden, for: .navigationBar)
             }
             .navigationDestination(for: MyFillingDestination.self) { type in
-//                type.view()
-//                    .toolbar(.hidden, for: .navigationBar)
+                type.view()
+                    .toolbar(.hidden, for: .navigationBar)
             }
             .navigationDestination(for: HomeDestination.self) { type in
 //                type.view()

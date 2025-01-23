@@ -52,8 +52,8 @@ extension TabBarState {
         case .filling: FillingView()
         case .myFilling: MyFillingView()
         case .home: HomeView()
-        case .timetable: Color.gray04 // View 연결
-        case .myPage: Color.gray05 // View
+        case .timetable: Color.gray04
+        case .myPage: Color.gray05
         }
     }
 }
