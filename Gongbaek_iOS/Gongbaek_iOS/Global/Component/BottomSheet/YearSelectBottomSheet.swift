@@ -56,7 +56,7 @@ struct YearSelectBottomSheet: View {
             }
             .padding(.horizontal, 16)
             .background(.grayWhite)
-            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .cornerRadius(16, corners: [.topLeft, .topRight])
             .presentationDragIndicator(.visible)
             .frame(maxHeight: .infinity, alignment: .bottom)
             .ignoresSafeArea(edges: .bottom)
