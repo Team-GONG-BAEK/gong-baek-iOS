@@ -10,7 +10,7 @@ import SwiftUI
 final class MeetingRoomViewModel: ObservableObject {
     @Published var meetingDetailData: GetMeetingRoomDetailsResponseDTO? = nil
     @Published var memberData: GetMeetingRoomMembersResponseDTO? = nil
-    @Published var commentData: GetMeetingRoomCommentsResponseDTO? = nil
+    @Published var commentData: GetCommentsResponseDTO? = nil
     
     var meetingStates: [MeetingChipState] {
         [
@@ -90,11 +90,11 @@ extension MeetingRoomViewModel {
     func getComments(
         groupId: Int,
         groupType: String,
-        completion: @escaping (GetMeetingRoomCommentsResponseDTO) -> ()
+        completion: @escaping (GetCommentsResponseDTO) -> ()
     ) {
         Providers.meetingRoomProvider.request(
             target: .getComments(isPublic: false, groupId: groupId, groupType: groupType),
-            instance: BaseResponse<GetMeetingRoomCommentsResponseDTO>.self
+            instance: BaseResponse<GetCommentsResponseDTO>.self
         ) { response in
             print(response)
             self.commentData = response.data
@@ -103,7 +103,7 @@ extension MeetingRoomViewModel {
     
     //TODO: 댓글 작성 API 로직 필요
     func postComment(groupId: Int, groupType: String, commentContent: String) {
-        let requestData = PostMeetingRoomRequestBodyDTO(
+        let requestData = PostCommentRequestBodyDTO(
             groupId: groupId,
             groupType: groupType,
             isPublic: false,

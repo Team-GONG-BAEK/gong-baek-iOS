@@ -11,7 +11,7 @@ enum MeetingRoomTargetType {
     case getMembers(isPublic: Bool, groupId: Int, groupType: String)
     case getMeetingDetails(groupId: Int, groupType: String)
     case getComments(isPublic: Bool, groupId: Int, groupType: String)
-    case postComment(data: PostMeetingRoomRequestBodyDTO)
+    case postComment(data: PostCommentRequestBodyDTO)
 }
 
 extension MeetingRoomTargetType: BaseTargetType {

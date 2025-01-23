@@ -10,7 +10,7 @@ import SwiftUI
 class MeetingDetailViewModel: ObservableObject {
     @Published var meetingDetailData: GetMeetingDetailsResponseDTO? = nil
     @Published var ownerInfoData: GetOwnerInfoResponseDTO? = nil
-    @Published var commentData: GetMeetingRoomCommentsResponseDTO? = nil
+    @Published var commentData: PostCommentRequestBodyDTO? = nil
     
     @Published var isSuccessGetData: Bool = true
     

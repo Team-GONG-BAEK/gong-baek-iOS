@@ -12,17 +12,17 @@ struct CommentView: View {
     
     var body: some View {
         VStack {
-            RecruitingState(viewModel.commentData?.groupStatus) == .CLOSED ? CommentDisabledBox() : nil
-            
-            CommentList(
-                viewModel: MeetingRoomViewModel(),
-                commentCount: viewModel.commentData?.commentCount ?? 0,
-                comments: viewModel.commentData?.comments ?? [],
-                isScrolled: true,
-                onTapRefreshButton: nil
-            )
-            
-            RecruitingState(viewModel.commentData?.groupStatus) == .CLOSED ? nil : CommentTextField(viewModel: MeetingRoomViewModel())
+//            RecruitingState(viewModel.commentData?.status) == .CLOSED ? CommentDisabledBox() : nil
+//            
+//            CommentList(
+//                viewModel: MeetingRoomViewModel(),
+//                commentCount: viewModel.commentData?.commentCount ?? 0,
+//                comments: viewModel.commentData?.comments ?? [],
+//                isScrolled: true,
+//                onTapRefreshButton: nil
+//            )
+//            
+//            RecruitingState(viewModel.commentData?.groupStatus) == .CLOSED ? nil : CommentTextField(viewModel: MeetingRoomViewModel())
         }
     }
 }
