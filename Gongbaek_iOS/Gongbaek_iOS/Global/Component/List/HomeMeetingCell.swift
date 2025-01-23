@@ -26,24 +26,36 @@ struct HomeMeetingCell: View {
             
             VStack(spacing: 2) {
                 meetingTime()
-                userProfiles()
+                userProfile()
             }
         }
         .frame(width: groupType == .WEEKLY ? 116 : 160)
     }
     
+    @ViewBuilder
     private func meetingImage() -> some View {
-        // -1 해야됨
-        Image(.sample)
-            .resizable()
-            .scaledToFill()
-            .frame(
-                width: groupType == .WEEKLY ? 116 : 160,
-                height: groupType == .WEEKLY ? 108 : 104
-            )
-            .clipShape(
-                RoundedRectangle(cornerRadius: 4)
-            )
+        if let coverImage = CategoryState(data.category)?.coverImage[data.coverImg - 1] {
+            Image(coverImage)
+                .resizable()
+                .scaledToFill()
+                .frame(
+                    width: groupType == .WEEKLY ? 116 : 160,
+                    height: groupType == .WEEKLY ? 108 : 104
+                )
+                .clipShape(
+                    RoundedRectangle(cornerRadius: 4)
+                )
+        } else {
+            Rectangle()
+                .fill(.gray03)
+                .frame(
+                    width: groupType == .WEEKLY ? 116 : 160,
+                    height: groupType == .WEEKLY ? 108 : 104
+                )
+                .clipShape(
+                    RoundedRectangle(cornerRadius: 4)
+                )
+        }
     }
     
     private func categoryChip() -> some View {
@@ -78,13 +90,19 @@ struct HomeMeetingCell: View {
         }
     }
     
-    private func userProfiles() -> some View {
+    private func userProfile() -> some View {
         HStack(spacing: 2) {
-            Image(.profileImage5)
-                .resizable()
-                .renderingMode(.original)
-                .scaledToFit()
-                .frame(width: 16, height: 16)
+            if let image = ProfileDefaultImageMap(rawValue: data.profileImg - 1)?.image {
+                Image(image)
+                    .resizable()
+                    .renderingMode(.original)
+                    .scaledToFit()
+                    .frame(width: 16, height: 16)
+            } else {
+                Rectangle()
+                    .fill(.gray03)
+                    .frame(width: 16, height: 16)
+            }
             
             Text(data.nickname)
                 .pretendardFont(.caption2_r_12)
