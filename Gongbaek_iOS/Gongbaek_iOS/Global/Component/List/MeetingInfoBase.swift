@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct MeetingInfoBase: View {
-    @Binding var state: MeetingInfoState
-    @Binding var meeting: Meeting
+    var state: MeetingInfoState
+    var meeting: Meeting
     
     var body: some View {
         HStack(spacing: 12) {
