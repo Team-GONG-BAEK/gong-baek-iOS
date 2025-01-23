@@ -17,7 +17,7 @@ struct MeetingInfoView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Text("소개글")
                         .pretendardFont(.body1_b_16)
-                    Text(viewModel.meetingDetailData?.introduction ?? "시발 왜 안됨?")
+                    Text(viewModel.meetingDetailData?.introduction ?? "")
                         .pretendardFont(.body2_r_14)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(16)

@@ -12,17 +12,27 @@ class MeetingDetailViewModel: ObservableObject {
     @Published var ownerInfoData: GetOwnerInfoResponseDTO? = nil
     @Published var commentData: GetCommentsResponseDTO? = nil
     
+    
+    var isHost: Bool { meetingDetailData?.isHost ?? false }
+    var isApply: Bool { meetingDetailData?.isApply ?? false }
+    var meeting: Meeting {
+        Meeting(
+            groupId: 0, status: meetingDetailData?.status ?? "",
+            category: meetingDetailData?.category ?? "",
+            coverImg: 5,
+            groupType: meetingDetailData?.groupType ?? "",
+            groupTitle: meetingDetailData?.groupTitle ?? "",
+            weekDay: meetingDetailData?.weekDay ?? "",
+            weekDate: meetingDetailData?.weekDate ?? "",
+            startTime: meetingDetailData?.startTime ?? 0,
+            endTime: meetingDetailData?.endTime ?? 0,
+            location: meetingDetailData?.location ?? ""
+        )}
+    
     @Published var isSuccessGetData: Bool = true
     
-    var isHost: Bool {
-        meetingDetailData?.isHost ?? false
-    }
+    // MARK: - Button Logic 처리
     
-    var isApply: Bool {
-        meetingDetailData?.isApply ?? false
-    }
-    
-    //TODO: buttonText, isActivated, buttonAction ViewModel로 분리
     var buttonText: String {
         guard let state = RecruitingState(meetingDetailData?.status ?? "") else {
             return "알 수 없는 상태"
@@ -77,7 +87,10 @@ class MeetingDetailViewModel: ObservableObject {
             return isApply ? { print("신청 취소 처리") } : nil //TODO: viewModel에서 action으로 변경
         case .RECRUITING:
             return isApply ? { print("신청 취소 처리") } :{
-                self.postApplyMeeting(groupId: self.meetingDetailData?.groupId ?? 0, groupType: self.meetingDetailData?.groupType ?? "")
+                self.postApplyMeeting(
+                    groupId: self.meetingDetailData?.groupId ?? 0,
+                    groupType: self.meetingDetailData?.groupType ?? ""
+                )
             }
         }
     }
@@ -92,7 +105,11 @@ extension MeetingDetailViewModel {
         completion: @escaping (GetMeetingDetailsResponseDTO) -> ()
     ) {
         Providers.meetingDetailProvider.request(
-            target: .getMeetingDetails(isPublic: true, groupId: groupId, groupType: groupType),
+            target: .getMeetingDetails(
+                isPublic: true,
+                groupId: groupId,
+                groupType: groupType
+            ),
             instance: BaseResponse<GetMeetingDetailsResponseDTO>.self
         ) { response in
             print(response)
@@ -121,7 +138,12 @@ extension MeetingDetailViewModel {
             groupType: groupType
         )
         
-        Providers.meetingDetailProvider.request(target: .postApplyMeeting(data: requestData), instance: BaseResponse<EmptyResponseDTO>.self) { response in
+        Providers.meetingDetailProvider.request(
+            target: .postApplyMeeting(
+                data: requestData
+            ),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
             print(requestData)
             DispatchQueue.main.async {
                 if response.success {
@@ -144,7 +166,11 @@ extension MeetingDetailViewModel {
         completion: @escaping (GetCommentsResponseDTO) -> ()
     ) {
         Providers.commentProvider.request(
-            target: .getComments(isPublic: true, groupId: groupId, groupType: groupType),
+            target: .getComments(
+                isPublic: true,
+                groupId: groupId,
+                groupType: groupType
+            ),
             instance: BaseResponse<GetCommentsResponseDTO>.self
         ) { response in
             print(response)

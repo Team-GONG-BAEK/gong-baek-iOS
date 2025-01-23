@@ -13,19 +13,8 @@ struct MeetingDetailView: View {
     var body: some View {
         VStack(spacing: 0) {
             MeetingInfoBase(
-                state: .constant(.detail),
-                meeting: .constant(Meeting(
-                    groupId: 0, status: viewModel.meetingDetailData?.status ?? "",
-                    category: viewModel.meetingDetailData?.category ?? "",
-                    coverImg: 5,//TODO: Int로 넘기기 meetingDetailData.coverImg,
-                    groupType: viewModel.meetingDetailData?.groupType ?? "",
-                    groupTitle: viewModel.meetingDetailData?.groupTitle ?? "",
-                    weekDay: viewModel.meetingDetailData?.weekDay ?? "",
-                    weekDate: viewModel.meetingDetailData?.weekDate ?? "",
-                    startTime: viewModel.meetingDetailData?.startTime ?? 0,
-                    endTime: viewModel.meetingDetailData?.endTime ?? 0,
-                    location: viewModel.meetingDetailData?.location ?? ""
-                )))
+                state: .detail,
+                meeting: viewModel.meeting)
             .padding(16)
             
             divider()
