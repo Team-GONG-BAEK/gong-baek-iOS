@@ -63,7 +63,7 @@ struct ViewModeTimeTable: View {
             let bottomPadding = bottomPadding(hourIndex, cellId)
             
             Rectangle()
-                .fill(unselectedCells.contains(cellId) ? .subOrange : .grayWhite)
+                .fill(unselectedCells.contains(cellId) ? .thirdOrange : .grayWhite)
                 .frame(maxWidth: .infinity, minHeight: 24)
                 .padding(.bottom, bottomPadding)
                 .id(cellId)
