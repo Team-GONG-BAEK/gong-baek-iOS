@@ -35,11 +35,7 @@ struct HomeView: View {
             .ignoresSafeArea(edges: .top)
         }
         .onAppear {
-            viewModel.getUserProfile()
-            viewModel.getUpcomingMeeting()
-            for type in GroupState.allCases {
-                viewModel.getJoinableMeetingList(groupType: type)
-            }
+            viewModel.fetchData()
         }
     }
     

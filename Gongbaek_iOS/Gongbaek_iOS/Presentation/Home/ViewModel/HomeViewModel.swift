@@ -35,16 +35,65 @@ final class HomeViewModel: ObservableObject {
 
 extension HomeViewModel {
     
+    func fetchData() {
+        let dispatchGroup = DispatchGroup()
+
+        var userProfile: GetUserProfileResponseDTO? = nil
+        var upcomingMeeting: GetUpcomingMeetingResponseDTO? = nil
+        var joinableWeeklyMeetings: GetJoinableMeetingListResponseDTO? = nil
+        var joinableOneTimeMeetings: GetJoinableMeetingListResponseDTO? = nil
+        
+        dispatchGroup.enter()
+        getUserProfile { data in
+            userProfile = data
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.enter()
+        getUpcomingMeeting { data in
+            upcomingMeeting = data
+            dispatchGroup.leave()
+        }
+        
+        for type in GroupState.allCases {
+            dispatchGroup.enter()
+            getJoinableMeetingList(groupType: type) { data in
+                switch type {
+                case .ONCE:
+                    joinableOneTimeMeetings = data
+                case .WEEKLY:
+                    joinableWeeklyMeetings = data
+                }
+                dispatchGroup.leave()
+            }
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            if let userProfile = userProfile,
+               let upcomingMeeting = upcomingMeeting,
+               let joinableWeeklyMeetings = joinableWeeklyMeetings,
+               let joinableOneTimeMeetings = joinableOneTimeMeetings {
+                
+                self.schoolName = userProfile.schoolName
+                self.nickname = userProfile.nickname
+                self.upcomingMeetingData = upcomingMeeting
+                self.weeklyMeetingList = joinableWeeklyMeetings.groups
+                self.oneTimeMeetingList = joinableOneTimeMeetings.groups
+            } else {
+                self.showErrorView = true
+            }
+        }
+    }
+    
     /// 유저 프로필 조회 (학교명, 닉네임)
-    func getUserProfile() {
+    private func getUserProfile(completion: @escaping (GetUserProfileResponseDTO) -> Void) {
         Providers.homeProvider.request(
             target: .getUserProfile,
             instance: BaseResponse<GetUserProfileResponseDTO>.self
         ) { response in
             if response.success {
                 guard let data = response.data else { return }
-                self.schoolName = data.schoolName
-                self.nickname = data.nickname
+                completion(data)
             } else {
                 self.showErrorView = true
             }
@@ -52,14 +101,14 @@ extension HomeViewModel {
     }
     
     /// 곧 다가오는 모임 조회
-    func getUpcomingMeeting() {
+    private func getUpcomingMeeting(completion: @escaping (GetUpcomingMeetingResponseDTO) -> Void) {
         Providers.homeProvider.request(
             target: .getUpcomingMeeting,
             instance: BaseResponse<GetUpcomingMeetingResponseDTO>.self
         ) { response in
             if response.success {
                 guard let data = response.data else { return }
-                self.upcomingMeetingData = data
+                completion(data)
             } else {
                 self.showErrorView = true
             }
@@ -67,19 +116,17 @@ extension HomeViewModel {
     }
     
     /// 참여 가능한 모임 리스트 조회
-    func getJoinableMeetingList(groupType: GroupState) {
+    private func getJoinableMeetingList(
+        groupType: GroupState,
+        completion: @escaping (GetJoinableMeetingListResponseDTO) -> Void
+    ) {
         Providers.homeProvider.request(
             target: .getJoinableMeetingList(groupType: groupType.rawValue),
             instance: BaseResponse<GetJoinableMeetingListResponseDTO>.self
         ) { response in
             if response.success {
                 guard let data = response.data else { return }
-                switch groupType {
-                case .ONCE:
-                    self.oneTimeMeetingList = data.groups
-                case .WEEKLY:
-                    self.weeklyMeetingList = data.groups
-                }
+                completion(data)
             } else {
                 self.showErrorView = true
             }
