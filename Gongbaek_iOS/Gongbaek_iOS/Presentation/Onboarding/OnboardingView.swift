@@ -15,6 +15,7 @@ struct OnboardingPage {
 }
 
 struct OnboardingView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
     @State private var currentPage = 0
     
     private let pages: [OnboardingPage] = [
@@ -60,7 +61,7 @@ struct OnboardingView: View {
                             if currentPage < pages.count - 1 {
                                 currentPage += 1
                             } else {
-                                print("온보딩 완료 시 작업")
+                                navigationManager.rootView = .signup
                             }
                         }
                     }

@@ -11,13 +11,14 @@ import SwiftUI
 final class NavigationManager: ObservableObject {
     
     enum RootView {
+        case onboarding
         case signup
         case tabBar
     }
     
     @Published var path = NavigationPath()
     @Published var presentedDestination: PresentableDestination? = nil
-    @Published var rootView: RootView = .signup
+    @Published var rootView: RootView = .onboarding
     @Published var selectedTab: TabBarState = .home
     
     func push<T: Hashable>(view: T) {
