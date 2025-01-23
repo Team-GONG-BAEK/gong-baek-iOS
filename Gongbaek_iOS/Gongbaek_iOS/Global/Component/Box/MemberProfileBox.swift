@@ -8,24 +8,26 @@
 import SwiftUI
 
 struct MemberProfileBox: View {
-    @Binding var memberData: MemberModel
+    var memberData: MemberModel
     
     var body: some View {
         VStack(spacing: 6) {
-            Image("\(memberData.profileImage)") //TODO: 이미지 네이밍 수정
-                .resizable()
-                .scaledToFill()
-                .frame(width: 80, height: 80)
-                .clipShape(RoundedRectangle(cornerRadius: 2))
-                .overlay(
-                    memberData.isHost ? OwnerChip(ownerChipColor: .gray09).padding(6) : nil,
-                    alignment: .bottomLeading
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 2)
-                        .stroke(.gray02, lineWidth: 1)
-                )
-                .padding(.horizontal, 7)
+            if let image = ProfileDefaultImageMap.init(rawValue: memberData.profileImg)?.image {
+                Image(image)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 80, height: 80)
+                    .clipShape(RoundedRectangle(cornerRadius: 2))
+                    .overlay(
+                        memberData.isHost ? OwnerChip(ownerChipColor: .gray09).padding(6) : nil,
+                        alignment: .bottomLeading
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 2)
+                            .stroke(.gray02, lineWidth: 1)
+                    )
+                    .padding(.horizontal, 7)
+            }
  
             Text(memberData.nickname)
                 .pretendardFont(.caption1_m_13)

@@ -15,12 +15,24 @@ struct CheckInputInfo: View {
             TitleTextBox(title: "입력한 정보가 맞는지 확인해주세요!", subtitle: nil)
                 .padding(.bottom, 28)
             
-            Image(viewModel.getSelectedCoverImage())
-                .resizable()
-                .frame(maxWidth: .infinity)
-                .frame(height: 283)
-                .cornerRadius(4)
-                .padding(.bottom, 28)
+            if let category = viewModel.selectedCategory,
+               let selectedCoverIndex = viewModel.selectedCoverIndex,
+               0 <= selectedCoverIndex,
+               selectedCoverIndex < category.coverImage.count {
+                Image(category.coverImage[selectedCoverIndex])
+                    .resizable()
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 283)
+                    .cornerRadius(4)
+                    .padding(.bottom, 28)
+            } else {
+                Rectangle()
+                    .fill(.gray03)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 283)
+                    .cornerRadius(4)
+                    .padding(.bottom, 28)
+            }
             
             Text(viewModel.title)
                 .font(.pretendard(.title2_b_18))

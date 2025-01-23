@@ -30,9 +30,9 @@ struct ProfileSelectionView: View {
     
     private func profileImageButtons() -> some View {
         LazyVGrid(columns: columns, spacing: 8) {
-            ForEach(ProfileImageMap.allCases.indices, id: \.self) { index in
+            ForEach(ProfileButtonImageMap.allCases.indices, id: \.self) { index in
                 CoverImageButton(
-                    image: ProfileImageMap.allCases[index].rawValue,
+                    image: ProfileButtonImageMap.allCases[index].image,
                     isSelected: index == viewModel.profileImageIndex
                 ) {
                     viewModel.profileImageIndex = index
