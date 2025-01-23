@@ -16,9 +16,9 @@ final class HomeViewModel: ObservableObject {
     @Published var nickname = ""
     @Published var upcomingMeetingData: GetUpcomingMeetingResponseDTO? = nil
     // 매주봐요 모임
-    @Published var weeklyMeetingList: [MeetingModel] = MeetingModel.weeklyMeetingList()
+    @Published var weeklyMeetingList: [JoinableMeetingModel] = []
     // 한번봐요 모임
-    @Published var oneTimeMeetingList: [MeetingModel] = MeetingModel.weeklyMeetingList()
+    @Published var oneTimeMeetingList: [JoinableMeetingModel] = []
     // 나와 딱 맞는 멤버 (API 연결 X)
     let perfectMatchMemberList: [PerfectMatchMemberModel] = PerfectMatchMemberModel.mockData()
     
@@ -60,6 +60,26 @@ extension HomeViewModel {
             if response.success {
                 guard let data = response.data else { return }
                 self.upcomingMeetingData = data
+            } else {
+                self.showErrorView = true
+            }
+        }
+    }
+    
+    /// 참여 가능한 모임 리스트 조회
+    func getJoinableMeetingList(groupType: GroupState) {
+        Providers.homeProvider.request(
+            target: .getJoinableMeetingList(groupType: groupType.rawValue),
+            instance: BaseResponse<GetJoinableMeetingListResponseDTO>.self
+        ) { response in
+            if response.success {
+                guard let data = response.data else { return }
+                switch groupType {
+                case .ONCE:
+                    self.oneTimeMeetingList = data.meetingList
+                case .WEEKLY:
+                    self.weeklyMeetingList = data.meetingList
+                }
             } else {
                 self.showErrorView = true
             }

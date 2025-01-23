@@ -10,6 +10,7 @@ import Moya
 enum HomeTargetType {
     case getUserProfile
     case getUpcomingMeeting
+    case getJoinableMeetingList(groupType: String)
 }
 
 extension HomeTargetType: BaseTargetType {
@@ -18,6 +19,8 @@ extension HomeTargetType: BaseTargetType {
         case .getUserProfile:
             return APIConstants.hasTokenHeader
         case .getUpcomingMeeting:
+            return APIConstants.hasTokenHeader
+        case .getJoinableMeetingList:
             return APIConstants.hasTokenHeader
         }
     }
@@ -28,6 +31,8 @@ extension HomeTargetType: BaseTargetType {
             return "/api/v1/user/home/profile"
         case .getUpcomingMeeting:
             return "/api/v1/group/my/participation"
+        case .getJoinableMeetingList:
+            return "/api/v1/group/latest"
         }
     }
     
@@ -36,6 +41,8 @@ extension HomeTargetType: BaseTargetType {
         case .getUserProfile:
             return .get
         case .getUpcomingMeeting:
+            return .get
+        case .getJoinableMeetingList:
             return .get
         }
     }
@@ -46,6 +53,13 @@ extension HomeTargetType: BaseTargetType {
             return .requestPlain
         case .getUpcomingMeeting:
             return .requestPlain
+        case .getJoinableMeetingList(let groupType):
+            return .requestParameters(
+                parameters: [
+                    "groupType" : groupType
+                ],
+                encoding: URLEncoding.queryString
+            )
         }
     }
 }

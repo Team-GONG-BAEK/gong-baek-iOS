@@ -20,13 +20,13 @@ struct HomeView: View {
                         title: "공강시간에 정기적인 활동 어때요?",
                         subtitle: viewModel.nickname + "님과 딱 맞는 매주 봐요 모임 추천이에요.",
                         highlightText: "매주 봐요",
-                        isWeekly: true
+                        groupType: .WEEKLY
                     )
                     meetingList(
                         title: "한번만 만나도 특별할 우리",
                         subtitle: "한번만 봐요 모임으로 잊지 못할 추억을 만들어보세요!",
                         highlightText: "한번만 봐요",
-                        isWeekly: false
+                        groupType: .ONCE
                     )
                     banner()
                     perfectMatchMember()
@@ -37,6 +37,9 @@ struct HomeView: View {
         .onAppear {
             viewModel.getUserProfile()
             viewModel.getUpcomingMeeting()
+            for type in GroupState.allCases {
+                viewModel.getJoinableMeetingList(groupType: type)
+            }
         }
     }
     
@@ -69,7 +72,7 @@ struct HomeView: View {
         title: String,
         subtitle: String,
         highlightText: String,
-        isWeekly: Bool
+        groupType: GroupState
     ) -> some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
@@ -88,7 +91,7 @@ struct HomeView: View {
                     ForEach(viewModel.weeklyMeetingList, id: \.groupId) { data in
                         HomeMeetingCell(
                             data: data,
-                            isWeekly: isWeekly
+                            groupType: groupType
                         )
                         .onTapGesture {
                             // TODO: 모임 상세 화면 내비게이션 이동
