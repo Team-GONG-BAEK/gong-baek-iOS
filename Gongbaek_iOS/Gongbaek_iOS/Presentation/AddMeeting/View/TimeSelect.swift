@@ -48,7 +48,7 @@ struct TimeSelect: View {
                 
                 AddMeetingTimeTable(
                     viewModel: viewModel,
-                    freeTimeTable: viewModel.freeTimeTable,
+                    timeTable: viewModel.timeTable,
                     selectedDay: viewModel.getSelectedWeekDayEnum() ?? .MON,
                     selectedTimeRange: $viewModel.selectedTimeRange,
                     selectedCells: $viewModel.selectedCells
