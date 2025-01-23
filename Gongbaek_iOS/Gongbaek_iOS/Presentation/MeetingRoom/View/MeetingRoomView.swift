@@ -106,16 +106,16 @@ struct MeetingRoomView: View {
         }
         .onAppear {
             print("onAppear called")
-            
-            viewModel.getDetails(groupId: 1, groupType: "ONCE") { _ in
+            //TODO: Navigation 연결 시 수정
+            viewModel.getDetails(groupId: 7, groupType: "WEEKLY") { _ in
                 print("getDetails finished, meetingDetailData: \(String(describing: viewModel.meetingDetailData))")
             }
             
-            viewModel.getMembers(groupId: 1, groupType: "ONCE") { _ in
+            viewModel.getMembers(groupId: 7, groupType: "WEEKLY") { _ in
                 print("getMembers finished, memberData: \(String(describing: viewModel.memberData))")
             }
             
-            viewModel.getComments(groupId: 1, groupType: "ONCE") { _ in
+            viewModel.getComments(groupId: 7, groupType: "WEEKLY") { _ in
                 print("getComments finished, memberData: \(String(describing: viewModel.commentData))")
             }
         }
