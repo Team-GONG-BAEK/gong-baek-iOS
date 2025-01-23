@@ -17,7 +17,7 @@ struct MyFillingList: View {
                 if viewModel.activeMeetings.isEmpty {
                     MyFillingEmptyCell(state: .active)
                 } else {
-                    ForEach(viewModel.activeMeetings, id: \.groupId) { meeting in
+                    ForEach(viewModel.activeMeetings) { meeting in
                         MeetingInfoCell(meeting: meeting, state: .myFill)
                     }
                 }
@@ -26,9 +26,10 @@ struct MyFillingList: View {
                 if viewModel.endedMeetings.isEmpty {
                     MyFillingEmptyCell(state: .end)
                 } else {
-                    ForEach(viewModel.endedMeetings, id: \.groupId) { meeting in
+                    ForEach(viewModel.endedMeetings) { meeting in
                         MeetingInfoCell(meeting: meeting, state: .myFill)
                     }
+
                 }
             }
         }
@@ -38,5 +39,3 @@ struct MyFillingList: View {
 #Preview {
     MyFillingList()
 }
-
-

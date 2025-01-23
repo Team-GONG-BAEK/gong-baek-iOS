@@ -12,8 +12,8 @@ struct MeetingInfoBase: View {
     @Binding var meeting: Meeting
     
     var body: some View {
-        HStack(spacing: 12) {
-            Image(.sample)
+        if let category = CategoryState(meeting.category) {
+            Image(category.getCoverImage(coverImgIndex: meeting.coverImg - 1))
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 102, height: 102)
