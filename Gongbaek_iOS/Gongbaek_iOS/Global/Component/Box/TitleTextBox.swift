@@ -28,6 +28,27 @@ struct TitleTextBox: View {
     }
 }
 
+struct HomeTitleTextBox: View {
+    let title: String
+    var subtitle: String
+    var highlightSubtitleText: String = ""
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .pretendardFont(.title2_b_18)
+        
+            HighlightTextView(
+                text: subtitle,
+                textColor: .gray06,
+                font: .body2_m_14,
+                highlightFont: .body2_b_14,
+                highlightString: highlightSubtitleText
+            )
+        }
+    }
+}
+
 #Preview {
     TitleTextBox(
         title: "공갱갱히히 공강시간에 원하는 모임 만들기",

@@ -8,20 +8,15 @@
 import SwiftUI
 
 struct SignupNavigationView: View {
-    @StateObject private var navigationManager = NavigationManager()
+    @EnvironmentObject var navigationManager: NavigationManager
     
     var body: some View {
         NavigationStack(path: $navigationManager.path) {
             SignupDestination.signup.view()
-            .navigationDestination(for: SignupDestination.self) { type in
-                type.view()
-                    .toolbar(.hidden, for: .navigationBar)
-            }
             .fullScreenCover(item: $navigationManager.presentedDestination) { type in
                 type.view()
             }
         }
-        .environmentObject(navigationManager)
     }
 }
 
