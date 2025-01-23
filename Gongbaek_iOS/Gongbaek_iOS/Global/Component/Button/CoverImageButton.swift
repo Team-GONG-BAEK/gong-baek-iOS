@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CoverImageButton: View {
-    var image: String
+    var image: ImageResource
     var isSelected: Bool
     var onTap: (() -> Void)?
     
@@ -43,7 +43,7 @@ struct CoverImageButton: View {
 }
 
 #Preview {
-    CoverImageButton(image: "sample", isSelected: true)
+    CoverImageButton(image: .imgProfileDefault0, isSelected: true)
         .frame(width: 109, height: 109)
 }
 
