@@ -40,6 +40,8 @@ final class SignupViewModel: ObservableObject {
     @Published var selectedCells: Set<TimeTableCellId> = []
     @Published var classTimeTable: [(day: WeekDay, start: Double, end: Double)] = []
     
+    @Published var showAlert: Bool = false
+    
     // MARK: - Methods
     
     func isNextButtonEnabled(_ step: SignupStep) -> Bool {
@@ -122,6 +124,7 @@ extension SignupViewModel {
             instance: BaseResponse<EmptyResponseDTO>.self
         ) { response in
             if response.success {
+                self.showAlert = false
                 completion(true)
             } else {
                 switch response.code {
@@ -135,10 +138,12 @@ extension SignupViewModel {
                     print("❗️서버 통신 에러 발생")
                     completion(false)
                 }
+                self.showAlert = true
             }
         }
     }
     
+    /// 학교 검색 API
     /// 학교 검색 API
     func getSchoolSearchResults(completion: @escaping (Bool) -> ()) {
         Providers.SignupProvider.request(
@@ -147,8 +152,11 @@ extension SignupViewModel {
         ) { response in
             print(response)
             if response.success {
+                self.showAlert = true
                 guard let data = response.data else { return }
                 self.searchResultList = data.schoolNames
+            } else {
+                self.showAlert = true
             }
         }
     }
@@ -164,6 +172,7 @@ extension SignupViewModel {
         ) { response in
             print(response)
             if response.success {
+                self.showAlert = false
                 guard let data = response.data else { return }
                 self.searchResultList = data.schoolMajors
             }
@@ -198,6 +207,8 @@ extension SignupViewModel {
             instance: BaseResponse<PostSignupResponseDTO>.self
         ) { response in
             if response.success {
+                self.showAlert = false
+
                 guard let accessToken = response.data?.accessToken,
                       let refreshToken = response.data?.refreshToken
                 else { return }
@@ -205,6 +216,7 @@ extension SignupViewModel {
                 TokenManager.shared.updateToken(accessToken, refreshToken)
                 completion(true)
             } else {
+                self.showAlert = true
                 completion(false)
             }
         }
