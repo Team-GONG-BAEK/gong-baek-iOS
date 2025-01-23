@@ -85,7 +85,8 @@ struct AddMeetingView: View {
                     onTapOrangeButton: {
                         showAlert = false
                         if viewModel.isSuccessGetData {
-                            //TODO: 나의 채움 탭으로 이동
+                            navigationManager.popToRoot()
+                            navigationManager.selectedTab = .myFilling
                         }
                     }
                 )

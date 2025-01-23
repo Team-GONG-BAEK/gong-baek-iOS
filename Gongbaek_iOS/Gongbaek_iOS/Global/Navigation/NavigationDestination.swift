@@ -32,11 +32,18 @@ enum FillingDestination: Hashable, CaseIterable {
 }
 
 enum MyFillingDestination: Hashable {
-    // TODO: 나의채움 모든 화면 작성
+    case myFilling
+    
+    @ViewBuilder
+    func view() -> some View {
+        switch self {
+        case .myFilling:
+            MyFillingView()
+        }
+    }
 }
 
 enum HomeDestination: Hashable {
-    // TODO: 홈화면 모든 화면 작성
 }
 
 /// Present 방식으로 화면 전환되는 Destination 정의
