@@ -12,6 +12,7 @@ import Moya
 struct Providers {
     static let homeProvider = NetworkProvider<HomeTargetType>(withAuth: false)
     static let meetingRoomProvider = NetworkProvider<MeetingRoomTargetType>(withAuth: false)
+    static let meetingDetailProvider = NetworkProvider<MeetingDetailTargetType>(withAuth: false)
 }
 
 extension MoyaProvider {
