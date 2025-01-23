@@ -14,6 +14,7 @@ struct Providers {
     static let meetingRoomProvider = NetworkProvider<MeetingRoomTargetType>(withAuth: false)
     static let meetingDetailProvider = NetworkProvider<MeetingDetailTargetType>(withAuth: false)
     static let commentProvider = NetworkProvider<CommentTargetType>(withAuth: false)
+    static let SignupProvider = NetworkProvider<SignupTargetType>(withAuth: false)
 }
 
 extension MoyaProvider {
