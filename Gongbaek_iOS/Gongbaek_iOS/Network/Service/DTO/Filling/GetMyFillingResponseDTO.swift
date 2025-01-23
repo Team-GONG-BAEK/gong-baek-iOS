@@ -10,4 +10,3 @@ import Foundation
 struct GetMyFillingResponseDTO: Codable {
     let groups: [Meeting]
 }
-

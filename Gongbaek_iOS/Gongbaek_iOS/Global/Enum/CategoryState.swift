@@ -87,7 +87,7 @@ enum CategoryState: Int, CaseIterable {
 }
 
 extension CategoryState {
-    func getCoverImage(coverImgIndex: Int) -> String {
+    func getCoverImage(coverImgIndex: Int) -> ImageResource {
         return self.coverImage[coverImgIndex]
     }
 }

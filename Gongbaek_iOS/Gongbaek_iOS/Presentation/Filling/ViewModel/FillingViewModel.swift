@@ -32,7 +32,7 @@ class FillingViewModel: ObservableObject {
                         groupId: group.groupId,
                         status: "RECRUITING",
                         category: group.category,
-                        coverImg: group.coverImg - 1,
+                        coverImg: group.coverImg,
                         groupType: group.groupType,
                         groupTitle: group.groupTitle,
                         weekDay: group.weekDay,

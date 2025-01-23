@@ -39,5 +39,3 @@ struct MyFillingList: View {
 #Preview {
     MyFillingList()
 }
-
-

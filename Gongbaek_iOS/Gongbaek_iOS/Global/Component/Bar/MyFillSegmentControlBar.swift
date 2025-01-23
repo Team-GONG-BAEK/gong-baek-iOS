@@ -52,7 +52,7 @@ struct MyFillSegmentControlBar: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .onAppear {
-            viewModel.fetchMeetings() 
+            viewModel.fetchMeetings()
         }
     }
     
