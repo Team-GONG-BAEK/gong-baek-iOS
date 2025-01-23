@@ -1,5 +1,5 @@
 //
-//  MeetingRoomTargetType.swift
+//  MeetingDetailTargetType.swift
 //  Gongbaek_iOS
 //
 //  Created by 김희은 on 1/23/25.
@@ -7,51 +7,58 @@
 
 import Moya
 
-enum MeetingRoomTargetType {
-    case getMembers(isPublic: Bool, groupId: Int, groupType: String)
-    case getMeetingDetails(groupId: Int, groupType: String)
+enum MeetingDetailTargetType {
+    case getMeetingDetails(isPublic: Bool, groupId: Int, groupType: String)
+    case getOwnerInfo(groupId: Int, groupType: String)
+    case postApplyMeeting(data: PostApplyMeetingRequestBodyDTO)
 }
 
-extension MeetingRoomTargetType: BaseTargetType {
+extension MeetingDetailTargetType: BaseTargetType {
     var headers: Parameters? {
         switch self {
-        case .getMembers:
-            return APIConstants.hasTokenHeader
         case .getMeetingDetails:
+            return APIConstants.hasTokenHeader
+        case .getOwnerInfo:
+            return APIConstants.hasTokenHeader
+        case .postApplyMeeting:
             return APIConstants.hasTokenHeader
         }
     }
     
     var path: String {
         switch self {
-        case .getMembers:
-            return "/api/v1/fill/members"
         case .getMeetingDetails:
             return "/api/v1/fill/info"
+        case .getOwnerInfo:
+            return "/api/v1/fill/user/info"
+        case .postApplyMeeting:
+            return "/api/v1/group"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .getMembers:
-            return .get
         case .getMeetingDetails:
             return .get
+        case .getOwnerInfo:
+            return .get
+        case .postApplyMeeting:
+            return .post
         }
     }
     
     var task: Moya.Task {
         switch self {
-        case .getMembers(_, let groupId, let groupType):
+        case .getMeetingDetails(_, let groupId, let groupType):
             return .requestParameters(
                 parameters: [
-                    "isPublic": false,
+                    "isPublic": true,
                     "groupId": groupId,
                     "groupType": groupType
                 ],
                 encoding: URLEncoding.queryString
             )
-        case .getMeetingDetails(let groupId, let groupType):
+        case .getOwnerInfo(let groupId, let groupType):
             return .requestParameters(
                 parameters: [
                     "groupId": groupId,
@@ -59,6 +66,8 @@ extension MeetingRoomTargetType: BaseTargetType {
                 ],
                 encoding: URLEncoding.queryString
             )
+        case .postApplyMeeting(let data):
+            return .requestJSONEncodable(data)
         }
     }
 }

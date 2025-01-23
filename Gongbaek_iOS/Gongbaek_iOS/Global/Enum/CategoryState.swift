@@ -73,15 +73,15 @@ enum CategoryState: Int, CaseIterable {
         }
     }
     
-    var coverImage: [ImageResource] {
+    var coverImage: [String] {
         switch self {
         case .ALL: return []
-        case .STUDY: return [.imgCoverStudy1, .imgCoverStudy2, .imgCoverStudy3, .imgCoverStudy4, .imgCoverStudy5, .imgCoverStudy6]
-        case .DINING: return [.imgCoverDining1, .imgCoverDining2, .imgCoverDining3, .imgCoverDining4, .imgCoverDining5, .imgCoverDining6]
-        case .EXERCISE: return [.imgCoverExercise1, .imgCoverExercise2, .imgCoverExercise3, .imgCoverExercise4, .imgCoverExercise5, .imgCoverExercise6]
-        case .NETWORKING: return [.imgCoverNetworking1, .imgCoverNetworking2, .imgCoverNetworking3, .imgCoverNetworking4, .imgCoverNetworking5, .imgCoverNetworking6]
-        case .PLAYING: return [.imgCoverPlay1, .imgCoverPlay2, .imgCoverPlay3, .imgCoverPlay4, .imgCoverPlay5, .imgCoverPlay6]
-        case .OTHERS: return [.imgCoverOthers1, .imgCoverOthers2, .imgCoverOthers3, .imgCoverOthers4, .imgCoverOthers5, .imgCoverOthers6]
+        case .STUDY: return ["img_cover_study_1", "img_cover_study_2", "img_cover_study_3", "img_cover_study_4", "img_cover_study_5", "img_cover_study_6"]
+        case .DINING: return ["img_cover_dining_1", "img_cover_dining_2", "img_cover_dining_3", "img_cover_dining_4", "img_cover_dining_5", "img_cover_dining_6"]
+        case .EXERCISE: return ["img_cover_exercise_1", "img_cover_exercise_2", "img_cover_exercise_3", "img_cover_exercise_4", "img_cover_exercise_5", "img_cover_exercise_6"]
+        case .NETWORKING: return ["img_cover_networking_1", "img_cover_networking_2", "img_cover_networking_3", "img_cover_networking_4", "img_cover_networking_5", "img_cover_networking_6"]
+        case .PLAYING: return ["img_cover_play_1", "img_cover_play_2", "img_cover_play_3", "img_cover_play_4", "img_cover_play_5", "img_cover_play_6"]
+        case .OTHERS: return ["img_cover_others_1", "img_cover_others_2", "img_cover_others_3", "img_cover_others_4", "img_cover_others_5", "img_cover_others_6"]
         }
     }
 }

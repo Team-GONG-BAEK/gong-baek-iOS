@@ -86,6 +86,7 @@ class AddMeetingViewModel: ObservableObject {
         }
     }
     
+    
     func updateNextButtonState() {
         DispatchQueue.main.async {
             switch self.currentIndex {
@@ -176,6 +177,17 @@ class AddMeetingViewModel: ObservableObject {
         if maxPeopleCount > 2 {
             maxPeopleCount -= 1
         }
+    }
+    
+    func getSelectedCoverImage() -> String {
+        guard let category = selectedCategory,
+              let selectedIndex = selectedCoverIndex,
+              selectedIndex >= 0,
+              selectedIndex <= category.coverImage.count else {
+            return "img_cover_default"
+        }
+        
+        return category.coverImage[selectedIndex]
     }
     
     func getFormattedDateTime() -> String {
