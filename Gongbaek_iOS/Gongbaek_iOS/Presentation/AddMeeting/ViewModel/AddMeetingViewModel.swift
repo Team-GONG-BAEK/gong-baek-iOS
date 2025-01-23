@@ -213,17 +213,6 @@ class AddMeetingViewModel: ObservableObject {
         }
     }
     
-    func getSelectedCoverImage() -> String {
-        guard let category = selectedCategory,
-              let selectedIndex = selectedCoverIndex,
-              selectedIndex >= 0,
-              selectedIndex <= category.coverImage.count else {
-            return "img_cover_default"
-        }
-        
-        return category.coverImage[selectedIndex]
-    }
-    
     func getFormattedDateTime() -> String {
         guard let selectedCycle = selectedCycle else { return "날짜와 시간을 선택해주세요." }
         

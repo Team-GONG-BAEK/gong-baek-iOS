@@ -14,7 +14,7 @@ struct OwnerProfileBox: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            Image(ProfileImageMap.from(viewModel.ownerInfoData?.profileImg ?? 0).rawValue) // MARK: - TODO: 이미지 네이밍 수정
+            Image(ProfileDefaultImageMap.allCases[viewModel.ownerInfoData?.profileImg ?? 0].image)
                 .resizable()
                 .frame(width: 80, height: 80)
                 .background(.gray04) // MARK: - TODO: 이미지 삽입 시 삭제
