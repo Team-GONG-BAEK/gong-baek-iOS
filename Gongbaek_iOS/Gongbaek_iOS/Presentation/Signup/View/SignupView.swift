@@ -10,7 +10,7 @@ import SwiftUI
 struct SignupView: View {
     @EnvironmentObject private var navigationManager: NavigationManager
     @StateObject private var viewModel = SignupViewModel()
-    @State private var currentStep: SignupStep = .classTimeTableInput
+    @State private var currentStep: SignupStep = .profileSelection
     @State private var showLottie = false
     
     var body: some View {
@@ -37,10 +37,7 @@ struct SignupView: View {
                         grayButtonText: "시간표 변경",
                         orangeButtonText: "가입 완료",
                         onTapGrayButton: { goBackToPreviousStep() },
-                        onTapOrangeButton: {
-                            // TODO: 회원가입 API
-                            goToNextStep()
-                        }
+                        onTapOrangeButton: { signup() }
                     )
                 } else {
                     BasicButton(
@@ -48,12 +45,11 @@ struct SignupView: View {
                         ? "공백 채우러 가기" : "다음",
                         isActivated: viewModel.isNextButtonEnabled(currentStep)
                     ) {
-                        if currentStep == .signupCompletion {
+                        if currentStep == .nicknameInput {
+                            validateNickname()
+                        } else if currentStep == .signupCompletion {
                             goToTabBarView()
                         } else {
-                            /// 다음 뷰 기존 상태값 리셋
-                            let nextStep = SignupStep.allCases[currentStep.rawValue + 1]
-                            viewModel.resetState(at: nextStep)
                             goToNextStep()
                         }
                     }
@@ -82,7 +78,12 @@ struct SignupView: View {
 extension SignupView {
     
     private func goToNextStep() {
-        currentStep = .allCases[currentStep.rawValue + 1]
+      /// 다음 뷰 기존 상태값 리셋
+        if currentStep != .signupCompletion {
+            let nextStep = SignupStep.allCases[currentStep.rawValue + 1]
+            viewModel.resetState(at: nextStep)
+            currentStep = nextStep
+        }
     }
     
     private func goBackToPreviousStep() {
@@ -100,6 +101,32 @@ extension SignupView {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             withAnimation {
                 showLottie = false
+            }
+        }
+    }
+}
+
+/// API Functions
+extension SignupView {
+    
+    private func validateNickname() {
+        viewModel.postNicknameValidation { isSuccess in
+            if isSuccess {
+                viewModel.showNicknameError = false
+                goToNextStep()
+            }
+            else {
+                viewModel.showNicknameError = true
+            }
+        }
+    }
+    
+    private func signup() {
+        viewModel.postSignup() { isSuccess in
+            if isSuccess {
+                goToNextStep()
+            } else {
+                // TODO: 에러대응 뷰
             }
         }
     }
