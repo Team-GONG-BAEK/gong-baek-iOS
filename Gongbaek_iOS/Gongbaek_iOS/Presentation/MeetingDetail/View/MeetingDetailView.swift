@@ -42,6 +42,10 @@ struct MeetingDetailView: View {
             viewModel.getOwnerInfo(groupId: 8, groupType: "WEEKLY") { _ in
                 print("getOwnerInfo finished, ownerInfoData: \(String(describing: viewModel.ownerInfoData))")
             }
+            
+            viewModel.getComments(groupId: 8, groupType: "WEEKLY") { _ in
+                print("commentData finished, ownerInfoData: \(String(describing: viewModel.commentData))")
+            }
         }
     }
     
@@ -49,19 +53,3 @@ struct MeetingDetailView: View {
         Color.gray02.frame(height: 8)
     }
 }
-
-//#Preview {
-//    MeetingDetailView(
-//        meetingDetailData: dummymeetingDetailData,
-//        ownerInfoData: dummyOwnerInfoData,
-//        commentData: dummyCommentData
-//    )
-//}
-//
-//#Preview {
-//    MeetingDetailView(
-//        meetingDetailData: dummymeetingDateDetailData,
-//        ownerInfoData: dummyOwnerInfoData,
-//        commentData: dummyCommentData
-//    )
-//}

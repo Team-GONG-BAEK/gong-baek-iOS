@@ -92,7 +92,7 @@ extension MeetingRoomViewModel {
         groupType: String,
         completion: @escaping (GetCommentsResponseDTO) -> ()
     ) {
-        Providers.meetingRoomProvider.request(
+        Providers.commentProvider.request(
             target: .getComments(isPublic: false, groupId: groupId, groupType: groupType),
             instance: BaseResponse<GetCommentsResponseDTO>.self
         ) { response in
@@ -101,7 +101,6 @@ extension MeetingRoomViewModel {
         }
     }
     
-    //TODO: 댓글 작성 API 로직 필요
     func postComment(groupId: Int, groupType: String, commentContent: String) {
         let requestData = PostCommentRequestBodyDTO(
             groupId: groupId,
@@ -110,7 +109,7 @@ extension MeetingRoomViewModel {
             body: commentContent
         )
         
-        Providers.meetingRoomProvider.request(target: .postComment(data: requestData), instance: BaseResponse<EmptyResponseDTO>.self) { response in
+        Providers.commentProvider.request(target: .postComment(data: requestData), instance: BaseResponse<EmptyResponseDTO>.self) { response in
             print(requestData)
             DispatchQueue.main.async {
                 if response.success {

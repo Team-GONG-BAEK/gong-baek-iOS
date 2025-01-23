@@ -10,7 +10,7 @@ import SwiftUI
 class MeetingDetailViewModel: ObservableObject {
     @Published var meetingDetailData: GetMeetingDetailsResponseDTO? = nil
     @Published var ownerInfoData: GetOwnerInfoResponseDTO? = nil
-    @Published var commentData: PostCommentRequestBodyDTO? = nil
+    @Published var commentData: GetCommentsResponseDTO? = nil
     
     @Published var isSuccessGetData: Bool = true
     
@@ -115,8 +115,6 @@ extension MeetingDetailViewModel {
         }
     }
     
-    
-    //TODO: 댓글 작성 API 로직 필요
     func postApplyMeeting(groupId: Int, groupType: String) {
         let requestData = PostApplyMeetingRequestBodyDTO(
             groupId: groupId,
@@ -135,6 +133,46 @@ extension MeetingDetailViewModel {
                 }
                 self.getDetails(groupId: groupId, groupType: groupType) { _ in
                     print("getDetails finished result and data: \(String(describing: self.getDetails))")
+                }
+            }
+        }
+    }
+    
+    func getComments(
+        groupId: Int,
+        groupType: String,
+        completion: @escaping (GetCommentsResponseDTO) -> ()
+    ) {
+        Providers.commentProvider.request(
+            target: .getComments(isPublic: true, groupId: groupId, groupType: groupType),
+            instance: BaseResponse<GetCommentsResponseDTO>.self
+        ) { response in
+            print(response)
+            self.commentData = response.data
+        }
+    }
+    
+    //TODO: 댓글 작성 API 로직 필요
+    func postComment(groupId: Int, groupType: String, commentContent: String) {
+        let requestData = PostCommentRequestBodyDTO(
+            groupId: groupId,
+            groupType: groupType,
+            isPublic: false,
+            body: commentContent
+        )
+        
+        Providers.commentProvider.request(target: .postComment(data: requestData), instance: BaseResponse<EmptyResponseDTO>.self) { response in
+            print(requestData)
+            DispatchQueue.main.async {
+                if response.success {
+                    self.isSuccessGetData = true
+                    print("✅ 댓글 등록 성공!")
+                } else {
+                    self.isSuccessGetData = false
+                    print("❌ 댓글 등록 실패: \(response.message ?? "알 수 없는 오류")")
+                }
+                self.getComments(groupId: groupId, groupType: groupType) { _ in
+                    print("getComments finished, memberData: \(String(describing: self.commentData))")
                 }
             }
         }

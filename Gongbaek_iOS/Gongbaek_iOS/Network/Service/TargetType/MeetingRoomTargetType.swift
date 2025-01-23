@@ -10,8 +10,6 @@ import Moya
 enum MeetingRoomTargetType {
     case getMembers(isPublic: Bool, groupId: Int, groupType: String)
     case getMeetingDetails(groupId: Int, groupType: String)
-    case getComments(isPublic: Bool, groupId: Int, groupType: String)
-    case postComment(data: PostCommentRequestBodyDTO)
 }
 
 extension MeetingRoomTargetType: BaseTargetType {
@@ -20,10 +18,6 @@ extension MeetingRoomTargetType: BaseTargetType {
         case .getMembers:
             return APIConstants.hasTokenHeader
         case .getMeetingDetails:
-            return APIConstants.hasTokenHeader
-        case .getComments:
-            return APIConstants.hasTokenHeader
-        case .postComment:
             return APIConstants.hasTokenHeader
         }
     }
@@ -34,10 +28,6 @@ extension MeetingRoomTargetType: BaseTargetType {
             return "/api/v1/fill/members"
         case .getMeetingDetails:
             return "/api/v1/fill/info"
-        case .getComments:
-            return "/api/v1/comments"
-        case .postComment:
-            return "/api/v1/comment"
         }
     }
     
@@ -47,10 +37,6 @@ extension MeetingRoomTargetType: BaseTargetType {
             return .get
         case .getMeetingDetails:
             return .get
-        case .getComments:
-            return .get
-        case .postComment:
-            return .post
         }
     }
     
@@ -73,17 +59,6 @@ extension MeetingRoomTargetType: BaseTargetType {
                 ],
                 encoding: URLEncoding.queryString
             )
-        case .getComments(_, let groupId, let groupType):
-            return .requestParameters(
-                parameters: [
-                    "isPublic": false,
-                    "groupId": groupId,
-                    "groupType": groupType
-                ],
-                encoding: URLEncoding.queryString
-            )
-        case .postComment(let data):
-            return .requestJSONEncodable(data)
         }
     }
 }
