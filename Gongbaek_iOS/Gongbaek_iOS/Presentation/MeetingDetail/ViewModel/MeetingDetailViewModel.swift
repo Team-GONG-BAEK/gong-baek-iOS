@@ -84,7 +84,7 @@ class MeetingDetailViewModel: ObservableObject {
         case .CLOSED:
             return nil
         case .RECRUITED:
-            return isApply ? { print("신청 취소 처리") } : nil //TODO: viewModel에서 action으로 변경
+            return isApply ? { print("신청 취소 처리") } : nil
         case .RECRUITING:
             return isApply ? { print("신청 취소 처리") } :{
                 self.postApplyMeeting(
@@ -183,7 +183,7 @@ extension MeetingDetailViewModel {
         let requestData = PostCommentRequestBodyDTO(
             groupId: groupId,
             groupType: groupType,
-            isPublic: false,
+            isPublic: true,
             body: commentContent
         )
         

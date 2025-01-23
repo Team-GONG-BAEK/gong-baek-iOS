@@ -42,10 +42,10 @@ extension CommentTargetType: BaseTargetType {
     
     var task: Moya.Task {
         switch self {
-        case .getComments(_, let groupId, let groupType):
+        case .getComments(let isPublic, let groupId, let groupType):
             return .requestParameters(
                 parameters: [
-                    "isPublic": false,
+                    "isPublic": isPublic,
                     "groupId": groupId,
                     "groupType": groupType
                 ],

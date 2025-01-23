@@ -24,16 +24,16 @@ struct MeetingDetailView: View {
         .onAppear {
             print("onAppear called")
             //TODO: Navigation 연결 시 수정
-            viewModel.getDetails(groupId: 8, groupType: "WEEKLY") { _ in
+            viewModel.getDetails(groupId: 7, groupType: "WEEKLY") { _ in
                 print("getDetails finished, meetingDetailData: \(String(describing: viewModel.meetingDetailData))")
             }
             
-            viewModel.getOwnerInfo(groupId: 8, groupType: "WEEKLY") { _ in
+            viewModel.getOwnerInfo(groupId: 7, groupType: "WEEKLY") { _ in
                 print("getOwnerInfo finished, ownerInfoData: \(String(describing: viewModel.ownerInfoData))")
             }
             
-            viewModel.getComments(groupId: 8, groupType: "WEEKLY") { _ in
-                print("commentData finished, ownerInfoData: \(String(describing: viewModel.commentData))")
+            viewModel.getComments(groupId: 7, groupType: "WEEKLY") { _ in
+                print("getComments finished, ownerInfoData: \(String(describing: viewModel.commentData))")
             }
         }
     }
