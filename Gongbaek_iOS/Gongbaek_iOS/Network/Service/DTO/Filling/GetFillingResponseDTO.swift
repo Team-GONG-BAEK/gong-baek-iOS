@@ -1,16 +1,14 @@
 //
-//  FillingModel.swift
+//  GetFillingResponseDTO.swift
 //  Gongbaek_iOS
 //
-//  Created by 김민서 on 1/16/25.
+//  Created by 김민서 on 1/23/25.
 //
 
 import Foundation
 
-struct Meeting: Codable, Identifiable {
-    var id: String { "\(groupId)-\(groupType)" }
+struct GetFillingResponseDTO: Codable {
     let groupId: Int
-    let status: String
     let category: String
     let coverImg: Int
     let groupType: String

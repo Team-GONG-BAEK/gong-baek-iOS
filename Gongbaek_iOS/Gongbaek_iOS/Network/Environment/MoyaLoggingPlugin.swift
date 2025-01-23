@@ -47,7 +47,7 @@ final class MoyaLoggingPlugin: PluginType {
         let request = response.request
         let url = request?.url?.absoluteString ?? "nil"
         let statusCode = response.statusCode
-        var log = "------------------- Reponse가 도착했습니다. -------------------"
+        var log = "------------------- Response가 도착했습니다. -------------------"
         log.append("\n3️⃣[\(statusCode)] \(url)\n")
         log.append("API: \(target)\n")
         log.append("Status Code: [\(statusCode)]\n")
