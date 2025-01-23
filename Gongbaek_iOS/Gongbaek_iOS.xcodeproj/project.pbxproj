@@ -16,22 +16,9 @@
 		954A490B2D2DA7AE00FD6964 /* Gongbaek_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gongbaek_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		954A49362D2DC3C400FD6964 /* Exceptions for "Gongbaek_iOS" folder in "Gongbaek_iOS" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Global/Component/BottomSheet/.gitkeep,
-			);
-			target = 954A490A2D2DA7AE00FD6964 /* Gongbaek_iOS */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		954A490D2D2DA7AE00FD6964 /* Gongbaek_iOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				954A49362D2DC3C400FD6964 /* Exceptions for "Gongbaek_iOS" folder in "Gongbaek_iOS" target */,
-			);
 			path = Gongbaek_iOS;
 			sourceTree = "<group>";
 		};
@@ -314,7 +301,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Gongbaek_iOS/Preview Content\"";
-				DEVELOPMENT_TEAM = ZVPB55PQN5;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
