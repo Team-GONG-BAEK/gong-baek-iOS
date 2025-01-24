@@ -26,7 +26,6 @@ class MyFillingViewModel: ObservableObject {
         getMeetings()
     }
     
-    
     func getMeetings() {
         let dispatchGroup = DispatchGroup()
         var activeMeetings: [Meeting] = []

@@ -10,23 +10,43 @@ import SwiftUI
 struct CustomNavigationBarModifier: ViewModifier {
     @EnvironmentObject var navigationManager: NavigationManager
     @Environment(\.dismiss) private var dismiss
+    let isMeetingRoom: Bool
     let title: String?
     let viewName: String?
     let showBackButton: Bool
     let showXButton: Bool
     let onBackButtonTap: (() -> Void)?
-
+    
     func body(content: Content) -> some View {
-        VStack(spacing: 0) {
-            ZStack {
-                leftRightButtons()
-                if let title = title {
-                    titleText(title)
+        if isMeetingRoom == true {
+            ZStack(alignment: .top) {
+                content
+                VStack(spacing: 0) {
+                    ZStack {
+                        leftRightButtons()
+                        if let title = title {
+                            titleText(title)
+                        }
+                    }
+                    .frame(height: 48)
+                    .background(.clear)
                 }
+                
             }
-            .frame(height: 48)
-            .background(.clear)
-            content
+        } else {
+            VStack {
+                VStack(spacing: 0) {
+                    ZStack {
+                        leftRightButtons()
+                        if let title = title {
+                            titleText(title)
+                        }
+                    }
+                    .frame(height: 48)
+                    .background(.clear)
+                }
+                content
+            }
         }
     }
     
@@ -62,7 +82,7 @@ struct CustomNavigationBarModifier: ViewModifier {
             }
         }
     }
-        
+    
     private func titleText(_ title: String) -> some View {
         Text(title)
             .pretendardFont(.title2_m_18)
