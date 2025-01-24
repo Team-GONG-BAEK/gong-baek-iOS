@@ -39,7 +39,7 @@ final class SignupViewModel: ObservableObject {
     // 수업시간표 입력
     @Published var selectedCells: Set<TimeTableCellId> = []
     @Published var classTimeTable: [(day: WeekDay, start: Double, end: Double)] = []
-    
+    // 에러
     @Published var showAlert: Bool = false
 
     
@@ -211,11 +211,9 @@ extension SignupViewModel {
         ) { response in
             if response.success {
                 self.showAlert = false
-
                 guard let accessToken = response.data?.accessToken,
                       let refreshToken = response.data?.refreshToken
                 else { return }
-                
                 TokenManager.shared.updateToken(accessToken, refreshToken)
                 completion(true)
             } else {
