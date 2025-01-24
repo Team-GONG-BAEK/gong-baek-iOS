@@ -39,7 +39,3 @@ struct MyFillCellButton: View {
         .buttonStyle(PlainButtonStyle())
     }
 }
-
-//#Preview {
-//    MyFillCellButton(text: "작성글 보기")
-//}
