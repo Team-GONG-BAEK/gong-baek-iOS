@@ -18,18 +18,21 @@ struct CommentList: View {
         VStack(spacing: 0) {
             headerCommentCell()
             
-            if commentCount == 0 {
-                commentEmptyView()
-                    .frame(minHeight: UIScreen.main.bounds.height * 0.4) // 앱잼을 위해 막 짠 코드..
-            } else {
-                ScrollView {
-                    VStack(alignment:.leading, spacing: 0) {
+            ScrollView {
+                VStack(alignment:.leading, spacing: 0) {
+                    let height = (meetingDetailViewModel != nil) ? 0.25 : 0.18
+                    
+                    if commentCount == 0 {
+                        commentEmptyView()
+                        
+                            .frame(minHeight: UIScreen.main.bounds.height * height, alignment: .bottom) // 앱잼을 위해 막 짠 코드..
+                    } else {
                         ForEach (comments.indices, id: \.self) { index in
                             CommentCell(comment: comments[index])
                         }
                     }
-                    .padding(.horizontal, 16)
                 }
+                .padding(.horizontal, 16)
                 .scrollDisabled(!isScrolled)
             }
         }
@@ -72,7 +75,7 @@ struct CommentList: View {
             .pretendardFont(.caption1_m_13)
             .multilineTextAlignment(.center)
             .foregroundStyle(.gray06)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .frame(maxWidth: .infinity, alignment: .center)
             .background(.grayWhite)
     }
 }
