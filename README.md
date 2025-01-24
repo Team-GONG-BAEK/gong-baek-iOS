@@ -1,19 +1,41 @@
 # 35-APPJAM-iOS-GONGBAEK
 공강을 백배 즐기는 방법!<br>
+
+## 공백 (GONGBAEK)
+![Slide 16_9 - 138](https://github.com/user-attachments/assets/5aa9c6cc-2d50-4970-b3da-b2f6fcef7304)
+
+
 ```bash
 대학생들의 공강 시간을 활용하여 새로운 만남을 가질 수 있는 서비스 “공백”입니다
 공백은 수업 시간표가 아닌 공강 시간표를 활용합니다!
 ```
-![AboutUs](https://github.com/user-attachments/assets/cbb5db02-d14d-4583-991b-47a541ec9252)
-여러분의 공백을 채워줄 iOS 개발자입니다!
-김가네 공주들~
 
-| <img src="https://github.com/user-attachments/assets/8b9dc184-e1a5-4f52-9646-25761cfb477b" width="70"> | <img src="https://github.com/user-attachments/assets/18387c98-5373-4385-aad6-bebc106545ee" width="70"> | <img src="https://github.com/user-attachments/assets/e0111bb9-16f6-4944-8070-b4398df6b85b" width="70"> |
+
+### 💡 문제상황 정의
+![Slide 16_9 - 153](https://github.com/user-attachments/assets/04fd99dd-74b1-473f-8154-cd90419c9223)
+
+### 📍 주요 기능
+<div style="display: flex; justify-content: center; gap: 20px; margin-top: 10px;">
+   <img src="https://github.com/user-attachments/assets/7bbf5309-2944-4913-a8f0-52bb795ea831" width="45%">
+    <img src="https://github.com/user-attachments/assets/ac4a5fb9-842c-4180-b064-812001fde46d" width="45%">
+   
+</div>
+<div style="display: flex; justify-content: center; gap: 20px;">
+    <img src="https://github.com/user-attachments/assets/b8f969e2-e1a8-476d-bd2d-bef831a0b5d4" width="45%">
+     <img src="https://github.com/user-attachments/assets/c3dfb690-979a-451d-a241-a2f8b91a616f" width="45%">
+</div>
+
+
+
+
+## 👩‍💻 About Developers
+
+| 김나연 | 김민서 | 김희은|
 | --- | --- | --- |
-| <img src="https://github.com/user-attachments/assets/ff37a073-d210-417f-96f5-db3a5f9c48a1" width="200" align="center"> | <img src="https://github.com/user-attachments/assets/5e9d39db-d0a0-4882-aa52-a1bc9e277e72" width="200" align="center"> | <img src="https://github.com/user-attachments/assets/573017d2-e831-4e94-ae0b-17de85d097ce" width="200" align="center"> |
+| <img src="https://github.com/user-attachments/assets/5e37163f-7157-460c-abaf-4ab3a1348fb61" width="200" align="center"> | <img src="https://github.com/user-attachments/assets/7c65353d-8c7b-433f-9663-19413e2d5b25" width="200" align="center"> | <img src="https://github.com/user-attachments/assets/831a2f95-dbd7-4d23-9d98-345732abd8ec" width="200" align="center"> |
 | <p align="center">`스플래시/온보딩`<br>`홈`</p> | <p align="center">`나의 채움`<br>`모임 등록하기`<br>`채우기`</p> | <p align="center">`채우기 상세 페이지`<br>`모임방`</p> |
 
-![GitFlow](https://github.com/user-attachments/assets/ba29713d-cb5a-445b-a406-9e828e40df13)
+## 🐈‍⬛ GitFlow
 ![깃플로우](https://github.com/user-attachments/assets/704515f3-9ca4-42e7-a46b-e2456fe96531)
 - Setting : 초기 프로젝트 세팅
 - Feat : 기능 구현, 추가
@@ -24,7 +46,7 @@
 - Refactor : 전반적인 리팩토링
 - Docs : 문서 작성
 
-![Library](https://github.com/user-attachments/assets/b19166be-3e06-4654-81d1-5cb738f7fc75)
+## 📒 Library
 | 라이브러리         | 목적                                           | 버전(Version)                                                |
 | ------------------- | --------------------------------------------- | ------------------------------------------------------------ |
 | Moya               | 간결한 네트워크 요청과 구조화된 관리 방식으로 코드 가독성과 유지보수성 향상 | ![Moya](https://img.shields.io/badge/Moya-15.0.3-orange)      |
@@ -32,10 +54,10 @@
 | Lottie             | 애니메이션 파일(JSON) 렌더링 및 UI 인터랙션 강화 | ![Lottie](https://img.shields.io/badge/Lottie-4.2.0-blue)     |
 
 
-![Code Convention](https://github.com/user-attachments/assets/3d5a45fc-7e8a-4cc8-90fb-1414b5aa7480)
+## 📏 Code Convention
 [🧩 공백 Code Convention](https://www.notion.so/Code-Convention-5a9c6a4435e0441d9b84ad289aa11660?pvs=4)
 
-![Foldering](https://github.com/user-attachments/assets/3ae66a52-cf04-4a16-9375-23e2e02d48b9)
+##  📁 Foldering
 ```bash
 ├── 📁 Application
 │   ├── Gongbaek_iOSApp
@@ -70,11 +92,6 @@
 │   │   │   ├── 🗂️ Cell
 │   │   ├── 🗂️ ViewModel
 ```
-
-
-![iOS Archive](https://github.com/user-attachments/assets/71d5ddc8-7032-4bd4-b0c7-3ec5bbd50ddf)
-<img src="https://github.com/user-attachments/assets/9e82738a-6283-4639-b607-9c141107313f" width="150" style="vertical-align: top;">
-<img src="https://github.com/user-attachments/assets/9795eb10-d073-4d5d-b2c4-b0fb6d5d0ec1" width="500" style="vertical-align: top;">
 
 
 
