@@ -42,7 +42,6 @@ struct CommentTextField: View {
                         commentContent: comment
                     )
                 
-                    guard !comment.isEmpty else { return }
                     hideKeyboard()
                     comment = ""
             }) {
@@ -51,6 +50,7 @@ struct CommentTextField: View {
                     .scaledToFit()
                     .frame(width: 24, height: 24)
             }
+            .disabled(comment.isEmpty)
             .padding(.bottom, 12)
             .padding(.trailing, 12)
             .foregroundStyle(.mainOrange)
