@@ -12,6 +12,7 @@ class MeetingDetailViewModel: ObservableObject {
     @Published var ownerInfoData: GetOwnerInfoResponseDTO? = nil
     @Published var commentData: GetCommentsResponseDTO? = nil
     @Published var isSuccessGetData: Bool = true
+    @Published var showAlert: Bool = false
     
     var isHost: Bool { meetingDetailData?.isHost ?? false }
     var isApply: Bool { meetingDetailData?.isApply ?? false }
@@ -90,6 +91,7 @@ class MeetingDetailViewModel: ObservableObject {
                     groupId: self.meetingDetailData?.groupId ?? 0,
                     groupType: self.meetingDetailData?.groupType ?? ""
                 )
+                self.showAlert = true
             }
         }
     }

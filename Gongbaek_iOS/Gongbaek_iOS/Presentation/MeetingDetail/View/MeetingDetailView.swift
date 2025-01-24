@@ -14,23 +14,46 @@ struct MeetingDetailView: View {
     let groupType: String
     
     var body: some View {
-        VStack(spacing: 0) {
-            MeetingInfoBase(
-                state: .detail,
-                meeting: viewModel.meeting)
-            .padding(16)
+        ZStack {
+            VStack(spacing: 0) {
+                MeetingInfoBase(
+                    state: .detail,
+                    meeting: viewModel.meeting)
+                .padding(16)
+                
+                divider()
+                
+                MeetingDetailSegmentControlBar(viewModel: viewModel)
+            }
+            .customNavigationBar(showBackButton: true)
+            .onAppear {
+                viewModel.getDetails(groupId: groupId, groupType: groupType) { _ in }
+                viewModel.getOwnerInfo(groupId: groupId, groupType: groupType) { _ in }
+                viewModel.getComments(groupId: groupId, groupType: groupType) { _ in }
+            }
             
-            divider()
-            
-            MeetingDetailSegmentControlBar(viewModel: viewModel)
-        }
-        .customNavigationBar(showBackButton: true)
-        .onAppear {
-            viewModel.getDetails(groupId: groupId, groupType: groupType) { _ in }
-            
-            viewModel.getOwnerInfo(groupId: groupId, groupType: groupType) { _ in }
-            
-            viewModel.getComments(groupId: groupId, groupType: groupType) { _ in }
+            if viewModel.showAlert {
+                CustomedAlert(
+                    alertImage: viewModel.isSuccessGetData ? "img_success" : "img_fail" ,
+                    titleText: viewModel.isSuccessGetData ? "신청이 완료됐어요!" : "인원이 마감되어 신청이 불가능해요!",
+                    subtitleText: viewModel.isSuccessGetData ? "생성자에 의해 모임이 삭제될 수도 있어요." : "아쉽지만, 다른 모임을 찾아보세요.",
+                    grayButtonText: viewModel.isSuccessGetData ? "닫기" : nil,
+                    orangeButtonText: viewModel.isSuccessGetData ? "스페이스 바로가기" : "확인",
+                    onTapGrayButton: {
+                        viewModel.showAlert = false
+                    },
+                    onTapOrangeButton: {
+                        viewModel.showAlert = false
+                        if viewModel.isSuccessGetData {
+                            navigationManager.push(
+                                view: MeetingDetailDestination.meetingDetail(
+                                    groupId: groupId,
+                                    groupType: groupType
+                                ))
+                        }
+                    }
+                )
+            }
         }
     }
     
