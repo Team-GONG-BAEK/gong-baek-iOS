@@ -17,6 +17,8 @@ class FillingViewModel: ObservableObject {
         }
     }
     
+    @Published var showAlert: Bool = false
+    
     init() {
         getFillling()
     }
@@ -27,6 +29,7 @@ class FillingViewModel: ObservableObject {
             instance: BaseResponse<[GetFillingResponseDTO]>.self
         ) { response in
             if response.success, let groupsData = response.data {
+                self.showAlert = false
                 self.meeting = groupsData.map { group in
                     Meeting(
                         groupId: group.groupId,
@@ -44,6 +47,7 @@ class FillingViewModel: ObservableObject {
                 }
                 print("📌 모임 데이터 로드 성공! \(self.meeting.count)개의 모임")
             } else {
+                self.showAlert = true
                 print("❌ 모임 데이터를 불러오는 데 실패했습니다")
             }
         }

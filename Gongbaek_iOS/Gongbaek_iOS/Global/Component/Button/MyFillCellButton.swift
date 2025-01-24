@@ -8,16 +8,29 @@
 import SwiftUI
 
 struct MyFillCellButton: View {
+    @EnvironmentObject var navigationManager: NavigationManager
+    let groupId: Int
+    let groupType: String
     var text: String
     var onTap: (() -> Void)?
     
     var body: some View {
         Button(action: {
             print("\(text) 눌렸음!")
-            onTap?()
+            text == "작성글 보기"
+            ?  navigationManager.push(
+                view: MeetingDetailDestination.meetingDetail(
+                    groupId: groupId,
+                    groupType: groupType
+                ))
+            : navigationManager.push(
+                view: MeetingRoomDestination.meetingRoom(
+                    groupId: groupId,
+                    groupType: groupType
+                ))
         }) {
             Text(text)
-                .font(.pretendard(.body2_sb_14))
+                .pretendardFont(.body2_sb_14)
                 .frame(height: 38)
                 .frame(maxWidth: .infinity)
                 .background(.gray01)
@@ -25,8 +38,4 @@ struct MyFillCellButton: View {
         }
         .buttonStyle(PlainButtonStyle())
     }
-}
-
-#Preview {
-    MyFillCellButton(text: "작성글 보기")
 }

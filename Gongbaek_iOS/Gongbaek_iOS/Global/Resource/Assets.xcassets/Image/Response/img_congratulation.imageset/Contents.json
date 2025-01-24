@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "img_congratulation.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
