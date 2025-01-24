@@ -37,7 +37,7 @@ struct YearSelectBottomSheet: View {
                             .tag(year)
                     }
                 }
-                .pickerStyle(WheelPickerStyle())
+                .pickerStyle(.wheel)
                 .frame(height: 180)
                 .padding(.bottom, 18)
                 .padding(.horizontal, 22)
@@ -45,6 +45,9 @@ struct YearSelectBottomSheet: View {
                 BasicButton(text: "선택") {
                     withAnimation(.easeOut(duration: 0.2)) {
                         showBottomSheet = false
+                        if viewModel.yearOfAdmission == nil {
+                            viewModel.yearOfAdmission = 2025
+                        }
                     }
                 }
                 .padding(.vertical, 20)

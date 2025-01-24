@@ -84,7 +84,7 @@ struct SignupView: View {
                             .transition(.opacity)
                             .onTapGesture {
                                 withAnimation(.easeInOut(duration: 0.3)) {
-                                    showYearPicker = true
+                                    showYearPicker = false
                                 }
                             }
 

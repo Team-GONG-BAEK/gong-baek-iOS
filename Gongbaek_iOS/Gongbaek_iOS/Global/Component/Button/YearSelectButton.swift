@@ -21,7 +21,7 @@ struct YearSelectButton: View {
                 onTap?()
             }) {
                 HStack {
-                    Text("\((viewModel.yearOfAdmission ?? 0000).removeComma())년")
+                    Text("\((viewModel.yearOfAdmission ?? 2025).removeComma())년")
                         .pretendardFont(.body1_m_16)
                         .foregroundColor(isSelected ? .gray10 : .gray04)
                     Spacer()
