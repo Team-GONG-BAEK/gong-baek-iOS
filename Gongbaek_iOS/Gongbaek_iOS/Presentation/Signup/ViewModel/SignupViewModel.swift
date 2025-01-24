@@ -188,7 +188,7 @@ extension SignupViewModel {
     }
     
     /// 학교 검색 API
-    func getSchoolSearchResults(completion: @escaping (Bool) -> ()) {
+    func getSchoolSearchResults() {
         Providers.SignupProvider.request(
             target: .getSchoolSearchResults(schoolName: searchWord),
             instance: BaseResponse<GetSchoolSearchResponseDTO>.self
@@ -205,7 +205,7 @@ extension SignupViewModel {
     }
     
     /// 학과 검색 API
-    func getMajorSearchResults(completion: @escaping (Bool) -> ()) {
+    func getMajorSearchResults() {
         Providers.SignupProvider.request(
             target: .getMajorSearchResults(
                 schoolName: schoolName,

@@ -26,6 +26,8 @@ struct SelfIntroductionWritingView: View {
                 text: $viewModel.introduction,
                 isSignupView: true
             )
+            .autocorrectionDisabled(true)
+            .textInputAutocapitalization(.never)
             .padding(.horizontal, 16)
             
             Spacer()

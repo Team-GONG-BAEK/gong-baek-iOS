@@ -39,8 +39,6 @@ struct SchoolMajorSearchView: View {
             }
             .customNavigationBar(title: "검색하기", showXButton: true)
             
-            //에러뷰
-            
             if viewModel.showAlert {
                 CustomedAlert(
                     alertImage: "img_fail" ,
@@ -63,10 +61,11 @@ struct SchoolMajorSearchView: View {
             state: state
         ) { textFieldText in
             if !textFieldText.isEmpty {
-                // TODO: 뷰모델 검색 api 연결
                 onTapSearchButton()
             }
         }
+        .autocorrectionDisabled(true)
+        .textInputAutocapitalization(.never)
         .onSubmit {
             onTapSearchButton()
         }
@@ -139,13 +138,9 @@ extension SchoolMajorSearchView {
     private func getSearchResultList() {
         switch state {
         case .school:
-            viewModel.getSchoolSearchResults() { response in
-                // TODO: 에러대응
-            }
+            viewModel.getSchoolSearchResults()
         case .major:
-            viewModel.getMajorSearchResults() { response in
-                // TODO: 에러대응
-            }
+            viewModel.getMajorSearchResults()
         }
     }
 }
