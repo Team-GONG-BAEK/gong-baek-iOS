@@ -28,6 +28,7 @@ struct AddMeetingTimeTable: View {
             }
         }
         .background(.gray02)
+        .clipShape(RoundedRectangle(cornerRadius: 8)) 
         .overlay(
             RoundedRectangle(cornerRadius: 8)
                 .stroke(.gray02, lineWidth: 1)
