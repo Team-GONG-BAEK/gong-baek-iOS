@@ -10,7 +10,7 @@ import SwiftUI
 struct SignupView: View {
     @EnvironmentObject private var navigationManager: NavigationManager
     @StateObject private var viewModel = SignupViewModel()
-    @State private var currentStep: SignupStep = .gradeAdmissionYearInput
+    @State private var currentStep: SignupStep = .profileSelection
     @State private var showLottie = false
     @State private var showYearPicker = false
     
@@ -95,6 +95,18 @@ struct SignupView: View {
                         .transition(.move(edge: .bottom))
                     }
                 }
+                
+                if viewModel.showAlert {
+                    CustomedAlert(
+                        alertImage: "img_fail" ,
+                        titleText: "앗! 회원가입에 실패했어요.",
+                        subtitleText: "다시 시도해주세요.",
+                        orangeButtonText: "확인",
+                        onTapOrangeButton: {
+                            viewModel.showAlert = false
+                        }
+                    )
+                }
             }
         }
     }
@@ -150,8 +162,6 @@ extension SignupView {
         viewModel.postSignup() { isSuccess in
             if isSuccess {
                 goToNextStep()
-            } else {
-                // TODO: 에러대응 뷰
             }
         }
     }
