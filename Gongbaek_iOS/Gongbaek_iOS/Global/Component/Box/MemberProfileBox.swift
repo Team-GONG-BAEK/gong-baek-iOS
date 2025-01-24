@@ -12,10 +12,11 @@ struct MemberProfileBox: View {
     
     var body: some View {
         VStack(spacing: 6) {
-            if let image = ProfileDefaultImageMap.init(rawValue: memberData.profileImg)?.image {
+            if let image = ProfileDefaultImageMap.init(rawValue: memberData.profileImg - 1)?.image {
                 Image(image)
                     .resizable()
                     .scaledToFill()
+                    .padding(8)
                     .frame(width: 80, height: 80)
                     .clipShape(RoundedRectangle(cornerRadius: 2))
                     .overlay(

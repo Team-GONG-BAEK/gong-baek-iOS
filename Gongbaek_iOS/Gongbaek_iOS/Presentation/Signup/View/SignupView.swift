@@ -103,7 +103,7 @@ struct SignupView: View {
 extension SignupView {
     
     private func goToNextStep() {
-      /// 다음 뷰 기존 상태값 리셋
+        /// 다음 뷰 기존 상태값 리셋
         if currentStep != .signupCompletion {
             let nextStep = SignupStep.allCases[currentStep.rawValue + 1]
             viewModel.resetState(at: nextStep)

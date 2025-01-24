@@ -13,38 +13,41 @@ struct SchoolMajorInputView: View {
     let onTapMajorSearchButton: (() -> Void)?
     
     var body: some View {
-        VStack(spacing: 0) {
-            TitleTextBox(
-                title: "학교와 학과를 입력해주세요.",
-                subtitle: "프로필에 표시되는 정보로, 언제든 변경할 수 있어요."
-            )
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.top, 54)
-            .padding(.horizontal, 16)
-            .padding(.bottom, 44)
-            
-            Group {
-                SearchTextField(
-                    inputText: $viewModel.schoolName,
-                    isButton: true,
-                    state: .school
-                ) { _ in
-                    onTapSchoolSearchButton?()
-                }
-                .padding(.bottom, 24)
+        ZStack {
+            VStack(spacing: 0) {
+                TitleTextBox(
+                    title: "학교와 학과를 입력해주세요.",
+                    subtitle: "프로필에 표시되는 정보로, 언제든 변경할 수 있어요."
+                )
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.top, 54)
+                .padding(.horizontal, 16)
+                .padding(.bottom, 44)
                 
-                SearchTextField(
-                    inputText: $viewModel.majorName,
-                    isButton: true,
-                    state: .major
-                ) { _ in
-                    onTapMajorSearchButton?()
+                Group {
+                    SearchTextField(
+                        inputText: $viewModel.schoolName,
+                        isButton: true,
+                        state: .school
+                    ) { _ in
+                        onTapSchoolSearchButton?()
+                    }
+                    .padding(.bottom, 24)
+                    
+                    SearchTextField(
+                        inputText: $viewModel.majorName,
+                        isButton: true,
+                        state: .major
+                    ) { _ in
+                        onTapMajorSearchButton?()
+                    }
                 }
+                .padding(.horizontal, 16)
+                
+                Spacer()
             }
-            .padding(.horizontal, 16)
-            
-            Spacer()
         }
+        
     }
 }
 

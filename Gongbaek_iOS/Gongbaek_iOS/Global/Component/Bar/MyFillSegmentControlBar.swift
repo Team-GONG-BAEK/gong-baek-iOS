@@ -31,7 +31,7 @@ struct MyFillSegmentControlBar: View {
                     Button {
                         selectedIndex = index
                         viewModel.selectedCategory = index == 0 ? .register : .apply
-                        viewModel.fetchMeetings()
+                        viewModel.getMeetings()
                     } label: {
                         ZStack(alignment: .bottom) {
                             Text(type.rawValue)
@@ -52,7 +52,7 @@ struct MyFillSegmentControlBar: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .onAppear {
-            viewModel.fetchMeetings()
+            viewModel.getMeetings()
         }
     }
     
