@@ -23,19 +23,22 @@ struct CommentView: View {
                 isScrolled: true
             )
             
-            RecruitingState(viewModel.commentData?.groupStatus) == .CLOSED
-            ? nil
-            : CommentTextField(meetingDetailViewModel: viewModel)
-                .padding(0)
+                RecruitingState(viewModel.commentData?.groupStatus) == .CLOSED
+                ? nil
+                : CommentTextField(meetingDetailViewModel: viewModel)
+                    .padding(0)
+            
         }
-        .onAppear {
-            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
-            }
-        }
-        .onDisappear {
-            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        .onTapGesture {
+            hideKeyboard()
+            print("hideKeyboard")
         }
     }
 }
 
+// 키보드 숨기기 확장 함수
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
