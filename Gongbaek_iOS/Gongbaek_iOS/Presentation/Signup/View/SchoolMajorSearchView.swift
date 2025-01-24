@@ -13,30 +13,47 @@ struct SchoolMajorSearchView: View {
     let state: SearchViewState
     
     var body: some View {
-        VStack(spacing: 0) {
-            searchTextField()
-            
-            if !viewModel.searchWord.isEmpty {
-                if viewModel.searchResultList.isEmpty {
-                    emptyView()
+        ZStack {
+            VStack(spacing: 0) {
+                searchTextField()
+                
+                if !viewModel.searchWord.isEmpty {
+                    if viewModel.searchResultList.isEmpty {
+                        emptyView()
+                    } else {
+                        searchResultListView()
+                    }
+                    
+                    if state == .major {
+                        MajorDirectRegistrationButton(majorName: viewModel.searchWord) {
+                            viewModel.majorName = viewModel.searchWord
+                            navigationManager.dismissPresented()
+                        }
+                        .padding(.horizontal, 16)
+                    }
                 } else {
-                    searchResultListView()
+                    Spacer()
                 }
                 
-                if state == .major {
-                    MajorDirectRegistrationButton(majorName: viewModel.searchWord) {
-                        viewModel.majorName = viewModel.searchWord
-                        navigationManager.dismissPresented()
-                    }
-                    .padding(.horizontal, 16)
-                }
-            } else {
-                Spacer()
+                applyButton()
             }
+            .customNavigationBar(title: "검색하기", showXButton: true)
             
-            applyButton()
+            //에러뷰
+            
+            if viewModel.showAlert {
+                CustomedAlert(
+                    alertImage: "img_fail" ,
+                    titleText: "앗! 데이터를 불러오지 못했어요.",
+                    subtitleText: "다시 시도해주세요.",
+                    orangeButtonText: "확인",
+                    onTapOrangeButton: {
+                        viewModel.showAlert = false
+                    }
+                )
+            }
         }
-        .customNavigationBar(title: "검색하기", showXButton: true)
+        
     }
     
     private func searchTextField() -> some View {

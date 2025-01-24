@@ -58,19 +58,20 @@ extension Date {
     }
     
     // 날짜와 시간을 포맷팅하는 함수
-    static func formattedDateAndStartEndTime(weekDay: WeekDay?, weekDate: String?, startTime: Double, endTime: Double) -> String { // endTime도 필요
+    static func formattedDateAndStartEndTime(weekDay: WeekDay?, weekDate: String?, startTime: Double, endTime: Double) -> String {
         let formattedStartTime = formatTime(startTime)
         let formattedEndTime = formatTime(endTime)
         
-        if let weekDay = weekDay {
-            return "매주 \(weekDay.koreanName) \(formattedStartTime) - \(formattedEndTime)"
-        } else if let weekDate = weekDate {
+        if let weekDate = weekDate { // ✅ weekDate 값이 있으면 우선적으로 사용
             let formattedDate = formatDate(weekDate)
             return "\(formattedDate) \(formattedStartTime) - \(formattedEndTime)"
+        } else if let weekDay = weekDay { // ✅ weekDate가 없으면 weekDay 사용
+            return "매주 \(weekDay.koreanName) \(formattedStartTime) - \(formattedEndTime)"
         }
         
         return "시간 정보 없음"
     }
+
     
     // 댓글에 사용되는 시간 변경 로직
     static func formattedCommentDateTime(_ createdAt: String) -> String {

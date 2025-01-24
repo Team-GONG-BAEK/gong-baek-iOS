@@ -31,6 +31,13 @@ struct FillingView: View {
             .padding(.trailing, 16)
             .padding(.bottom, 24)
             
+            if viewModel.showAlert {
+                FullErrorView(onTapRetryButton: {
+                    viewModel.showAlert = false
+                    viewModel.getFillling()
+                })
+            }
+            
         }
         .customNavigationBar(title: "채우기", showXButton: false)
     }
