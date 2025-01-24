@@ -13,6 +13,8 @@ class MeetingDetailViewModel: ObservableObject {
     @Published var commentData: GetCommentsResponseDTO? = nil
     @Published var isSuccessGetData: Bool = true
     @Published var showAlert: Bool = false
+    @Published var showPatchAlert: Bool = false
+    @Published var showDeleteFailureAlert: Bool = false
     @Published var showErrorAlert: Bool = false
     @Published var showFullErrorView: Bool = false
     
@@ -79,20 +81,34 @@ class MeetingDetailViewModel: ObservableObject {
         }
         
         if isHost {
-            return state == .CLOSED ? nil : { print("삭제하기 처리") } //TODO: viewModel에서 action으로 변경
+            return state == .CLOSED ? nil : {
+                self.deleteMyMeeting(
+                    groupId: self.meetingDetailData?.groupId ?? 0,
+                    groupType: self.meetingDetailData?.groupType ?? ""
+                )
+            }
         }
         
         switch state {
         case .CLOSED:
             return nil
         case .RECRUITED:
-            return isApply ? { print("신청 취소 처리") } : nil
+            return isApply
+            ? {self.patchApplyMeeting(
+                groupId: self.meetingDetailData?.groupId ?? 0,
+                groupType: self.meetingDetailData?.groupType ?? ""
+            )}
+            : nil
         case .RECRUITING:
-            return isApply ? { print("신청 취소 처리") } :{
-                self.postApplyMeeting(
-                    groupId: self.meetingDetailData?.groupId ?? 0,
-                    groupType: self.meetingDetailData?.groupType ?? ""
-                )
+            return isApply
+            ? {self.patchApplyMeeting(
+                groupId: self.meetingDetailData?.groupId ?? 0,
+                groupType: self.meetingDetailData?.groupType ?? ""
+            )}
+            : {self.postApplyMeeting(
+                groupId: self.meetingDetailData?.groupId ?? 0,
+                groupType: self.meetingDetailData?.groupType ?? ""
+            )
                 self.showAlert = true
             }
         }
@@ -175,11 +191,41 @@ extension MeetingDetailViewModel {
             DispatchQueue.main.async {
                 if response.success {
                     self.isSuccessGetData = true
+                    print("✅ 취소 성공!")
+                } else {
+                    self.isSuccessGetData = false
+                    print("❌ 취소 실패: \(response.message ?? "알 수 없는 오류")")
+                }
+                self.getDetails(groupId: groupId, groupType: groupType) { _ in
+                    print("getDetails finished result and data: \(String(describing: self.getDetails))")
+                }
+            }
+        }
+    }
+    
+    func patchApplyMeeting(groupId: Int, groupType: String) {
+        let requestData = PostApplyMeetingRequestBodyDTO(
+            groupId: groupId,
+            groupType: groupType
+        )
+        
+        Providers.meetingDetailProvider.request(
+            target: .patchApplyMeeting(
+                data: requestData
+            ),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            print(requestData)
+            DispatchQueue.main.async {
+                if response.success {
+                    self.isSuccessGetData = true
+                    self.showPatchAlert = true
                     print("✅ 신청 성공!")
                 } else {
                     self.showFullErrorView = true
                     self.showErrorAlert = true
                     self.isSuccessGetData = false
+                    self.showPatchAlert = false
                     print("❌ 신청 실패: \(response.message ?? "알 수 없는 오류")")
                 }
                 self.getDetails(groupId: groupId, groupType: groupType) { _ in
@@ -210,7 +256,6 @@ extension MeetingDetailViewModel {
         }
     }
     
-    //TODO: 댓글 작성 API 로직 필요
     func postComment(groupId: Int, groupType: String, commentContent: String) {
         let requestData = PostCommentRequestBodyDTO(
             groupId: groupId,
@@ -236,4 +281,35 @@ extension MeetingDetailViewModel {
             }
         }
     }
+    
+    func deleteMyMeeting(groupId: Int, groupType: String) {
+        let requestData = PostApplyMeetingRequestBodyDTO(
+            groupId: groupId,
+            groupType: groupType
+        )
+        
+        Providers.meetingDetailProvider.request(
+            target: .deleteMyMeeting(
+                data: requestData
+            ),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            print(requestData)
+            DispatchQueue.main.async {
+                if response.success {
+                    self.isSuccessGetData = true
+                    self.showDeleteFailureAlert = true
+                    print("✅ 삭제 성공!")
+                } else {
+                    self.isSuccessGetData = false
+                    self.showDeleteFailureAlert = false
+                    print("❌ 삭제 실패: \(response.message ?? "알 수 없는 오류")")
+                }
+                self.getDetails(groupId: groupId, groupType: groupType) { _ in
+                    print("getDetails finished result and data: \(String(describing: self.getDetails))")
+                }
+            }
+        }
+    }
+
 }

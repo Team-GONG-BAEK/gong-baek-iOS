@@ -11,6 +11,8 @@ enum MeetingDetailTargetType {
     case getMeetingDetails(isPublic: Bool, groupId: Int, groupType: String)
     case getOwnerInfo(groupId: Int, groupType: String)
     case postApplyMeeting(data: PostApplyMeetingRequestBodyDTO)
+    case patchApplyMeeting(data: PostApplyMeetingRequestBodyDTO)
+    case deleteMyMeeting(data: PostApplyMeetingRequestBodyDTO)
 }
 
 extension MeetingDetailTargetType: BaseTargetType {
@@ -21,6 +23,10 @@ extension MeetingDetailTargetType: BaseTargetType {
         case .getOwnerInfo:
             return APIConstants.hasTokenHeader
         case .postApplyMeeting:
+            return APIConstants.hasTokenHeader
+        case .patchApplyMeeting:
+            return APIConstants.hasTokenHeader
+        case .deleteMyMeeting:
             return APIConstants.hasTokenHeader
         }
     }
@@ -33,6 +39,10 @@ extension MeetingDetailTargetType: BaseTargetType {
             return "/api/v1/fill/user/info"
         case .postApplyMeeting:
             return "/api/v1/group"
+        case .patchApplyMeeting:
+            return "/api/v1/my/groups"
+        case .deleteMyMeeting:
+            return "/api/v1/my/groups"
         }
     }
     
@@ -44,6 +54,10 @@ extension MeetingDetailTargetType: BaseTargetType {
             return .get
         case .postApplyMeeting:
             return .post
+        case .patchApplyMeeting:
+            return .patch
+        case .deleteMyMeeting:
+            return .delete
         }
     }
     
@@ -67,6 +81,12 @@ extension MeetingDetailTargetType: BaseTargetType {
                 encoding: URLEncoding.queryString
             )
         case .postApplyMeeting(let data):
+            return .requestJSONEncodable(data)
+            
+        case .patchApplyMeeting(let data):
+            return .requestJSONEncodable(data)
+            
+        case .deleteMyMeeting(let data):
             return .requestJSONEncodable(data)
         }
     }
