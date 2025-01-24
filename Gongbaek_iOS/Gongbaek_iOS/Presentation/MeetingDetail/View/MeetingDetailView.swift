@@ -47,7 +47,7 @@ struct MeetingDetailView: View {
                         viewModel.showAlert = false
                         if viewModel.isSuccessGetData {
                             navigationManager.push(
-                                view: MeetingDetailDestination.meetingDetail(
+                                view: MeetingRoomDestination.meetingRoom(
                                     groupId: groupId,
                                     groupType: groupType
                                 ))
