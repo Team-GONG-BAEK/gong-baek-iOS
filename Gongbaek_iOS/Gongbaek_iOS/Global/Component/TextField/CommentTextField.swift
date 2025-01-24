@@ -42,8 +42,9 @@ struct CommentTextField: View {
                         commentContent: comment
                     )
                 
-                guard !comment.isEmpty else { return }
-                comment = ""
+                    guard !comment.isEmpty else { return }
+                    hideKeyboard()
+                    comment = ""
             }) {
                 Image(.icSend24)
                     .resizable()
