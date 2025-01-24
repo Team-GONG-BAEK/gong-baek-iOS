@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MeetingInfoCell: View {
+    @EnvironmentObject var navigationManager: NavigationManager
     @State private var selectedButton: String?
     @State var meeting: Meeting
     let state: MeetingInfoState.FillItemState
@@ -15,6 +16,16 @@ struct MeetingInfoCell: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             MeetingInfoBase(state: .cell, meeting: meeting)
+                .onTapGesture {
+                    state == .fill
+                    ? navigationManager.push(
+                        view: MeetingDetailDestination.meetingDetail(
+                            groupId: meeting.groupId,
+                            groupType: meeting.groupType
+                        ))
+                    : nil
+                }
+            
             
             if state == .myFill {
                 HStack(spacing: 0) {
