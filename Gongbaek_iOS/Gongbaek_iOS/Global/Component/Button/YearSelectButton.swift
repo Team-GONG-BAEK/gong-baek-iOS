@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct YearSelectButton: View {
+    @ObservedObject var viewModel: SignupViewModel
     var isSelected: Bool
     var onTap: (() -> Void)?
     
@@ -20,7 +21,7 @@ struct YearSelectButton: View {
                 onTap?()
             }) {
                 HStack {
-                    Text("\(Date.currentYear())년")
+                    Text("\((viewModel.yearOfAdmission ?? 0000).removeComma())년")
                         .pretendardFont(.body1_m_16)
                         .foregroundColor(isSelected ? .gray10 : .gray04)
                     Spacer()
@@ -41,6 +42,6 @@ struct YearSelectButton: View {
 }
 
 #Preview {
-    YearSelectButton(isSelected: true)
+    YearSelectButton(viewModel: SignupViewModel(), isSelected: true)
         .padding(16)
 }

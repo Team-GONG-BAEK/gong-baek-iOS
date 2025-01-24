@@ -22,7 +22,8 @@ enum SignupStep: Int, CaseIterable {
     @ViewBuilder
     func view(
         viewModel: SignupViewModel,
-        navigationManager: NavigationManager
+        navigationManager: NavigationManager,
+        showYearPicker: Binding<Bool>
     ) -> some View {
         switch self {
         case .profileSelection:
@@ -42,7 +43,7 @@ enum SignupStep: Int, CaseIterable {
                 }
             )
         case .gradeAdmissionYearInput:
-            GradeAdmissionYearInputView(viewModel: viewModel)
+            GradeAdmissionYearInputView(viewModel: viewModel, showYearPicker: showYearPicker)
         case .mbtiSelection:
             MbtiSelectionView(viewModel: viewModel)
         case .sexSelection:
