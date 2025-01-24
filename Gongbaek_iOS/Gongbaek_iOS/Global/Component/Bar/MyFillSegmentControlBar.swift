@@ -18,23 +18,20 @@ enum MyFillingCategory: String, CaseIterable {
 }
 
 struct MyFillSegmentControlBar: View {
-    @State private var selectedIndex = 0
     @ObservedObject var viewModel: MyFillingViewModel
     
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                ForEach(MyFillingType.allCases.indices, id: \.self) { index in
-                    let type = MyFillingType.allCases[index]
-                    let isSelected = selectedIndex == index
+                ForEach(MyFillingCategory.allCases, id: \.self) { category in
+                    let isSelected = viewModel.selectedCategory == category
                     
                     Button {
-                        selectedIndex = index
-                        viewModel.selectedCategory = index == 0 ? .register : .apply
+                        viewModel.selectedCategory = category
                         viewModel.getMeetings()
                     } label: {
                         ZStack(alignment: .bottom) {
-                            Text(type.rawValue)
+                            Text(category == .register ? "내가 모집한" : "내가 신청한") 
                                 .pretendardFont(.body1_m_16)
                                 .foregroundColor(isSelected ? .gray10 : .gray05)
                                 .padding(.vertical, 15)
@@ -52,6 +49,9 @@ struct MyFillSegmentControlBar: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .onAppear {
+            viewModel.getMeetings()
+        }
+        .onChange(of: viewModel.selectedCategory) {
             viewModel.getMeetings()
         }
     }
