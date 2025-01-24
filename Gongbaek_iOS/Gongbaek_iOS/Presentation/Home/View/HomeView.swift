@@ -185,8 +185,6 @@ struct HomeView: View {
                             groupType: upcomingMeetingData.groupType
                         )
                     )
-                } else {
-                    navigationManager.push(view: FillingDestination.addMeeting)
                 }
                 print("tap")
             }

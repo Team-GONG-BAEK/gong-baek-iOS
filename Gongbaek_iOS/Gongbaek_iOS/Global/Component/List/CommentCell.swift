@@ -7,17 +7,8 @@
 
 import SwiftUI
 
-//struct Comment {
-//    var commentId = UUID()
-//    var isGroupHost: Bool
-//    var isWriter: Bool
-//    var nickname: String
-//    var body: String
-//    var createdAt: String
-//}
-
 struct CommentCell: View {
-    let comment: Comment //TODO: Binding 추가
+    let comment: Comment
     
     var body: some View {
         ZStack(alignment: .bottom) {
