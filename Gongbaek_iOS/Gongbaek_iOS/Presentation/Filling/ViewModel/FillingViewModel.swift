@@ -38,7 +38,7 @@ class FillingViewModel: ObservableObject {
                         coverImg: group.coverImg,
                         groupType: group.groupType,
                         groupTitle: group.groupTitle,
-                        weekDay: group.weekDay,
+                        weekDay: group.weekDay ?? "",
                         weekDate: group.weekDate,
                         startTime: group.startTime,
                         endTime: group.endTime,

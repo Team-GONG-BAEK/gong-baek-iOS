@@ -62,13 +62,14 @@ extension Date {
         let formattedStartTime = formatTime(startTime)
         let formattedEndTime = formatTime(endTime)
         
-        if let weekDate = weekDate { // ✅ weekDate 값이 있으면 우선적으로 사용
+        if let weekDate = weekDate {
             let formattedDate = formatDate(weekDate)
-            return "\(formattedDate) \(formattedStartTime) - \(formattedEndTime)"
-        } else if let weekDay = weekDay { // ✅ weekDate가 없으면 weekDay 사용
-            return "매주 \(weekDay.koreanName) \(formattedStartTime) - \(formattedEndTime)"
+            return "\(formattedDate) \(weekDay?.koreanName ?? "ㅗ") \(formattedStartTime) - \(formattedEndTime)"
         }
         
+        if let weekDay = weekDay {
+            return "매주 \(weekDay.koreanName) \(formattedStartTime) - \(formattedEndTime)"
+        }
         return "시간 정보 없음"
     }
 

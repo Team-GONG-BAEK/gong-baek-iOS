@@ -29,7 +29,7 @@ class MeetingDetailViewModel: ObservableObject {
             groupType: meetingDetailData?.groupType ?? "",
             groupTitle: meetingDetailData?.groupTitle ?? "",
             weekDay: meetingDetailData?.weekDay ?? "",
-            weekDate: meetingDetailData?.weekDate ?? "",
+            weekDate: meetingDetailData?.weekDate ?? nil,
             startTime: meetingDetailData?.startTime ?? 0,
             endTime: meetingDetailData?.endTime ?? 0,
             location: meetingDetailData?.location ?? ""

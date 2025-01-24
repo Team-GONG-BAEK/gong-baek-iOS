@@ -58,7 +58,7 @@ struct MeetingInfoBase: View {
                         TimeBox(
                             state: .gray,
                             text: Date.formattedDateAndStartEndTime(
-                                weekDay: WeekDay(meeting.weekDay), // String 처리 후 전달
+                                weekDay: WeekDay(meeting.weekDay), 
                                 weekDate: meeting.weekDate,
                                 startTime: meeting.startTime,
                                 endTime: meeting.endTime

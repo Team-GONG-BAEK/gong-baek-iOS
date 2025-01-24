@@ -15,7 +15,7 @@ struct Meeting: Codable, Identifiable {
     let coverImg: Int
     let groupType: String
     let groupTitle: String
-    let weekDay: String?
+    let weekDay: String
     let weekDate: String?
     let startTime: Double
     let endTime: Double
