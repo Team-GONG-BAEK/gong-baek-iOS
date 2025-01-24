@@ -177,8 +177,19 @@ struct HomeView: View {
     
     private func enterSpaceButton() -> some View {
         Button {
-            // TODO: O - 모임방 내비게이션 화면 이동
-            // TODO: X - 채우기 탭으로 이동
+            DispatchQueue.main.async {
+                if let upcomingMeetingData = viewModel.upcomingMeetingData {
+                    navigationManager.push(
+                        view: MeetingRoomDestination.meetingRoom(
+                            groupId: upcomingMeetingData.groupId,
+                            groupType: upcomingMeetingData.groupType
+                        )
+                    )
+                } else {
+                    navigationManager.push(view: FillingDestination.addMeeting)
+                }
+                print("tap")
+            }
         } label: {
             Text(
                 viewModel.upcomingMeetingData != nil

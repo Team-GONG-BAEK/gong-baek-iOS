@@ -43,6 +43,30 @@ enum MyFillingDestination: Hashable {
     }
 }
 
+enum MeetingDetailDestination: Hashable {
+    case meetingDetail
+    
+    @ViewBuilder
+    func view() -> some View {
+        switch self {
+        case .meetingDetail:
+            MeetingDetailView(viewModel: MeetingDetailViewModel())
+        }
+    }
+}
+
+enum MeetingRoomDestination: Hashable {
+    case meetingRoom(groupId: Int, groupType: String)
+    
+    @ViewBuilder
+    func view() -> some View {
+        switch self {
+        case .meetingRoom(let groupId, let groupType):
+            MeetingRoomView(viewModel: MeetingRoomViewModel(), groupId: groupId, groupType: groupType)
+        }
+    }
+}
+
 enum HomeDestination: Hashable {
 }
 

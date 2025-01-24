@@ -29,6 +29,14 @@ struct TabBarView: View {
 //                type.view()
 //                    .toolbar(.hidden, for: .navigationBar)
             }
+            .navigationDestination(for: MeetingDetailDestination.self) { type in
+                type.view()
+                    .toolbar(.hidden, for: .navigationBar)
+            }
+            .navigationDestination(for: MeetingRoomDestination.self) { type in
+                type.view()
+                    .toolbar(.hidden, for: .navigationBar)
+            }
         }
     }
 }
