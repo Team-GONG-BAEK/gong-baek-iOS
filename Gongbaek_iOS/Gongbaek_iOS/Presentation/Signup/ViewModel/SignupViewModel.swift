@@ -241,7 +241,7 @@ extension SignupViewModel {
             mbti: e_i.rawValue + s_n.rawValue + t_f.rawValue + j_p.rawValue,
             schoolName: schoolName,
             schoolMajor: majorName,
-            schoolGrade: gradeInt,
+            schoolGrade: gradeInt + 1,
             enterYear: yearOfAdmission,
             introduction: introduction,
             sex: sex.rawValue,
