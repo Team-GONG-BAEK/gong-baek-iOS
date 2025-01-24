@@ -13,6 +13,7 @@ final class NavigationManager: ObservableObject {
     @Published var groupType: String? = nil
     
     enum RootView {
+        case onboarding
         case signup
         case tabBar
     }

@@ -111,8 +111,7 @@ struct MeetingRoomView: View {
                     meetingRoomViewModel: viewModel,
                     commentCount: viewModel.commentData?.commentCount ?? 0,
                     comments: viewModel.commentData?.comments ?? [],
-                    isScrolled: false,
-                    onTapRefreshButton: nil
+                    isScrolled: false
                 )
                 .frame(maxHeight: .infinity)
             }
@@ -122,18 +121,28 @@ struct MeetingRoomView: View {
         }
         .customNavigationBar(isMeetingRoom: true, showBackButton: true)
         .onAppear {
-            print("onAppear called")
-            viewModel.getDetails(groupId: groupId, groupType: groupType) { _ in
-                print("getDetails finished, meetingDetailData: \(String(describing: viewModel.meetingDetailData))")
-            }
-            
-            viewModel.getMembers(groupId: groupId, groupType: groupType) { _ in
-                print("getMembers finished, memberData: \(String(describing: viewModel.memberData))")
-            }
-            
-            viewModel.getComments(groupId: groupId, groupType: groupType) { _ in
-                print("getComments finished, memberData: \(String(describing: viewModel.commentData))")
-            }
+            viewModel.fetchAllData(groupId: groupId, groupType: groupType)
+        }
+        
+        if viewModel.showFullErrorView {
+            FullErrorView(onTapRetryButton: {
+                viewModel.showFullErrorView = false
+                
+                viewModel.fetchAllData(groupId: groupId, groupType: groupType)
+            })
+            .customNavigationBar(showBackButton: true)
+        }
+        
+        if viewModel.showErrorAlert {
+            CustomedAlert(
+                alertImage: "img_fail" ,
+                titleText: "앗! 데이터를 불러오지 못했어요.",
+                subtitleText: "다시 시도해주세요.",
+                orangeButtonText: "확인",
+                onTapOrangeButton: {
+                    viewModel.showErrorAlert = false
+                }
+            )
         }
     }
     

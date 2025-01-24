@@ -10,17 +10,18 @@ import SwiftUI
 struct SignupView: View {
     @EnvironmentObject private var navigationManager: NavigationManager
     @StateObject private var viewModel = SignupViewModel()
-    @State private var currentStep: SignupStep = .profileSelection
+    @State private var currentStep: SignupStep = .gradeAdmissionYearInput
     @State private var showLottie = false
+    @State private var showYearPicker = false
     
     var body: some View {
         if showLottie {
             LottieView(animationName: "timetable", loopMode: .playOnce)
                 .ignoresSafeArea(edges: [.horizontal, .bottom])
                 .scaledToFill()
+                .frame(maxWidth: .infinity)
         } else {
             ZStack {
-                
                 VStack(spacing: 0) {
                     if currentStep != .signupCompletion {
                         ProgressBar(currentIndex: currentStep.rawValue)
@@ -29,7 +30,8 @@ struct SignupView: View {
                     /// currentStepIndex에 따라 변경되는 View
                     currentStep.view(
                         viewModel: viewModel,
-                        navigationManager: navigationManager
+                        navigationManager: navigationManager,
+                        showYearPicker: $showYearPicker
                     )
                     
                     Spacer()
@@ -74,16 +76,24 @@ struct SignupView: View {
                     }
                 )
                 
-                if viewModel.showAlert {
-                    CustomedAlert(
-                        alertImage: "img_fail" ,
-                        titleText: "앗! 데이터를 불러오지 못했어요.",
-                        subtitleText: "다시 시도해주세요.",
-                        orangeButtonText: "확인",
-                        onTapOrangeButton: {
-                            viewModel.showAlert = false
-                        }
-                    )
+                if showYearPicker {
+                    ZStack {
+                        Color.black.opacity(0.5)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .ignoresSafeArea()
+                            .transition(.opacity)
+                            .onTapGesture {
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    showYearPicker = false
+                                }
+                            }
+
+                        YearSelectBottomSheet(
+                            viewModel: viewModel,
+                            showBottomSheet: $showYearPicker
+                        )
+                        .transition(.move(edge: .bottom))
+                    }
                 }
             }
         }

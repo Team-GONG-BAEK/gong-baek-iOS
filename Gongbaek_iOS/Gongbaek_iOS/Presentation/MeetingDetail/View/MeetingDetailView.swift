@@ -26,10 +26,9 @@ struct MeetingDetailView: View {
                 MeetingDetailSegmentControlBar(viewModel: viewModel)
             }
             .customNavigationBar(showBackButton: true)
+            
             .onAppear {
-                viewModel.getDetails(groupId: groupId, groupType: groupType) { _ in }
-                viewModel.getOwnerInfo(groupId: groupId, groupType: groupType) { _ in }
-                viewModel.getComments(groupId: groupId, groupType: groupType) { _ in }
+                viewModel.fetchAllData(groupId: groupId, groupType: groupType)
             }
             
             if viewModel.showAlert {
@@ -46,11 +45,58 @@ struct MeetingDetailView: View {
                         viewModel.showAlert = false
                         if viewModel.isSuccessGetData {
                             navigationManager.push(
-                                view: MeetingDetailDestination.meetingDetail(
+                                view: MeetingRoomDestination.meetingRoom(
                                     groupId: groupId,
                                     groupType: groupType
                                 ))
                         }
+                    }
+                )
+            }
+            
+            if viewModel.showPatchAlert {
+                CustomedAlert(
+                    alertImage: viewModel.isSuccessGetData ? "img_fail" : "img_fail" ,
+                    titleText: viewModel.isSuccessGetData ? "모임 신청이 취소되었어요!" : "알 수 없는 이유로 신청 취소가 거부되었습니다.",
+                    orangeButtonText: viewModel.isSuccessGetData ? "확인" : "닫기",
+                    onTapOrangeButton: {
+                        viewModel.showPatchAlert = false
+                    }
+                )
+            }
+            
+            if viewModel.showDeleteFailureAlert {
+                CustomedAlert(
+                    alertImage: viewModel.isSuccessGetData ? "img_fail" : "img_fail" ,
+                    titleText: viewModel.isSuccessGetData ? "모임이 삭제되었어요!" : "알 수 없는 이유로 삭제가 거부되었습니다.",
+                    subtitleText: viewModel.isSuccessGetData ? "다른 모임을 더 등록해보세요!" : nil,
+                    orangeButtonText: viewModel.isSuccessGetData ? "완료" : "닫기",
+                    onTapOrangeButton: {
+                        viewModel.showDeleteFailureAlert = false
+                        if viewModel.isSuccessGetData {
+                            navigationManager.pop()
+                        }
+                    }
+                )
+            }
+          
+            if viewModel.showFullErrorView {
+                FullErrorView(onTapRetryButton: {
+                    viewModel.showFullErrorView = false
+                    
+                    viewModel.fetchAllData(groupId: groupId, groupType: groupType)
+                })
+                .customNavigationBar(showBackButton: true)
+            }
+            
+            if viewModel.showErrorAlert {
+                CustomedAlert(
+                    alertImage: "img_fail" ,
+                    titleText: "앗! 데이터를 불러오지 못했어요.",
+                    subtitleText: "다시 시도해주세요.",
+                    orangeButtonText: "확인",
+                    onTapOrangeButton: {
+                        viewModel.showErrorAlert = false
                     }
                 )
             }
