@@ -31,14 +31,6 @@ struct CommentView: View {
         }
         .onTapGesture {
             hideKeyboard()
-            print("hideKeyboard")
         }
-    }
-}
-
-// 키보드 숨기기 확장 함수
-extension View {
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
