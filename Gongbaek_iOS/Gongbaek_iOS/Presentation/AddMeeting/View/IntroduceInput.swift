@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import Combine
+
 struct IntroduceInput: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
@@ -30,6 +32,9 @@ struct IntroduceInput: View {
                 .padding(.bottom, 40)
         }
         .padding(.horizontal, 16)
+        .onTapGesture {
+            hideKeyboard()
+        }
     }
 }
 

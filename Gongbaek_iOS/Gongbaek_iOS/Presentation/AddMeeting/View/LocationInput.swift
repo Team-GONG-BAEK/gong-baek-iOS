@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import Combine
+
 struct LocationInput: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
@@ -42,6 +44,10 @@ struct LocationInput: View {
             
         }
         .padding(.horizontal, 16)
+        
+        .onTapGesture {
+            hideKeyboard()
+        }
     }
 }
 
