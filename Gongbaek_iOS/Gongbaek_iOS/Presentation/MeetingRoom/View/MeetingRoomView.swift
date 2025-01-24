@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import Combine
+
 struct MeetingRoomView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @StateObject var viewModel: MeetingRoomViewModel
@@ -118,6 +120,10 @@ struct MeetingRoomView: View {
             .ignoresSafeArea()
             
             viewModel.isCommentDisabled ? nil : CommentTextField(meetingRoomViewModel: viewModel)
+                .padding(0)
+        }
+        .onTapGesture {
+            hideKeyboard()
         }
         .customNavigationBar(isMeetingRoom: true, showBackButton: true)
         .onAppear {
