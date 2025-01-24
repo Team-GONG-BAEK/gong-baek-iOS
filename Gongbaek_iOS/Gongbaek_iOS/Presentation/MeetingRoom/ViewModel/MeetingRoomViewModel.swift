@@ -12,6 +12,7 @@ final class MeetingRoomViewModel: ObservableObject {
     @Published var memberData: GetMeetingRoomMembersResponseDTO? = nil
     @Published var commentData: GetCommentsResponseDTO? = nil
     @Published var isSuccessGetData: Bool = true
+    @Published var showErrorAlert: Bool = false
     
     var meetingStates: [MeetingChipState] {
         [
@@ -94,6 +95,9 @@ extension MeetingRoomViewModel {
             target: .getComments(isPublic: false, groupId: groupId, groupType: groupType),
             instance: BaseResponse<GetCommentsResponseDTO>.self
         ) { response in
+            if !response.success {
+                self.showErrorAlert = true
+            }
             self.commentData = response.data
         }
     }
@@ -113,6 +117,7 @@ extension MeetingRoomViewModel {
                     self.isSuccessGetData = true
                     print("✅ 댓글 등록 성공!")
                 } else {
+                    self.showErrorAlert = true
                     self.isSuccessGetData = false
                     print("❌ 댓글 등록 실패: \(response.message ?? "알 수 없는 오류")")
                 }
