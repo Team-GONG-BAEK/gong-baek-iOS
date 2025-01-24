@@ -26,6 +26,7 @@ struct MeetingDetailView: View {
                 MeetingDetailSegmentControlBar(viewModel: viewModel)
             }
             .customNavigationBar(showBackButton: true)
+            
             .onAppear {
                 viewModel.getDetails(groupId: groupId, groupType: groupType) { _ in }
                 viewModel.getOwnerInfo(groupId: groupId, groupType: groupType) { _ in }
@@ -51,6 +52,17 @@ struct MeetingDetailView: View {
                                     groupType: groupType
                                 ))
                         }
+                    }
+                )
+            }
+            
+            if viewModel.showPatchAlert {
+                CustomedAlert(
+                    alertImage: viewModel.isSuccessGetData ? "img_fail" : "img_success" ,
+                    titleText: viewModel.isSuccessGetData ? "모임 신청이 취소되었어요!" : "신청 취소가 불가능해요!",
+                    orangeButtonText: viewModel.isSuccessGetData ? "확인" : "닫기",
+                    onTapOrangeButton: {
+                        viewModel.showPatchAlert = false
                     }
                 )
             }
