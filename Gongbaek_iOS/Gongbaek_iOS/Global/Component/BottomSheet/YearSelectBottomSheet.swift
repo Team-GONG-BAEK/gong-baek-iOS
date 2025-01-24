@@ -9,18 +9,12 @@ import SwiftUI
 
 struct YearSelectBottomSheet: View {
     @ObservedObject var viewModel: SignupViewModel
-    @Environment(\.dismiss) private var dismiss
+    @Binding var showBottomSheet: Bool
 
     private let currentYear = Calendar.current.component(.year, from: Date())
 
     var body: some View {
         ZStack(alignment: .bottom) {
-            Color.grayBlack.opacity(0.7)
-                .edgesIgnoringSafeArea(.all)
-                .onTapGesture {
-                    dismiss()
-                }
-
             VStack(spacing: 0) {
                 RoundedRectangle(cornerRadius: 16)
                     .fill(Color.white)
@@ -43,13 +37,18 @@ struct YearSelectBottomSheet: View {
                             .tag(year)
                     }
                 }
-                .pickerStyle(WheelPickerStyle())
+                .pickerStyle(.wheel)
                 .frame(height: 180)
                 .padding(.bottom, 18)
                 .padding(.horizontal, 22)
 
                 BasicButton(text: "선택") {
-                    dismiss()
+                    withAnimation(.easeOut(duration: 0.2)) {
+                        showBottomSheet = false
+                        if viewModel.yearOfAdmission == nil {
+                            viewModel.yearOfAdmission = 2025
+                        }
+                    }
                 }
                 .padding(.vertical, 20)
                 .padding(.bottom, 32)
@@ -60,8 +59,7 @@ struct YearSelectBottomSheet: View {
             .presentationDragIndicator(.visible)
             .frame(maxHeight: .infinity, alignment: .bottom)
             .ignoresSafeArea(edges: .bottom)
+            .transition(.move(edge: .bottom))
         }
     }
 }
-
-
