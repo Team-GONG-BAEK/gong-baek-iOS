@@ -13,6 +13,7 @@ class MeetingDetailViewModel: ObservableObject {
     @Published var commentData: GetCommentsResponseDTO? = nil
     @Published var isSuccessGetData: Bool = true
     @Published var showAlert: Bool = false
+    @Published var showErrorAlert: Bool = false
     
     var isHost: Bool { meetingDetailData?.isHost ?? false }
     var isApply: Bool { meetingDetailData?.isApply ?? false }
@@ -173,6 +174,9 @@ extension MeetingDetailViewModel {
             instance: BaseResponse<GetCommentsResponseDTO>.self
         ) { response in
             print(response)
+            if !response.success {
+                self.showErrorAlert = true
+            }
             self.commentData = response.data
         }
     }
@@ -194,6 +198,7 @@ extension MeetingDetailViewModel {
                     print("✅ 댓글 등록 성공!")
                 } else {
                     self.isSuccessGetData = false
+                    self.showErrorAlert = false
                     print("❌ 댓글 등록 실패: \(response.message ?? "알 수 없는 오류")")
                 }
                 self.getComments(groupId: groupId, groupType: groupType) { _ in

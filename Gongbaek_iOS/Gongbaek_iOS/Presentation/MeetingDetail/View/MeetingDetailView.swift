@@ -54,6 +54,18 @@ struct MeetingDetailView: View {
                     }
                 )
             }
+            
+            if viewModel.showErrorAlert {
+                CustomedAlert(
+                    alertImage: "img_fail" ,
+                    titleText: "앗! 데이터를 불러오지 못했어요.",
+                    subtitleText: "다시 시도해주세요.",
+                    orangeButtonText: "확인",
+                    onTapOrangeButton: {
+                        viewModel.showErrorAlert = false
+                    }
+                )
+            }
         }
     }
     
