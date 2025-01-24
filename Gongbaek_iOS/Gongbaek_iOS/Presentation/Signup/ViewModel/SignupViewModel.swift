@@ -153,7 +153,7 @@ extension SignupViewModel {
         ) { response in
             print(response)
             if response.success {
-                self.showAlert = true
+                self.showAlert = false
                 guard let data = response.data else { return }
                 self.searchResultList = data.schoolNames
             } else {
