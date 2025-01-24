@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct MyFillingView: View {
-    @ObservedObject var viewModel: MyFillingViewModel
+    @StateObject var viewModel = MyFillingViewModel()
     
     var body: some View {
         ZStack {
-            MyFillSegmentControlBar(viewModel: MyFillingViewModel())
-
+            MyFillSegmentControlBar(viewModel: viewModel)
+            
             if viewModel.showAlert {
                 FullErrorView(onTapRetryButton: {
                     viewModel.showAlert = false
@@ -22,6 +22,9 @@ struct MyFillingView: View {
             }
         }
         .customNavigationBar(title: "나의 채움")
+        .onAppear {
+            viewModel.getMeetings()
+        }
     }
 }
 
