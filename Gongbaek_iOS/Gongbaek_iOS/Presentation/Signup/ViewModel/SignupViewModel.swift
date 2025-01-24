@@ -50,7 +50,7 @@ final class SignupViewModel: ObservableObject {
         case .profileSelection:
             return profileImageIndex != nil
         case .nicknameInput:
-            return !nickname.isEmpty
+            return nickname.count > 1
         case .schoolMajorInput:
             return !schoolName.isEmpty && !majorName.isEmpty
         case .gradeAdmissionYearInput:
@@ -60,7 +60,7 @@ final class SignupViewModel: ObservableObject {
         case .sexSelection:
             return sex != nil
         case .selfIntroductionWriting:
-            return !introduction.isEmpty
+            return introduction.count >= 20
         case .classTimeTableInput:
             return !selectedCells.isEmpty
         case .freeTimeTableConversion, .signupCompletion:
@@ -188,7 +188,7 @@ extension SignupViewModel {
     }
     
     /// 학교 검색 API
-    func getSchoolSearchResults(completion: @escaping (Bool) -> ()) {
+    func getSchoolSearchResults() {
         Providers.SignupProvider.request(
             target: .getSchoolSearchResults(schoolName: searchWord),
             instance: BaseResponse<GetSchoolSearchResponseDTO>.self
@@ -205,7 +205,7 @@ extension SignupViewModel {
     }
     
     /// 학과 검색 API
-    func getMajorSearchResults(completion: @escaping (Bool) -> ()) {
+    func getMajorSearchResults() {
         Providers.SignupProvider.request(
             target: .getMajorSearchResults(
                 schoolName: schoolName,
@@ -241,7 +241,7 @@ extension SignupViewModel {
             mbti: e_i.rawValue + s_n.rawValue + t_f.rawValue + j_p.rawValue,
             schoolName: schoolName,
             schoolMajor: majorName,
-            schoolGrade: gradeInt,
+            schoolGrade: gradeInt + 1,
             enterYear: yearOfAdmission,
             introduction: introduction,
             sex: sex.rawValue,
