@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import Combine
+
 struct CommentView: View {
     @ObservedObject var viewModel: MeetingDetailViewModel
     
@@ -21,7 +23,14 @@ struct CommentView: View {
                 isScrolled: true
             )
             
-            RecruitingState(viewModel.commentData?.groupStatus) == .CLOSED ? nil : CommentTextField(meetingDetailViewModel: viewModel)
+                RecruitingState(viewModel.commentData?.groupStatus) == .CLOSED
+                ? nil
+                : CommentTextField(meetingDetailViewModel: viewModel)
+                    .padding(0)
+            
+        }
+        .onTapGesture {
+            hideKeyboard()
         }
     }
 }

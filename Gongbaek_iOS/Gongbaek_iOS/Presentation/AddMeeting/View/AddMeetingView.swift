@@ -102,8 +102,3 @@ struct AddMeetingView: View {
     @Previewable @State var viewModel = AddMeetingViewModel()
     CoverImageSelect(viewModel: viewModel)
 }
-
-
-
-
-
