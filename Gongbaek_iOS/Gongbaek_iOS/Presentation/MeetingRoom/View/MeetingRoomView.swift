@@ -8,13 +8,32 @@
 import SwiftUI
 
 struct MeetingRoomView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
     @StateObject var viewModel: MeetingRoomViewModel
+    let groupId: Int
+    let groupType: String
     
     var body: some View {
         VStack(spacing: 0) {
             
             ScrollView(.vertical) {
                 VStack(spacing: 0) {
+                    Group {
+                        if let data = viewModel.meetingDetailData,
+                           let category = CategoryState(data.category) {
+                            Image(category.coverImage[data.coverImg - 1])
+                                .resizable()
+                                .scaledToFill()
+                                .frame(height: 232)
+                                .clipped()
+                        }
+                        else { Image(.sample)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(height: 232)
+                            .clipped() }
+                    }
+                    .overlay(
                     VStack(alignment: .leading, spacing: 0) {
                         HStack(spacing: 5) {
                             ForEach(viewModel.meetingStates.indices, id: \.self) { index in
@@ -47,14 +66,7 @@ struct MeetingRoomView: View {
                     .padding(.horizontal, 16)
                     .padding(.bottom, 16)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(
-                        Image("sample")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(height: 232)
-                            .clipped()
                     )
-                    
                     VStack(alignment: .leading, spacing: 0) {
                         HStack {
                             Image(.icPeople18)
@@ -70,7 +82,7 @@ struct MeetingRoomView: View {
                         .padding(.bottom, 12)
                         .padding(.horizontal, 16)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(.grayWhite)
+//                        .background(.grayWhite)
                     }
                     
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -84,7 +96,7 @@ struct MeetingRoomView: View {
                         .padding(.horizontal, 9)
                         .padding(.bottom, 16)
                     }
-                    .background(.grayWhite)
+//                    .background(.grayWhite)
                     
                     divider()
                     
@@ -101,21 +113,22 @@ struct MeetingRoomView: View {
                 )
                 .frame(maxHeight: .infinity)
             }
+            .ignoresSafeArea()
             
             viewModel.isCommentDisabled ? nil : CommentTextField(meetingRoomViewModel: viewModel)
         }
+        .customNavigationBar(showBackButton: true)
         .onAppear {
             print("onAppear called")
-            //TODO: Navigation 연결 시 수정
-            viewModel.getDetails(groupId: 7, groupType: "WEEKLY") { _ in
+            viewModel.getDetails(groupId: groupId, groupType: groupType) { _ in
                 print("getDetails finished, meetingDetailData: \(String(describing: viewModel.meetingDetailData))")
             }
             
-            viewModel.getMembers(groupId: 7, groupType: "WEEKLY") { _ in
+            viewModel.getMembers(groupId: groupId, groupType: groupType) { _ in
                 print("getMembers finished, memberData: \(String(describing: viewModel.memberData))")
             }
             
-            viewModel.getComments(groupId: 7, groupType: "WEEKLY") { _ in
+            viewModel.getComments(groupId: groupId, groupType: groupType) { _ in
                 print("getComments finished, memberData: \(String(describing: viewModel.commentData))")
             }
         }

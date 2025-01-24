@@ -70,10 +70,3 @@ struct CustomNavigationBarModifier: ViewModifier {
             .frame(maxWidth: .infinity, alignment: .center)
     }
 }
-
-#Preview {
-    ContentView()
-        .customNavigationBar(viewName: "채우기", showBackButton: true, showXButton: true)
-    ContentView()
-        .customNavigationBar(title: "채우기")
-}

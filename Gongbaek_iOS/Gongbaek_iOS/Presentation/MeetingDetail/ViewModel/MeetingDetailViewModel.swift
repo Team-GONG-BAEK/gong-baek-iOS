@@ -12,14 +12,16 @@ class MeetingDetailViewModel: ObservableObject {
     @Published var ownerInfoData: GetOwnerInfoResponseDTO? = nil
     @Published var commentData: GetCommentsResponseDTO? = nil
     @Published var isSuccessGetData: Bool = true
+    @Published var showAlert: Bool = false
     
     var isHost: Bool { meetingDetailData?.isHost ?? false }
     var isApply: Bool { meetingDetailData?.isApply ?? false }
     var meeting: Meeting {
         Meeting(
-            groupId: 0, status: meetingDetailData?.status ?? "",
-            category: meetingDetailData?.category ?? "",
-            coverImg: 5,
+            groupId: meetingDetailData?.groupId ?? 0,
+            status: meetingDetailData?.status ?? "",
+            category: meetingDetailData?.category ?? "카테고리오류",
+            coverImg: meetingDetailData?.coverImg ?? 10,
             groupType: meetingDetailData?.groupType ?? "",
             groupTitle: meetingDetailData?.groupTitle ?? "",
             weekDay: meetingDetailData?.weekDay ?? "",
@@ -89,6 +91,7 @@ class MeetingDetailViewModel: ObservableObject {
                     groupId: self.meetingDetailData?.groupId ?? 0,
                     groupType: self.meetingDetailData?.groupType ?? ""
                 )
+                self.showAlert = true
             }
         }
     }
