@@ -26,6 +26,12 @@ struct MeetingRoomView: View {
                                 .scaledToFill()
                                 .frame(height: 232)
                                 .clipped()
+                                .overlay(
+                                    Rectangle()
+                                        .fill(Color.grayBlack.opacity(0.5))
+                                        .frame(height: 232),
+                                    alignment: .center
+                                )
                         }
                         else { Image(.sample)
                                 .resizable()
@@ -34,38 +40,36 @@ struct MeetingRoomView: View {
                             .clipped() }
                     }
                     .overlay(
-                    VStack(alignment: .leading, spacing: 0) {
-                        HStack(spacing: 5) {
-                            ForEach(viewModel.meetingStates.indices, id: \.self) { index in
-                                MeetingChip(state: viewModel.meetingStates[index])
+                        VStack(alignment: .leading, spacing: 0) {
+                            HStack(spacing: 5) {
+                                ForEach(viewModel.meetingStates.indices, id: \.self) { index in
+                                    MeetingChip(state: viewModel.meetingStates[index])
+                                }
                             }
+                            .padding(.top, 116)
+                            
+                            Text(viewModel.groupTitle)
+                                .pretendardFont(.title1_b_20)
+                                .foregroundColor(.grayWhite)
+                                .lineLimit(nil)
+                                .padding(.bottom, 12)
+                            
+                            TimeBox(
+                                state: .white,
+                                text: Date.formattedDateAndStartEndTime(
+                                    weekDay: WeekDay(viewModel.weekDay),
+                                    weekDate: viewModel.weekDate,
+                                    startTime: viewModel.startTime,
+                                    endTime: viewModel.endTime
+                                ),
+                                font: .pretendard(.caption2_r_12)
+                            )
+                            .padding(.bottom, 2)
+                            LocationBox(state: .white, text: viewModel.location, font: .pretendard(.caption2_r_12))
                         }
-                        .padding(.top, 18)
-                        .padding(.bottom, 6)
-                        
-                        Text(viewModel.groupTitle)
-                            .pretendardFont(.title1_b_20)
-                            .foregroundColor(.grayWhite)
-                            .lineLimit(nil)
-                            .padding(.bottom, 12)
-                        
-                        TimeBox(
-                            state: .white,
-                            text: Date.formattedDateAndStartEndTime(
-                                weekDay: WeekDay(viewModel.weekDay),
-                                weekDate: viewModel.weekDate,
-                                startTime: viewModel.startTime,
-                                endTime: viewModel.endTime
-                            ),
-                            font: .pretendard(.caption2_r_12)
-                        )
-                        .padding(.bottom, 2)
-                        
-                        LocationBox(state: .white, text: viewModel.location, font: .pretendard(.caption2_r_12))
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 16)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 16)
+                            .padding(.bottom, 16)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     )
                     VStack(alignment: .leading, spacing: 0) {
                         HStack {
@@ -82,7 +86,7 @@ struct MeetingRoomView: View {
                         .padding(.bottom, 12)
                         .padding(.horizontal, 16)
                         .frame(maxWidth: .infinity, alignment: .leading)
-//                        .background(.grayWhite)
+                        //                        .background(.grayWhite)
                     }
                     
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -96,7 +100,7 @@ struct MeetingRoomView: View {
                         .padding(.horizontal, 9)
                         .padding(.bottom, 16)
                     }
-//                    .background(.grayWhite)
+                    //                    .background(.grayWhite)
                     
                     divider()
                     
@@ -117,7 +121,7 @@ struct MeetingRoomView: View {
             
             viewModel.isCommentDisabled ? nil : CommentTextField(meetingRoomViewModel: viewModel)
         }
-        .customNavigationBar(showBackButton: true)
+        .customNavigationBar(isMeetingRoom: true, showBackButton: true)
         .onAppear {
             print("onAppear called")
             viewModel.getDetails(groupId: groupId, groupType: groupType) { _ in

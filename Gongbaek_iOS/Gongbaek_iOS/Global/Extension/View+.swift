@@ -10,6 +10,7 @@ import SwiftUI
 extension View {
     
     func customNavigationBar(
+        isMeetingRoom: Bool = false,
         title: String? = nil,
         viewName: String? = nil,
         showBackButton: Bool = false,
@@ -17,7 +18,7 @@ extension View {
         onBackButtonTap: (() -> Void)? = nil
     ) -> some View {
         self.modifier(CustomNavigationBarModifier(
-            title: title,
+            isMeetingRoom: isMeetingRoom, title: title,
             viewName: viewName,
             showBackButton: showBackButton,
             showXButton: showXButton,
