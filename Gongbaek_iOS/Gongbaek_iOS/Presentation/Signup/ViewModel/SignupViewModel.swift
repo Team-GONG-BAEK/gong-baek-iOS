@@ -60,7 +60,7 @@ final class SignupViewModel: ObservableObject {
         case .sexSelection:
             return sex != nil
         case .selfIntroductionWriting:
-            return !introduction.isEmpty
+            return introduction.count >= 20
         case .classTimeTableInput:
             return !selectedCells.isEmpty
         case .freeTimeTableConversion, .signupCompletion:
