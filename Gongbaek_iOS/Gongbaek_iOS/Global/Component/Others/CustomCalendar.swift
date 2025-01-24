@@ -257,9 +257,3 @@ extension CustomCalendar {
         self.month = adjustedMonth(by: value)
     }
 }
-
-//#Preview {
-//    CustomCalendar()
-//        .padding(16)
-//    Spacer()
-//}
