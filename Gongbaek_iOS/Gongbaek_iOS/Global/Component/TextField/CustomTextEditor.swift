@@ -37,6 +37,8 @@ struct CustomTextEditor: View {
 
                 TextEditor(text: $text)
                     .padding(EdgeInsets(top: 6, leading: 11, bottom: 6, trailing: 11))
+                    .autocorrectionDisabled(true)
+                    .textInputAutocapitalization(.never)
                     .scrollContentBackground(.hidden)
                     .background(Color.clear)
                     .onChange(of: text) { [text] in

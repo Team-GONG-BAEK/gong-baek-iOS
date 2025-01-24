@@ -1,5 +1,5 @@
 //
-//  GradeState.swift
+//  SignupEnums.swift
 //  Gongbaek_iOS
 //
 //  Created by 김나연 on 1/20/25.

@@ -26,6 +26,8 @@ struct NicknameInputView: View {
                 showError: $viewModel.showNicknameError,
                 state: .nickname
             )
+            .autocorrectionDisabled(true)
+            .textInputAutocapitalization(.never)
             .padding(.horizontal, 16)
             
             Spacer()
