@@ -108,10 +108,52 @@ final class SignupViewModel: ObservableObject {
     func convertToTimeTableModel() -> [TimeTableRequestModel] {
         return classTimeTable.map {
             TimeTableRequestModel(
-                weekDay: $0.day.rawValue,
+                weekDay: $0.day.englishName,
                 startTime: $0.start,
                 endTime: $0.end
             )
+        }
+    }
+        
+    /// 선택된 셀들 수업 시간표 모델 데이터로 변환
+    private func saveSelectedCellsToClassTimeTable() {
+        classTimeTable.removeAll()
+        
+        // dayIndex -> 요일별로 그룹화
+        // hourIndex -> 오름차순 정렬
+        let groupedCells = Dictionary(grouping: selectedCells) { $0.dayIndex }
+            .mapValues { cells in
+                cells.sorted(by: {
+                    $0.hourIndex < $1.hourIndex
+                })
+            }
+
+        // 요일 그룹 순서대로 연속적인 수업 시간 계산
+        for (dayIndex, cells) in groupedCells {
+            var startTime: Double?
+            var endTime: Double?
+            
+            for cell in cells {
+                if let currentEnd = endTime,
+                    currentEnd == cell.hourIndex {
+                    // 현재 endTime과 연속적인 cell일 경우
+                    endTime = cell.hourIndex + 0.5
+                } else {
+                    // 불연속일 땐 지금까지 저장해둔 거 append
+                    if let s = startTime,
+                        let e = endTime {
+                        classTimeTable.append((day: WeekDay.allCases[dayIndex], start: s, end: e))
+                    }
+                    // 다시 시작! 현재 cell 시작/종료 시간 저장
+                    startTime = cell.hourIndex
+                    endTime = cell.hourIndex + 0.5
+                }
+            }
+            
+            // 마지막 남은 범위 추가
+            if let s = startTime, let e = endTime {
+                classTimeTable.append((day: WeekDay.allCases[dayIndex], start: s, end: e))
+            }
         }
     }
 }
@@ -191,6 +233,7 @@ extension SignupViewModel {
               let e_i, let s_n, let t_f, let j_p,
               let sex = sex
         else { return }
+        saveSelectedCellsToClassTimeTable()
         
         let data = PostSignupRequestDTO(
             profileImg: profileImage + 1,

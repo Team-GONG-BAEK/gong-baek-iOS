@@ -24,10 +24,7 @@ struct ClassTimeTableInputView: View {
                 .padding(.horizontal, 16)
                 .padding(.bottom, 24)
                 
-                OnboardingTimeTable(
-                    selectedCells: $viewModel.selectedCells,
-                    classTimeTable: $viewModel.classTimeTable
-                )
+                OnboardingTimeTable(viewModel: viewModel)
                 .padding(.horizontal, 16)
                 .padding(.bottom, 30)
             }
