@@ -44,8 +44,7 @@ struct MeetingRoomView: View {
                             HStack(spacing: 5) {
                                 ForEach(viewModel.meetingStates.indices, id: \.self) { index in
                                     MeetingChip(state: viewModel.meetingStates[index])
-                                }
-                            }
+                                }                            }
                             .padding(.top, 116)
                             
                             Text(viewModel.groupTitle)
