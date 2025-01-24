@@ -17,9 +17,9 @@
 ![Slide 16_9 - 153](https://github.com/user-attachments/assets/04fd99dd-74b1-473f-8154-cd90419c9223)
 
 ## 📍 주요 기능
-![Slide 16_9 - 168](https://github.com/user-attachments/assets/02a3b6cc-b8e6-42b0-8b4e-c9934d302d2f)
-![Slide 16_9 - 174](https://github.com/user-attachments/assets/646fdfb9-995e-4217-a53c-3083e9bbf4d2)
-![Slide 16_9 - 170](https://github.com/user-attachments/assets/570ce69f-972d-4994-a9ee-4e30026eaed4)
+![Slide 16_9 - 168](https://github.com/user-attachments/assets/6fc434d5-ce10-403d-a7a9-d5ada94124d7)
+![Slide 16_9 - 174](https://github.com/user-attachments/assets/10586aea-965d-489c-8b3a-18014afed0de)
+![Slide 16_9 - 170](https://github.com/user-attachments/assets/ae61964d-d892-4746-a3be-febeceaa9cba)
 
 
 ## 👩‍💻 About Developers
@@ -30,7 +30,8 @@
 | <p align="center">`스플래시/온보딩`<br>`홈`</p> | <p align="center">`나의 채움`<br>`모임 등록하기`<br>`채우기`</p> | <p align="center">`채우기 상세 페이지`<br>`모임방`</p> |
 
 ## 🐈‍⬛ GitFlow
-![깃플로우](https://github.com/user-attachments/assets/704515f3-9ca4-42e7-a46b-e2456fe96531)
+![깃플로우](https://github.com/user-attachments/assets/24889492-c64e-4647-8964-077af2919579)
+
 - Setting : 초기 프로젝트 세팅
 - Feat : 기능 구현, 추가
 - Chore : 간단한 수정, 코드 정리
@@ -47,6 +48,10 @@
 | Combine            | 비동기 이벤트 처리를 위한 프레임워크로, 데이터 스트림을 효과적으로 처리하고 리액티브 프로그래밍을 지원 | 내장 라이브러리 |
 | Lottie             | 애니메이션 파일(JSON) 렌더링 및 UI 인터랙션 강화 | ![Lottie](https://img.shields.io/badge/Lottie-4.2.0-blue)     |
 
+### MVVM + SwiftUI
+SwiftUI와 잘 어울리는 구조를 고려한 결과, MVVM(Model-View-ViewModel) 패턴을 적용하기로 결정했습니다.<br>
+MVVM은 비교적 직관적이며, SwiftUI의 데이터 바인딩 구조와 자연스럽게 연결된다는 장점이 있습니다.
+![Frame 1707484344](https://github.com/user-attachments/assets/659f67ba-d022-46ca-8f9a-67fb9c56f92b)
 
 ## 📏 Code Convention
 [🧩 공백 Code Convention](https://www.notion.so/Code-Convention-5a9c6a4435e0441d9b84ad289aa11660?pvs=4)
