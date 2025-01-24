@@ -14,6 +14,7 @@ class MeetingDetailViewModel: ObservableObject {
     @Published var isSuccessGetData: Bool = true
     @Published var showAlert: Bool = false
     @Published var showPatchAlert: Bool = false
+    @Published var showDeleteFailureAlert: Bool = false
     
     var isHost: Bool { meetingDetailData?.isHost ?? false }
     var isApply: Bool { meetingDetailData?.isApply ?? false }
@@ -78,7 +79,12 @@ class MeetingDetailViewModel: ObservableObject {
         }
         
         if isHost {
-            return state == .CLOSED ? nil : { print("삭제하기 처리") } //TODO: viewModel에서 action으로 변경
+            return state == .CLOSED ? nil : {
+                self.deleteMyMeeting(
+                    groupId: self.meetingDetailData?.groupId ?? 0,
+                    groupType: self.meetingDetailData?.groupType ?? ""
+                )
+            }
         }
         
         switch state {
@@ -240,4 +246,35 @@ extension MeetingDetailViewModel {
             }
         }
     }
+    
+    func deleteMyMeeting(groupId: Int, groupType: String) {
+        let requestData = PostApplyMeetingRequestBodyDTO(
+            groupId: groupId,
+            groupType: groupType
+        )
+        
+        Providers.meetingDetailProvider.request(
+            target: .deleteMyMeeting(
+                data: requestData
+            ),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            print(requestData)
+            DispatchQueue.main.async {
+                if response.success {
+                    self.isSuccessGetData = true
+                    self.showDeleteFailureAlert = true
+                    print("✅ 삭제 성공!")
+                } else {
+                    self.isSuccessGetData = false
+                    self.showDeleteFailureAlert = false
+                    print("❌ 삭제 실패: \(response.message ?? "알 수 없는 오류")")
+                }
+                self.getDetails(groupId: groupId, groupType: groupType) { _ in
+                    print("getDetails finished result and data: \(String(describing: self.getDetails))")
+                }
+            }
+        }
+    }
+
 }
