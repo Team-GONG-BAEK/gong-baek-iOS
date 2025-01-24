@@ -22,12 +22,11 @@ struct CommentView: View {
                 comments: viewModel.commentData?.comments ?? [],
                 isScrolled: true
             )
+            .frame(maxHeight: .infinity)
             
-                RecruitingState(viewModel.commentData?.groupStatus) == .CLOSED
-                ? nil
-                : CommentTextField(meetingDetailViewModel: viewModel)
-                    .padding(0)
-            
+            RecruitingState(viewModel.commentData?.groupStatus) == .CLOSED
+            ? nil
+            : CommentTextField(meetingDetailViewModel: viewModel).padding(.bottom, 0).frame(alignment: .bottom)
         }
         .onTapGesture {
             hideKeyboard()

@@ -65,17 +65,18 @@ struct MeetingDetailView: View {
                 )
             }
             
-            if viewModel.showDeleteFailureAlert {
+            if viewModel.showDeleteAlert {
                 CustomedAlert(
                     alertImage: viewModel.isSuccessGetData ? "img_fail" : "img_fail" ,
                     titleText: viewModel.isSuccessGetData ? "모임이 삭제되었어요!" : "알 수 없는 이유로 삭제가 거부되었습니다.",
                     subtitleText: viewModel.isSuccessGetData ? "다른 모임을 더 등록해보세요!" : nil,
                     orangeButtonText: viewModel.isSuccessGetData ? "완료" : "닫기",
                     onTapOrangeButton: {
-                        viewModel.showDeleteFailureAlert = false
-                        if viewModel.isSuccessGetData {
-                            navigationManager.pop()
-                        }
+                        
+                        viewModel.showDeleteAlert = false
+                        
+                        viewModel.isSuccessGetData ? navigationManager.pop() : nil
+                        print("pop")
                     }
                 )
             }

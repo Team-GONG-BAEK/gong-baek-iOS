@@ -12,7 +12,7 @@ struct MeetingInfoView: View {
     @State private var selectedIndex = 0
     
     var body: some View {
-        ZStack(alignment: .bottom) {
+        VStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
                     Text("소개글")

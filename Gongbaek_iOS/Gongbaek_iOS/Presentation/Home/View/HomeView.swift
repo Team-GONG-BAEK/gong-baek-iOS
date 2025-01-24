@@ -186,7 +186,7 @@ struct HomeView: View {
                         )
                     )
                 } else {
-                    navigationManager.push(view: FillingDestination.addMeeting)
+                    navigationManager.selectedTab = .filling
                 }
                 print("tap")
             }

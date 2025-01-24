@@ -14,7 +14,7 @@ class MeetingDetailViewModel: ObservableObject {
     @Published var isSuccessGetData: Bool = true
     @Published var showAlert: Bool = false
     @Published var showPatchAlert: Bool = false
-    @Published var showDeleteFailureAlert: Bool = false
+    @Published var showDeleteAlert: Bool = false
     @Published var showErrorAlert: Bool = false
     @Published var showFullErrorView: Bool = false
     
@@ -81,12 +81,12 @@ class MeetingDetailViewModel: ObservableObject {
         }
         
         if isHost {
-            return state == .CLOSED ? nil : {
-                self.deleteMyMeeting(
-                    groupId: self.meetingDetailData?.groupId ?? 0,
-                    groupType: self.meetingDetailData?.groupType ?? ""
-                )
-            }
+            return state == .CLOSED
+            ? nil
+            : { self.deleteMyMeeting(
+                groupId: self.meetingDetailData?.groupId ?? 0,
+                groupType: self.meetingDetailData?.groupType ?? ""
+            )}
         }
         
         switch state {
@@ -196,6 +196,7 @@ extension MeetingDetailViewModel {
                     self.isSuccessGetData = false
                     print("❌ 취소 실패: \(response.message ?? "알 수 없는 오류")")
                 }
+                self.showDeleteAlert = true
                 self.getDetails(groupId: groupId, groupType: groupType) { _ in
                     print("getDetails finished result and data: \(String(describing: self.getDetails))")
                 }
@@ -298,16 +299,12 @@ extension MeetingDetailViewModel {
             DispatchQueue.main.async {
                 if response.success {
                     self.isSuccessGetData = true
-                    self.showDeleteFailureAlert = true
                     print("✅ 삭제 성공!")
                 } else {
                     self.isSuccessGetData = false
-                    self.showDeleteFailureAlert = false
                     print("❌ 삭제 실패: \(response.message ?? "알 수 없는 오류")")
                 }
-                self.getDetails(groupId: groupId, groupType: groupType) { _ in
-                    print("getDetails finished result and data: \(String(describing: self.getDetails))")
-                }
+                self.showDeleteAlert = true
             }
         }
     }
