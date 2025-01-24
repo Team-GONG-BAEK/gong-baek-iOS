@@ -13,7 +13,6 @@ struct CommentList: View {
     var commentCount: Int
     var comments: [Comment]
     let isScrolled: Bool
-    var onTapRefreshButton: (() -> Void)?
     
     var body: some View {
         VStack(spacing: 0) {
@@ -46,8 +45,6 @@ struct CommentList: View {
             Spacer()
             Button(
                 action: {
-                    onTapRefreshButton?()
-                    
                     meetingDetailViewModel?.getComments(
                         groupId: meetingDetailViewModel?.meetingDetailData?.groupId ?? 0,
                         groupType: meetingDetailViewModel?.meetingDetailData?.groupType ?? ""

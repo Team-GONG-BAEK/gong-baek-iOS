@@ -150,6 +150,7 @@ extension MeetingDetailViewModel {
                     self.isSuccessGetData = true
                     print("✅ 신청 성공!")
                 } else {
+                    self.showErrorAlert = true
                     self.isSuccessGetData = false
                     print("❌ 신청 실패: \(response.message ?? "알 수 없는 오류")")
                 }
@@ -173,11 +174,11 @@ extension MeetingDetailViewModel {
             ),
             instance: BaseResponse<GetCommentsResponseDTO>.self
         ) { response in
-            print(response)
             if !response.success {
                 self.showErrorAlert = true
             }
             self.commentData = response.data
+            print(response)
         }
     }
     
