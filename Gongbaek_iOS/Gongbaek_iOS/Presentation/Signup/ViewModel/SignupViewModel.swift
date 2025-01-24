@@ -50,7 +50,7 @@ final class SignupViewModel: ObservableObject {
         case .profileSelection:
             return profileImageIndex != nil
         case .nicknameInput:
-            return !nickname.isEmpty
+            return nickname.count > 1
         case .schoolMajorInput:
             return !schoolName.isEmpty && !majorName.isEmpty
         case .gradeAdmissionYearInput:
