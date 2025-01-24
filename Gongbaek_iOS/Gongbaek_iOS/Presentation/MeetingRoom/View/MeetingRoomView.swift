@@ -120,7 +120,6 @@ struct MeetingRoomView: View {
         .customNavigationBar(showBackButton: true)
         .onAppear {
             print("onAppear called")
-            //TODO: Navigation 연결 시 수정
             viewModel.getDetails(groupId: groupId, groupType: groupType) { _ in
                 print("getDetails finished, meetingDetailData: \(String(describing: viewModel.meetingDetailData))")
             }

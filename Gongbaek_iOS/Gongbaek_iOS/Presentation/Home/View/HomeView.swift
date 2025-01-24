@@ -217,7 +217,17 @@ struct HomeView: View {
             )
             .frame(maxHeight: .infinity)
             .onTapGesture {
-                // TODO: 모임 상세 화면 내비게이션 이동
+                groupType == .WEEKLY
+                ? navigationManager.push(
+                    view: MeetingDetailDestination.meetingDetail(
+                        groupId: data.groupId,
+                        groupType: data.groupType
+                    ))
+                : navigationManager.push(
+                    view: MeetingDetailDestination.meetingDetail(
+                        groupId: data.groupId,
+                        groupType: data.groupType
+                    ))
             }
         }
     }
