@@ -41,6 +41,7 @@ final class SignupViewModel: ObservableObject {
     @Published var classTimeTable: [(day: WeekDay, start: Double, end: Double)] = []
     
     @Published var showAlert: Bool = false
+
     
     // MARK: - Methods
     
@@ -127,23 +128,23 @@ extension SignupViewModel {
                 self.showAlert = false
                 completion(true)
             } else {
+                print(response.code,"🚨")
                 switch response.code {
-                case 4092:
+                case 409:
                     /// 닉네임 중복 에러
+                    self.showAlert = false
                     completion(false)
                 case 4000..<5000:
+                    self.showAlert = false
                     print(response.message ?? "❗️유효하지 않은 요청")
-                    completion(false)
                 default:
+                    self.showAlert = true
                     print("❗️서버 통신 에러 발생")
-                    completion(false)
                 }
-                self.showAlert = true
             }
         }
     }
     
-    /// 학교 검색 API
     /// 학교 검색 API
     func getSchoolSearchResults(completion: @escaping (Bool) -> ()) {
         Providers.SignupProvider.request(
@@ -175,6 +176,8 @@ extension SignupViewModel {
                 self.showAlert = false
                 guard let data = response.data else { return }
                 self.searchResultList = data.schoolMajors
+            } else {
+                self.showAlert = true
             }
         }
     }
