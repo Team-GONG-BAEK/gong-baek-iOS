@@ -185,6 +185,8 @@ struct HomeView: View {
                             groupType: upcomingMeetingData.groupType
                         )
                     )
+                } else {
+                    navigationManager.selectedTab = .filling
                 }
                 print("tap")
             }
