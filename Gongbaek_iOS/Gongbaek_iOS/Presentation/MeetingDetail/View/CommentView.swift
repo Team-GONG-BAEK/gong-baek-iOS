@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import Combine
+
 struct CommentView: View {
     @ObservedObject var viewModel: MeetingDetailViewModel
     
@@ -21,7 +23,19 @@ struct CommentView: View {
                 isScrolled: true
             )
             
-            RecruitingState(viewModel.commentData?.groupStatus) == .CLOSED ? nil : CommentTextField(meetingDetailViewModel: viewModel)
+            RecruitingState(viewModel.commentData?.groupStatus) == .CLOSED
+            ? nil
+            : CommentTextField(meetingDetailViewModel: viewModel)
+                .padding(0)
+        }
+        .onAppear {
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+            }
+        }
+        .onDisappear {
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         }
     }
 }
+
