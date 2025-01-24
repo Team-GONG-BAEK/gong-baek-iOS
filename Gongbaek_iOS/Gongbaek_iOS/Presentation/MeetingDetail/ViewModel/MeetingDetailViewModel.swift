@@ -196,7 +196,7 @@ extension MeetingDetailViewModel {
                     self.isSuccessGetData = false
                     print("❌ 취소 실패: \(response.message ?? "알 수 없는 오류")")
                 }
-                self.showDeleteAlert = true
+                self.showAlert = true
                 self.getDetails(groupId: groupId, groupType: groupType) { _ in
                     print("getDetails finished result and data: \(String(describing: self.getDetails))")
                 }
