@@ -27,9 +27,7 @@ struct MeetingDetailView: View {
             }
             .customNavigationBar(showBackButton: true)
             .onAppear {
-                viewModel.getDetails(groupId: groupId, groupType: groupType) { _ in }
-                viewModel.getOwnerInfo(groupId: groupId, groupType: groupType) { _ in }
-                viewModel.getComments(groupId: groupId, groupType: groupType) { _ in }
+                viewModel.fetchAllData(groupId: groupId, groupType: groupType)
             }
             
             if viewModel.showAlert {
@@ -53,6 +51,15 @@ struct MeetingDetailView: View {
                         }
                     }
                 )
+            }
+            
+            if viewModel.showFullErrorView {
+                FullErrorView(onTapRetryButton: {
+                    viewModel.showFullErrorView = false
+                    
+                    viewModel.fetchAllData(groupId: groupId, groupType: groupType)
+                })
+                .customNavigationBar(showBackButton: true)
             }
             
             if viewModel.showErrorAlert {

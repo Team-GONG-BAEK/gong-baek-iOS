@@ -13,6 +13,7 @@ final class MeetingRoomViewModel: ObservableObject {
     @Published var commentData: GetCommentsResponseDTO? = nil
     @Published var isSuccessGetData: Bool = true
     @Published var showErrorAlert: Bool = false
+    @Published var showFullErrorView: Bool = false
     
     var meetingStates: [MeetingChipState] {
         [
@@ -58,6 +59,25 @@ final class MeetingRoomViewModel: ObservableObject {
 }
 
 extension MeetingRoomViewModel {
+    func fetchAllData(groupId: Int, groupType: String) {
+            let dispatchGroup = DispatchGroup()
+            
+            dispatchGroup.enter()
+            getDetails(groupId: groupId, groupType: groupType) { _ in
+                dispatchGroup.leave()
+            }
+            
+            dispatchGroup.enter()
+            getMembers(groupId: groupId, groupType: groupType) { _ in
+                dispatchGroup.leave()
+            }
+            
+            dispatchGroup.enter()
+            getComments(groupId: groupId, groupType: groupType) { _ in
+                dispatchGroup.leave()
+            }
+        }
+    
     func getMembers(
         groupId: Int,
         groupType: String,
@@ -67,6 +87,10 @@ extension MeetingRoomViewModel {
             target: .getMembers(isPublic: false, groupId: groupId, groupType: groupType),
             instance: BaseResponse<GetMeetingRoomMembersResponseDTO>.self
         ) { response in
+            if !response.success {
+                self.showFullErrorView = true
+                self.showErrorAlert = false
+            }
             print(response)
             self.memberData = response.data
         }
@@ -81,6 +105,10 @@ extension MeetingRoomViewModel {
             target: .getMeetingDetails(groupId: groupId, groupType: groupType),
             instance: BaseResponse<GetMeetingRoomDetailsResponseDTO>.self
         ) { response in
+            if !response.success {
+                self.showFullErrorView = true
+                self.showErrorAlert = false
+            }
             print(response)
             self.meetingDetailData = response.data
         }

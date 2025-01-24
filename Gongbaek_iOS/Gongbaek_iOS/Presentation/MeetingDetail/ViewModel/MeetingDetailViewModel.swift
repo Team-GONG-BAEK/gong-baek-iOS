@@ -14,6 +14,7 @@ class MeetingDetailViewModel: ObservableObject {
     @Published var isSuccessGetData: Bool = true
     @Published var showAlert: Bool = false
     @Published var showErrorAlert: Bool = false
+    @Published var showFullErrorView: Bool = false
     
     var isHost: Bool { meetingDetailData?.isHost ?? false }
     var isApply: Bool { meetingDetailData?.isApply ?? false }
@@ -99,6 +100,25 @@ class MeetingDetailViewModel: ObservableObject {
 }
 
 extension MeetingDetailViewModel {
+    func fetchAllData(groupId: Int, groupType: String) {
+        let dispatchGroup = DispatchGroup()
+        
+        dispatchGroup.enter()
+        getDetails(groupId: groupId, groupType: groupType) { _ in
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.enter()
+        getOwnerInfo(groupId: groupId, groupType: groupType) { _ in
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.enter()
+        getComments(groupId: groupId, groupType: groupType) { _ in
+            dispatchGroup.leave()
+        }
+    }
+    
     func getDetails(
         groupId: Int,
         groupType: String,
@@ -112,11 +132,14 @@ extension MeetingDetailViewModel {
             ),
             instance: BaseResponse<GetMeetingDetailsResponseDTO>.self
         ) { response in
+            if !response.success {
+                self.showFullErrorView = true
+                self.showErrorAlert = false
+            }
             print(response)
             self.meetingDetailData = response.data
         }
     }
-    
     
     func getOwnerInfo(
         groupId: Int,
@@ -127,6 +150,10 @@ extension MeetingDetailViewModel {
             target: .getOwnerInfo(groupId: groupId, groupType: groupType),
             instance: BaseResponse<GetOwnerInfoResponseDTO>.self
         ) { response in
+            if !response.success {
+                self.showFullErrorView = true
+                self.showErrorAlert = false
+            }
             print(response)
             self.ownerInfoData = response.data
         }
@@ -150,6 +177,7 @@ extension MeetingDetailViewModel {
                     self.isSuccessGetData = true
                     print("✅ 신청 성공!")
                 } else {
+                    self.showFullErrorView = true
                     self.showErrorAlert = true
                     self.isSuccessGetData = false
                     print("❌ 신청 실패: \(response.message ?? "알 수 없는 오류")")

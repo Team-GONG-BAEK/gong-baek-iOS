@@ -16,7 +16,6 @@ struct MeetingRoomView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                
                 ScrollView(.vertical) {
                     VStack(spacing: 0) {
                         Group {
@@ -115,10 +114,16 @@ struct MeetingRoomView: View {
             .customNavigationBar(showBackButton: true)
             
             .onAppear {
-                print("onAppear called")
-                viewModel.getDetails(groupId: groupId, groupType: groupType) { _ in }
-                viewModel.getMembers(groupId: groupId, groupType: groupType) { _ in }
-                viewModel.getComments(groupId: groupId, groupType: groupType) { _ in }
+                viewModel.fetchAllData(groupId: groupId, groupType: groupType)
+            }
+            
+            if viewModel.showFullErrorView {
+                FullErrorView(onTapRetryButton: {
+                    viewModel.showFullErrorView = false
+                    
+                    viewModel.fetchAllData(groupId: groupId, groupType: groupType)
+                })
+                .customNavigationBar(showBackButton: true)
             }
             
             if viewModel.showErrorAlert {
