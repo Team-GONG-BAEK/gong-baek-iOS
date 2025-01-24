@@ -18,8 +18,7 @@ struct CommentView: View {
                 meetingDetailViewModel: viewModel,
                 commentCount: viewModel.commentData?.commentCount ?? 0,
                 comments: viewModel.commentData?.comments ?? [],
-                isScrolled: true,
-                onTapRefreshButton: nil
+                isScrolled: true
             )
             
             RecruitingState(viewModel.commentData?.groupStatus) == .CLOSED ? nil : CommentTextField(meetingDetailViewModel: viewModel)
