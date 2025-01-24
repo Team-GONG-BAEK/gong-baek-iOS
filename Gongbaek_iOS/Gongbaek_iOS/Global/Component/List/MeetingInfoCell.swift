@@ -18,11 +18,11 @@ struct MeetingInfoCell: View {
             
             if state == .myFill {
                 HStack(spacing: 0) {
-                    MyFillCellButton(text: "작성글 보기")
+                    MyFillCellButton(groupId: meeting.groupId, groupType: meeting.groupType, text: "작성글 보기")
                     Rectangle()
                         .fill(.gray03)
                         .frame(width: 1, height: 14)
-                    MyFillCellButton(text: "스페이스 입장하기")
+                    MyFillCellButton(groupId: meeting.groupId, groupType: meeting.groupType, text: "스페이스 입장하기")
                 }
                 .background(.gray01)
                 .clipShape(RoundedRectangle(cornerRadius: 4))

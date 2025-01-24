@@ -44,13 +44,13 @@ enum MyFillingDestination: Hashable {
 }
 
 enum MeetingDetailDestination: Hashable {
-    case meetingDetail
+    case meetingDetail(groupId: Int, groupType: String)
     
     @ViewBuilder
     func view() -> some View {
         switch self {
-        case .meetingDetail:
-            MeetingDetailView(viewModel: MeetingDetailViewModel())
+        case .meetingDetail(let groupId, let groupType):
+            MeetingDetailView(viewModel: MeetingDetailViewModel(), groupId: groupId, groupType: groupType)
         }
     }
 }

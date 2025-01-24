@@ -16,6 +16,7 @@ struct MemberProfileBox: View {
                 Image(image)
                     .resizable()
                     .scaledToFill()
+                    .padding(8)
                     .frame(width: 80, height: 80)
                     .clipShape(RoundedRectangle(cornerRadius: 2))
                     .overlay(

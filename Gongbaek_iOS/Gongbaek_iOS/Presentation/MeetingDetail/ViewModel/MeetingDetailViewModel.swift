@@ -17,9 +17,10 @@ class MeetingDetailViewModel: ObservableObject {
     var isApply: Bool { meetingDetailData?.isApply ?? false }
     var meeting: Meeting {
         Meeting(
-            groupId: 0, status: meetingDetailData?.status ?? "",
-            category: meetingDetailData?.category ?? "",
-            coverImg: 5,
+            groupId: meetingDetailData?.groupId ?? 0,
+            status: meetingDetailData?.status ?? "",
+            category: meetingDetailData?.category ?? "카테고리오류",
+            coverImg: meetingDetailData?.coverImg ?? 10,
             groupType: meetingDetailData?.groupType ?? "",
             groupTitle: meetingDetailData?.groupTitle ?? "",
             weekDay: meetingDetailData?.weekDay ?? "",

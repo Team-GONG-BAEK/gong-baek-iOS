@@ -118,7 +118,6 @@ struct MeetingRoomView: View {
             viewModel.isCommentDisabled ? nil : CommentTextField(meetingRoomViewModel: viewModel)
         }
         .customNavigationBar(showBackButton: true)
-        .background(.clear)
         .onAppear {
             print("onAppear called")
             //TODO: Navigation 연결 시 수정

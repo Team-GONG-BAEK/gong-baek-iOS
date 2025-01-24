@@ -14,12 +14,17 @@ struct OwnerProfileBox: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            Image(ProfileDefaultImageMap.allCases[viewModel.ownerInfoData?.profileImg ?? 0].image)
-                .resizable()
-                .frame(width: 80, height: 80)
-                .background(.gray04) // MARK: - TODO: 이미지 삽입 시 삭제
-                .foregroundStyle(.mainOrange) // MARK: - TODO: 이미지 삽입 시 삭제
-            
+            if let image = ProfileDefaultImageMap.init(rawValue: (viewModel.ownerInfoData?.profileImg ?? 0) - 1)?.image {
+                Image(image)
+                    .resizable()
+                    .padding(8)
+                    .background(.grayWhite)
+                    .frame(width: 80, height: 80)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 2)
+                            .stroke(.gray02, lineWidth: 1)
+                    )
+            }
             VStack(alignment: .leading, spacing: 6) {
                 HStack(spacing: 4) {
                     Text(viewModel.ownerInfoData?.nickname ?? "")

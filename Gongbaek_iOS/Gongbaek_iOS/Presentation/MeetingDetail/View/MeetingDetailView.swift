@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct MeetingDetailView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
     @StateObject var viewModel = MeetingDetailViewModel()
+    let groupId: Int
+    let groupType: String
     
     var body: some View {
         VStack(spacing: 0) {
@@ -21,13 +24,13 @@ struct MeetingDetailView: View {
             
             MeetingDetailSegmentControlBar(viewModel: viewModel)
         }
+        .customNavigationBar(showBackButton: true)
         .onAppear {
-            //TODO: Navigation 연결 시 수정
-            viewModel.getDetails(groupId: 7, groupType: "WEEKLY") { _ in }
+            viewModel.getDetails(groupId: groupId, groupType: groupType) { _ in }
             
-            viewModel.getOwnerInfo(groupId: 7, groupType: "WEEKLY") { _ in }
+            viewModel.getOwnerInfo(groupId: groupId, groupType: groupType) { _ in }
             
-            viewModel.getComments(groupId: 7, groupType: "WEEKLY") { _ in }
+            viewModel.getComments(groupId: groupId, groupType: groupType) { _ in }
         }
     }
     
