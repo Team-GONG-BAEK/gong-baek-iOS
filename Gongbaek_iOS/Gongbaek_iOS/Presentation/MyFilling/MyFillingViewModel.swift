@@ -22,10 +22,6 @@ class MyFillingViewModel: ObservableObject {
     
     @Published var showAlert: Bool = false
     
-    init() {
-        getMeetings()
-    }
-    
     func getMeetings() {
         let dispatchGroup = DispatchGroup()
         var activeMeetings: [Meeting] = []
