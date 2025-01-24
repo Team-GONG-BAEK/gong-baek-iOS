@@ -134,7 +134,7 @@ extension SignupViewModel {
                     /// 닉네임 중복 에러
                     self.showAlert = false
                     completion(false)
-                case 4000..<5000:
+                case 400..<500:
                     self.showAlert = false
                     print(response.message ?? "❗️유효하지 않은 요청")
                 default:

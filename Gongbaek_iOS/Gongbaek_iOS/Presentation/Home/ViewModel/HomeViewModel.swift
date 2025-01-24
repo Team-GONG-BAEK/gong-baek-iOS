@@ -70,7 +70,6 @@ extension HomeViewModel {
         
         dispatchGroup.notify(queue: .main) {
             if let userProfile = userProfile,
-               let upcomingMeeting = upcomingMeeting,
                let joinableWeeklyMeetings = joinableWeeklyMeetings,
                let joinableOneTimeMeetings = joinableOneTimeMeetings {
                 
@@ -102,14 +101,13 @@ extension HomeViewModel {
     }
     
     /// 곧 다가오는 모임 조회
-    private func getUpcomingMeeting(completion: @escaping (GetUpcomingMeetingResponseDTO) -> Void) {
+    private func getUpcomingMeeting(completion: @escaping (GetUpcomingMeetingResponseDTO?) -> Void) {
         Providers.homeProvider.request(
             target: .getUpcomingMeeting,
             instance: BaseResponse<GetUpcomingMeetingResponseDTO>.self
         ) { response in
             if response.success {
-                guard let data = response.data else { return }
-                completion(data)
+                completion(response.data)
             } else {
                 self.showErrorView = true
             }
