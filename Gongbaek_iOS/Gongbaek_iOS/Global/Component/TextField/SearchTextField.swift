@@ -23,7 +23,7 @@ struct SearchTextField: View {
                 
                 ZStack {
                     TextField(
-                        "\(state.rawValue)을 검색하세요.",
+                        "\(state.rawValue)를 검색하세요.",
                         text: $inputText
                     )
                     .disabled(isButton)

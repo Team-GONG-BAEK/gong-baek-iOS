@@ -17,15 +17,16 @@ struct SelfIntroductionWritingView: View {
                 subtitle: "연락처나 SNS 입력이 아닌,\n자신을 소개하는 글을 적어주세요.",
                 highlightSubtitleText: "자신을 소개하는 글"
             )
-            .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top, 54)
             .padding(.horizontal, 16)
-            .padding(.bottom, 24)
+            .frame(maxWidth: .infinity, minHeight: 75, alignment: .leading)
+            .fixedSize(horizontal: false, vertical: true)
             
             CustomTextEditor(
                 text: $viewModel.introduction,
                 isSignupView: true
             )
+            .padding(.top, 24)
             .padding(.horizontal, 16)
             
             Spacer()
