@@ -66,6 +66,10 @@ struct SignupView: View {
                         showLottieAnimation()
                     }
                 }
+                
+                .onTapGesture {
+                    hideKeyboard()
+                }
                 .customNavigationBar(
                     showBackButton:
                         !(currentStep == .profileSelection
