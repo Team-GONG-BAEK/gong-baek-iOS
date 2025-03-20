@@ -86,7 +86,7 @@ struct AddMeetingView: View {
                         showAlert = false
                         if viewModel.isSuccessGetData {
                             navigationManager.popToRoot()
-                            navigationManager.selectedTab = .myFilling
+                            navigationManager.selectedTab = .filling
                         }
                     }
                 )
