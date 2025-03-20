@@ -19,12 +19,6 @@ struct CustomTabBar: View {
             )
             Spacer()
             tabButton(
-                tab: .myFilling,
-                selectedTab: $selectedTab,
-                text: TabBarState.myFilling.title
-            )
-            Spacer()
-            tabButton(
                 tab: .home,
                 selectedTab: $selectedTab,
                 text: TabBarState.home.title
