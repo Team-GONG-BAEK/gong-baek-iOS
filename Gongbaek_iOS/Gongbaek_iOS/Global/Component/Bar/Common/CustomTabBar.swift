@@ -31,12 +31,6 @@ struct CustomTabBar: View {
             )
             Spacer()
             tabButton(
-                tab: .timetable,
-                selectedTab: $selectedTab,
-                text: TabBarState.timetable.title
-            )
-            Spacer()
-            tabButton(
                 tab: .myPage,
                 selectedTab: $selectedTab,
                 text: TabBarState.myPage.title

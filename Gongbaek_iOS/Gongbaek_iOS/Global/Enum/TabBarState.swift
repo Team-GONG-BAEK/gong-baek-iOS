@@ -11,7 +11,6 @@ enum TabBarState: CaseIterable {
     case filling
     case myFilling
     case home
-    case timetable
     case myPage
 }
 
@@ -21,7 +20,6 @@ extension TabBarState {
         case .filling: "채우기"
         case .myFilling: "나의 채움"
         case .home: "홈"
-        case .timetable: "시간표"
         case .myPage: "마이"
         }
     }
@@ -31,7 +29,6 @@ extension TabBarState {
         case .filling: .icTabbarFillGray26
         case .myFilling: .icTabbarMyFillGray26
         case .home: .icTabbarHomeGray26
-        case .timetable: .icTabbarTimetableGray26
         case .myPage: .icTabbarMyGray26
         }
     }
@@ -41,7 +38,6 @@ extension TabBarState {
         case .filling: .icTabbarFillBlack26
         case .myFilling: .icTabbarMyFillBlack26
         case .home: .icTabbarHomeBlack26
-        case .timetable: .icTabbarTimetableBlack26
         case .myPage: .icTabbarMyBlack26
         }
     }
@@ -52,7 +48,6 @@ extension TabBarState {
         case .filling: FillingView()
         case .myFilling: MyFillingView(viewModel: MyFillingViewModel())
         case .home: HomeView()
-        case .timetable: Color.gray04
         case .myPage: Color.gray05
         }
     }
