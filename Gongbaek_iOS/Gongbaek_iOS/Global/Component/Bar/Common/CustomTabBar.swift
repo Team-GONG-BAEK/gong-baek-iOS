@@ -19,21 +19,9 @@ struct CustomTabBar: View {
             )
             Spacer()
             tabButton(
-                tab: .myFilling,
-                selectedTab: $selectedTab,
-                text: TabBarState.myFilling.title
-            )
-            Spacer()
-            tabButton(
                 tab: .home,
                 selectedTab: $selectedTab,
                 text: TabBarState.home.title
-            )
-            Spacer()
-            tabButton(
-                tab: .timetable,
-                selectedTab: $selectedTab,
-                text: TabBarState.timetable.title
             )
             Spacer()
             tabButton(
@@ -43,7 +31,7 @@ struct CustomTabBar: View {
             )
         }
         .padding(.vertical, 8)
-        .padding(.horizontal, 12)
+        .padding(.horizontal, 50)
         .background(.grayWhite)
     }
     
