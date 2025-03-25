@@ -21,7 +21,7 @@ struct TabBarView: View {
                 type.view()
                     .toolbar(.hidden, for: .navigationBar)
             }
-            .navigationDestination(for: MyFillingDestination.self) { type in
+            .navigationDestination(for: MyPageDestination.self) { type in
                 type.view()
                     .toolbar(.hidden, for: .navigationBar)
             }
