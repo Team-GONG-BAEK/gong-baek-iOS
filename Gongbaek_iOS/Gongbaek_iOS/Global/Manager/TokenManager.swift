@@ -13,7 +13,7 @@ final class TokenManager {
     static let shared = TokenManager()
     
     private let keychain = Keychain(service: I18N.Common.bundleID)
-
+    
     private init() {}
     
     var accessToken: String? {
@@ -67,6 +67,25 @@ extension TokenManager {
     func updateToken(_ accessToken: String, _ refreshToken: String) {
         self.accessToken = accessToken
         self.refreshToken = refreshToken
+    }
+    
+    func reissueToken(completion: @escaping (Bool) -> Void) {        
+        Providers.sigininProvider.request(
+            target: .patchReissue,
+            instance: BaseResponse<PatchReissueResponse>.self
+        ) { response in
+            
+            guard response.success, let data = response.data else {
+                print("토큰 재발급 실패! \(response.message ?? "알 수 없음")")
+                completion(false)
+                return
+            }
+            
+            print("토큰 재발급 성공")
+            
+            // 키체인에 새로운 토큰 저장
+            TokenManager.shared.updateToken(data.accessToken, data.refreshToken)
+        }
     }
     
     func updateFcmToken(_ fcmToken: String) {
