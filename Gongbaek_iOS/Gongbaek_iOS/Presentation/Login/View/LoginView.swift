@@ -9,6 +9,7 @@ import SwiftUI
 import AuthenticationServices
 
 struct LoginView: View {
+    @StateObject private var viewModel = LoginViewModel()
     var body: some View {
         ZStack(alignment: .top) {
             Color(.gray10).ignoresSafeArea()
@@ -31,6 +32,7 @@ struct LoginView: View {
                 
                 //애플 로그인 버튼
                 Button(action: {
+                    viewModel.handleAppleSignIn()
                 }) {
                     HStack(alignment: .center, spacing: 8) {
                         Image(.imgAppleLogo)
