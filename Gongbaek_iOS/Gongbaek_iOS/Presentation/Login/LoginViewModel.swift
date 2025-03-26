@@ -35,6 +35,9 @@ extension LoginViewModel: ASAuthorizationControllerDelegate {
         
         print("Apple 로그인 성공!!!")
         print("IdentityToken: \(String(describing: identityToken))")
+        
+        // Keychain에 로그인 정보 저장
+        TokenManager.shared.updateIdentityToken(identityToken: identityToken)
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
