@@ -8,13 +8,21 @@
 import SwiftUI
 
 struct AgreeView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
+    
+    @State private var isAllChecked: Bool = false
+    @State private var isTermsSelected: Bool = false
+    @State private var isPrivacySelected: Bool = false
+    @State private var webViewURL: URL? = nil
+    
     var body: some View {
-        
         ZStack {
-            VStack (alignment: .leading , spacing: 12) {
+            VStack (alignment: .leading, spacing: 12) {
                 HStack(spacing: 8) {
-                    Button(action: {}){
-                        Image(.checkUnfill32)
+                    Button(action: {
+                        toggleAllAgreement()
+                    }) {
+                        Image(isAllChecked ? .checkFill32 : .checkUnfill32)
                             .resizable()
                             .frame(width: 32, height: 32)
                     }
@@ -27,20 +35,50 @@ struct AgreeView: View {
                     .foregroundColor(.gray02)
                 
                 VStack(spacing: 8) {
-                    AgreeListCell(text: "[필수] 서비스 이용약관", isSelected: false)
-                    AgreeListCell(text: "[필수] 개인정보 처리 방침", isSelected: false)
+                    AgreeListCell(
+                        text: AgreeState.terms.titleText,
+                        isSelected: $isTermsSelected,
+                        onTap: { navigateToWebView(for: .terms) }
+                    )
+                    AgreeListCell(
+                        text: AgreeState.privacy.titleText,
+                        isSelected: $isPrivacySelected,
+                        onTap: { navigateToWebView(for: .privacy) }
+                    )
                 }
                 .padding(.trailing, -12)
                 
                 Spacer()
                 
-                BasicButton(text: "다음", isActivated: false)
-                
+                BasicButton(
+                    text: "다음",
+                    isActivated: isAllChecked,
+                )
             }
             .padding(.horizontal, 16)
             .padding(.top, 38)
         }
         .customNavigationBar(title: "약관 동의", showBackButton: true)
+    }
+}
+
+extension AgreeView {
+    
+    func toggleAllAgreement() {
+        isAllChecked.toggle()
+        
+        isTermsSelected = isAllChecked
+        isPrivacySelected = isAllChecked
+    }
+    
+    func updateIsChecked() {
+        isAllChecked = isTermsSelected && isPrivacySelected
+    }
+    
+    func navigateToWebView(for item: AgreeState) {
+        webViewURL = item.webURL
+        
+        //웹뷰로 이동하도록 로직 추가
     }
 }
 

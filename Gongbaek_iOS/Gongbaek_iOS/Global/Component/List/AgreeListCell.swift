@@ -9,12 +9,15 @@ import SwiftUI
 
 struct AgreeListCell: View {
     var text: String
-    var isSelected: Bool
+    @Binding var isSelected: Bool
     var onTap: (() -> Void)?
     
     var body: some View {
         HStack(spacing: 8) {
-            Button(action: {}) {
+            Button(action: {
+                isSelected.toggle()
+                onTap?()
+            }) {
                 Image(.checkGray32)
                     .renderingMode(.template)
                     .foregroundColor(isSelected ? .mainOrange : .gray03)
@@ -36,6 +39,6 @@ struct AgreeListCell: View {
     }
 }
 
-#Preview {
-    AgreeListCell(text: "[필수] 서비스 이용약관", isSelected: true)
-}
+//#Preview {
+//    AgreeListCell(text: "[필수] 서비스 이용약관", isSelected: true)
+//}
