@@ -9,7 +9,9 @@ import SwiftUI
 import AuthenticationServices
 
 struct LoginView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
     @StateObject private var viewModel = LoginViewModel()
+    
     var body: some View {
         ZStack(alignment: .top) {
             Color(.gray10).ignoresSafeArea()
@@ -27,7 +29,7 @@ struct LoginView: View {
                 .foregroundColor(.grayWhite)
                 .font(.pretendard(.body2_sb_14))
                 .padding(.top, 28)
-
+                
                 Spacer()
                 
                 //애플 로그인 버튼
@@ -48,6 +50,11 @@ struct LoginView: View {
                 .cornerRadius(6)
                 .padding(.horizontal, 16)
                 .padding(.bottom, 24)
+            }
+        }
+        .onChange(of: viewModel.isSignedIn) {
+            if viewModel.isSignedIn {
+                navigationManager.push(view: LoginDestination.agree)
             }
         }
     }

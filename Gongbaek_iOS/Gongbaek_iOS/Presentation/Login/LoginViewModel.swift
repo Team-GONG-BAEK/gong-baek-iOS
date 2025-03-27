@@ -11,9 +11,7 @@ import AuthenticationServices
 class LoginViewModel: NSObject, ObservableObject {
     // 로그인 상태 확인할 변수
     @Published var isSignedIn = false
-    
-    var navigationManager: NavigationManager?
-    
+        
     // Apple 로그인
     func handleAppleSignIn() {
         let request = ASAuthorizationAppleIDProvider().createRequest()
@@ -46,7 +44,6 @@ class LoginViewModel: NSObject, ObservableObject {
             // 키체인에 토큰 저장
             TokenManager.shared.updateToken(data.accessToken, data.refreshToken)
             
-            self.navigationManager?.rootView = .signup
         }
     }
     
