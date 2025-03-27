@@ -13,7 +13,7 @@ struct MyProfile: View {
     var body: some View {
         HStack(spacing: 14) {
             let imageIndex = profile?.profileImg  ?? 0
-            let profileImage = ProfileDefaultImageMap(rawValue: imageIndex - 1)?.image ?? .imgProfileDefault0
+            let profileImage = ProfileDefaultImageMap(rawValue: imageIndex)?.image ?? .imgProfileDefault0
             
             Image(profileImage)
                 .resizable()
