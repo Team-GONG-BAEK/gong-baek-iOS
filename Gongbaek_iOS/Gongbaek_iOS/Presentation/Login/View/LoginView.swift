@@ -39,7 +39,7 @@ struct LoginView: View {
                     HStack(alignment: .center, spacing: 8) {
                         Image(.imgAppleLogo)
                             .resizable()
-                            .frame(width: 13, height: 14)
+                            .frame(width: 14, height: 16)
                         Text("Apple로 로그인")
                             .foregroundColor(.grayBlack)
                     }
