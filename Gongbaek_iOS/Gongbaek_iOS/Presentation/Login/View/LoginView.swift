@@ -10,7 +10,7 @@ import AuthenticationServices
 
 struct LoginView: View {
     @EnvironmentObject var navigationManager: NavigationManager
-    @StateObject private var viewModel = LoginViewModel()
+    @ObservedObject private var viewModel = LoginViewModel()
     
     var body: some View {
         ZStack(alignment: .top) {
