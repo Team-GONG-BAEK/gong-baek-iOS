@@ -53,14 +53,14 @@ struct AgreeView: View {
                 BasicButton(
                     text: "다음",
                     isActivated: isAllChecked,
-                    onTap: { navigateToAddMeeting() }
+                    onTap: { navigateToSignupView() }
                 )
             }
             .padding(.horizontal, 16)
             .padding(.top, 38)
         }
         .customNavigationBar(title: "약관 동의", showBackButton: true)
-        .onChange(of: [isTermsSelected, isPrivacySelected]) { _ in
+        .onChange(of: [isTermsSelected, isPrivacySelected]) {
             updateIsChecked()
         }
     }
@@ -85,8 +85,9 @@ extension AgreeView {
         //웹뷰로 이동하도록 로직 추가
     }
     
-    func navigateToAddMeeting() {
-        //navigationManager.push(view: SplashDestination.onboarding)
+    func navigateToSignupView() {
+        navigationManager.pop()
+        navigationManager.rootView = .signup
     }
 }
 
