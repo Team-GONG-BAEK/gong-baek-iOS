@@ -37,7 +37,6 @@ struct MeetingInfoBase: View {
                 // 모임 태그
                 HStack(spacing: 4) {
                     let states: [MeetingChipState] = [
-                        RecruitingState(meeting.status).map { .recruiting($0) },
                         CategoryState(meeting.category).map { .category($0) },
                         GroupState(meeting.groupType).map { .weekly($0) }
                     ].compactMap { $0 }
