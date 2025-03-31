@@ -23,7 +23,7 @@ class LoginViewModel: NSObject, ObservableObject {
     }
     
     // 로그인 서버 통신
-    func postSignin() {
+    private func postSignin() {
         let requestBody = PostSigninRequestDTO(platform: PlatformType.APPLE.rawValue)
 
         Providers.sigininProvider.request(

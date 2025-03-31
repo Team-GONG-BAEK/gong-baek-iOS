@@ -17,7 +17,7 @@ enum LoginDestination: Hashable {
         case .login:
             LoginView()
         case .agree:
-            AgreeView()
+            AgreementView()
         }
     }
 }

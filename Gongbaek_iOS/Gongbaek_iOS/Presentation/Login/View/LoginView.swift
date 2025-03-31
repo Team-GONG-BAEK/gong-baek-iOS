@@ -31,25 +31,8 @@ struct LoginView: View {
                 .padding(.top, 28)
                 
                 Spacer()
-                
-                //애플 로그인 버튼
-                Button(action: {
-                    viewModel.handleAppleSignIn()
-                }) {
-                    HStack(alignment: .center, spacing: 8) {
-                        Image(.imgAppleLogo)
-                            .resizable()
-                            .frame(width: 14, height: 16)
-                        Text("Apple로 로그인")
-                            .foregroundColor(.grayBlack)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 21)
-                }
-                .background(.grayWhite)
-                .cornerRadius(6)
-                .padding(.horizontal, 16)
-                .padding(.bottom, 24)
+
+                AppleLoginButton(onTap:viewModel.handleAppleSignIn)
             }
         }
         .onChange(of: viewModel.isSignedIn) {

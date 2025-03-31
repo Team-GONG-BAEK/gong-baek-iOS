@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AgreeView: View {
+struct AgreementView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     
     @State private var isAllChecked: Bool = false
@@ -35,12 +35,12 @@ struct AgreeView: View {
                     .foregroundColor(.gray02)
                 
                 VStack(spacing: 8) {
-                    AgreeListCell(
+                    AgreementListCell(
                         text: AgreeState.terms.titleText,
                         isSelected: $isTermsSelected,
                         onTap: { navigateToWebView(for: .terms) }
                     )
-                    AgreeListCell(
+                    AgreementListCell(
                         text: AgreeState.privacy.titleText,
                         isSelected: $isPrivacySelected,
                         onTap: { navigateToWebView(for: .privacy) }
@@ -66,7 +66,7 @@ struct AgreeView: View {
     }
 }
 
-extension AgreeView {
+extension AgreementView {
     
     func toggleAllAgreement() {
         isAllChecked.toggle()
@@ -92,5 +92,5 @@ extension AgreeView {
 }
 
 #Preview {
-    AgreeView()
+    AgreementView()
 }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AgreeListCell: View {
+struct AgreementListCell: View {
     var text: String
     @Binding var isSelected: Bool
     var onTap: (() -> Void)?

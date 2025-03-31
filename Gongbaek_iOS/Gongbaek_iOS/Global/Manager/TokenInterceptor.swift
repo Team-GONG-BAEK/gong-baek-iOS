@@ -5,7 +5,7 @@
 //  Created by 김민서 on 3/21/25.
 //
 
-import UIKit
+import Foundation
 
 import Alamofire
 
@@ -23,10 +23,8 @@ final class TokenInterceptor: RequestInterceptor {
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
         
         // 토큰이 있는지 확인
-        guard urlRequest.url?.absoluteString.hasPrefix(Config.baseURL) == true,
-              let accessToken = TokenManager.shared.accessToken,
-              let refreshToken = TokenManager.shared.refreshToken
-        else {
+        guard let accessToken = TokenManager.shared.accessToken,
+              let refreshToken = TokenManager.shared.refreshToken else {
             completion(.success(urlRequest)) // 토큰이 없으면 요청을 그대로 반환
             return
         }

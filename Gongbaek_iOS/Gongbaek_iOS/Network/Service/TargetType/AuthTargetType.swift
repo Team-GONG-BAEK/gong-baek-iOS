@@ -18,7 +18,7 @@ extension AuthTargetType: BaseTargetType {
         case .postSignin:
             return APIConstants.appleAuthHeader
         case .patchReissue:
-            return APIConstants.appleAuthHeader
+            return APIConstants.refreshTokenHeader
         }
     }
     
