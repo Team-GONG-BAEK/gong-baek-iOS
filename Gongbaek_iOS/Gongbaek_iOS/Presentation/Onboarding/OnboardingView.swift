@@ -61,7 +61,7 @@ struct OnboardingView: View {
                             if currentPage < pages.count - 1 {
                                 currentPage += 1
                             } else {
-                                navigationManager.rootView = .signup
+                                // TODO: - signupView로 화면 전환
                             }
                         }
                     }

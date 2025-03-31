@@ -7,6 +7,21 @@
 
 import SwiftUI
 
+enum LoginDestination: Hashable {
+    case login
+    case agree
+    
+    @ViewBuilder
+    func view() -> some View {
+        switch self {
+        case .login:
+            LoginView()
+        case .agree:
+            AgreementView()
+        }
+    }
+}
+
 enum SignupDestination: Hashable {
     case signup
     

@@ -17,6 +17,7 @@ struct MyProfile: View {
             
             Image(profileImage)
                 .resizable()
+                .scaledToFill()
                 .frame(width: 64, height: 64)
                 .padding(8)
                 .border(.gray02, width: 1)

@@ -19,15 +19,15 @@ extension MeetingDetailTargetType: BaseTargetType {
     var headers: Parameters? {
         switch self {
         case .getMeetingDetails:
-            return APIConstants.hasTokenHeader
+            return APIConstants.accessTokenHeader
         case .getOwnerInfo:
-            return APIConstants.hasTokenHeader
+            return APIConstants.accessTokenHeader
         case .postApplyMeeting:
-            return APIConstants.hasTokenHeader
+            return APIConstants.accessTokenHeader
         case .patchApplyMeeting:
-            return APIConstants.hasTokenHeader
+            return APIConstants.accessTokenHeader
         case .deleteMyMeeting:
-            return APIConstants.hasTokenHeader
+            return APIConstants.accessTokenHeader
         }
     }
     
