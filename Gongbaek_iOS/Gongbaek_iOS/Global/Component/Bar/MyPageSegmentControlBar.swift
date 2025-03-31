@@ -10,11 +10,13 @@ import SwiftUI
 enum MyMeetingType: String, CaseIterable {
     case apply = "내가 신청한"
     case register = "내가 모집한"
-}
-
-enum MyMeetingCategory: String, CaseIterable {
-    case apply = "APPLY"
-    case register = "REGISTER"
+    
+    var category: String {
+        switch self {
+        case .apply: return "APPLY"
+        case .register: return "REGISTER"
+        }
+    }
 }
 
 struct MyPageSegmentControlBar: View {
@@ -23,7 +25,7 @@ struct MyPageSegmentControlBar: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                ForEach(MyMeetingCategory.allCases, id: \.self) { category in
+                ForEach(MyMeetingType.allCases, id: \.self) { category in
                     let isSelected = viewModel.selectedCategory == category
                     
                     Button {

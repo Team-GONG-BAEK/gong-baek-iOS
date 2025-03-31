@@ -15,7 +15,7 @@ struct myFillStatus {
 class MyPageViewModel: ObservableObject {
     @Published var activeMeetings: [Meeting] = []
     @Published var endedMeetings: [Meeting] = []
-    @Published var selectedCategory: MyMeetingCategory = .apply
+    @Published var selectedCategory: MyMeetingType = .apply
     
     @Published var isActiveEmpty: Bool = false
     @Published var isEndedEmpty: Bool = false
@@ -29,7 +29,7 @@ class MyPageViewModel: ObservableObject {
         
         dispatchGroup.enter()
         Providers.fillingProvider.request(
-            target: .getMyFilling(category: selectedCategory.rawValue, status: true),
+            target: .getMyFilling(category: selectedCategory.category, status: true),
             instance: BaseResponse<GetMyFillingResponseDTO>.self
         ) { response in
             if response.success, let groupsData = response.data {
@@ -43,7 +43,7 @@ class MyPageViewModel: ObservableObject {
         
         dispatchGroup.enter()
         Providers.fillingProvider.request(
-            target: .getMyFilling(category: selectedCategory.rawValue, status: false),
+            target: .getMyFilling(category: selectedCategory.category, status: false),
             instance: BaseResponse<GetMyFillingResponseDTO>.self
         ) { response in
             if response.success, let groupsData = response.data {
