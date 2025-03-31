@@ -42,7 +42,7 @@ class MyPageViewModel: ObservableObject {
         var endedMeetings: [Meeting] = []
         
         dispatchGroup.enter()
-        Providers.fillingProvider.request(
+        Providers.mypageProvider.request(
             target: .getMyFilling(category: selectedCategory.category, status: true),
             instance: BaseResponse<GetMyFillingResponseDTO>.self
         ) { response in
@@ -56,7 +56,7 @@ class MyPageViewModel: ObservableObject {
         }
         
         dispatchGroup.enter()
-        Providers.fillingProvider.request(
+        Providers.mypageProvider.request(
             target: .getMyFilling(category: selectedCategory.category, status: false),
             instance: BaseResponse<GetMyFillingResponseDTO>.self
         ) { response in

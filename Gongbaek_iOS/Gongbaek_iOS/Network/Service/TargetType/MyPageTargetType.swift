@@ -9,13 +9,14 @@ import Moya
 
 enum MyPageTargetType {
     case getMyProfile
+    case getMyFilling(category: String, status: Bool)
 }
 
 extension MyPageTargetType: BaseTargetType {
     var headers: Parameters? {
         switch self {
-        case .getMyProfile:
-            return APIConstants.hasTokenHeader
+        case .getMyProfile, .getMyFilling:
+            return APIConstants.accessTokenHeader
         }
     }
     
@@ -23,12 +24,14 @@ extension MyPageTargetType: BaseTargetType {
         switch self {
         case .getMyProfile:
             return "/api/v1/user/my/profile"
+        case .getMyFilling:
+            return "/api/v1/my/groups"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .getMyProfile:
+        case .getMyProfile, .getMyFilling:
             return .get
         }
     }
@@ -37,6 +40,8 @@ extension MyPageTargetType: BaseTargetType {
         switch self {
         case .getMyProfile:
             return .requestPlain
+        case .getMyFilling(let category, let status):
+            return .requestParameters(parameters: ["category": category, "status": status], encoding: URLEncoding.default)
         }
     }
 }
