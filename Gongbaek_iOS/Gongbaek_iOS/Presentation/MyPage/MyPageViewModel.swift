@@ -13,6 +13,8 @@ struct myFillStatus {
 }
 
 class MyPageViewModel: ObservableObject {
+    @Published var myProfile: GetMyProfileResponseDTO?
+    
     @Published var activeMeetings: [Meeting] = []
     @Published var endedMeetings: [Meeting] = []
     @Published var selectedCategory: MyMeetingType = .apply
@@ -22,13 +24,25 @@ class MyPageViewModel: ObservableObject {
     
     @Published var showAlert: Bool = false
     
+    
+    func getMyProfile() {
+        Providers.mypageProvider.request(
+            target: .getMyProfile,
+            instance: BaseResponse<GetMyProfileResponseDTO>.self
+        ) { response in
+            if response.success {
+                self.myProfile = response.data
+            } 
+        }
+    }
+    
     func getMeetings() {
         let dispatchGroup = DispatchGroup()
         var activeMeetings: [Meeting] = []
         var endedMeetings: [Meeting] = []
         
         dispatchGroup.enter()
-        Providers.fillingProvider.request(
+        Providers.mypageProvider.request(
             target: .getMyFilling(category: selectedCategory.category, status: true),
             instance: BaseResponse<GetMyFillingResponseDTO>.self
         ) { response in
@@ -42,7 +56,7 @@ class MyPageViewModel: ObservableObject {
         }
         
         dispatchGroup.enter()
-        Providers.fillingProvider.request(
+        Providers.mypageProvider.request(
             target: .getMyFilling(category: selectedCategory.category, status: false),
             instance: BaseResponse<GetMyFillingResponseDTO>.self
         ) { response in

@@ -13,22 +13,23 @@ struct MyPageView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                MyProfile()
+                MyProfile(profile: viewModel.myProfile)
                 Rectangle()
                     .fill(.gray01)
                     .frame(height: 8)
                 MyPageSegmentControlBar(viewModel: viewModel)
             }
             
-//            if viewModel.showAlert {
-//                FullErrorView(onTapRetryButton: {
-//                    viewModel.showAlert = false
-//                    viewModel.getMeetings()
-//                })
-//            }
+            if viewModel.showAlert {
+                FullErrorView(onTapRetryButton: {
+                    viewModel.showAlert = false
+                    viewModel.getMeetings()
+                })
+            }
         }
         .customNavigationBar(title: "마이페이지")
         .onAppear {
+            viewModel.getMyProfile()
             viewModel.getMeetings()
         }
     }
