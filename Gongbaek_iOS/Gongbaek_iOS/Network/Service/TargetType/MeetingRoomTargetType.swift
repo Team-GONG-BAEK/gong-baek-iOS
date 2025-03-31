@@ -16,9 +16,9 @@ extension MeetingRoomTargetType: BaseTargetType {
     var headers: Parameters? {
         switch self {
         case .getMembers:
-            return APIConstants.hasTokenHeader
+            return APIConstants.accessTokenHeader
         case .getMeetingDetails:
-            return APIConstants.hasTokenHeader
+            return APIConstants.accessTokenHeader
         }
     }
     

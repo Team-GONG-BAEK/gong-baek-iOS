@@ -16,9 +16,9 @@ extension CommentTargetType: BaseTargetType {
     var headers: Parameters? {
         switch self {
         case .getComments:
-            return APIConstants.hasTokenHeader
+            return APIConstants.accessTokenHeader
         case .postComment:
-            return APIConstants.hasTokenHeader
+            return APIConstants.accessTokenHeader
         }
     }
     

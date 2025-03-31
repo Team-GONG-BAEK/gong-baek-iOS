@@ -18,7 +18,7 @@ extension FillingTargetType: BaseTargetType {
     var headers: Parameters? {
         switch self {
         case .postMeeting, .getTimeTable, .getFilling, .getMyFilling:
-            return APIConstants.hasTokenHeader
+            return APIConstants.accessTokenHeader
         }
     }
     

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "btn_check_unfill_32.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
