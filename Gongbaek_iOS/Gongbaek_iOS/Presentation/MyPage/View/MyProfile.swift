@@ -12,6 +12,7 @@ struct MyProfile: View {
         HStack(spacing: 14) {
             Image(.imgProfileDefault0)
                 .resizable()
+                .scaledToFill()
                 .frame(width: 64, height: 64)
                 .padding(8)
                 .border(.gray02, width: 1)
