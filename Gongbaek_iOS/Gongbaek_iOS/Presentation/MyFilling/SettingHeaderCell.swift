@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct SettingHeaderCell: View {
-    let title: String
+    let id: UUID = UUID()
+    let type: SettingSection
         
     var body: some View {
-        Text(title)
+        Text(type.rawValue)
             .pretendardFont(.title2_sb_18)
             .foregroundColor(.grayBlack)
             .padding(.vertical, 19)

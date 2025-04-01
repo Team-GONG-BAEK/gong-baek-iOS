@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct SettingBasicCell: View {
+    let id: UUID = UUID()
     let title: String
-    let bodyText: String?
+    let type: SettingItemType
         
     var body: some View {
         HStack {
@@ -17,9 +18,9 @@ struct SettingBasicCell: View {
                 .pretendardFont(.body1_r_16)
                 .foregroundColor(.grayBlack)
             
-            if let bodyText, !bodyText.isEmpty {
+            if case let .info(subtitle?) = type, !subtitle.isEmpty {
                 Spacer()
-                Text(bodyText)
+                Text(subtitle)
                     .pretendardFont(.body1_r_16)
                     .foregroundColor(.gray04)
             }
@@ -28,10 +29,4 @@ struct SettingBasicCell: View {
         .padding(.horizontal, 16)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
-}
-
-#Preview {
-    SettingBasicCell(title: "test", bodyText: "test")
-    SettingBasicCell(title: "test", bodyText: nil)
-    SettingHeaderCell(title: "Test")
 }
