@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-struct SettingSectionModel: Identifiable {
-    let id: UUID = UUID()
-    let section: SettingSection
-    let items: [SettingItem]
-}
-
 enum SettingSection: String, CaseIterable {
     case information = "이용 안내"
     case account = "계정"
@@ -28,6 +22,12 @@ enum SettingItemType {
     case webLink(url: String) // Link로 연결
     case info(subtitle: String?) // 정보만 보이는 용도
     case action(handler: () -> Void) // button 역할
+}
+
+struct SettingSectionModel: Identifiable {
+    let id: UUID = UUID()
+    let section: SettingSection
+    let items: [SettingItem]
 }
 
 extension SettingSectionModel {
