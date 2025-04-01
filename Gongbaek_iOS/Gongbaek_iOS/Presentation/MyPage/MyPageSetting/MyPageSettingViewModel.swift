@@ -1,5 +1,5 @@
 //
-//  MypageSettingViewModel.swift
+//  MyPageSettingViewModel.swift
 //  Gongbaek_iOS
 //
 //  Created by 김희은 on 4/2/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum SettingSection: String, CaseIterable {
+enum SettingHeaderType: String, CaseIterable {
     case information = "이용 안내"
     case account = "계정"
 }
@@ -24,17 +24,16 @@ enum SettingItemType {
     case action(handler: () -> Void) // button 역할
 }
 
-struct SettingSectionModel: Identifiable {
+struct MyPageSettingStatus: Identifiable {
     let id: UUID = UUID()
-    let section: SettingSection
+    let header: SettingHeaderType
     let items: [SettingItem]
 }
 
-extension SettingSectionModel {
-    
-    static let sampleData: [SettingSectionModel] = [
-        SettingSectionModel(
-            section: .information,
+extension MyPageSettingStatus {
+    static let settingList: [MyPageSettingStatus] = [
+        MyPageSettingStatus(
+            header: .information,
             items: [
                 SettingItem(title: "공지사항", type: .webLink(url: "https://booming-jasmine-4c1.notion.site/1b34c7511f4280a9805df2e84a4ae342")),
                 SettingItem(title: "개인정보 처리방침", type: .webLink(url: "https://booming-jasmine-4c1.notion.site/1b34c7511f428057ad33e49f07f6125a")),
@@ -42,14 +41,14 @@ extension SettingSectionModel {
                 SettingItem(title: "버전 정보", type: .info(subtitle: "1.1.1"))
             ]
         ),
-        SettingSectionModel(
-            section: .account,
+        MyPageSettingStatus(
+            header: .account,
             items: [
                 SettingItem(title: "로그아웃", type: .action {
-                    print("로그아웃 실행됨")
+                    print("로그아웃 실행됨") //TODO: 로그아웃 수행 코드 추가
                 }),
                 SettingItem(title: "회원탈퇴", type: .action {
-                    print("회원탈퇴 실행됨")
+                    print("회원탈퇴 실행됨") //TODO: 회원탈퇴 수행 코드 추가
                 })
             ]
         )

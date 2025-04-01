@@ -1,5 +1,5 @@
 //
-//  MypageSettingView.swift
+//  MyPageSettingView.swift
 //  Gongbaek_iOS
 //
 //  Created by 김희은 on 3/25/25.
@@ -7,17 +7,17 @@
 
 import SwiftUI
 
-struct MypageSettingView: View {
+struct MyPageSettingView: View {
     var body: some View {
         VStack(spacing: 0) {
-            ForEach(SettingSectionModel.sampleData) { sectionModel in
-                SettingHeaderCell(type: sectionModel.section)
+            ForEach(MyPageSettingStatus.settingList) { status in
+                SettingHeaderCell(type: status.header)
 
-                ForEach(sectionModel.items) { item in
+                ForEach(status.items) { item in
                     settingCell(for: item)
                 }
 
-                if sectionModel.section == .information {
+                if status.section == .information {
                     Color(.gray01).frame(height: 8)
                 }
             }
@@ -26,7 +26,7 @@ struct MypageSettingView: View {
     }
 }
 
-extension MypageSettingView {
+extension MyPageSettingView {
     @ViewBuilder
     func settingCell(for item: SettingItem) -> some View {
         switch item.type {
