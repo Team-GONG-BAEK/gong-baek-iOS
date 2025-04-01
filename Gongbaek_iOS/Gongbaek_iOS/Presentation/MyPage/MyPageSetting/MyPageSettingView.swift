@@ -17,7 +17,7 @@ struct MyPageSettingView: View {
                     settingCell(for: item)
                 }
 
-                if status.section == .information {
+                if status.header == .information {
                     Color(.gray01).frame(height: 8)
                 }
             }
@@ -36,7 +36,6 @@ extension MyPageSettingView {
                     SettingBasicCell(title: item.title, type: item.type)
                 }
             }
-            
         case .info:
             SettingBasicCell(title: item.title, type: item.type)
             
@@ -51,5 +50,5 @@ extension MyPageSettingView {
 }
 
 #Preview {
-    MypageSettingView()
+    MyPageSettingView()
 }

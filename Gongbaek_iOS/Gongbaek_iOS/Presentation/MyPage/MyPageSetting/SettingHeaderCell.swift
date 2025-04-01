@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingHeaderCell: View {
     let id: UUID = UUID()
-    let type: SettingSection
+    let type: SettingHeaderType
         
     var body: some View {
         Text(type.rawValue)
