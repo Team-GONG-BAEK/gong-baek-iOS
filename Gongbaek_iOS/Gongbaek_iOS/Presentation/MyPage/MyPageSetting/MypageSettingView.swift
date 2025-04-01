@@ -63,7 +63,7 @@ struct MypageSettingView: View {
                 SettingHeaderCell(type: sectionModel.section)
 
                 ForEach(sectionModel.items) { item in
-                    settingRow(for: item)
+                    settingCell(for: item)
                 }
 
                 if sectionModel.section == .information {
@@ -74,9 +74,11 @@ struct MypageSettingView: View {
             Spacer()
         }
     }
+}
 
+extension MypageSettingView {
     @ViewBuilder
-    func settingRow(for item: SettingItem) -> some View {
+    func settingCell(for item: SettingItem) -> some View {
         switch item.type {
         case .webLink(let urlString):
             if let url = URL(string: urlString) {
