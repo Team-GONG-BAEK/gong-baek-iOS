@@ -17,11 +17,11 @@ extension HomeTargetType: BaseTargetType {
     var headers: Parameters? {
         switch self {
         case .getUserProfile:
-            return APIConstants.hasTokenHeader
+            return APIConstants.accessTokenHeader
         case .getUpcomingMeeting:
-            return APIConstants.hasTokenHeader
+            return APIConstants.accessTokenHeader
         case .getJoinableMeetingList:
-            return APIConstants.hasTokenHeader
+            return APIConstants.accessTokenHeader
         }
     }
     

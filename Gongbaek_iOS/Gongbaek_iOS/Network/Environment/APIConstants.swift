@@ -21,10 +21,28 @@ struct APIConstants{
     static let Bearer = "Bearer "
 }
 
-extension APIConstants{
-    static let authCodeHeader = [contentType: applicationJSON,
-                                        auth: Bearer + authCode]
-    static let hasTokenHeader = [contentType: applicationJSON,
-                                        auth: Bearer + TokenManager.shared.accessTokenValue]
-    static let hasContentTypeHeader = [contentType: applicationJSON]
+extension APIConstants {
+    static let authCodeHeader: [String: String] = [
+        contentType: applicationJSON,
+        auth: Bearer + authCode
+    ]
+    
+    static let hasContentTypeHeader: [String: String] = [
+        contentType: applicationJSON
+    ]
+    
+    static var appleAuthHeader: [String: String] = [
+        contentType: applicationJSON,
+        auth: TokenManager.shared.identityTokenValue
+    ]
+    
+    static var accessTokenHeader: [String: String] = [
+        contentType: applicationJSON,
+        auth: Bearer + TokenManager.shared.accessTokenValue
+    ]
+    
+    static var refreshTokenHeader: [String: String] = [
+        contentType: applicationJSON,
+        auth: TokenManager.shared.refreshTokenValue
+    ]
 }
