@@ -10,7 +10,7 @@ import SwiftUI
 struct SignupView: View {
     @EnvironmentObject private var navigationManager: NavigationManager
     @StateObject private var viewModel = SignupViewModel()
-    @State private var currentStep: SignupStep = .schoolMajorInput
+    @State private var currentStep: SignupStep = .academicInfoInput
     @State private var showYearPicker = false
     
     var body: some View {

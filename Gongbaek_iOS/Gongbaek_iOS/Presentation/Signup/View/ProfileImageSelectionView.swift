@@ -1,5 +1,5 @@
 //
-//  ProfileSelectionView.swift
+//  ProfileImageSelectionView.swift
 //  Gongbaek_iOS
 //
 //  Created by 김나연 on 1/19/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProfileSelectionView: View {
+struct ProfileImageSelectionView: View {
     @ObservedObject var viewModel: SignupViewModel
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 3)
     
@@ -47,5 +47,5 @@ struct ProfileSelectionView: View {
 #Preview {
     @Previewable @State var viewModel = SignupViewModel()
     
-    ProfileSelectionView(viewModel: viewModel)
+    ProfileImageSelectionView(viewModel: viewModel)
 }

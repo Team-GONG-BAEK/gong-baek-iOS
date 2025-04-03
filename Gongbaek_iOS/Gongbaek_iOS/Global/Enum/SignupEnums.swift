@@ -8,10 +8,10 @@
 import SwiftUI
 
 enum SignupStep: Int, CaseIterable {
-    case schoolMajorInput = 0
+    case academicInfoInput = 0
     case schoolEmailVerification
     case nicknameSexInput
-    case profileSelection
+    case profileImageSelection
     case mbtiSelection
     case selfIntroductionWriting
     case classTimeTableInput
@@ -24,8 +24,8 @@ enum SignupStep: Int, CaseIterable {
         showYearPicker: Binding<Bool>
     ) -> some View {
         switch self {
-        case .schoolMajorInput:
-            SchoolMajorInputView(
+        case .academicInfoInput:
+            AcademicInfoInputView(
                 viewModel: viewModel,
                 showYearPicker: showYearPicker,
                 onTapSchoolSearchButton: {
@@ -39,10 +39,10 @@ enum SignupStep: Int, CaseIterable {
             )
         case .schoolEmailVerification:
             SchoolEmailVerificationView(viewModel: viewModel)
-        case .profileSelection:
-            ProfileSelectionView(viewModel: viewModel)
+        case .profileImageSelection:
+            ProfileImageSelectionView(viewModel: viewModel)
         case .nicknameSexInput:
-            NicknameInputView(viewModel: viewModel)
+            NicknameSexInputView(viewModel: viewModel)
         case .mbtiSelection:
             MbtiSelectionView(viewModel: viewModel)
         case .selfIntroductionWriting:

@@ -1,26 +1,35 @@
 //
-//  SexSelectionView.swift
+//  NicknameSexInputView.swift
 //  Gongbaek_iOS
 //
-//  Created by 김나연 on 1/20/25.
+//  Created by 김나연 on 1/19/25.
 //
 
 import SwiftUI
 
-struct SexSelectionView: View {
+struct NicknameSexInputView: View {
     @ObservedObject var viewModel: SignupViewModel
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 2)
     
     var body: some View {
         VStack(spacing: 0) {
             TitleTextBox(
-                title: "성별을 선택해주세요.",
-                subtitle: "프로필에 표시되는 정보로, 언제든 변경할 수 있어요."
+                title: "닉네임과 성별을 입력해주세요.",
+                subtitle: "닉네임은 한글 최대 8자 이내로 입력할 수 있어요."
             )
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top, 54)
             .padding(.horizontal, 16)
             .padding(.bottom, 44)
+            
+            CustomTextField(
+                text: $viewModel.nickname,
+                showError: $viewModel.showNicknameError,
+                state: .nickname
+            )
+            .autocorrectionDisabled(true)
+            .textInputAutocapitalization(.never)
+            .padding(.horizontal, 16)
             
             sexButtons()
             
@@ -52,9 +61,10 @@ struct SexSelectionView: View {
             }
             .padding(.horizontal, 16)
         }
+        .padding(.top, 24)
     }
 }
 
 #Preview {
-    SexSelectionView(viewModel: SignupViewModel())
+    NicknameSexInputView(viewModel: SignupViewModel())
 }

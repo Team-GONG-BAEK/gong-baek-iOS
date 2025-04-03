@@ -11,22 +11,22 @@ final class SignupViewModel: ObservableObject {
     
     // MARK: - Properties
     
-    // 학교학과입학연도 입력
+    // 학적정보 입력
     @Published var schoolName = ""
     @Published var majorName = ""
     @Published var yearOfAdmission: Int? = nil
-    // 학교학과 검색
+    // 학교, 학과 검색
     @Published var selectedSearchResult: String = ""
     @Published var textFieldText = ""
     @Published var searchWord = ""
     @Published var searchResultList: [String] = []
     // 이메일 인증
     @Published var isEmailVerified: Bool = false
-    // 닉네임성별 입력
+    // 닉네임, 성별 입력
     @Published var nickname = ""
     @Published var showNicknameError = false
     @Published var sex: SexType? = nil
-    // 프로필 선택
+    // 프로필 이미지 선택
     @Published var profileImageIndex: Int? = nil
     // MBTI 입력
     @Published var e_i: MBTI_ei? = nil
@@ -35,7 +35,7 @@ final class SignupViewModel: ObservableObject {
     @Published var j_p: MBTI_jp? = nil
     // 자기소개글 작성
     @Published var introduction: String = ""
-    // 수업시간표 입력
+    // 시간표 입력
     @Published var selectedCells: Set<TimeTableCellId> = []
     @Published var classTimeTable: [(day: WeekDay, start: Double, end: Double)] = []
     // 에러
@@ -46,13 +46,13 @@ final class SignupViewModel: ObservableObject {
     
     func isNextButtonEnabled(_ step: SignupStep) -> Bool {
         switch step {
-        case .schoolMajorInput:
+        case .academicInfoInput:
             return !schoolName.isEmpty && !majorName.isEmpty && yearOfAdmission != nil
         case .schoolEmailVerification:
             return isEmailVerified
         case .nicknameSexInput:
             return nickname.count > 1 && sex != nil
-        case .profileSelection:
+        case .profileImageSelection:
             return profileImageIndex != nil
         case .mbtiSelection:
             return e_i != nil && s_n != nil && t_f != nil && j_p != nil
@@ -80,7 +80,7 @@ final class SignupViewModel: ObservableObject {
             nickname = ""
             sex = nil
             showNicknameError = false
-        case .schoolMajorInput:
+        case .academicInfoInput:
             schoolName = ""
             majorName = ""
             yearOfAdmission = nil

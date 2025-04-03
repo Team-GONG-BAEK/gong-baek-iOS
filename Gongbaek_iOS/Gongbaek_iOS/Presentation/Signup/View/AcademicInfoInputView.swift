@@ -1,5 +1,5 @@
 //
-//  SchoolMajorInputView.swift
+//  AcademicInfoInputView.swift
 //  Gongbaek_iOS
 //
 //  Created by 김나연 on 1/19/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SchoolMajorInputView: View {
+struct AcademicInfoInputView: View {
     @ObservedObject var viewModel: SignupViewModel
     @Binding var showYearPicker: Bool
     let onTapSchoolSearchButton: (() -> Void)?
@@ -17,8 +17,8 @@ struct SchoolMajorInputView: View {
         ZStack {
             VStack(spacing: 0) {
                 TitleTextBox(
-                    title: "학교와 학과를 입력해주세요.",
-                    subtitle: "프로필에 표시되는 정보로, 언제든 변경할 수 있어요."
+                    title: "학적정보를 입력해주세요.",
+                    subtitle: "자신의 학교와 학과, 입학연도를 선택해주세요."
                 )
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, 54)
@@ -64,7 +64,7 @@ struct SchoolMajorInputView: View {
 }
 
 #Preview {
-    SchoolMajorInputView(
+    AcademicInfoInputView(
         viewModel: SignupViewModel(),
         showYearPicker: .constant(false),
         onTapSchoolSearchButton: {},
