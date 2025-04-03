@@ -32,7 +32,7 @@ struct LoginView: View {
                 
                 Spacer()
 
-                AppleLoginButton(onTap:viewModel.handleAppleSignIn)
+                AppleLoginButton(onTap: viewModel.handleAppleSignIn)
             }
         }
         .onChange(of: viewModel.isSignedIn) {

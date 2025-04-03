@@ -103,7 +103,11 @@ extension SignupView {
     }
     
     private func goBackToPreviousStep() {
-        currentStep = .allCases[currentStep.rawValue - 1]
+        if currentStep == .academicInfoInput {
+            navigationManager.pop()
+        } else {
+            currentStep = .allCases[currentStep.rawValue - 1]
+        }
     }
     
     private func goToTabBarView() {
@@ -135,8 +139,4 @@ extension SignupView {
             }
         }
     }
-}
-
-#Preview {
-    SignupNavigationView()
 }

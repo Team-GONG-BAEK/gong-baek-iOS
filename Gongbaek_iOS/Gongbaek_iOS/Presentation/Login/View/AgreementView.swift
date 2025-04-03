@@ -53,7 +53,7 @@ struct AgreementView: View {
                 BasicButton(
                     text: "다음",
                     isActivated: isAllChecked,
-                    onTap: { navigateToSignupView() }
+                    onTap: { navigateToOnboardingView() }
                 )
             }
             .padding(.horizontal, 16)
@@ -85,9 +85,8 @@ extension AgreementView {
         //웹뷰로 이동하도록 로직 추가
     }
     
-    func navigateToSignupView() {
-        navigationManager.pop()
-        navigationManager.rootView = .signup
+    func navigateToOnboardingView() {
+        navigationManager.push(view: LoginDestination.onboarding)
     }
 }
 

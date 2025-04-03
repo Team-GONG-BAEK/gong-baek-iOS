@@ -14,7 +14,6 @@ final class NavigationManager: ObservableObject {
     
     enum RootView {
         case login
-        case signup
         case tabBar
     }
     
