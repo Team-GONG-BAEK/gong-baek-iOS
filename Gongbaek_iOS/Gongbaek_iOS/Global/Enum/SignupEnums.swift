@@ -8,15 +8,13 @@
 import SwiftUI
 
 enum SignupStep: Int, CaseIterable {
-    case profileSelection = 0
-    case nicknameInput
-    case schoolMajorInput
-    case gradeAdmissionYearInput
+    case schoolMajorInput = 0
+    case schoolEmailVerification
+    case nicknameSexInput
+    case profileSelection
     case mbtiSelection
-    case sexSelection
     case selfIntroductionWriting
     case classTimeTableInput
-    case freeTimeTableConversion
     case signupCompletion
     
     @ViewBuilder
@@ -26,13 +24,10 @@ enum SignupStep: Int, CaseIterable {
         showYearPicker: Binding<Bool>
     ) -> some View {
         switch self {
-        case .profileSelection:
-            ProfileSelectionView(viewModel: viewModel)
-        case .nicknameInput:
-            NicknameInputView(viewModel: viewModel)
         case .schoolMajorInput:
             SchoolMajorInputView(
                 viewModel: viewModel,
+                showYearPicker: showYearPicker,
                 onTapSchoolSearchButton: {
                     viewModel.resetSearchState()
                     navigationManager.present(.schoolMajorSearchView(viewModel, .school))
@@ -42,29 +37,22 @@ enum SignupStep: Int, CaseIterable {
                     navigationManager.present(.schoolMajorSearchView(viewModel, .major))
                 }
             )
-        case .gradeAdmissionYearInput:
-            GradeAdmissionYearInputView(viewModel: viewModel, showYearPicker: showYearPicker)
+        case .schoolEmailVerification:
+            SchoolEmailVerificationView(viewModel: viewModel)
+        case .profileSelection:
+            ProfileSelectionView(viewModel: viewModel)
+        case .nicknameSexInput:
+            NicknameInputView(viewModel: viewModel)
         case .mbtiSelection:
             MbtiSelectionView(viewModel: viewModel)
-        case .sexSelection:
-            SexSelectionView(viewModel: viewModel)
         case .selfIntroductionWriting:
             SelfIntroductionWritingView(viewModel: viewModel)
         case .classTimeTableInput:
             ClassTimeTableInputView(viewModel: viewModel)
-        case .freeTimeTableConversion:
-            FreeTimeTableConversionView(viewModel: viewModel)
         case .signupCompletion:
             SignupCompletionView()
         }
     }
-}
-
-enum GradeState: String, CaseIterable {
-    case one = "1학년"
-    case two = "2학년"
-    case three = "3학년"
-    case four = "4학년"
 }
 
 enum MBTI {

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SchoolMajorInputView: View {
     @ObservedObject var viewModel: SignupViewModel
+    @Binding var showYearPicker: Bool
     let onTapSchoolSearchButton: (() -> Void)?
     let onTapMajorSearchButton: (() -> Void)?
     
@@ -41,19 +42,31 @@ struct SchoolMajorInputView: View {
                     ) { _ in
                         onTapMajorSearchButton?()
                     }
+                    
                 }
+                .padding(.horizontal, 16)
+                
+                YearSelectButton(
+                    viewModel: viewModel,
+                    isSelected: viewModel.yearOfAdmission != nil
+                ) {
+                    withAnimation {
+                        showYearPicker = true
+                    }
+                }
+                .padding(.top, 24)
                 .padding(.horizontal, 16)
                 
                 Spacer()
             }
         }
-        
     }
 }
 
 #Preview {
     SchoolMajorInputView(
         viewModel: SignupViewModel(),
+        showYearPicker: .constant(false),
         onTapSchoolSearchButton: {},
         onTapMajorSearchButton: {}
     )

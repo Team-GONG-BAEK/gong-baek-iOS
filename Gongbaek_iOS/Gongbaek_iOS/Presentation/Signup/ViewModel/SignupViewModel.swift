@@ -11,29 +11,28 @@ final class SignupViewModel: ObservableObject {
     
     // MARK: - Properties
     
-    // 프로필 선택
-    @Published var profileImageIndex: Int? = nil
-    // 닉네임 입력
-    @Published var nickname = ""
-    @Published var showNicknameError = false
-    // 학교학과 입력
+    // 학교학과입학연도 입력
     @Published var schoolName = ""
     @Published var majorName = ""
+    @Published var yearOfAdmission: Int? = nil
     // 학교학과 검색
     @Published var selectedSearchResult: String = ""
     @Published var textFieldText = ""
     @Published var searchWord = ""
     @Published var searchResultList: [String] = []
-    // 학년입학연도 입력
-    @Published var grade: GradeState? = nil
-    @Published var yearOfAdmission: Int? = nil
+    // 이메일 인증
+    @Published var isEmailVerified: Bool = false
+    // 닉네임성별 입력
+    @Published var nickname = ""
+    @Published var showNicknameError = false
+    @Published var sex: SexType? = nil
+    // 프로필 선택
+    @Published var profileImageIndex: Int? = nil
     // MBTI 입력
     @Published var e_i: MBTI_ei? = nil
     @Published var s_n: MBTI_sn? = nil
     @Published var t_f: MBTI_tf? = nil
     @Published var j_p: MBTI_jp? = nil
-    // 성별 선택
-    @Published var sex: SexType? = nil
     // 자기소개글 작성
     @Published var introduction: String = ""
     // 수업시간표 입력
@@ -47,23 +46,21 @@ final class SignupViewModel: ObservableObject {
     
     func isNextButtonEnabled(_ step: SignupStep) -> Bool {
         switch step {
+        case .schoolMajorInput:
+            return !schoolName.isEmpty && !majorName.isEmpty && yearOfAdmission != nil
+        case .schoolEmailVerification:
+            return isEmailVerified
+        case .nicknameSexInput:
+            return nickname.count > 1 && sex != nil
         case .profileSelection:
             return profileImageIndex != nil
-        case .nicknameInput:
-            return nickname.count > 1
-        case .schoolMajorInput:
-            return !schoolName.isEmpty && !majorName.isEmpty
-        case .gradeAdmissionYearInput:
-            return grade != nil && yearOfAdmission != nil
         case .mbtiSelection:
             return e_i != nil && s_n != nil && t_f != nil && j_p != nil
-        case .sexSelection:
-            return sex != nil
         case .selfIntroductionWriting:
             return introduction.count >= 20
         case .classTimeTableInput:
             return !selectedCells.isEmpty
-        case .freeTimeTableConversion, .signupCompletion:
+        case .signupCompletion:
             return true
         }
     }
@@ -79,22 +76,19 @@ final class SignupViewModel: ObservableObject {
     /// 상태값 초기화 (다음 화면으로 이동 시 기존 값들 리셋)
     func resetState(at step: SignupStep) {
         switch step {
-        case .nicknameInput:
+        case .nicknameSexInput:
             nickname = ""
+            sex = nil
             showNicknameError = false
         case .schoolMajorInput:
             schoolName = ""
             majorName = ""
-        case .gradeAdmissionYearInput:
-            grade = nil
             yearOfAdmission = nil
         case .mbtiSelection:
             e_i = nil
             s_n = nil
             t_f = nil
             j_p = nil
-        case .sexSelection:
-            sex = nil
         case .selfIntroductionWriting:
             introduction = ""
         case .classTimeTableInput:
@@ -227,8 +221,6 @@ extension SignupViewModel {
     /// 회원가입 API
     func postSignup(completion: @escaping (Bool) -> ()) {
         guard let profileImage = profileImageIndex,
-              let grade = grade,
-              let gradeInt = GradeState.allCases.firstIndex(of: grade),
               let yearOfAdmission = yearOfAdmission,
               let e_i, let s_n, let t_f, let j_p,
               let sex = sex
@@ -241,7 +233,6 @@ extension SignupViewModel {
             mbti: e_i.rawValue + s_n.rawValue + t_f.rawValue + j_p.rawValue,
             schoolName: schoolName,
             schoolMajor: majorName,
-            schoolGrade: gradeInt + 1,
             enterYear: yearOfAdmission,
             introduction: introduction,
             sex: sex.rawValue,

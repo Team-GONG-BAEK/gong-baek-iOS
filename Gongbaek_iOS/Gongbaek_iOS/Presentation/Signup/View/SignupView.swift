@@ -10,107 +10,82 @@ import SwiftUI
 struct SignupView: View {
     @EnvironmentObject private var navigationManager: NavigationManager
     @StateObject private var viewModel = SignupViewModel()
-    @State private var currentStep: SignupStep = .profileSelection
-    @State private var showLottie = false
+    @State private var currentStep: SignupStep = .schoolMajorInput
     @State private var showYearPicker = false
     
     var body: some View {
-        if showLottie {
-            LottieView(animationName: "timetable", loopMode: .playOnce)
-                .ignoresSafeArea(edges: [.horizontal, .bottom])
-                .scaledToFill()
-                .frame(maxWidth: .infinity)
-        } else {
-            ZStack {
-                VStack(spacing: 0) {
-                    if currentStep != .signupCompletion {
-                        ProgressBar(currentIndex: currentStep.rawValue)
-                    }
-                    
-                    /// currentStepIndex에 따라 변경되는 View
-                    currentStep.view(
-                        viewModel: viewModel,
-                        navigationManager: navigationManager,
-                        showYearPicker: $showYearPicker
-                    )
-                    
-                    Spacer()
-                    
-                    if currentStep == .freeTimeTableConversion {
-                        OnboardingConfirmBar(
-                            grayButtonText: "시간표 변경",
-                            orangeButtonText: "가입 완료",
-                            onTapGrayButton: { goBackToPreviousStep() },
-                            onTapOrangeButton: { signup() }
-                        )
-                    } else {
-                        BasicButton(
-                            text: currentStep == .signupCompletion
-                            ? "공백 채우러 가기" : "다음",
-                            isActivated: viewModel.isNextButtonEnabled(currentStep)
-                        ) {
-                            if currentStep == .nicknameInput {
-                                validateNickname()
-                            } else if currentStep == .signupCompletion {
-                                goToTabBarView()
-                            } else {
-                                goToNextStep()
-                            }
-                        }
-                        .padding(.horizontal, 16)
-                        .padding(.bottom, 20)
-                    }
-                }
-                .onChange(of: currentStep) { oldValue, newValue in
-                    if newValue == .freeTimeTableConversion {
-                        showLottieAnimation()
-                    }
+        ZStack {
+            VStack(spacing: 0) {
+                if currentStep != .signupCompletion {
+                    ProgressBar(currentIndex: currentStep.rawValue)
                 }
                 
-                .onTapGesture {
-                    hideKeyboard()
-                }
-                .customNavigationBar(
-                    showBackButton:
-                        !(currentStep == .profileSelection
-                          || currentStep == .freeTimeTableConversion
-                          || currentStep == .signupCompletion),
-                    onBackButtonTap: {
-                        goBackToPreviousStep()
-                    }
+                /// currentStepIndex에 따라 변경되는 View
+                currentStep.view(
+                    viewModel: viewModel,
+                    navigationManager: navigationManager,
+                    showYearPicker: $showYearPicker
                 )
                 
-                if showYearPicker {
-                    ZStack {
-                        Color.black.opacity(0.5)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .ignoresSafeArea()
-                            .transition(.opacity)
-                            .onTapGesture {
-                                withAnimation(.easeInOut(duration: 0.3)) {
-                                    showYearPicker = false
-                                }
-                            }
-
-                        YearSelectBottomSheet(
-                            viewModel: viewModel,
-                            showBottomSheet: $showYearPicker
-                        )
-                        .transition(.move(edge: .bottom))
+                Spacer()
+                
+                BasicButton(
+                    text: currentStep == .signupCompletion
+                    ? "공백 채우러 가기" : (currentStep == .classTimeTableInput ? "가입 완료" : "다음"),
+                    isActivated: viewModel.isNextButtonEnabled(currentStep)
+                ) {
+                    if currentStep == .nicknameSexInput {
+                        validateNickname()
+                    } else if currentStep == .signupCompletion {
+                        goToTabBarView()
+                    } else {
+                        goToNextStep()
                     }
                 }
-                
-                if viewModel.showAlert {
-                    CustomedAlert(
-                        alertImage: "img_fail" ,
-                        titleText: "앗! 회원가입에 실패했어요.",
-                        subtitleText: "다시 시도해주세요.",
-                        orangeButtonText: "확인",
-                        onTapOrangeButton: {
-                            viewModel.showAlert = false
-                        }
-                    )
+                .padding(.horizontal, 16)
+                .padding(.bottom, 20)
+            }
+            
+            .onTapGesture {
+                hideKeyboard()
+            }
+            .customNavigationBar(
+                showBackButton: !(currentStep == .signupCompletion),
+                onBackButtonTap: {
+                    goBackToPreviousStep()
                 }
+            )
+            
+            if showYearPicker {
+                ZStack {
+                    Color.black.opacity(0.5)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .ignoresSafeArea()
+                        .transition(.opacity)
+                        .onTapGesture {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                showYearPicker = false
+                            }
+                        }
+                    
+                    YearSelectBottomSheet(
+                        viewModel: viewModel,
+                        showBottomSheet: $showYearPicker
+                    )
+                    .transition(.move(edge: .bottom))
+                }
+            }
+            
+            if viewModel.showAlert {
+                CustomedAlert(
+                    alertImage: "img_fail" ,
+                    titleText: "앗! 회원가입에 실패했어요.",
+                    subtitleText: "다시 시도해주세요.",
+                    orangeButtonText: "확인",
+                    onTapOrangeButton: {
+                        viewModel.showAlert = false
+                    }
+                )
             }
         }
     }
@@ -134,15 +109,6 @@ extension SignupView {
     private func goToTabBarView() {
         withAnimation(.easeInOut(duration: 0.3)) {
             navigationManager.rootView = .tabBar
-        }
-    }
-    
-    private func showLottieAnimation() {
-        showLottie = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            withAnimation {
-                showLottie = false
-            }
         }
     }
 }
