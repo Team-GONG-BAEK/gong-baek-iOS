@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MyPageSettingView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
     @StateObject var viewModel = MyPageSettingViewModel()
     
     var body: some View {
@@ -26,7 +27,7 @@ struct MyPageSettingView: View {
                 }
                 Spacer()
             }
-
+            
             if viewModel.showAlert {
                 CustomedAlert(
                     titleText: "\(viewModel.selectedAction == .logout ? "로그아웃을" : "회원탈퇴를") 진행하시겠습니까?",
@@ -41,10 +42,17 @@ struct MyPageSettingView: View {
                 )
             }
         }
+        .onChange(of: viewModel.isLogout) {
+            if viewModel.isLogout {
+                navigationManager.pop()
+                navigationManager.rootView = .login
+            }
+        }
     }
 }
 
 extension MyPageSettingView {
+    
     @ViewBuilder
     func settingCell(for item: SettingItem) -> some View {
         switch item.type {
