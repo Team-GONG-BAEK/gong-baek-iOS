@@ -16,7 +16,7 @@ struct FillingEmptyView: View {
                 .pretendardFont(.caption1_m_13)
                 .multilineTextAlignment(.center)
                 .foregroundColor(.gray06)
-                .padding(.top, 161)
+                .padding(.top, 261)
                 .frame(maxHeight: .infinity)
         }
      
