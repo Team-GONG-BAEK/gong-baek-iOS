@@ -43,7 +43,7 @@ extension TabBarState {
         switch self {
         case .filling: FillingView()
         case .home: HomeView()
-        case .myPage: MyPageSettingView()
+        case .myPage: MyPageView()
         }
     }
 }
