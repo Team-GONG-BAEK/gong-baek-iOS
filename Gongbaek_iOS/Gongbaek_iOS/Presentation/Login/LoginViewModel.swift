@@ -37,13 +37,8 @@ class LoginViewModel: NSObject, ObservableObject {
             
             self.isSignedIn = true
             
-            print("👤 User ID: \(String(describing: data.userId))")
-            print("🔑 Access Token: \(data.accessToken)")
-            print("🔄 Refresh Token: \(data.refreshToken)")
-            
             // 키체인에 토큰 저장
-            TokenManager.shared.updateToken(data.accessToken, data.refreshToken)
-            
+            // TokenManager.shared.updateToken(data.accessToken, data.refreshToken)
         }
     }
     
@@ -60,7 +55,7 @@ extension LoginViewModel: ASAuthorizationControllerDelegate {
         print("Apple 로그인 성공!!!")
         print("IdentityToken: \(String(describing: identityToken))")
         
-        // Keychain에 로그인 정보 저장
+        // Keychain에 애플 로그인 정보 저장
         TokenManager.shared.updateIdentityToken(identityToken: identityToken)
         
         //서버 통신 메서드 호출
