@@ -11,7 +11,8 @@ import AuthenticationServices
 class LoginViewModel: NSObject, ObservableObject {
     // 로그인 상태 확인할 변수
     @Published var isSignedIn = false
-        
+    @Published var loginFlow: UserType = .none
+    
     // Apple 로그인
     func handleAppleSignIn() {
         let request = ASAuthorizationAppleIDProvider().createRequest()
@@ -25,20 +26,28 @@ class LoginViewModel: NSObject, ObservableObject {
     // 로그인 서버 통신
     private func postSignin() {
         let requestBody = PostSigninRequestDTO(platform: PlatformType.APPLE.rawValue)
-
+        
         Providers.sigininProvider.request(
             target: .postSignin(requestBody: requestBody),
             instance: BaseResponse<PostSigninResponseDTO>.self
         ) { response in
-                guard response.success, let data = response.data else {
+            guard response.success, let data = response.data else {
                 print("🚨 서버 통신 실패: \(response.message ?? "알 수 없음")")
                 return
             }
             
             self.isSignedIn = true
             
-            // 키체인에 토큰 저장
-            // TokenManager.shared.updateToken(data.accessToken, data.refreshToken)
+            DispatchQueue.main.async {
+                if let userId = data.userId {
+                    // 기존 유저 -> 토큰 저장 후 main으로
+                    TokenManager.shared.updateToken(data.accessToken, data.refreshToken)
+                    self.loginFlow = .existingUser
+                } else {
+                    // 신규 유저 -> 아직 회원가입 미완료 → 약관 동의로 토큰 저장 X
+                    self.loginFlow = .newUser
+                }
+            }
         }
     }
     
