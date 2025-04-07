@@ -11,19 +11,35 @@ struct MyPageSettingView: View {
     @StateObject var viewModel = MyPageSettingViewModel()
     
     var body: some View {
-        VStack(spacing: 0) {
-            ForEach(MyPageSettingSection.settingList) { section in
-                SettingHeaderCell(type: section.header)
-
-                ForEach(section.items) { item in
-                    settingCell(for: item)
+        ZStack {
+            VStack(spacing: 0) {
+                ForEach(MyPageSettingSection.settingList) { section in
+                    SettingHeaderCell(type: section.header)
+                    
+                    ForEach(section.items) { item in
+                        settingCell(for: item)
+                    }
+                    
+                    if section.header == .information {
+                        Color(.gray01).frame(height: 8)
+                    }
                 }
-
-                if section.header == .information {
-                    Color(.gray01).frame(height: 8)
-                }
+                Spacer()
             }
-            Spacer()
+
+            if viewModel.showAlert {
+                CustomedAlert(
+                    titleText: "\(viewModel.selectedAction == .logout ? "로그아웃을" : "회원탈퇴를") 진행하시겠습니까?",
+                    grayButtonText: "취소",
+                    orangeButtonText: "확인",
+                    onTapGrayButton: {
+                        viewModel.showAlert = false
+                    },
+                    onTapOrangeButton: {
+                        viewModel.confirmAction()
+                    }
+                )
+            }
         }
     }
 }
