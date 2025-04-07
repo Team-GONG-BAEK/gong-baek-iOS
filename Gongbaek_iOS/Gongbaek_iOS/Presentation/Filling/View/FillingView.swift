@@ -14,12 +14,10 @@ struct FillingView: View {
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             VStack(spacing: 0) {
-                WeekFilterBar()
-                    .padding(.bottom, 8)
                 CategoryBar(viewModel: viewModel)
                     .padding(.bottom, 8)
                 Rectangle()
-                    .fill(.gray01)
+                    .fill(.gray02)
                     .frame(height: 8)
                 FillingList(meetings: viewModel.meeting)
                 Spacer()

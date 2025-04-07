@@ -26,7 +26,9 @@ extension MeetingChipState {
             case .CLOSED:
                 return .gray02
             }
-        case .category, .weekly:
+        case .category:
+            return .subOrange
+        case .weekly:
             return .gray01
         }
     }
