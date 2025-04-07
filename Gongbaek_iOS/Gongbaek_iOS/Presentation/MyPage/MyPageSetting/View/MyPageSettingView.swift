@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MyPageSettingView: View {
+    @StateObject var viewModel = MyPageSettingViewModel()
+    
     var body: some View {
         VStack(spacing: 0) {
             ForEach(MyPageSettingSection.settingList) { section in
@@ -39,9 +41,9 @@ extension MyPageSettingView {
         case .info:
             SettingBasicCell(title: item.title, type: item.type)
             
-        case .action(let handler):
+        case .action(let actionType):
             Button {
-                handler()
+                viewModel.performAction(actionType)
             } label: {
                 SettingBasicCell(title: item.title, type: item.type)
             }
