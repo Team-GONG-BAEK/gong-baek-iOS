@@ -145,7 +145,7 @@
 		954A49172D2DA7AF00FD6964 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 954A490D2D2DA7AE00FD6964 /* Gongbaek_iOS */;
-			baseConfigurationReferenceRelativePath = Global/Setting/Config.xcconfig;
+			baseConfigurationReferenceRelativePath = Network/Environment/Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -210,7 +210,7 @@
 		954A49182D2DA7AF00FD6964 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 954A490D2D2DA7AE00FD6964 /* Gongbaek_iOS */;
-			baseConfigurationReferenceRelativePath = Global/Setting/Config.xcconfig;
+			baseConfigurationReferenceRelativePath = Network/Environment/Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -267,6 +267,8 @@
 		};
 		954A491A2D2DA7AF00FD6964 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 954A490D2D2DA7AE00FD6964 /* Gongbaek_iOS */;
+			baseConfigurationReferenceRelativePath = Network/Environment/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -306,6 +308,8 @@
 		};
 		954A491B2D2DA7AF00FD6964 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 954A490D2D2DA7AE00FD6964 /* Gongbaek_iOS */;
+			baseConfigurationReferenceRelativePath = Network/Environment/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -354,7 +358,7 @@
 				954A49182D2DA7AF00FD6964 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		954A49192D2DA7AF00FD6964 /* Build configuration list for PBXNativeTarget "Gongbaek_iOS" */ = {
 			isa = XCConfigurationList;
@@ -363,7 +367,7 @@
 				954A491B2D2DA7AF00FD6964 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 

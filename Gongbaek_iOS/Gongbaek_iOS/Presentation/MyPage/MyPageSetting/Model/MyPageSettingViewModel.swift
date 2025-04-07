@@ -7,32 +7,21 @@
 
 import SwiftUI
 
-enum SettingHeaderType: String, CaseIterable {
-    case information = "이용 안내"
-    case account = "계정"
-}
-
 struct SettingItem: Identifiable {
     let id: UUID = UUID()
     let title: String
     let type: SettingItemType
 }
 
-enum SettingItemType {
-    case webLink(url: String) // Link로 연결
-    case info(subtitle: String?) // 정보만 보이는 용도
-    case action(handler: () -> Void) // button 역할
-}
-
-struct MyPageSettingStatus: Identifiable {
-    let id: UUID = UUID()
+struct MyPageSettingSection: Identifiable {
+    private let id: UUID = UUID()
     let header: SettingHeaderType
     let items: [SettingItem]
 }
 
-extension MyPageSettingStatus {
-    static let settingList: [MyPageSettingStatus] = [
-        MyPageSettingStatus(
+extension MyPageSettingSection {
+    static let settingList: [MyPageSettingSection] = [
+        MyPageSettingSection(
             header: .information,
             items: [
                 SettingItem(title: "공지사항", type: .webLink(url: "https://booming-jasmine-4c1.notion.site/1b34c7511f4280a9805df2e84a4ae342")),
@@ -41,7 +30,7 @@ extension MyPageSettingStatus {
                 SettingItem(title: "버전 정보", type: .info(subtitle: "1.1.1"))
             ]
         ),
-        MyPageSettingStatus(
+        MyPageSettingSection(
             header: .account,
             items: [
                 SettingItem(title: "로그아웃", type: .action {

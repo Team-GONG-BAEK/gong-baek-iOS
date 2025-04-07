@@ -10,14 +10,14 @@ import SwiftUI
 struct MyPageSettingView: View {
     var body: some View {
         VStack(spacing: 0) {
-            ForEach(MyPageSettingStatus.settingList) { status in
-                SettingHeaderCell(type: status.header)
+            ForEach(MyPageSettingSection.settingList) { section in
+                SettingHeaderCell(type: section.header)
 
-                ForEach(status.items) { item in
+                ForEach(section.items) { item in
                     settingCell(for: item)
                 }
 
-                if status.header == .information {
+                if section.header == .information {
                     Color(.gray01).frame(height: 8)
                 }
             }

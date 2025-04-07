@@ -18,7 +18,7 @@ struct SettingBasicCell: View {
                 .pretendardFont(.body1_r_16)
                 .foregroundColor(.grayBlack)
             
-            if case let .info(subtitle?) = type, !subtitle.isEmpty {
+            if case let .info(subtitle) = type, !subtitle.isEmpty {
                 Spacer()
                 Text(subtitle)
                     .pretendardFont(.body1_r_16)
