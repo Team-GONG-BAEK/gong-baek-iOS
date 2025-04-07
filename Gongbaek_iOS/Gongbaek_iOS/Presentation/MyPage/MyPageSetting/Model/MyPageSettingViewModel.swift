@@ -14,7 +14,7 @@ struct SettingItem: Identifiable {
 }
 
 struct MyPageSettingSection: Identifiable {
-    private let id: UUID = UUID()
+    let id: UUID = UUID()
     let header: SettingHeaderType
     let items: [SettingItem]
 }
