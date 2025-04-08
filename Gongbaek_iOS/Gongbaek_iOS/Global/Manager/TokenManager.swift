@@ -70,7 +70,7 @@ extension TokenManager {
     }
     
     func reissueToken(completion: @escaping (Bool) -> Void) {        
-        Providers.sigininProvider.request(
+        Providers.authProvider.request(
             target: .patchReissue,
             instance: BaseResponse<PatchReissueResponse>.self
         ) { response in

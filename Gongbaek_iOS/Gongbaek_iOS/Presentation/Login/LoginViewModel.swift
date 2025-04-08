@@ -27,7 +27,7 @@ class LoginViewModel: NSObject, ObservableObject {
     private func postSignin() {
         let requestBody = PostSigninRequestDTO(platform: PlatformType.APPLE.rawValue)
         
-        Providers.sigininProvider.request(
+        Providers.authProvider.request(
             target: .postSignin(requestBody: requestBody),
             instance: BaseResponse<PostSigninResponseDTO>.self
         ) { response in
