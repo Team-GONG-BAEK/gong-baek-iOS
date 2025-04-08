@@ -12,7 +12,7 @@ final class MyPageSettingViewModel: ObservableObject {
     @Published var showAlert: Bool = false
     @Published var selectedAction: SettingActionType?
     @Published var isLogout: Bool = false
-
+    
     func performAction(_ action: SettingActionType) {
         selectedAction = action
         showAlert = true
@@ -38,8 +38,21 @@ final class MyPageSettingViewModel: ObservableObject {
             }
         case .deleteAccount:
             print("회원탈퇴 처리")
+            // 1. 회원탈퇴 서버 통신
+            deleteWidthdraw { [weak self] success in
+                guard let self = self else { return }
+                if success {
+                    print("회원탈퇴 성공")
+                    TokenManager.shared.clearAll()
+                    DispatchQueue.main.async {
+                        self.isLogout = true // 뷰에서 감지해서 화면 전환
+                    }
+                } else {
+                    self.isLogout = false
+                }
+            }
         }
-
+        
         selectedAction = nil
         showAlert = false
     }
@@ -56,6 +69,21 @@ extension MyPageSettingViewModel {
             
             guard response.success else {
                 print("로그아웃 실패! \(response.message ?? "알 수 없음")")
+                completion(false)
+                return
+            }
+            completion(true)
+        }
+    }
+    
+    func deleteWidthdraw(completion: @escaping (Bool) -> Void) {
+        Providers.authProvider.request(
+            target: .deleteWidthdraw,
+            instance: BaseResponse<VoidResult>.self
+        ) { response in
+            
+            guard response.success else {
+                print("회원탈퇴 실패! \(response.message ?? "알 수 없음")")
                 completion(false)
                 return
             }

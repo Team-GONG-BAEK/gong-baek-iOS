@@ -11,6 +11,7 @@ enum AuthTargetType {
     case postSignin(requestBody: PostSigninRequestDTO)
     case patchReissue
     case deleteLogout
+    case deleteWidthdraw
 }
 
 extension AuthTargetType: BaseTargetType {
@@ -21,6 +22,8 @@ extension AuthTargetType: BaseTargetType {
         case .patchReissue:
             return APIConstants.refreshTokenHeader
         case .deleteLogout:
+            return APIConstants.accessTokenHeader
+        case .deleteWidthdraw:
             return APIConstants.accessTokenHeader
         }
     }
@@ -33,6 +36,8 @@ extension AuthTargetType: BaseTargetType {
             return "/api/v1/reissue/token"
         case .deleteLogout:
             return "/api/v1/logout"
+        case .deleteWidthdraw:
+            return "/api/v1/withdraw"
         }
     }
     
