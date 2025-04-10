@@ -24,7 +24,7 @@ struct IntroduceInput: View {
             CustomTextField(
                 text: $viewModel.title,
                 showError: $showError,
-                state: .title
+                type: .title
             )
             .padding(.bottom, 28)
             

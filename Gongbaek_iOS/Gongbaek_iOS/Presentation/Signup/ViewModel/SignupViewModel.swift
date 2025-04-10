@@ -16,15 +16,18 @@ final class SignupViewModel: ObservableObject {
     @Published var majorName = ""
     @Published var yearOfAdmission: Int? = nil
     // 학교, 학과 검색
-    @Published var selectedSearchResult: String = ""
+    @Published var selectedSearchResult = ""
     @Published var textFieldText = ""
     @Published var searchWord = ""
     @Published var searchResultList: [String] = []
     // 이메일 인증
-    @Published var isEmailVerified: Bool = false
+    @Published var email = ""
+    @Published var isEmailVerified: Bool = true
+    @Published var emailStatus: TextFieldType.EmailStatus? = nil
+    @Published var verificationStatus: TextFieldType.VerificationStatus? = nil
     // 닉네임, 성별 입력
     @Published var nickname = ""
-    @Published var showNicknameError = false
+    @Published var nicknameStatus: TextFieldType.NicknameStatus? = nil
     @Published var sex: SexType? = nil
     // 프로필 이미지 선택
     @Published var profileImageIndex: Int? = nil
@@ -76,14 +79,21 @@ final class SignupViewModel: ObservableObject {
     /// 상태값 초기화 (다음 화면으로 이동 시 기존 값들 리셋)
     func resetState(at step: SignupStep) {
         switch step {
-        case .nicknameSexInput:
-            nickname = ""
-            sex = nil
-            showNicknameError = false
         case .academicInfoInput:
             schoolName = ""
             majorName = ""
             yearOfAdmission = nil
+        case .schoolEmailVerification:
+            email = ""
+            isEmailVerified = false
+            emailStatus = nil
+            verificationStatus = nil
+        case .nicknameSexInput:
+            nickname = ""
+            sex = nil
+            nicknameStatus = nil
+        case .profileImageSelection:
+            profileImageIndex = nil
         case .mbtiSelection:
             e_i = nil
             s_n = nil

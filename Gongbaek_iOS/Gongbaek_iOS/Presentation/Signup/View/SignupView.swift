@@ -123,11 +123,11 @@ extension SignupView {
     private func validateNickname() {
         viewModel.postNicknameValidation { isSuccess in
             if isSuccess {
-                viewModel.showNicknameError = false
+                viewModel.nicknameStatus = nil
                 goToNextStep()
             }
             else {
-                viewModel.showNicknameError = true
+                viewModel.nicknameStatus = .duplicatedNickname
             }
         }
     }

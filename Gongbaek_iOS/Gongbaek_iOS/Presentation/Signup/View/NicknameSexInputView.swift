@@ -22,10 +22,10 @@ struct NicknameSexInputView: View {
             .padding(.horizontal, 16)
             .padding(.bottom, 44)
             
-            CustomTextField(
+            CustomTextFieldWithStatus(
                 text: $viewModel.nickname,
-                showError: $viewModel.showNicknameError,
-                state: .nickname
+                status: $viewModel.nicknameStatus,
+                type: .nickname
             )
             .autocorrectionDisabled(true)
             .textInputAutocapitalization(.never)
