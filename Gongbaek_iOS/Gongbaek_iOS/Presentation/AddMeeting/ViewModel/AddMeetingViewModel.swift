@@ -101,7 +101,7 @@ class AddMeetingViewModel: ObservableObject {
             case 5:
                 self.isNextEnabled = self.location.count >= 2
             case 6:
-                self.isNextEnabled = self.title.count >= 2 && self.introduction.count >= 20
+                self.isNextEnabled = self.title.count >= 2
             case 7:
                 self.isNextEnabled = true
             default:
@@ -251,7 +251,7 @@ class AddMeetingViewModel: ObservableObject {
     }
     
     func postMeeting() {
-        guard let selectedCoverIndex = selectedCoverIndex else {
+        guard selectedCoverIndex != nil else {
             return
         }
         
