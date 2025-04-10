@@ -102,6 +102,7 @@ struct AddMeetingView: View {
             if viewModel.retryCount > 3 {
                 viewModel.currentIndex = 0
                 viewModel.retryCount = 0
+                viewModel.selectedCycle = nil
             }
         }
     }

@@ -270,7 +270,6 @@ class AddMeetingViewModel: ObservableObject {
                     print("✅ 모임 등록 성공!")
                 } else {
                     self.isSuccessGetData = false
-                    print("❌ 모임 등록 실패(\(self.retryCount)회 시도): \(response.message ?? "알 수 없는 오류")")
                 }
             }
         }
