@@ -87,6 +87,8 @@ struct AddMeetingView: View {
                         if viewModel.isSuccessGetData {
                             navigationManager.popToRoot()
                             navigationManager.selectedTab = .filling
+                        } else {
+                            viewModel.retryCount += 1
                         }
                     }
                 )
@@ -95,6 +97,12 @@ struct AddMeetingView: View {
         .ignoresSafeArea(.keyboard)
         .onAppear {
             viewModel.getTimeTable()
+        }
+        .onChange(of: viewModel.retryCount) {
+            if viewModel.retryCount > 3 {
+                viewModel.currentIndex = 0
+                viewModel.retryCount = 0
+            }
         }
     }
 }

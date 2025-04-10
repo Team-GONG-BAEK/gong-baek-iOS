@@ -65,6 +65,8 @@ class AddMeetingViewModel: ObservableObject {
     
     @Published var isSuccessGetData: Bool = true
     
+    @Published var retryCount = 0 // 시도 횟수 저장
+    
     var selectedFormattedDate: String? {
         guard let date = selectedWeekDate else { return nil }
         let formatter = DateFormatter()
@@ -171,7 +173,7 @@ class AddMeetingViewModel: ObservableObject {
             
             var freeTimes: [TimeTableModel] = []
             var freeTimeStart = 9.0
-
+            
             for classTime in sortedClasses {
                 if freeTimeStart < classTime.startTime {
                     freeTimes.append(
@@ -185,7 +187,7 @@ class AddMeetingViewModel: ObservableObject {
                 }
                 freeTimeStart = classTime.endTime
             }
-
+            
             if freeTimeStart < 18.0 {
                 freeTimes.append(
                     .init(
@@ -196,7 +198,7 @@ class AddMeetingViewModel: ObservableObject {
                     )
                 )
             }
-
+            
             return freeTimes
         }
     }
@@ -255,24 +257,25 @@ class AddMeetingViewModel: ObservableObject {
             return
         }
         
-        let requestData = makeMeetingModel() // ✅ 별도 메서드에서 Model 변환
-
+        let requestData = makeMeetingModel()
+        
         print("🛠️ 최종 weekDate 값: \(requestData.weekDate)")
-
+        
         Providers.fillingProvider.request(target: .postMeeting(data: requestData), instance: BaseResponse<EmptyResponseDTO>.self) { response in
             print(requestData)
             DispatchQueue.main.async {
                 if response.success {
                     self.isSuccessGetData = true
+                    self.retryCount = 0 // 성공 시 횟수 초기화
                     print("✅ 모임 등록 성공!")
                 } else {
                     self.isSuccessGetData = false
-                    print("❌ 모임 등록 실패: \(response.message ?? "알 수 없는 오류")")
+                    print("❌ 모임 등록 실패(\(self.retryCount)회 시도): \(response.message ?? "알 수 없는 오류")")
                 }
             }
         }
     }
-
+    
     private func makeMeetingModel() -> AddMeetingModel {
         return AddMeetingModel(
             groupType: selectedCycle == .once ? "ONCE" : "WEEKLY",
@@ -281,14 +284,14 @@ class AddMeetingViewModel: ObservableObject {
             startTime: selectedTimeRange.start,
             endTime: selectedTimeRange.end,
             category: selectedCategory?.serverName ?? "",
-            coverImg: (selectedCoverIndex ?? 0) + 1, // ✅ `nil` 방지 처리
+            coverImg: (selectedCoverIndex ?? 0),
             location: location,
             maxPeopleCount: maxPeopleCount,
             groupTitle: title,
             introduction: introduction
         )
     }
-
+    
 }
 
 
