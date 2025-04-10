@@ -14,51 +14,49 @@ struct AcademicInfoInputView: View {
     let onTapMajorSearchButton: (() -> Void)?
     
     var body: some View {
-        ZStack {
-            VStack(spacing: 0) {
-                TitleTextBox(
-                    title: "학적정보를 입력해주세요.",
-                    subtitle: "자신의 학교와 학과, 입학연도를 선택해주세요."
-                )
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.top, 54)
-                .padding(.horizontal, 16)
-                .padding(.bottom, 44)
-                
-                Group {
-                    SearchTextField(
-                        inputText: $viewModel.schoolName,
-                        isButton: true,
-                        state: .school
-                    ) { _ in
-                        onTapSchoolSearchButton?()
-                    }
-                    .padding(.bottom, 24)
-                    
-                    SearchTextField(
-                        inputText: $viewModel.majorName,
-                        isButton: true,
-                        state: .major
-                    ) { _ in
-                        onTapMajorSearchButton?()
-                    }
-                    
+        VStack(spacing: 0) {
+            TitleTextBox(
+                title: "학적정보를 입력해주세요.",
+                subtitle: "자신의 학교와 학과, 입학연도를 선택해주세요."
+            )
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.top, 54)
+            .padding(.horizontal, 16)
+            .padding(.bottom, 44)
+            
+            Group {
+                SearchTextField(
+                    inputText: $viewModel.schoolName,
+                    isButton: true,
+                    state: .school
+                ) { _ in
+                    onTapSchoolSearchButton?()
                 }
-                .padding(.horizontal, 16)
+                .padding(.bottom, 24)
                 
-                YearSelectButton(
-                    viewModel: viewModel,
-                    isSelected: viewModel.yearOfAdmission != nil
-                ) {
-                    withAnimation {
-                        showYearPicker = true
-                    }
+                SearchTextField(
+                    inputText: $viewModel.majorName,
+                    isButton: true,
+                    state: .major
+                ) { _ in
+                    onTapMajorSearchButton?()
                 }
-                .padding(.top, 24)
-                .padding(.horizontal, 16)
                 
-                Spacer()
             }
+            .padding(.horizontal, 16)
+            
+            YearSelectButton(
+                viewModel: viewModel,
+                isSelected: viewModel.yearOfAdmission != nil
+            ) {
+                withAnimation {
+                    showYearPicker = true
+                }
+            }
+            .padding(.top, 24)
+            .padding(.horizontal, 16)
+            
+            Spacer()
         }
     }
 }
