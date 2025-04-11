@@ -11,7 +11,7 @@ import AuthenticationServices
 class LoginViewModel: NSObject, ObservableObject {
     // 로그인 상태 확인할 변수
     @Published var isSignedIn = false
-    @Published var loginFlow: UserType = .none
+    @Published var loginFlow: UserType? = nil
     
     // Apple 로그인
     func handleAppleSignIn() {

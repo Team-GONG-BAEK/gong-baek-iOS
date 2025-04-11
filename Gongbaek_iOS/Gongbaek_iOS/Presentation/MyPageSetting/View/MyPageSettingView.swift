@@ -42,9 +42,8 @@ struct MyPageSettingView: View {
                 )
             }
         }
-        .onChange(of: viewModel.isLogout) {
-            if viewModel.isLogout {
-                navigationManager.pop()
+        .onChange(of: viewModel.isSignedOut) {
+            if viewModel.isSignedOut {
                 navigationManager.rootView = .login
             }
         }
