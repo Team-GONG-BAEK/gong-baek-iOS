@@ -8,15 +8,13 @@
 import SwiftUI
 
 struct AgreementListCell: View {
-    var text: String
+    var state: AgreeState
     @Binding var isSelected: Bool
-    var onTap: (() -> Void)?
     
     var body: some View {
         HStack(spacing: 8) {
             Button(action: {
                 isSelected.toggle()
-                onTap?()
             }) {
                 Image(.checkGray32)
                     .renderingMode(.template)
@@ -24,17 +22,16 @@ struct AgreementListCell: View {
                     .frame(width: 32, height: 32)
             }
             
-            Text(text)
+            Text(state.titleText)
                 .pretendardFont(.body2_m_14)
                 .foregroundColor(.gray09)
             Spacer()
             
-            Button(action: {}) {
+            Link(destination: state.webURL) {
                 Image(.icArrowRight32)
                     .foregroundColor(.gray04)
                     .frame(width: 32, height: 32)
             }
-            
         }
     }
 }

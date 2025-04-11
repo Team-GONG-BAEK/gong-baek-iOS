@@ -13,7 +13,6 @@ struct AgreementView: View {
     @State private var isAllChecked: Bool = false
     @State private var isTermsSelected: Bool = false
     @State private var isPrivacySelected: Bool = false
-    @State private var webViewURL: URL? = nil
     
     var body: some View {
         ZStack {
@@ -36,14 +35,12 @@ struct AgreementView: View {
                 
                 VStack(spacing: 8) {
                     AgreementListCell(
-                        text: AgreeState.terms.titleText,
-                        isSelected: $isTermsSelected,
-                        onTap: { navigateToWebView(for: .terms) }
+                        state: .terms,
+                        isSelected: $isTermsSelected
                     )
                     AgreementListCell(
-                        text: AgreeState.privacy.titleText,
-                        isSelected: $isPrivacySelected,
-                        onTap: { navigateToWebView(for: .privacy) }
+                        state: .privacy,
+                        isSelected: $isPrivacySelected
                     )
                 }
                 .padding(.trailing, -12)
@@ -77,12 +74,6 @@ extension AgreementView {
     
     func updateIsChecked() {
         isAllChecked = isTermsSelected && isPrivacySelected
-    }
-    
-    func navigateToWebView(for item: AgreeState) {
-        webViewURL = item.webURL
-        
-        //웹뷰로 이동하도록 로직 추가
     }
     
     func navigateToSignupView() {
