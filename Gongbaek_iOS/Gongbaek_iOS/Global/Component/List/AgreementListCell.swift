@@ -9,7 +9,6 @@ import SwiftUI
 
 struct AgreementListCell: View {
     var state: AgreeState
-    var onLinkTap: ((AgreeState) -> Void)?
     @Binding var isSelected: Bool
     
     var body: some View {

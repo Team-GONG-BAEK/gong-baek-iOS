@@ -352,7 +352,7 @@
 				954A49182D2DA7AF00FD6964 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		954A49192D2DA7AF00FD6964 /* Build configuration list for PBXNativeTarget "Gongbaek_iOS" */ = {
 			isa = XCConfigurationList;
@@ -361,7 +361,7 @@
 				954A491B2D2DA7AF00FD6964 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 
