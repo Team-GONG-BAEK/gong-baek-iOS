@@ -1,11 +1,11 @@
 //
-//  MyPageSettingViewModel.swift
+//  MyPageSettingModel.swift
 //  Gongbaek_iOS
 //
-//  Created by 김희은 on 4/2/25.
+//  Created by 김민서 on 4/7/25.
 //
 
-import SwiftUI
+import Foundation
 
 struct SettingItem: Identifiable {
     let id: UUID = UUID()
@@ -33,12 +33,8 @@ extension MyPageSettingSection {
         MyPageSettingSection(
             header: .account,
             items: [
-                SettingItem(title: "로그아웃", type: .action {
-                    print("로그아웃 실행됨") //TODO: 로그아웃 수행 코드 추가
-                }),
-                SettingItem(title: "회원탈퇴", type: .action {
-                    print("회원탈퇴 실행됨") //TODO: 회원탈퇴 수행 코드 추가
-                })
+                SettingItem(title: "로그아웃", type: .action(type: .logout)),
+                SettingItem(title: "회원탈퇴", type: .action(type: .deleteAccount))
             ]
         )
     ]

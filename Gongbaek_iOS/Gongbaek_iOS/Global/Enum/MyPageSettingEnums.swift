@@ -13,5 +13,10 @@ enum SettingHeaderType: String, CaseIterable {
 enum SettingItemType {
     case webLink(url: String)
     case info(subtitle: String)
-    case action(handler: () -> Void)
+    case action(type: SettingActionType)
+}
+
+enum SettingActionType {
+    case logout
+    case deleteAccount
 }

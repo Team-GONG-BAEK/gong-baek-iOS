@@ -21,6 +21,9 @@ struct Gongbaek_iOSApp: App {
                 SplashView()
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                            if TokenManager.shared.hasAccessToken {
+                                navigationManager.rootView = .tabBar
+                            }
                             withAnimation {
                                 showMainView = true
                             }

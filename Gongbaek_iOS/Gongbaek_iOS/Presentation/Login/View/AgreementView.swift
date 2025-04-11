@@ -77,7 +77,6 @@ extension AgreementView {
     }
     
     func navigateToSignupView() {
-        navigationManager.pop()
         navigationManager.rootView = .signup
     }
 }
