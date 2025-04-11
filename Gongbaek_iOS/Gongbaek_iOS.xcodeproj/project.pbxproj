@@ -13,7 +13,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0DDF3F322D963D1900C2C738 /* Gongbaek_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gongbaek_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		954A490B2D2DA7AE00FD6964 /* Gongbaek_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gongbaek_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -42,8 +42,16 @@
 			isa = PBXGroup;
 			children = (
 				954A490D2D2DA7AE00FD6964 /* Gongbaek_iOS */,
-				0DDF3F322D963D1900C2C738 /* Gongbaek_iOS.app */,
+				954A490C2D2DA7AE00FD6964 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		954A490C2D2DA7AE00FD6964 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				954A490B2D2DA7AE00FD6964 /* Gongbaek_iOS.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,7 +79,7 @@
 				95B4EAA02D418FAE0084923B /* KeychainAccess */,
 			);
 			productName = Gongbaek_iOS;
-			productReference = 0DDF3F322D963D1900C2C738 /* Gongbaek_iOS.app */;
+			productReference = 954A490B2D2DA7AE00FD6964 /* Gongbaek_iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -104,7 +112,7 @@
 				95B4EA9F2D418FAE0084923B /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 954A49022D2DA7AE00FD6964;
+			productRefGroup = 954A490C2D2DA7AE00FD6964 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -264,7 +272,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Gongbaek_iOS/Gongbaek_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -306,7 +313,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Gongbaek_iOS/Gongbaek_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
