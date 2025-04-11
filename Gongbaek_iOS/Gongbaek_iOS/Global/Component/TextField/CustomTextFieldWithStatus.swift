@@ -11,13 +11,19 @@ import SwiftUI
 struct CustomTextFieldWithStatus<Status: TextFieldErrorStatus>: View {
     @Binding var text: String
     @Binding var status: Status?
-    @FocusState private var isFocused: Bool
+    @FocusState var isFocused: Bool
     var type: TextFieldType
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(type.titleText)
+                .font(.pretendard(.body2_sb_14))
+                .foregroundColor(.gray08)
+                .padding(.bottom, 10)
+            
             _BaseCustomTextField(
                 text: $text,
+                isFocused: $isFocused,
                 type: type
             )
             .overlay(
@@ -35,6 +41,7 @@ struct CustomTextFieldWithStatus<Status: TextFieldErrorStatus>: View {
                     Text(status.message)
                         .font(.pretendard(.caption2_r_12))
                         .foregroundColor(.errorRed)
+                        .padding(.top, 4)
                 }
                 Spacer()
                 
@@ -42,6 +49,7 @@ struct CustomTextFieldWithStatus<Status: TextFieldErrorStatus>: View {
                     Text("\(text.count)/\(type.maxCharacterCount)")
                         .font(.pretendard(.caption2_r_12))
                         .foregroundColor(.gray06)
+                        .padding(.top, 4)
                 }
             }
         }
@@ -66,7 +74,7 @@ struct NicknameTestView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
 
-            CustomTextFieldWithStatus(
+            CustomTextFieldWithStatus<TextFieldType.NicknameStatus>(
                 text: $nickname,
                 status: $status,
                 type: .nickname

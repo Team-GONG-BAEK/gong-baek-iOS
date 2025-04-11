@@ -10,15 +10,10 @@ import SwiftUI
 /// CustomTextField, CustomTextFieldWithStatus 컴포넌트에서 사용하는 내부 공통 뷰
 struct _BaseCustomTextField: View {
     @Binding var text: String
-    @FocusState private var isFocused: Bool
+    @FocusState.Binding var isFocused: Bool
     var type: TextFieldType
     
     var body: some View {
-        Text(type.titleText)
-            .font(.pretendard(.body2_sb_14))
-            .foregroundColor(.gray08)
-            .padding(.bottom, 6)
-        
         TextField(
             type.placeholderText,
             text: $text
