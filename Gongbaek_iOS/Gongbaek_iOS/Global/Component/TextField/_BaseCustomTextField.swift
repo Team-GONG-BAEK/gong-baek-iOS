@@ -25,9 +25,10 @@ struct _BaseCustomTextField: View {
         .background(.gray01)
         .cornerRadius(6)
         .accentColor(.gray05)
-        .onChange(of: text) { [text] in
-            if text.count > type.maxCharacterCount {
-                self.text = String(text.prefix(type.maxCharacterCount))
+        .onChange(of: text) {
+            if let maxCharacterCount = type.maxCharacterCount,
+               text.count > maxCharacterCount {
+                text = String(text.prefix(maxCharacterCount))
             }
         }
     }

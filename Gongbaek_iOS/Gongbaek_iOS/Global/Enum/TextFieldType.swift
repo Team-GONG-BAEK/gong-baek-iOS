@@ -80,12 +80,12 @@ extension TextFieldType {
         }
     }
     
-    var maxCharacterCount: Int {
+    var maxCharacterCount: Int? {
         switch self {
         case .nickname: return 8
         case .location, .title: return 20
         case .verificationCode: return 6
-        default: return 0
+        default: return nil
         }
     }
 }

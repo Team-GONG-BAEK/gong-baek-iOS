@@ -37,11 +37,12 @@ struct CustomTextFieldWithStatus<Status: TextFieldErrorStatus>: View {
                     }
                 }
                 
-                if type == .nickname {
+                if type == .nickname,
+                   let maxCharacterCount = type.maxCharacterCount {
                     HStack {
                         Spacer()
                         
-                        Text("\(text.count)/\(type.maxCharacterCount)")
+                        Text("\(text.count)/\(maxCharacterCount)")
                             .font(.pretendard(.caption2_r_12))
                             .frame(height: 18)
                             .foregroundColor(.gray06)
