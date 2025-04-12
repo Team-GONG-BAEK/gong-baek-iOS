@@ -31,10 +31,9 @@ struct SchoolEmailVerificationView: View {
                 .textInputAutocapitalization(.never)
                 
                 blackButton(title: "코드받기") {
-                    // TODO: 뷰모델 API 호출
+                    // TODO: 뷰모델 API 호출 (전에 이메일 형식 확인)
                     // response 받으면 3분 타이머 시작
-                    viewModel.startTimer()
-                    isTimerVisible = true
+                    viewModel.postSendEmailVerificationCode()
                 }
             }
             .padding(.bottom, 34)
@@ -57,6 +56,7 @@ struct SchoolEmailVerificationView: View {
                 blackButton(title: "인증하기") {
                     // TODO: 뷰모델 API 호출
                 }
+                .disabled(viewModel.isVerifyButtonDisabled)
             }
             
             Spacer()

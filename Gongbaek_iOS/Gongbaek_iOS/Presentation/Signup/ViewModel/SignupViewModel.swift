@@ -27,7 +27,9 @@ final class SignupViewModel: ObservableObject {
     @Published var isEmailVerified: Bool = true
     @Published var emailStatus: TextFieldType.EmailStatus? = nil
     @Published var verificationStatus: TextFieldType.VerificationStatus? = nil
+    @Published var isVerifyButtonDisabled: Bool = true
     // 타이머
+    @Published var isTimerVisible = false
     private let totalSeconds: Int = 180
     @Published var remainingTime: Int = 0
     private var cancellable: AnyCancellable?
@@ -268,17 +270,42 @@ extension SignupViewModel {
         }
     }
     
+    /// 학교 이메일 인증코드 전송 API
+    func postSendEmailVerificationCode() {
+        // TODO: 이메일 정규식 검사(학교 이메일 형식 다양한 걸로 테스트 필수)
+        
+        Providers.SignupProvider.request(
+            target: .postSendEmailVerificationCode(email: email, schoolName: schoolName),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            if response.success {
+//                self.showAlert = true
+                // TODO: 회원가입 api 호출하는 화면인지에 따라 alert 내용 바꿔야 할듯...
+                self.startTimer()
+                self.isTimerVisible = true
+                self.isVerifyButtonDisabled = false
+            } else {
+                
+            }
+        }
+    }
+    
+    /// 학교 이메일 인증  API
+    func postVerifySchoolEmailCode() {
+        
+    }
+    
     /// 회원가입 API
     func postSignup(completion: @escaping (Bool) -> ()) {
-        guard let profileImage = profileImageIndex,
-              let yearOfAdmission = yearOfAdmission,
-              let e_i, let s_n, let t_f, let j_p,
-              let sex = sex
+        guard let yearOfAdmission = yearOfAdmission,
+              let sex = sex,
+              let profileImage = profileImageIndex,
+              let e_i, let s_n, let t_f, let j_p
         else { return }
         saveSelectedCellsToClassTimeTable()
         
         let data = PostSignupRequestDTO(
-            profileImg: profileImage + 1,
+            profileImg: profileImage,
             nickname: nickname,
             mbti: e_i.rawValue + s_n.rawValue + t_f.rawValue + j_p.rawValue,
             schoolName: schoolName,

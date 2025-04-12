@@ -12,19 +12,22 @@ enum SignupTargetType {
     case getSchoolSearchResults(schoolName: String)
     case getMajorSearchResults(schoolName: String, majorName: String)
     case postSignup(data: PostSignupRequestDTO)
+    case postSendEmailVerificationCode(email: String, schoolName: String)
 }
 
 extension SignupTargetType: BaseTargetType {
     var headers: Parameters? {
         switch self {
         case .postNicknameValidation:
-            return APIConstants.hasContentTypeHeader
+            return APIConstants.contentTypeHeader
         case .getSchoolSearchResults:
-            return APIConstants.hasContentTypeHeader
+            return APIConstants.contentTypeHeader
         case .getMajorSearchResults:
-            return APIConstants.hasContentTypeHeader
+            return APIConstants.contentTypeHeader
         case .postSignup:
-            return APIConstants.hasContentTypeHeader
+            return APIConstants.contentTypeHeader
+        case .postSendEmailVerificationCode:
+            return APIConstants.signupAccessTokenHeader
         }
     }
     
@@ -38,6 +41,8 @@ extension SignupTargetType: BaseTargetType {
             return "/api/v1/school/major/search"
         case .postSignup:
             return "/api/v1/user/signup"
+        case .postSendEmailVerificationCode:
+            return "/api/v1/school"
         }
     }
     
@@ -50,6 +55,8 @@ extension SignupTargetType: BaseTargetType {
         case .getMajorSearchResults:
             return .get
         case .postSignup:
+            return .post
+        case .postSendEmailVerificationCode:
             return .post
         }
     }
@@ -76,6 +83,14 @@ extension SignupTargetType: BaseTargetType {
             )
         case .postSignup(let data):
             return .requestJSONEncodable(data)
+        case .postSendEmailVerificationCode(let email, let schoolName):
+            return .requestParameters(
+                parameters: [
+                    "email" : email,
+                    "schoolName" : schoolName,
+                ],
+                encoding: URLEncoding.queryString
+            )
         }
     }
 }
