@@ -31,14 +31,16 @@ struct CustomTextField: View {
                     .stroke(strokeColor(), lineWidth: 1)
             )
             
-            HStack {
-                Spacer()
-                
-                Text("\(text.count)/\(type.maxCharacterCount)")
-                    .font(.pretendard(.caption2_r_12))
-                    .foregroundColor(.gray06)
+            if let maxCharacterCount = type.maxCharacterCount {
+                HStack {
+                    Spacer()
+                    
+                    Text("\(text.count)/\(maxCharacterCount)")
+                        .font(.pretendard(.caption2_r_12))
+                        .foregroundColor(.gray06)
+                }
+                .padding(.top, 4)
             }
-            .padding(.top, 4)
         }
     }
     
