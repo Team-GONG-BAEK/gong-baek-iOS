@@ -15,24 +15,38 @@ struct CustomTextFieldWithStatus<Status: TextFieldErrorStatus>: View {
     var type: TextFieldType
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text(type.titleText)
-                .font(.pretendard(.body2_sb_14))
-                .foregroundColor(.gray08)
-                .padding(.bottom, 10)
-            
-            _BaseCustomTextField(
-                text: $text,
-                isFocused: $isFocused,
-                type: type
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 6)
-                    .stroke(strokeColor(), lineWidth: 1)
-            )
-            .onChange(of: text) {
-                if status != nil {
-                    self.status = nil
+        ZStack(alignment: .bottomLeading) {
+            VStack(alignment: .leading, spacing: 0) {
+                Text(type.titleText)
+                    .font(.pretendard(.body2_sb_14))
+                    .foregroundColor(.gray08)
+                    .padding(.bottom, 10)
+                
+                _BaseCustomTextField(
+                    text: $text,
+                    isFocused: $isFocused,
+                    type: type
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(strokeColor(), lineWidth: 1)
+                )
+                .onChange(of: text) {
+                    if status != nil {
+                        self.status = nil
+                    }
+                }
+                
+                if type == .nickname {
+                    HStack {
+                        Spacer()
+                        
+                        Text("\(text.count)/\(type.maxCharacterCount)")
+                            .font(.pretendard(.caption2_r_12))
+                            .frame(height: 18)
+                            .foregroundColor(.gray06)
+                            .padding(.top, 4)
+                    }
                 }
             }
             
@@ -40,17 +54,12 @@ struct CustomTextFieldWithStatus<Status: TextFieldErrorStatus>: View {
                 if let status = status {
                     Text(status.message)
                         .font(.pretendard(.caption2_r_12))
-                        .foregroundColor(.errorRed)
-                        .padding(.top, 4)
+                        .foregroundColor(status.isError ? .errorRed : .gray06)
+                        .frame(height: 18)
+                        .offset(y: type == .nickname ? 0 : 18+2)
                 }
-                Spacer()
                 
-                if type == .nickname {
-                    Text("\(text.count)/\(type.maxCharacterCount)")
-                        .font(.pretendard(.caption2_r_12))
-                        .foregroundColor(.gray06)
-                        .padding(.top, 4)
-                }
+                Spacer()
             }
         }
     }

@@ -22,6 +22,7 @@ final class SignupViewModel: ObservableObject {
     @Published var searchResultList: [String] = []
     // 이메일 인증
     @Published var email = ""
+    @Published var verificationCode = ""
     @Published var isEmailVerified: Bool = true
     @Published var emailStatus: TextFieldType.EmailStatus? = nil
     @Published var verificationStatus: TextFieldType.VerificationStatus? = nil
