@@ -35,9 +35,15 @@ struct LoginView: View {
                 AppleLoginButton(onTap: viewModel.handleAppleSignIn)
             }
         }
-        .onChange(of: viewModel.isSignedIn) {
-            if viewModel.isSignedIn {
+        .onChange(of: viewModel.loginFlow) { 
+            switch viewModel.loginFlow {
+            case .newUser:
                 navigationManager.push(view: LoginDestination.agree)
+            case .existingUser:
+                navigationManager.rootView = .tabBar
+                navigationManager.selectedTab = .home
+            case .none:
+                break
             }
         }
     }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomedAlert: View {
-    let alertImage: String
+    var alertImage: String? = nil
     let titleText: String
     var subtitleText: String? = nil
     var grayButtonText: String? = nil
@@ -21,10 +21,12 @@ struct CustomedAlert: View {
             backgroundBlack()
             
             VStack (alignment: .center, spacing: 0) {
-                Image(alertImage) //TODO: 이미지 수정
-                    .resizable()
-                    .background(.gray02) //TODO: 이미지 수정 시 삭제
-                    .frame(width: 178, height: 178)
+                if let alertImage {
+                    Image(alertImage)
+                        .resizable()
+                        .background(Color.gray.opacity(0.2))
+                        .frame(width: 178, height: 178)
+                }
                 
                 VStack(spacing: 0) {
                     titleTextBox(text: titleText)
