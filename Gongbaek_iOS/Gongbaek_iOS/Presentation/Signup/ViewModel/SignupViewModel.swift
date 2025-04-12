@@ -194,6 +194,12 @@ final class SignupViewModel: ObservableObject {
         let seconds = totalSeconds % 60
         return String(format: "%02d:%02d", minutes, seconds)
     }
+    
+    /// 완전한 한글 음절로만 이루어져 있는지 확인
+    func isOnlyCompleteHangulSyllables(_ text: String) -> Bool {
+        let regex = try! NSRegularExpression(pattern: "^[가-힣]+$")
+        return regex.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)) != nil
+    }
 }
 
 extension SignupViewModel {

@@ -21,13 +21,10 @@ enum TextFieldType {
     
     enum NicknameStatus: String, TextFieldErrorStatus {
         case duplicatedNickname = "중복된 닉네임입니다. 다시 입력해주세요."
+        case invalidNicknameFormat = "닉네임 입력 조건을 확인해주세요."
         
         var message: String { rawValue }
-        var isError: Bool {
-            switch self {
-            case .duplicatedNickname: return true
-            }
-        }
+        var isError: Bool { true }
     }
     
     enum EmailStatus: String, TextFieldErrorStatus {
@@ -51,9 +48,8 @@ enum TextFieldType {
         var message: String { rawValue }
         var isError: Bool {
             switch self {
-            case .invalidCode: return true
+            case .invalidCode, .expiredCode: return true
             case .verificationCompleted: return false
-            case .expiredCode: return true
             }
         }
     }
