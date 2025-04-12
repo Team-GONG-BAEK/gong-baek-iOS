@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 final class SignupViewModel: ObservableObject {
     
@@ -26,6 +27,10 @@ final class SignupViewModel: ObservableObject {
     @Published var isEmailVerified: Bool = true
     @Published var emailStatus: TextFieldType.EmailStatus? = nil
     @Published var verificationStatus: TextFieldType.VerificationStatus? = nil
+    // 타이머
+    private let totalSeconds: Int = 180
+    @Published var remainingTime: Int = 0
+    private var cancellable: AnyCancellable?
     // 닉네임, 성별 입력
     @Published var nickname = ""
     @Published var nicknameStatus: TextFieldType.NicknameStatus? = nil
@@ -160,6 +165,34 @@ final class SignupViewModel: ObservableObject {
                 classTimeTable.append((day: WeekDay.allCases[dayIndex], start: s, end: e))
             }
         }
+    }
+    
+    func startTimer() {
+        cancellable?.cancel()
+        remainingTime = totalSeconds
+        
+        cancellable = Timer
+            .publish(every: 1, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                
+                if self.remainingTime > 0 {
+                    self.remainingTime -= 1
+                } else {
+                    self.cancellable?.cancel()
+                }
+            }
+    }
+    
+    func stopTimer() {
+        cancellable?.cancel()
+    }
+    
+    func formattedTime(_ totalSeconds: Int) -> String {
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return String(format: "%02d:%02d", minutes, seconds)
     }
 }
 
