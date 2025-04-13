@@ -291,8 +291,21 @@ extension SignupViewModel {
     }
     
     /// 학교 이메일 인증  API
-    func postVerifySchoolEmailCode() {
-        
+    func getSchoolEmailCodeVerification() {
+        Providers.SignupProvider.request(
+            target: .getSchoolEmailVerification(
+                email: email,
+                schoolName: schoolName,
+                code: verificationCode
+            ),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            if response.success {
+                self.isEmailVerified = true
+            } else {
+                
+            }
+        }
     }
     
     /// 회원가입 API

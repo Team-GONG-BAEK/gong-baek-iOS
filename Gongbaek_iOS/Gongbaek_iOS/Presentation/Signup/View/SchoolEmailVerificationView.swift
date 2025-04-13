@@ -52,7 +52,8 @@ struct SchoolEmailVerificationView: View {
                     )
                 
                 blackButton(title: "인증하기") {
-                    // TODO: 뷰모델 API 호출
+                    // TODO: (API 호출 전) 타이머 남은시간 확인, 텍스트필드 empty 확인
+                    viewModel.getSchoolEmailCodeVerification()
                 }
                 .disabled(viewModel.isVerifyButtonDisabled)
             }
