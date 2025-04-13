@@ -26,11 +26,6 @@ final class TokenManager {
         set { keychain["refreshToken"] = newValue }
     }
     
-    var signupAccessToken: String? {
-        get { return keychain["signupAccessToken"] }
-        set { keychain["signupAccessToken"] = newValue }
-    }
-    
     var identityToken: String? {
         get { return keychain["identityToken"] }
         set { keychain["identityToken"] = newValue }
@@ -54,7 +49,6 @@ final class TokenManager {
     var hasAccessToken: Bool { return self.accessToken != nil }
     var accessTokenValue: String { return self.accessToken ?? "" }
     var refreshTokenValue: String { return self.refreshToken ?? "" }
-    var signupAccessTokenValue: String { return self.signupAccessToken ?? "" }
     var identityTokenValue: String { return self.identityToken ?? "" }
     var platformValue: String { return self.platform ?? "" }
     var fcmTokenValue: String { return self.fcmToken ?? "" }
@@ -95,14 +89,9 @@ extension TokenManager {
         self.fcmToken = fcmToken
     }
     
-    func updateSignupAccessToken(_ accessToken: String) {
-        self.signupAccessToken = accessToken
-    }
-    
     func clearAll() {
         self.accessToken = nil
         self.refreshToken = nil
-        self.signupAccessToken = nil
         self.identityToken = nil
         self.platform = nil
     }

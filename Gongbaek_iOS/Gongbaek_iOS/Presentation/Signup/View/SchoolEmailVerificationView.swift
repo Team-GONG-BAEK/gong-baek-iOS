@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SchoolEmailVerificationView: View {
     @ObservedObject var viewModel: SignupViewModel
-    @State private var isTimerVisible: Bool = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -32,7 +31,6 @@ struct SchoolEmailVerificationView: View {
                 
                 blackButton(title: "코드받기") {
                     // TODO: 뷰모델 API 호출 (전에 이메일 형식 확인)
-                    // response 받으면 3분 타이머 시작
                     viewModel.postSendEmailVerificationCode()
                 }
             }
@@ -92,7 +90,7 @@ struct SchoolEmailVerificationView: View {
                 x: proxy.size.width - 16 - 15,
                 y: proxy.size.height - 48 / 2
             )
-            .opacity(isTimerVisible ? 1 : 0)
+            .opacity(viewModel.isTimerVisible ? 1 : 0)
     }
 }
 

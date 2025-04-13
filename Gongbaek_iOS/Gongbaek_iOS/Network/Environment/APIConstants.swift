@@ -39,9 +39,4 @@ extension APIConstants {
         contentType: applicationJSON,
         auth: TokenManager.shared.refreshTokenValue
     ]
-    
-    static let signupAccessTokenHeader: [String: String] = [
-        contentType: applicationJSON,
-        auth: Bearer + TokenManager.shared.signupAccessTokenValue
-    ]
 }

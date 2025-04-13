@@ -13,6 +13,7 @@ enum SignupTargetType {
     case getMajorSearchResults(schoolName: String, majorName: String)
     case postSignup(data: PostSignupRequestDTO)
     case postSendEmailVerificationCode(email: String, schoolName: String)
+//    case postVeritySchoolEmailCode(code: String)
 }
 
 extension SignupTargetType: BaseTargetType {
@@ -27,7 +28,7 @@ extension SignupTargetType: BaseTargetType {
         case .postSignup:
             return APIConstants.contentTypeHeader
         case .postSendEmailVerificationCode:
-            return APIConstants.signupAccessTokenHeader
+            return APIConstants.contentTypeHeader
         }
     }
     
@@ -42,7 +43,7 @@ extension SignupTargetType: BaseTargetType {
         case .postSignup:
             return "/api/v1/user/signup"
         case .postSendEmailVerificationCode:
-            return "/api/v1/school"
+            return "/api/v1/emails/verification-requests"
         }
     }
     
