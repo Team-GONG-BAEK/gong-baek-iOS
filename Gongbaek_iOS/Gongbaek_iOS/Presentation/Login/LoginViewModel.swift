@@ -44,7 +44,9 @@ class LoginViewModel: NSObject, ObservableObject {
                     TokenManager.shared.updateToken(data.accessToken, data.refreshToken)
                     self.loginFlow = .existingUser
                 } else {
-                    // 신규 유저 -> 아직 회원가입 미완료 → 약관 동의로, 토큰 저장 X
+                    // 신규 유저 -> 아직 회원가입 미완료 → 약관 동의로
+                    // **회원가입 전 학교 이메일 인증에 액세스 토큰 필요하여 키체인에 저장**
+                    TokenManager.shared.updateSignupAccessToken(data.accessToken)
                     self.loginFlow = .newUser
                 }
             }

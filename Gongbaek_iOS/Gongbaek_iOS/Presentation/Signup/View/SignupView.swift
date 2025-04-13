@@ -34,11 +34,14 @@ struct SignupView: View {
                     ? "공백 채우러 가기" : (currentStep == .classTimeTableInput ? "가입 완료" : "다음"),
                     isActivated: viewModel.isNextButtonEnabled(currentStep)
                 ) {
-                    if currentStep == .nicknameSexInput {
+                    switch currentStep {
+                    case .nicknameSexInput:
                         validateNickname()
-                    } else if currentStep == .signupCompletion {
+                    case .classTimeTableInput:
+                        signup()
+                    case .signupCompletion:
                         goToTabBarView()
-                    } else {
+                    default:
                         goToNextStep()
                     }
                 }

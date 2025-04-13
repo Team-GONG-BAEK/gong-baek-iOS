@@ -318,9 +318,11 @@ extension SignupViewModel {
         saveSelectedCellsToClassTimeTable()
         
         let data = PostSignupRequestDTO(
+            platform: PlatformType.APPLE.rawValue,
             profileImg: profileImage,
             nickname: nickname,
             mbti: e_i.rawValue + s_n.rawValue + t_f.rawValue + j_p.rawValue,
+            email: email,
             schoolName: schoolName,
             schoolMajor: majorName,
             enterYear: yearOfAdmission,

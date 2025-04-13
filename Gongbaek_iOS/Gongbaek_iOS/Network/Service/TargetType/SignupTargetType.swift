@@ -26,7 +26,7 @@ extension SignupTargetType: BaseTargetType {
         case .getMajorSearchResults:
             return APIConstants.contentTypeHeader
         case .postSignup:
-            return APIConstants.contentTypeHeader
+            return APIConstants.signupAccessTokenHeader
         case .postSendEmailVerificationCode:
             return APIConstants.contentTypeHeader
         case .getSchoolEmailVerification:
