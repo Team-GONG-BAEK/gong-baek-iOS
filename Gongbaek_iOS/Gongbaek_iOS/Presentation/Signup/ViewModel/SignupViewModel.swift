@@ -278,7 +278,7 @@ extension SignupViewModel {
         saveSelectedCellsToClassTimeTable()
         
         let data = PostSignupRequestDTO(
-            profileImg: profileImage + 1,
+            profileImg: profileImage,
             nickname: nickname,
             mbti: e_i.rawValue + s_n.rawValue + t_f.rawValue + j_p.rawValue,
             schoolName: schoolName,
