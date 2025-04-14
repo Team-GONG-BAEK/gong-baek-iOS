@@ -31,8 +31,8 @@ struct LoginView: View {
                 .padding(.top, 28)
                 
                 Spacer()
-                
-                AppleLoginButton(onTap:viewModel.handleAppleSignIn)
+
+                AppleLoginButton(onTap: viewModel.handleAppleSignIn)
             }
         }
         .onChange(of: viewModel.loginFlow) { 

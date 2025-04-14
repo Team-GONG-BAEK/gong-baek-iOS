@@ -13,7 +13,6 @@ struct PostSignupRequestDTO: Codable {
     let mbti: String
     let schoolName: String
     let schoolMajor: String
-    let schoolGrade: Int
     let enterYear: Int
     let introduction: String
     let sex: String

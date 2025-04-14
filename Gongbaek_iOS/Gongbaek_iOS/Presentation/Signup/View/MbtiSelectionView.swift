@@ -15,7 +15,7 @@ struct MbtiSelectionView: View {
         VStack(spacing: 0) {
             TitleTextBox(
                 title: "MBTI를 선택해주세요.",
-                subtitle: "프로필에 표시되는 정보로, 언제든 변경할 수 있어요."
+                subtitle: "자신의 성향을 잘 나타내는 MBTI를 선택해 주세요."
             )
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top, 54)
