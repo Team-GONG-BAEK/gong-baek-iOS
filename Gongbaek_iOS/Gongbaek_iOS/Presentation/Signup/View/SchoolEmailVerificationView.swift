@@ -31,9 +31,12 @@ struct SchoolEmailVerificationView: View {
                 .textInputAutocapitalization(.never)
                 
                 blackButton(title: getCodeButtonTitle) {
-                    // TODO: 뷰모델 API 호출 (전에 이메일 형식 확인)
-                    viewModel.postSendEmailVerificationCode()
-                    getCodeButtonTitle = "다시받기"
+                    if viewModel.isValidEmailFormat() {
+                        viewModel.postSendEmailVerificationCode()
+                        getCodeButtonTitle = "다시받기"
+                    } else {
+                        viewModel.emailStatus = .invalidEmailFormat
+                    }
                 }
                 .disabled(viewModel.isGetCodeButtonDisabled)
             }
@@ -55,7 +58,7 @@ struct SchoolEmailVerificationView: View {
                     )
                 
                 blackButton(title: "인증하기") {
-                    // TODO: (API 호출 전) 타이머 남은시간 확인, 텍스트필드 empty 확인
+                    // TODO: (API 호출 전) 타이머 status 만료된건지 확인, 텍스트필드 empty 확인
                     viewModel.getSchoolEmailCodeVerification()
                 }
                 .disabled(viewModel.isVerifyButtonDisabled)

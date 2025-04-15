@@ -206,6 +206,13 @@ final class SignupViewModel: ObservableObject {
         return String(format: "%02d:%02d", minutes, seconds)
     }
     
+    /// 이메일 형식 정규식 검사
+    func isValidEmailFormat() -> Bool {
+        let regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
+        return predicate.evaluate(with: email)
+    }
+    
     /// 완전한 한글 음절로만 이루어져 있는지 확인
     func isOnlyCompleteHangulSyllables(_ text: String) -> Bool {
         let regex = try! NSRegularExpression(pattern: "^[가-힣]+$")
@@ -281,8 +288,6 @@ extension SignupViewModel {
     
     /// 학교 이메일 인증코드 전송 API
     func postSendEmailVerificationCode() {
-        // TODO: 이메일 정규식 검사(학교 이메일 형식 다양한 걸로 테스트 필수)
-        
         Providers.SignupProvider.request(
             target: .postSendEmailVerificationCode(email: email, schoolName: schoolName),
             instance: BaseResponse<EmptyResponseDTO>.self
