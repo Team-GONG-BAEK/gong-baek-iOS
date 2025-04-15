@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SchoolEmailVerificationView: View {
     @ObservedObject var viewModel: SignupViewModel
+    @State private var getCodeButtonTitle = "코드받기"
     
     var body: some View {
         VStack(spacing: 0) {
@@ -29,10 +30,12 @@ struct SchoolEmailVerificationView: View {
                 .autocorrectionDisabled(true)
                 .textInputAutocapitalization(.never)
                 
-                blackButton(title: "코드받기") {
+                blackButton(title: getCodeButtonTitle) {
                     // TODO: 뷰모델 API 호출 (전에 이메일 형식 확인)
                     viewModel.postSendEmailVerificationCode()
+                    getCodeButtonTitle = "다시받기"
                 }
+                .disabled(viewModel.isGetCodeButtonDisabled)
             }
             .padding(.bottom, 34)
             

@@ -24,9 +24,16 @@ final class SignupViewModel: ObservableObject {
     // 이메일 인증
     @Published var email = ""
     @Published var verificationCode = ""
-    @Published var isEmailVerified: Bool = true
+    @Published var isEmailVerified: Bool = false {
+        didSet {
+            isVerifyButtonDisabled = true
+            isGetCodeButtonDisabled = true
+            verificationStatus = .verificationCompleted
+        }
+    }
     @Published var emailStatus: TextFieldType.EmailStatus? = nil
     @Published var verificationStatus: TextFieldType.VerificationStatus? = nil
+    @Published var isGetCodeButtonDisabled: Bool = false
     @Published var isVerifyButtonDisabled: Bool = true
     // 타이머
     @Published var isTimerVisible = false
@@ -176,13 +183,15 @@ final class SignupViewModel: ObservableObject {
         cancellable = Timer
             .publish(every: 1, on: .main, in: .common)
             .autoconnect()
+            .filter { _ in !self.isEmailVerified }
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 
-                if self.remainingTime > 0 {
-                    self.remainingTime -= 1
+                if remainingTime > 0 {
+                    remainingTime -= 1
                 } else {
-                    self.cancellable?.cancel()
+                    cancellable?.cancel()
+                    verificationStatus = .expiredCode
                 }
             }
     }
@@ -279,13 +288,13 @@ extension SignupViewModel {
             instance: BaseResponse<EmptyResponseDTO>.self
         ) { response in
             if response.success {
-//                self.showAlert = true
-                // TODO: 회원가입 api 호출하는 화면인지에 따라 alert 내용 바꿔야 할듯...
                 self.startTimer()
                 self.isTimerVisible = true
+                self.emailStatus = .codeSent
                 self.isVerifyButtonDisabled = false
             } else {
-                
+//                self.showAlert = true
+                // TODO: 회원가입 api 호출하는 화면인지에 따라 alert 내용 바꿔야 할듯...
             }
         }
     }
@@ -303,7 +312,10 @@ extension SignupViewModel {
             if response.success {
                 self.isEmailVerified = true
             } else {
-                
+                switch response.code {
+                case 4001: self.verificationStatus = .invalidCode
+                default: self.showAlert = true // TODO: Alert 내용 변경
+                }
             }
         }
     }
