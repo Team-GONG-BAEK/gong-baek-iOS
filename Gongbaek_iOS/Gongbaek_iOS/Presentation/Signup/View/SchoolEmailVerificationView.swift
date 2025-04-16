@@ -9,7 +9,12 @@ import SwiftUI
 
 struct SchoolEmailVerificationView: View {
     @ObservedObject var viewModel: SignupViewModel
-    @State private var getCodeButtonTitle = "코드받기"
+    @State private var getCodeButtonTitle: GetCodeButtonTitle = .sendCode
+    
+    enum GetCodeButtonTitle: String {
+        case sendCode = "코드받기"
+        case resendCode = "다시받기"
+    }
     
     var body: some View {
         VStack(spacing: 0) {
@@ -27,13 +32,14 @@ struct SchoolEmailVerificationView: View {
                     status: $viewModel.emailStatus,
                     type: .schoolEmail
                 )
-                .autocorrectionDisabled(true)
-                .textInputAutocapitalization(.never)
                 
-                blackButton(title: getCodeButtonTitle) {
+                blackButton(title: getCodeButtonTitle.rawValue) {
+                    viewModel.emailStatus = nil
+                    
                     if viewModel.isValidEmailFormat() {
                         viewModel.postSendEmailVerificationCode()
-                        getCodeButtonTitle = "다시받기"
+                        getCodeButtonTitle = .resendCode
+                        viewModel.verificationStatus = nil
                     } else {
                         viewModel.emailStatus = .invalidEmailFormat
                     }
@@ -48,8 +54,6 @@ struct SchoolEmailVerificationView: View {
                         status: $viewModel.verificationStatus,
                         type: .verificationCode
                     )
-                    .autocorrectionDisabled(true)
-                    .textInputAutocapitalization(.never)
                     .keyboardType(.numberPad)
                     .overlay(
                         GeometryReader { proxy in
@@ -58,8 +62,10 @@ struct SchoolEmailVerificationView: View {
                     )
                 
                 blackButton(title: "인증하기") {
-                    // TODO: (API 호출 전) 타이머 status 만료된건지 확인, 텍스트필드 empty 확인
-                    viewModel.getSchoolEmailCodeVerification()
+                    if viewModel.verificationStatus != .expiredCode,
+                       !viewModel.verificationCode.isEmpty {
+                        viewModel.getSchoolEmailCodeVerification()
+                    }
                 }
                 .disabled(viewModel.isVerifyButtonDisabled)
             }

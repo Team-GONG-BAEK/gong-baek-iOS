@@ -26,9 +26,11 @@ final class SignupViewModel: ObservableObject {
     @Published var verificationCode = ""
     @Published var isEmailVerified: Bool = false {
         didSet {
-            isVerifyButtonDisabled = true
-            isGetCodeButtonDisabled = true
-            verificationStatus = .verificationCompleted
+            if isEmailVerified {
+                isVerifyButtonDisabled = true
+                isGetCodeButtonDisabled = true
+                verificationStatus = .verificationCompleted
+            }
         }
     }
     @Published var emailStatus: TextFieldType.EmailStatus? = nil
@@ -59,7 +61,6 @@ final class SignupViewModel: ObservableObject {
     // 에러
     @Published var showAlert: Bool = false
 
-    
     // MARK: - Methods
     
     func isNextButtonEnabled(_ step: SignupStep) -> Bool {
@@ -100,9 +101,13 @@ final class SignupViewModel: ObservableObject {
             yearOfAdmission = nil
         case .schoolEmailVerification:
             email = ""
+            verificationCode = ""
             isEmailVerified = false
             emailStatus = nil
             verificationStatus = nil
+            isTimerVisible = false
+            isGetCodeButtonDisabled = false
+            isVerifyButtonDisabled = true
         case .nicknameSexInput:
             nickname = ""
             sex = nil
@@ -299,7 +304,7 @@ extension SignupViewModel {
                 self.isVerifyButtonDisabled = false
             } else {
 //                self.showAlert = true
-                // TODO: 회원가입 api 호출하는 화면인지에 따라 alert 내용 바꿔야 할듯...
+                // TODO: alert 내용 바꿔야 할듯...
             }
         }
     }
@@ -317,10 +322,7 @@ extension SignupViewModel {
             if response.success {
                 self.isEmailVerified = true
             } else {
-                switch response.code {
-                case 4001: self.verificationStatus = .invalidCode
-                default: self.showAlert = true // TODO: Alert 내용 변경
-                }
+                self.verificationStatus = .invalidCode
             }
         }
     }

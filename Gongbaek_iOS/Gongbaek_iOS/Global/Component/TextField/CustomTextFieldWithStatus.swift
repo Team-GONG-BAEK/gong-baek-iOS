@@ -27,12 +27,15 @@ struct CustomTextFieldWithStatus<Status: TextFieldErrorStatus>: View {
                     isFocused: $isFocused,
                     type: type
                 )
+                .autocorrectionDisabled(true)
+                .textInputAutocapitalization(.never)
                 .overlay(
                     RoundedRectangle(cornerRadius: 6)
                         .stroke(strokeColor(), lineWidth: 1)
                 )
                 .onChange(of: text) {
-                    if status != nil {
+                    if status as? TextFieldType.VerificationStatus != .expiredCode,
+                       status != nil {
                         self.status = nil
                     }
                 }
