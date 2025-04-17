@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BasicAlert: View {
     let titleText: String
-    var grayButtonText: String
+    var grayButtonText: String? = nil
     let orangeButtonText: String
     var onTapGrayButton: (() -> Void)?
     var onTapOrangeButton: (() -> Void)?
@@ -18,13 +18,14 @@ struct BasicAlert: View {
         ZStack(alignment: .center) {
             backgroundBlack()
             
-            VStack (alignment: .center, spacing: 28) {
-                    titleTextBox(text: titleText)
-                
-                .padding(.top, 28)
-                
+            VStack (alignment: .center, spacing: 0) {
+                titleTextBox(text: titleText)
+                    .padding(.vertical, 28)
+            
                 HStack(alignment: .center, spacing: 10) {
-                    grayButton(buttonText: grayButtonText, buttonAction: onTapGrayButton)
+                    if let grayButtonText = grayButtonText {
+                        grayButton(buttonText: grayButtonText, buttonAction: onTapGrayButton)
+                    }
                     
                     orangeButton(buttonText: orangeButtonText, buttonAction: onTapOrangeButton)
                 }
@@ -72,7 +73,7 @@ struct BasicAlert: View {
         }) {
             Text(buttonText)
                 .pretendardFont(.title2_sb_18)
-                .padding(.vertical, 10)
+                .padding(.vertical, 12)
                 .frame(maxWidth: .infinity)
                 .foregroundStyle(.grayWhite)
                 .background(.gray08)
@@ -89,7 +90,7 @@ struct BasicAlert: View {
         }) {
             Text(orangeButtonText)
                 .pretendardFont(.title2_sb_18)
-                .padding(.vertical, 10)
+                .padding(.vertical, 12)
                 .frame(maxWidth: .infinity)
                 .background(.mainOrange)
                 .foregroundStyle(.grayWhite)
