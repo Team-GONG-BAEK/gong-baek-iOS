@@ -82,7 +82,7 @@ struct SignupView: View {
             if viewModel.showAlert {
                 CustomedAlert(
                     alertImage: "img_fail" ,
-                    titleText: "앗! 회원가입에 실패했어요.",
+                    titleText: currentStep == .classTimeTableInput ? "앗! 회원가입에 실패했어요." : "앗! 오류가 발생했어요.",
                     subtitleText: "다시 시도해주세요.",
                     orangeButtonText: "확인",
                     onTapOrangeButton: {
@@ -131,11 +131,7 @@ extension SignupView {
         
         viewModel.postNicknameValidation { isSuccess in
             if isSuccess {
-                viewModel.nicknameStatus = nil
                 goToNextStep()
-            }
-            else {
-                viewModel.nicknameStatus = .duplicatedNickname
             }
         }
     }

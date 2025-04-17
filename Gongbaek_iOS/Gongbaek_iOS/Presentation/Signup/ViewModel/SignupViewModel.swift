@@ -234,21 +234,20 @@ extension SignupViewModel {
             instance: BaseResponse<EmptyResponseDTO>.self
         ) { response in
             if response.success {
-                self.showAlert = false
+                self.nicknameStatus = nil
                 completion(true)
             } else {
-                print(response.code,"🚨")
                 switch response.code {
-                case 409:
-                    /// 닉네임 중복 에러
-                    self.showAlert = false
+                case 4006:
+                    /// 한글 이외 문자 입력 에러
+                    self.nicknameStatus = .invalidNicknameFormat
                     completion(false)
-                case 400..<500:
-                    self.showAlert = false
-                    print(response.message ?? "❗️유효하지 않은 요청")
+                case 4092:
+                    /// 닉네임 중복 에러
+                    self.nicknameStatus = .duplicatedNickname
+                    completion(false)
                 default:
                     self.showAlert = true
-                    print("❗️서버 통신 에러 발생")
                 }
             }
         }
@@ -262,7 +261,6 @@ extension SignupViewModel {
         ) { response in
             print(response)
             if response.success {
-                self.showAlert = false
                 guard let data = response.data else { return }
                 self.searchResultList = data.schoolNames
             } else {
@@ -282,7 +280,6 @@ extension SignupViewModel {
         ) { response in
             print(response)
             if response.success {
-                self.showAlert = false
                 guard let data = response.data else { return }
                 self.searchResultList = data.schoolMajors
             } else {
@@ -303,8 +300,7 @@ extension SignupViewModel {
                 self.emailStatus = .codeSent
                 self.isVerifyButtonDisabled = false
             } else {
-//                self.showAlert = true
-                // TODO: alert 내용 바꿔야 할듯...
+                self.showAlert = true
             }
         }
     }
@@ -322,7 +318,10 @@ extension SignupViewModel {
             if response.success {
                 self.isEmailVerified = true
             } else {
-                self.verificationStatus = .invalidCode
+                switch response.code {
+                case 4001: self.verificationStatus = .invalidCode
+                default: self.showAlert = true
+                }
             }
         }
     }
@@ -355,7 +354,6 @@ extension SignupViewModel {
             instance: BaseResponse<PostSignupResponseDTO>.self
         ) { response in
             if response.success {
-                self.showAlert = false
                 guard let accessToken = response.data?.accessToken,
                       let refreshToken = response.data?.refreshToken
                 else { return }
