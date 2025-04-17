@@ -33,6 +33,10 @@ struct CustomTabBar: View {
         .padding(.vertical, 8)
         .padding(.horizontal, 50)
         .background(.grayWhite)
+        .overlay(
+            Color.gray02.frame(height: 1),
+            alignment: .top
+        )
     }
     
     func tabButton (
