@@ -38,7 +38,7 @@ struct MeetingInfoBase: View {
                 HStack(spacing: 4) {
                     
                     let states: [MeetingChipState] = [
-                        state.showRecruitingChip ? RecruitingState(meeting.status).map { .recruiting($0) } : nil,
+                        state.isRecruitingChipVisible ? RecruitingState(meeting.status).map { .recruiting($0) } : nil,
                         CategoryState(meeting.category).map { .category($0) },
                         GroupState(meeting.groupType).map { .weekly($0) }
                     ].compactMap { $0 }
