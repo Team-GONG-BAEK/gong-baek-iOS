@@ -29,7 +29,7 @@ struct MyPageSettingView: View {
             }
             
             if viewModel.showAlert {
-                CustomedAlert(
+                BasicAlert(
                     titleText: "\(viewModel.selectedAction == .logout ? "로그아웃을" : "회원탈퇴를") 진행하시겠습니까?",
                     grayButtonText: "취소",
                     orangeButtonText: "확인",
@@ -51,7 +51,6 @@ struct MyPageSettingView: View {
 }
 
 extension MyPageSettingView {
-    
     @ViewBuilder
     func settingCell(for item: SettingItem) -> some View {
         switch item.type {
