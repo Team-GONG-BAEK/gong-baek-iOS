@@ -28,7 +28,7 @@ final class MeetingRoomViewModel: ObservableObject {
     }
     
     var weekDay: String {
-        meetingDetailData?.weekDay ?? "시발Day"
+        meetingDetailData?.weekDay ?? ""
     }
     
     var weekDate: String? {
