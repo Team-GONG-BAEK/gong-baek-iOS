@@ -14,7 +14,7 @@ struct OwnerProfileBox: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            if let image = ProfileDefaultImageMap.init(rawValue: (viewModel.ownerInfoData?.profileImg ?? 0) - 1)?.image {
+            if let image = ProfileDefaultImageMap.init(rawValue: (viewModel.ownerInfoData?.profileImg ?? 0))?.image {
                 Image(image)
                     .resizable()
                     .padding(8)
