@@ -15,7 +15,7 @@ struct MeetingInfoCell: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            MeetingInfoBase(state: .cell, meeting: meeting)
+            MeetingInfoBase(state: .cell(state), meeting: meeting)
                 .onTapGesture {
                     state == .fill
                     ? navigationManager.push(

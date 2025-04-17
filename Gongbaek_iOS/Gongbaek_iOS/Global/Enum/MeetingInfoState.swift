@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum MeetingInfoState {
-    case cell
+    case cell(FillItemState)
     case detail
     
     enum FillItemState {
@@ -31,4 +31,15 @@ extension MeetingInfoState {
         case .detail: return .pretendard(.caption2_m_12)
         }
     }
+    
+    var isRecruitingChipVisible: Bool {
+        switch self {
+        case .cell(.myFill), .detail:
+            return true
+        default:
+            return false
+        }
+    }
+
+    
 }

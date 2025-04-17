@@ -34,7 +34,7 @@ struct HomeMeetingCell: View {
     
     @ViewBuilder
     private func meetingImage() -> some View {
-        if let coverImage = CategoryState(data.category)?.coverImage[data.coverImg - 1] {
+        if let coverImage = CategoryState(data.category)?.coverImage[data.coverImg] {
             Image(coverImage)
                 .resizable()
                 .scaledToFill()
@@ -92,7 +92,7 @@ struct HomeMeetingCell: View {
     
     private func userProfile() -> some View {
         HStack(spacing: 2) {
-            if let image = ProfileDefaultImageMap(rawValue: data.profileImg - 1)?.image {
+            if let image = ProfileDefaultImageMap(rawValue: data.profileImg)?.image {
                 Image(image)
                     .resizable()
                     .renderingMode(.original)

@@ -8,6 +8,7 @@
 import Moya
 
 enum SignupTargetType {
+    case patchReissue
     case postNicknameValidation(nickname: String)
     case getSchoolSearchResults(schoolName: String)
     case getMajorSearchResults(schoolName: String, majorName: String)
@@ -17,19 +18,23 @@ enum SignupTargetType {
 extension SignupTargetType: BaseTargetType {
     var headers: Parameters? {
         switch self {
+        case .patchReissue:
+            return APIConstants.refreshTokenHeader
         case .postNicknameValidation:
-            return APIConstants.hasContentTypeHeader
+            return APIConstants.contentTypeHeader
         case .getSchoolSearchResults:
-            return APIConstants.hasContentTypeHeader
+            return APIConstants.contentTypeHeader
         case .getMajorSearchResults:
-            return APIConstants.hasContentTypeHeader
+            return APIConstants.contentTypeHeader
         case .postSignup:
-            return APIConstants.hasContentTypeHeader
+            return APIConstants.contentTypeHeader
         }
     }
     
     var path: String {
         switch self {
+        case .patchReissue:
+            return "/api/v1/reissue/token"
         case .postNicknameValidation:
             return "/api/v1/user/validate/nickname"
         case .getSchoolSearchResults:
@@ -43,6 +48,8 @@ extension SignupTargetType: BaseTargetType {
     
     var method: Moya.Method {
         switch self {
+        case .patchReissue:
+            return .patch
         case .postNicknameValidation:
             return .post
         case .getSchoolSearchResults:
@@ -56,6 +63,8 @@ extension SignupTargetType: BaseTargetType {
     
     var task: Moya.Task {
         switch self {
+        case .patchReissue:
+            return .requestPlain
         case .postNicknameValidation(let nickname):
             return .requestParameters(
                 parameters: ["nickname" : nickname],

@@ -9,10 +9,20 @@ import SwiftUI
 
 struct MyPageView: View {
     @StateObject var viewModel = MyPageViewModel()
+    @EnvironmentObject var navigationManager: NavigationManager
     
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
+                //임시 버튼
+                Button(action: {
+                    navigationManager.push(view: MyPageDestination.myPageSetting)
+                }) {
+                    Image(.icSetting48)
+                        .resizable()
+                        .frame(width: 48, height: 48)
+                }
+                
                 MyProfile(profile: viewModel.myProfile)
                 Rectangle()
                     .fill(.gray01)
@@ -30,7 +40,6 @@ struct MyPageView: View {
         .customNavigationBar(title: "마이페이지")
         .onAppear {
             viewModel.getMyProfile()
-            viewModel.getMeetings()
         }
     }
 }

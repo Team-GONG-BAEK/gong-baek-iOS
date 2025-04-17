@@ -10,6 +10,8 @@ import SwiftUI
 enum LoginDestination: Hashable {
     case login
     case agree
+    case onboarding
+    case signup
     
     @ViewBuilder
     func view() -> some View {
@@ -18,16 +20,8 @@ enum LoginDestination: Hashable {
             LoginView()
         case .agree:
             AgreementView()
-        }
-    }
-}
-
-enum SignupDestination: Hashable {
-    case signup
-    
-    @ViewBuilder
-    func view() -> some View {
-        switch self {
+        case .onboarding:
+            OnboardingView()
         case .signup:
             SignupView()
         }
@@ -47,13 +41,13 @@ enum FillingDestination: Hashable, CaseIterable {
 }
 
 enum MyPageDestination: Hashable {
-    case myPage
+    case myPageSetting
     
     @ViewBuilder
     func view() -> some View {
         switch self {
-        case .myPage:
-            MyPageView(viewModel: MyPageViewModel())
+        case .myPageSetting:
+            MyPageSettingView()
         }
     }
 }

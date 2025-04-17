@@ -34,10 +34,11 @@ struct SignupCompletionView: View {
                 Image(.imgCongratulation)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: .infinity)
+                    .frame(maxWidth: .infinity)
             }
             .padding(.top, 61)
             .padding(.horizontal, 16)
+            
             Spacer()
         }
     }

@@ -25,7 +25,7 @@ struct LocationInput: View {
             CustomTextField(
                 text: $viewModel.location,
                 showError: $showError,
-                state: .location
+                type: .location
             )
             .padding(.bottom, 40)
             

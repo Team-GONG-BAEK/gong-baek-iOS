@@ -6,37 +6,45 @@
 //
 
 import SwiftUI
+import Combine
 
 final class SignupViewModel: ObservableObject {
     
     // MARK: - Properties
     
-    // 프로필 선택
-    @Published var profileImageIndex: Int? = nil
-    // 닉네임 입력
-    @Published var nickname = ""
-    @Published var showNicknameError = false
-    // 학교학과 입력
+    // 학적정보 입력
     @Published var schoolName = ""
     @Published var majorName = ""
-    // 학교학과 검색
-    @Published var selectedSearchResult: String = ""
+    @Published var yearOfAdmission: Int? = nil
+    // 학교, 학과 검색
+    @Published var selectedSearchResult = ""
     @Published var textFieldText = ""
     @Published var searchWord = ""
     @Published var searchResultList: [String] = []
-    // 학년입학연도 입력
-    @Published var grade: GradeState? = nil
-    @Published var yearOfAdmission: Int? = nil
+    // 이메일 인증
+    @Published var email = ""
+    @Published var verificationCode = ""
+    @Published var isEmailVerified: Bool = true
+    @Published var emailStatus: TextFieldType.EmailStatus? = nil
+    @Published var verificationStatus: TextFieldType.VerificationStatus? = nil
+    // 타이머
+    private let totalSeconds: Int = 180
+    @Published var remainingTime: Int = 0
+    private var cancellable: AnyCancellable?
+    // 닉네임, 성별 입력
+    @Published var nickname = ""
+    @Published var nicknameStatus: TextFieldType.NicknameStatus? = nil
+    @Published var sex: SexType? = nil
+    // 프로필 이미지 선택
+    @Published var profileImageIndex: Int? = nil
     // MBTI 입력
     @Published var e_i: MBTI_ei? = nil
     @Published var s_n: MBTI_sn? = nil
     @Published var t_f: MBTI_tf? = nil
     @Published var j_p: MBTI_jp? = nil
-    // 성별 선택
-    @Published var sex: SexType? = nil
     // 자기소개글 작성
     @Published var introduction: String = ""
-    // 수업시간표 입력
+    // 시간표 입력
     @Published var selectedCells: Set<TimeTableCellId> = []
     @Published var classTimeTable: [(day: WeekDay, start: Double, end: Double)] = []
     // 에러
@@ -47,23 +55,21 @@ final class SignupViewModel: ObservableObject {
     
     func isNextButtonEnabled(_ step: SignupStep) -> Bool {
         switch step {
-        case .profileSelection:
+        case .academicInfoInput:
+            return !schoolName.isEmpty && !majorName.isEmpty && yearOfAdmission != nil
+        case .schoolEmailVerification:
+            return isEmailVerified
+        case .nicknameSexInput:
+            return nickname.count > 1 && sex != nil
+        case .profileImageSelection:
             return profileImageIndex != nil
-        case .nicknameInput:
-            return nickname.count > 1
-        case .schoolMajorInput:
-            return !schoolName.isEmpty && !majorName.isEmpty
-        case .gradeAdmissionYearInput:
-            return grade != nil && yearOfAdmission != nil
         case .mbtiSelection:
             return e_i != nil && s_n != nil && t_f != nil && j_p != nil
-        case .sexSelection:
-            return sex != nil
         case .selfIntroductionWriting:
             return introduction.count >= 20
         case .classTimeTableInput:
             return !selectedCells.isEmpty
-        case .freeTimeTableConversion, .signupCompletion:
+        case .signupCompletion:
             return true
         }
     }
@@ -79,22 +85,26 @@ final class SignupViewModel: ObservableObject {
     /// 상태값 초기화 (다음 화면으로 이동 시 기존 값들 리셋)
     func resetState(at step: SignupStep) {
         switch step {
-        case .nicknameInput:
-            nickname = ""
-            showNicknameError = false
-        case .schoolMajorInput:
+        case .academicInfoInput:
             schoolName = ""
             majorName = ""
-        case .gradeAdmissionYearInput:
-            grade = nil
             yearOfAdmission = nil
+        case .schoolEmailVerification:
+            email = ""
+            isEmailVerified = false
+            emailStatus = nil
+            verificationStatus = nil
+        case .nicknameSexInput:
+            nickname = ""
+            sex = nil
+            nicknameStatus = nil
+        case .profileImageSelection:
+            profileImageIndex = nil
         case .mbtiSelection:
             e_i = nil
             s_n = nil
             t_f = nil
             j_p = nil
-        case .sexSelection:
-            sex = nil
         case .selfIntroductionWriting:
             introduction = ""
         case .classTimeTableInput:
@@ -155,6 +165,40 @@ final class SignupViewModel: ObservableObject {
                 classTimeTable.append((day: WeekDay.allCases[dayIndex], start: s, end: e))
             }
         }
+    }
+    
+    func startTimer() {
+        cancellable?.cancel()
+        remainingTime = totalSeconds
+        
+        cancellable = Timer
+            .publish(every: 1, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                
+                if self.remainingTime > 0 {
+                    self.remainingTime -= 1
+                } else {
+                    self.cancellable?.cancel()
+                }
+            }
+    }
+    
+    func stopTimer() {
+        cancellable?.cancel()
+    }
+    
+    func formattedTime(_ totalSeconds: Int) -> String {
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return String(format: "%02d:%02d", minutes, seconds)
+    }
+    
+    /// 완전한 한글 음절로만 이루어져 있는지 확인
+    func isOnlyCompleteHangulSyllables(_ text: String) -> Bool {
+        let regex = try! NSRegularExpression(pattern: "^[가-힣]+$")
+        return regex.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)) != nil
     }
 }
 
@@ -227,8 +271,6 @@ extension SignupViewModel {
     /// 회원가입 API
     func postSignup(completion: @escaping (Bool) -> ()) {
         guard let profileImage = profileImageIndex,
-              let grade = grade,
-              let gradeInt = GradeState.allCases.firstIndex(of: grade),
               let yearOfAdmission = yearOfAdmission,
               let e_i, let s_n, let t_f, let j_p,
               let sex = sex
@@ -236,12 +278,11 @@ extension SignupViewModel {
         saveSelectedCellsToClassTimeTable()
         
         let data = PostSignupRequestDTO(
-            profileImg: profileImage + 1,
+            profileImg: profileImage,
             nickname: nickname,
             mbti: e_i.rawValue + s_n.rawValue + t_f.rawValue + j_p.rawValue,
             schoolName: schoolName,
             schoolMajor: majorName,
-            schoolGrade: gradeInt + 1,
             enterYear: yearOfAdmission,
             introduction: introduction,
             sex: sex.rawValue,
