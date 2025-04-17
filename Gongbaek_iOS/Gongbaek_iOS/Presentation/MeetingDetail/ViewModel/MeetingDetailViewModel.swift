@@ -12,11 +12,12 @@ class MeetingDetailViewModel: ObservableObject {
     @Published var ownerInfoData: GetOwnerInfoResponseDTO? = nil
     @Published var commentData: GetCommentsResponseDTO? = nil
     @Published var isSuccessGetData: Bool = true
-    @Published var showAlert: Bool = false
+    @Published var showApplySuccessAlert: Bool = false
     @Published var showPatchAlert: Bool = false
     @Published var showDeleteAlert: Bool = false
     @Published var showErrorAlert: Bool = false
     @Published var showFullErrorView: Bool = false
+    @Published var showRecruitedAlert: Bool = false
     
     var isHost: Bool { meetingDetailData?.isHost ?? false }
     var isApply: Bool { meetingDetailData?.isApply ?? false }
@@ -109,7 +110,7 @@ class MeetingDetailViewModel: ObservableObject {
                 groupId: self.meetingDetailData?.groupId ?? 0,
                 groupType: self.meetingDetailData?.groupType ?? ""
             )
-                self.showAlert = true
+                self.showApplySuccessAlert = true
             }
         }
     }
@@ -196,7 +197,7 @@ extension MeetingDetailViewModel {
                     self.isSuccessGetData = false
                     print("❌ 취소 실패: \(response.message ?? "알 수 없는 오류")")
                 }
-                self.showAlert = true
+                self.showApplySuccessAlert = true
                 self.getDetails(groupId: groupId, groupType: groupType) { _ in
                     print("getDetails finished result and data: \(String(describing: self.getDetails))")
                 }
@@ -223,11 +224,13 @@ extension MeetingDetailViewModel {
                     self.showPatchAlert = true
                     print("✅ 신청 성공!")
                 } else {
-                    self.showFullErrorView = true
-                    self.showErrorAlert = true
-                    self.isSuccessGetData = false
-                    self.showPatchAlert = false
-                    print("❌ 신청 실패: \(response.message ?? "알 수 없는 오류")")
+                    if response.code == 4097 {
+                        self.showRecruitedAlert = true
+                        print("⚠️ 신청 불가능한 상태 (code 4097)")
+                    } else {
+                        self.showErrorAlert = true
+                        print("❌ 신청 실패: \(response.message ?? "알 수 없는 오류")")
+                    }
                 }
                 self.getDetails(groupId: groupId, groupType: groupType) { _ in
                     print("getDetails finished result and data: \(String(describing: self.getDetails))")
