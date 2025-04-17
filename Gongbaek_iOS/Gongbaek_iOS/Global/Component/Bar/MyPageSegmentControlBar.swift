@@ -30,7 +30,6 @@ struct MyPageSegmentControlBar: View {
                     
                     Button {
                         viewModel.selectedCategory = category
-                        viewModel.getMeetings()
                     } label: {
                         ZStack(alignment: .bottom) {
                             Text(category == .register ? "내가 모집한" : "내가 신청한")
@@ -48,9 +47,6 @@ struct MyPageSegmentControlBar: View {
             }
             selectedView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-        .onAppear {
-            viewModel.getMeetings()
         }
         .onChange(of: viewModel.selectedCategory) {
             viewModel.getMeetings()
