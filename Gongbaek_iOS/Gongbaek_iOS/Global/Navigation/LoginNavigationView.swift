@@ -15,6 +15,9 @@ struct LoginNavigationView: View {
         NavigationStack(path: $navigationManager.path) {
             VStack(spacing: 0) {
                 LoginDestination.login.view()
+                    .fullScreenCover(item: $navigationManager.presentedDestination) { type in
+                        type.view()
+                    }
             }
             .navigationDestination(for: LoginDestination.self) { type in
                 type.view()

@@ -25,9 +25,9 @@ extension AgreeState {
     var webURL: URL {
         switch self {
         case .terms:
-            return URL(string: "https://www.naver.com")!
+            return URL(string: "https://booming-jasmine-4c1.notion.site/1b34c7511f4280fc8dabdb19fff63765")!
         case .privacy:
-            return URL(string: "https://www.naver.com")!
+            return URL(string: "https://booming-jasmine-4c1.notion.site/1b34c7511f428057ad33e49f07f6125a")!
         }
     }
     
