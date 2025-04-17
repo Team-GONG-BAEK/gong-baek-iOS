@@ -41,8 +41,8 @@ struct OwnerProfileBox: View {
                 MajorChip(major: viewModel.ownerInfoData?.schoolMajor ?? "", targetObject: .ownerProfile)
                 
                 HStack(spacing: 6) {
-                    ProfileDetailChip(detailCategory: "학번/학년")
-                    Text("\((viewModel.ownerInfoData?.enterYear ?? 0 )%100)학번 \(String(describing: viewModel.ownerInfoData?.schoolGrade ?? 0))학년")
+                    ProfileDetailChip(detailCategory: "학번")
+                    Text("\((viewModel.ownerInfoData?.enterYear ?? 0 )%100)학번")
                         .foregroundStyle(.gray08)
                         .pretendardFont(.caption2_m_12)
                         .padding(.trailing, 6)
