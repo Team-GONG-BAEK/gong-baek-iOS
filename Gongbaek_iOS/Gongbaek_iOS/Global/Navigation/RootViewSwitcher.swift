@@ -14,8 +14,6 @@ struct RootViewSwitcher: View {
         switch navigationManager.rootView {
         case .login:
             LoginNavigationView()
-        case .signup:
-            SignupNavigationView()
         case .tabBar:
             TabBarView()
         }

@@ -12,12 +12,10 @@ struct ClassTimeTableInputView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // TODO: 스크롤 영역 수정 가능성 있음
             ScrollView {
                 TitleTextBox(
                     title: "수업 시간표를 입력해주세요.",
-                    subtitle: "수업 시간표를 입력하면, 공강 시간표로 바꿔드려요.",
-                    highlightSubtitleText: "수업 시간표"
+                    subtitle: "수업이 있는 시간대를 선택해주세요."
                 )
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, 54)
@@ -25,8 +23,8 @@ struct ClassTimeTableInputView: View {
                 .padding(.bottom, 24)
                 
                 OnboardingTimeTable(viewModel: viewModel)
-                .padding(.horizontal, 16)
-                .padding(.bottom, 30)
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 30)
             }
             
             Spacer()
