@@ -15,7 +15,7 @@ struct MeetingInfoBase: View {
         HStack(spacing: 12) {
             Group {
                 if let category = CategoryState(meeting.category) {
-                    Image(category.coverImage[meeting.coverImg - 1])
+                    Image(category.coverImage[meeting.coverImg])
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 102, height: 102)
