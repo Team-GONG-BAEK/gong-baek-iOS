@@ -98,13 +98,6 @@ struct AddMeetingView: View {
         .onAppear {
             viewModel.getTimeTable()
         }
-        .onChange(of: viewModel.retryCount) {
-            if viewModel.retryCount > 3 {
-                viewModel.currentIndex = 0
-                viewModel.retryCount = 0
-                viewModel.selectedCycle = nil
-            }
-        }
     }
 }
 

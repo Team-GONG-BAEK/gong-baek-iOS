@@ -65,7 +65,13 @@ class AddMeetingViewModel: ObservableObject {
     
     @Published var isSuccessGetData: Bool = true
     
-    @Published var retryCount = 0 // 시도 횟수 저장
+    @Published var retryCount = 0 {
+        didSet {
+            if retryCount > 3 {
+                resetRetryState()
+            }
+        }
+    }
     
     var selectedFormattedDate: String? {
         guard let date = selectedWeekDate else { return nil }
@@ -84,6 +90,11 @@ class AddMeetingViewModel: ObservableObject {
         }
     }
     
+    private func resetRetryState() {
+        currentIndex = 0
+        retryCount = 0
+        selectedCycle = nil
+    }
     
     func updateNextButtonState() {
         DispatchQueue.main.async {
@@ -253,9 +264,7 @@ class AddMeetingViewModel: ObservableObject {
     }
     
     func postMeeting() {
-        guard selectedCoverIndex != nil else {
-            return
-        }
+        guard selectedCoverIndex != nil else { return }
         
         let requestData = makeMeetingModel()
         
