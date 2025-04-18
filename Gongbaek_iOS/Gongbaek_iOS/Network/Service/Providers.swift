@@ -10,14 +10,14 @@ import Foundation
 import Moya
 
 struct Providers {
-    static let authProvider = NetworkProvider<AuthTargetType>(withAuth: false)
-    static let homeProvider = NetworkProvider<HomeTargetType>(withAuth: false)
-    static let fillingProvider = NetworkProvider<FillingTargetType>(withAuth: false)
-    static let meetingRoomProvider = NetworkProvider<MeetingRoomTargetType>(withAuth: false)
-    static let meetingDetailProvider = NetworkProvider<MeetingDetailTargetType>(withAuth: false)
-    static let commentProvider = NetworkProvider<CommentTargetType>(withAuth: false)
+    static let authProvider = NetworkProvider<AuthTargetType>(withAuth: true)
+    static let homeProvider = NetworkProvider<HomeTargetType>(withAuth: true)
+    static let fillingProvider = NetworkProvider<FillingTargetType>(withAuth: true)
+    static let meetingRoomProvider = NetworkProvider<MeetingRoomTargetType>(withAuth: true)
+    static let meetingDetailProvider = NetworkProvider<MeetingDetailTargetType>(withAuth: true)
+    static let commentProvider = NetworkProvider<CommentTargetType>(withAuth: true)
     static let SignupProvider = NetworkProvider<SignupTargetType>(withAuth: false)
-    static let mypageProvider = NetworkProvider<MyPageTargetType>(withAuth: false)
+    static let mypageProvider = NetworkProvider<MyPageTargetType>(withAuth: true)
 }
 
 extension MoyaProvider {

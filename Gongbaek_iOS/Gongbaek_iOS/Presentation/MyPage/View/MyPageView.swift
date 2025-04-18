@@ -40,7 +40,6 @@ struct MyPageView: View {
         .customNavigationBar(title: "마이페이지")
         .onAppear {
             viewModel.getMyProfile()
-            viewModel.getMeetings()
         }
     }
 }
