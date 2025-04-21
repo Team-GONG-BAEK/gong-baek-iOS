@@ -11,7 +11,7 @@ struct CustomTextEditor: View {
     @Binding var text: String
     @FocusState var isEditing: Bool
     private let isSignupView: Bool
-    let maxCharacterCount = 100
+    private let maxCharacterCount = 100
     
     init(text: Binding<String>, isSignupView: Bool = false) {
         self._text = text
@@ -27,12 +27,12 @@ struct CustomTextEditor: View {
             ZStack(alignment: .topLeading) {
                 if text.isEmpty {
                     Text(
-                        isSignupView ?
-                         "간단한 소개글을 입력해보세요.\nex) 안녕하세요. 복학한 화석입니다. 사람들을 좋아하고 함께하는 활동을 좋아해요." :
-                        "간단한 소개글을 20자 이상 작성해보세요.\nex) 화석된 사람들끼리 소소한 점심 모임 어때요?"
+                        isSignupView
+                        ? "간단한 소개글을 20자 이상 작성해보세요.\nex) 안녕하세요! 이번에 복학한 학생입니다. 함께 좋은 모임 만들어봐요~!"
+                        : "간단한 소개글을 20자 이상 작성해보세요.\nex) 화석된 사람들끼리 소소한 점심 모임 어때요?"
                     )
-                        .foregroundColor(.gray04)
-                        .padding(EdgeInsets(top: 14, leading: 16, bottom: 14, trailing: 16))
+                    .foregroundColor(.gray04)
+                    .padding(EdgeInsets(top: 14, leading: 16, bottom: 14, trailing: 16))
                 }
 
                 TextEditor(text: $text)
