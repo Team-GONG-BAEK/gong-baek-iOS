@@ -124,7 +124,8 @@ extension SignupView {
 extension SignupView {
     
     private func validateNickname() {
-        if !viewModel.isOnlyCompleteHangulSyllables(viewModel.nickname) {
+        if !viewModel.isOnlyCompleteHangulSyllables(viewModel.nickname)
+            || viewModel.nickname.count < 2 {
             viewModel.nicknameStatus = .invalidNicknameFormat
             return
         }

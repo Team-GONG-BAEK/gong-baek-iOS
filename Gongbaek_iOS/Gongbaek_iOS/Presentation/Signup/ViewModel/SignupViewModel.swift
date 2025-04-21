@@ -70,7 +70,7 @@ final class SignupViewModel: ObservableObject {
         case .schoolEmailVerification:
             return isEmailVerified
         case .nicknameSexInput:
-            return nickname.count > 1 && sex != nil
+            return nickname.count > 0 && sex != nil
         case .profileImageSelection:
             return profileImageIndex != nil
         case .mbtiSelection:
