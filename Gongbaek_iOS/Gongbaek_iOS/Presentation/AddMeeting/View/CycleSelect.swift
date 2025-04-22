@@ -36,15 +36,11 @@ struct CycleSelect: View {
                 Image(.icMark16)
                     .foregroundColor(.mainOrange)
                     .frame(width: 16, height: 16)
-                Text("매주 볼래요의 경우 모임은 한 학기동안 유효합니다.")
-                    .pretendardFont(.body2_sb_14)
+                Text("모임 개설자는 원한다면 중간에 언제든 모임을 삭제할 수 있습니다.")
+                    .pretendardFont(.caption1_m_13)
                     .foregroundColor(.mainOrange)
             }
             .padding(.bottom, 10)
-
-            Text("1학기는 6월 30일 0시까지, 2학기는 12월 31일 0시까지가 기준입니다.\n모임 개설자는 원한다면 중간에 언제든 모임을 삭제할 수 있습니다. ")
-                .pretendardFont(.caption2_r_12)
-                .foregroundColor(.gray08)
         }
         .padding(.horizontal, 16)
     }

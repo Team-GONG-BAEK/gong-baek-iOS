@@ -33,10 +33,16 @@ struct CustomTextField: View {
             
             if let maxCharacterCount = type.maxCharacterCount {
                 HStack {
+                    if type == .location {
+                        Text("초성이 포함될 경우 모임이 생성되지 않습니다.")
+                            .pretendardFont(.caption2_r_12)
+                            .foregroundColor(.gray06)
+                    }
+                    
                     Spacer()
                     
                     Text("\(text.count)/\(maxCharacterCount)")
-                        .font(.pretendard(.caption2_r_12))
+                        .pretendardFont(.caption2_r_12)
                         .foregroundColor(.gray06)
                 }
                 .padding(.top, 4)
@@ -54,5 +60,5 @@ struct CustomTextField: View {
 }
 
 #Preview {
-    CustomTextField(text: .constant(""), showError: .constant(false), type: .title)
+    CustomTextField(text: .constant(""), showError: .constant(false), type: .nickname)
 }
