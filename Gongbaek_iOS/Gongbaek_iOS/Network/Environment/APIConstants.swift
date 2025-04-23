@@ -25,21 +25,21 @@ extension APIConstants {
         contentType: applicationJSON
     ]
     
-    static var appleAuthHeader: [String: String] = [
-        contentType: applicationJSON,
-        auth: TokenManager.shared.identityTokenValue
-    ]
+    static var appleAuthHeader: [String: String] {
+        [contentType: applicationJSON,
+            auth: TokenManager.shared.identityTokenValue]
+    }
     
-    static var accessTokenHeader: [String: String] = [
-        contentType: applicationJSON,
-        auth: Bearer + TokenManager.shared.accessTokenValue
-    ]
+    static var accessTokenHeader: [String: String] {
+        [contentType: applicationJSON,
+                auth: Bearer + TokenManager.shared.accessTokenValue]
+    }
     
-    static var refreshTokenHeader: [String: String] = [
-        contentType: applicationJSON,
-        auth: TokenManager.shared.refreshTokenValue
-    ]
-    
+    static var refreshTokenHeader: [String: String] {
+        [contentType: applicationJSON,
+                auth: Bearer + TokenManager.shared.refreshTokenValue]
+    }
+  
     static let signupAccessTokenHeader: [String: String] = [
         contentType: applicationJSON,
         auth: Bearer + TokenManager.shared.signupAccessTokenValue

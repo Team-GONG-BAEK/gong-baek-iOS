@@ -15,7 +15,7 @@ struct MeetingInfoBase: View {
         HStack(spacing: 12) {
             Group {
                 if let category = CategoryState(meeting.category) {
-                    Image(category.coverImage[meeting.coverImg - 1])
+                    Image(category.coverImage[meeting.coverImg])
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 102, height: 102)
@@ -36,7 +36,9 @@ struct MeetingInfoBase: View {
                 
                 // 모임 태그
                 HStack(spacing: 4) {
+                    
                     let states: [MeetingChipState] = [
+                        state.isRecruitingChipVisible ? RecruitingState(meeting.status).map { .recruiting($0) } : nil,
                         CategoryState(meeting.category).map { .category($0) },
                         GroupState(meeting.groupType).map { .weekly($0) }
                     ].compactMap { $0 }
@@ -57,7 +59,7 @@ struct MeetingInfoBase: View {
                         TimeBox(
                             state: .gray,
                             text: Date.formattedDateAndStartEndTime(
-                                weekDay: WeekDay(meeting.weekDay), 
+                                weekDay: WeekDay(meeting.weekDay),
                                 weekDate: meeting.weekDate,
                                 startTime: meeting.startTime,
                                 endTime: meeting.endTime
