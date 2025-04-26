@@ -12,7 +12,7 @@ class MeetingDetailViewModel: ObservableObject {
     @Published var ownerInfoData: GetOwnerInfoResponseDTO? = nil
     @Published var commentData: GetCommentsResponseDTO? = nil
     @Published var isSuccessGetData: Bool = true
-    @Published var showApplySuccessAlert: Bool = false
+    @Published var showApplyAlert: Bool = false
     @Published var showPatchAlert: Bool = false
     @Published var showDeleteAlert: Bool = false
     @Published var showErrorAlert: Bool = false
@@ -110,7 +110,7 @@ class MeetingDetailViewModel: ObservableObject {
                 groupId: self.meetingDetailData?.groupId ?? 0,
                 groupType: self.meetingDetailData?.groupType ?? ""
             )
-                self.showApplySuccessAlert = true
+                self.showApplyAlert = true
             }
         }
     }
@@ -181,7 +181,6 @@ extension MeetingDetailViewModel {
             groupId: groupId,
             groupType: groupType
         )
-        
         Providers.meetingDetailProvider.request(
             target: .postApplyMeeting(
                 data: requestData
@@ -192,12 +191,17 @@ extension MeetingDetailViewModel {
             DispatchQueue.main.async {
                 if response.success {
                     self.isSuccessGetData = true
-                    print("✅ 취소 성공!")
+                    print("✅ 신청 성공!")
                 } else {
                     self.isSuccessGetData = false
-                    print("❌ 취소 실패: \(response.message ?? "알 수 없는 오류")")
+                    if response.code == 4097 {
+                        self.showRecruitedAlert = true
+                        print("⚠️ 신청 불가능한 상태 (code 4097)") // 검증 필요
+                    } else {
+                        print("❌ 신청 실패: \(response.message ?? "알 수 없는 오류")")
+                    }
                 }
-                self.showApplySuccessAlert = true
+                self.showApplyAlert = true
                 self.getDetails(groupId: groupId, groupType: groupType) { _ in
                     print("getDetails finished result and data: \(String(describing: self.getDetails))")
                 }
@@ -221,17 +225,12 @@ extension MeetingDetailViewModel {
             DispatchQueue.main.async {
                 if response.success {
                     self.isSuccessGetData = true
-                    self.showPatchAlert = true
-                    print("✅ 신청 성공!")
+                    print("✅ 삭제 성공!")
                 } else {
-                    if response.code == 4097 {
-                        self.showRecruitedAlert = true
-                        print("⚠️ 신청 불가능한 상태 (code 4097)")
-                    } else {
-                        self.showErrorAlert = true
-                        print("❌ 신청 실패: \(response.message ?? "알 수 없는 오류")")
-                    }
+                    self.isSuccessGetData = false
+                    print("❌ 삭제 실패: \(response.message ?? "알 수 없는 오류")")
                 }
+                self.showPatchAlert = true
                 self.getDetails(groupId: groupId, groupType: groupType) { _ in
                     print("getDetails finished result and data: \(String(describing: self.getDetails))")
                 }
