@@ -5,6 +5,8 @@
 //  Created by 김희은 on 1/21/25.
 //
 
+import SwiftUI
+
 enum GroupState: String, CaseIterable {
     case ONCE
     case WEEKLY
@@ -17,6 +19,13 @@ enum GroupState: String, CaseIterable {
             self = .WEEKLY
         default:
             return nil
+        }
+    }
+    
+    var emptyImage: ImageResource {
+        switch self {
+        case .ONCE: .imgMyFillEmptyEnd
+        case .WEEKLY: .imgMyFillEmptyActive
         }
     }
 }

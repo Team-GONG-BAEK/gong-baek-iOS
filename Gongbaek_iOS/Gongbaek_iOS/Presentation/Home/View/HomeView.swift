@@ -86,35 +86,50 @@ struct HomeView: View {
         groupType: GroupState
     ) -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack {
-                HomeTitleTextBox(
-                    title: title,
-                    subtitle: subtitle,
-                    highlightSubtitleText: highlightText
-                )
-                .padding(.horizontal, 16)
-                
-                Spacer()
-            }
+            HomeTitleTextBox(
+                title: title,
+                subtitle: subtitle,
+                highlightSubtitleText: highlightText
+            )
+            .padding(.horizontal, 16)
             
+            /// 서버 통신 전, 데이터가 nil일 때
             if let oneTimeMeetingList = viewModel.oneTimeMeetingList,
                let weeklyMeetingList = viewModel.weeklyMeetingList {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(alignment: .top, spacing: 10) {
-                        switch groupType {
-                        case .ONCE:
-                            meetingCells(
-                                meetingList: oneTimeMeetingList,
-                                groupType: groupType
-                            )
-                        case .WEEKLY:
-                            meetingCells(
-                                meetingList: weeklyMeetingList,
-                                groupType: groupType
-                            )
+                switch groupType {
+                case .ONCE:
+                    /// 서버 통신 후, 데이터가 empty일 때
+                    if oneTimeMeetingList.isEmpty {
+                        HomeListEmptyView(type: groupType)
+                            .padding(.horizontal, 16)
+                    }
+                    /// 서버 통신 후, 데이터가 1개 이상 존재할 때
+                    else {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            LazyHStack(alignment: .top, spacing: 10) {
+                                meetingCells(
+                                    meetingList: oneTimeMeetingList,
+                                    groupType: groupType
+                                )
+                            }
+                            .padding(.horizontal, 16)
                         }
                     }
-                    .padding(.horizontal, 16)
+                case .WEEKLY:
+                    if weeklyMeetingList.isEmpty {
+                        HomeListEmptyView(type: groupType)
+                            .padding(.horizontal, 16)
+                    } else {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            LazyHStack(alignment: .top, spacing: 10) {
+                                meetingCells(
+                                    meetingList: weeklyMeetingList,
+                                    groupType: groupType
+                                )
+                            }
+                            .padding(.horizontal, 16)
+                        }
+                    }
                 }
             }
         }
