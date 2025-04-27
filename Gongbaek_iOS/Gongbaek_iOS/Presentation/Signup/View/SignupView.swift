@@ -34,11 +34,14 @@ struct SignupView: View {
                     ? "공백 채우러 가기" : (currentStep == .classTimeTableInput ? "가입 완료" : "다음"),
                     isActivated: viewModel.isNextButtonEnabled(currentStep)
                 ) {
-                    if currentStep == .nicknameSexInput {
+                    switch currentStep {
+                    case .nicknameSexInput:
                         validateNickname()
-                    } else if currentStep == .signupCompletion {
+                    case .classTimeTableInput:
+                        signup()
+                    case .signupCompletion:
                         goToTabBarView()
-                    } else {
+                    default:
                         goToNextStep()
                     }
                 }
@@ -79,7 +82,7 @@ struct SignupView: View {
             if viewModel.showAlert {
                 CustomedAlert(
                     alertImage: "img_fail" ,
-                    titleText: "앗! 회원가입에 실패했어요.",
+                    titleText: currentStep == .classTimeTableInput ? "앗! 회원가입에 실패했어요." : "앗! 오류가 발생했어요.",
                     subtitleText: "다시 시도해주세요.",
                     orangeButtonText: "확인",
                     onTapOrangeButton: {
@@ -121,18 +124,15 @@ extension SignupView {
 extension SignupView {
     
     private func validateNickname() {
-        if !viewModel.isOnlyCompleteHangulSyllables(viewModel.nickname) {
+        if !viewModel.isOnlyCompleteHangulSyllables(viewModel.nickname)
+            || viewModel.nickname.count < 2 {
             viewModel.nicknameStatus = .invalidNicknameFormat
             return
         }
         
         viewModel.postNicknameValidation { isSuccess in
             if isSuccess {
-                viewModel.nicknameStatus = nil
                 goToNextStep()
-            }
-            else {
-                viewModel.nicknameStatus = .duplicatedNickname
             }
         }
     }
