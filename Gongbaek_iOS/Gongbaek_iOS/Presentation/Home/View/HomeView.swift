@@ -10,6 +10,13 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @StateObject var viewModel = HomeViewModel()
+    private var enterButtonState: EnterButtonState {
+        if let data = viewModel.upcomingMeetingData {
+            return .space(data)
+        } else {
+            return .filling
+        }
+    }
     
     var body: some View {
         if viewModel.showErrorView {
@@ -37,6 +44,7 @@ struct HomeView: View {
                         banner()
                         perfectMatchMember()
                     }
+                    .padding(.bottom, 35)
                 }
                 .ignoresSafeArea(edges: .top)
             }
@@ -89,22 +97,25 @@ struct HomeView: View {
                 Spacer()
             }
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(alignment: .top, spacing: 10) {
-                    switch groupType {
-                    case .ONCE:
-                        meetingCells(
-                            meetingList: viewModel.oneTimeMeetingList,
-                            groupType: groupType
-                        )
-                    case .WEEKLY:
-                        meetingCells(
-                            meetingList: viewModel.weeklyMeetingList,
-                            groupType: groupType
-                        )
+            if let oneTimeMeetingList = viewModel.oneTimeMeetingList,
+               let weeklyMeetingList = viewModel.weeklyMeetingList {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    LazyHStack(alignment: .top, spacing: 10) {
+                        switch groupType {
+                        case .ONCE:
+                            meetingCells(
+                                meetingList: oneTimeMeetingList,
+                                groupType: groupType
+                            )
+                        case .WEEKLY:
+                            meetingCells(
+                                meetingList: weeklyMeetingList,
+                                groupType: groupType
+                            )
+                        }
                     }
+                    .padding(.horizontal, 16)
                 }
-                .padding(.horizontal, 16)
             }
         }
     }
@@ -152,7 +163,7 @@ struct HomeView: View {
     
     private func meetingInfo() -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(viewModel.upcomingMeetingData?.groupTitle ?? "공백을 채워주세요!")
+            Text(enterButtonState.upcomingMeetingTitle)
                 .pretendardFont(.title1_b_20)
                 .foregroundStyle(.grayWhite)
             
@@ -162,7 +173,7 @@ struct HomeView: View {
                     .scaledToFit()
                     .frame(width: 16, height: 16)
                 
-                Text(viewModel.upcomingMeetingDate)
+                Text(enterButtonState.upcomingMeetingDate)
                     .pretendardFont(.caption2_m_12)
                     .foregroundStyle(.gray05)
             }
@@ -171,28 +182,23 @@ struct HomeView: View {
     
     private func enterSpaceButton() -> some View {
         Button {
-            DispatchQueue.main.async {
-                if let upcomingMeetingData = viewModel.upcomingMeetingData {
-                    navigationManager.push(
-                        view: MeetingRoomDestination.meetingRoom(
-                            groupId: upcomingMeetingData.groupId,
-                            groupType: upcomingMeetingData.groupType
-                        )
+            switch enterButtonState {
+            case .space(let data):
+                navigationManager.push(
+                    view: MeetingRoomDestination.meetingRoom(
+                        groupId: data.groupId,
+                        groupType: data.groupType
                     )
-                } else {
-                    navigationManager.selectedTab = .filling
-                }
-                print("tap")
+                )
+            case .filling:
+                navigationManager.selectedTab = .filling
             }
         } label: {
-            Text(
-                viewModel.upcomingMeetingData != nil
-                 ? "스페이스 입장" : "채우기 입장"
-            )
-            .pretendardFont(.caption2_b_12)
-            .foregroundStyle(.grayWhite)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
+            Text(enterButtonState.title)
+                .pretendardFont(.caption2_b_12)
+                .foregroundStyle(.grayWhite)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 6)
         }
         .background(.mainOrange)
         .clipShape(
