@@ -26,7 +26,7 @@ struct HomeMeetingCell: View {
             
             VStack(spacing: 2) {
                 meetingTime()
-                userProfile()
+                meetingLocation()
             }
         }
         .frame(width: groupType == .WEEKLY ? 116 : 160)
@@ -82,31 +82,25 @@ struct HomeMeetingCell: View {
                 .frame(width: 16, height: 16)
             
             Text(formattedTime(groupType: groupType))
-            .pretendardFont(.caption2_m_12)
-            .foregroundStyle(.gray06)
-            .lineLimit(1)
+                .pretendardFont(.caption2_m_12)
+                .foregroundStyle(.gray06)
+                .lineLimit(1)
             
             Spacer()
         }
     }
     
-    private func userProfile() -> some View {
+    private func meetingLocation() -> some View {
         HStack(spacing: 2) {
-            if let image = ProfileDefaultImageMap(rawValue: data.profileImg)?.image {
-                Image(image)
-                    .resizable()
-                    .renderingMode(.original)
-                    .scaledToFit()
-                    .frame(width: 16, height: 16)
-            } else {
-                Rectangle()
-                    .fill(.gray03)
-                    .frame(width: 16, height: 16)
-            }
+            Image(.icPlace16)
+                .resizable()
+                .renderingMode(.original)
+                .scaledToFit()
+                .frame(width: 16, height: 16)
             
-            Text(data.nickname)
-                .pretendardFont(.caption2_r_12)
-                .foregroundStyle(.gray09)
+            Text(data.location)
+                .pretendardFont(.caption2_m_12)
+                .foregroundStyle(.gray06)
                 .lineLimit(1)
             
             Spacer()
@@ -117,13 +111,15 @@ struct HomeMeetingCell: View {
 extension HomeMeetingCell {
     
     private func formattedTime(groupType: GroupState) -> String {
+        /// 요일, 시간 (e.g. 월요일 14시 30분-16시)
         let time = (WeekDay(data.weekDay)?.koreanName ?? "") + " " +
         "\(Date.formatTime(data.startTime))-\(Date.formatTime(data.endTime))"
         
-        if groupType == .ONCE {
+        switch groupType {
+        case .ONCE:
             let date = Date.formatDate(data.weekDate ?? "")
             return "\(date) \(time)"
-        } else {
+        case .WEEKLY:
             return time
         }
     }

@@ -35,16 +35,8 @@ enum WeekDay: String, CaseIterable {
         }
     }
     
-    private static let koreanNames: [WeekDay: String] = [
-        .MON: "월요일",
-        .TUE: "화요일",
-        .WED: "수요일",
-        .THU: "목요일",
-        .FRI: "금요일"
-    ]
-    
     var koreanName: String {
-        return WeekDay.koreanNames[self] ?? self.rawValue
+        self.rawValue + "요일"
     }
     
     private static let englishNames: [WeekDay: String] = [
