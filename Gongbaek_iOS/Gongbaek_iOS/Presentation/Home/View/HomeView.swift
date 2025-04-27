@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @StateObject var viewModel = HomeViewModel()
+    @Environment(\.openURL) private var openURL
     private var enterButtonState: EnterButtonState {
         if let data = viewModel.upcomingMeetingData {
             return .space(data)
@@ -136,9 +137,16 @@ struct HomeView: View {
     }
     
     private func banner() -> some View {
-        Image(.imgHomeBanner)
-            .resizable()
-            .scaledToFill()
+        Button {
+            if let url = URL(string: "https://booming-jasmine-4c1.notion.site/1b74c7511f42802fb684f47bf88c4280") {
+                openURL(url)
+            }
+        } label: {
+            Image(.imgHomeBanner)
+                .resizable()
+                .scaledToFill()
+        }
+        .buttonStyle(PlainButtonStyle())
     }
     
     private func perfectMatchMember() -> some View {
