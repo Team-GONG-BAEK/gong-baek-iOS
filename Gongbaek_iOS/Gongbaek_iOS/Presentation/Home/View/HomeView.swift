@@ -113,25 +113,19 @@ struct HomeView: View {
         Image(.imgHomeBanner)
             .resizable()
             .scaledToFill()
-            .padding(.top, 2)
     }
     
     private func perfectMatchMember() -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack {
-                HomeTitleTextBox(
-                    title: "나와 딱 맞는 공백 멤버",
-                    subtitle: "공백 시간에 이 멤버들과 공백 활동 어때요?"
-                )
+            HomeTitleTextBox(
+                title: "나와 딱 맞는 공백 멤버",
+                subtitle: "공백 시간에 이 멤버들과 공백 활동 어때요?"
+            )
                 
-                Spacer()
-            }
+            Image(.imgHomeComingsoon)
+                .resizable()
+                .scaledToFill()
             
-            LazyVStack(spacing: 0) {
-                ForEach(viewModel.perfectMatchMemberList, id: \.nickname) { data in
-                    HomeMatchMemberListCell(data: data)
-                }
-            }
         }
         .padding(.horizontal, 16)
     }

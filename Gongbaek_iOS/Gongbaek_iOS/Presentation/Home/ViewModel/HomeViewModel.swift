@@ -19,8 +19,9 @@ final class HomeViewModel: ObservableObject {
     @Published var weeklyMeetingList: [JoinableMeetingModel] = []
     // 한번봐요 모임
     @Published var oneTimeMeetingList: [JoinableMeetingModel] = []
-    // 나와 딱 맞는 멤버 (API 연결 X)
+    /* 나와 딱 맞는 멤버 (추후 업데이트 예정)
     let perfectMatchMemberList: [PerfectMatchMemberModel] = PerfectMatchMemberModel.mockData()
+    */
     
     var upcomingMeetingDate: String {
         guard let data = upcomingMeetingData else { return "다가오는 모임이 없어요!" }
