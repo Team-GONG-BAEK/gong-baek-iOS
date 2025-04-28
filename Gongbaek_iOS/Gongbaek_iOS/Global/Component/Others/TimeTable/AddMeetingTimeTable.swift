@@ -117,11 +117,9 @@ struct AddMeetingTimeTable: View {
         freeTimeTable = viewModel.freeTimeTable()
         
         for freeTime in freeTimeTable {
-            print(freeTime)
             guard let weekDay = WeekDay(freeTime.weekDay),
                   let dayIndex = WeekDay.allCases.firstIndex(of: weekDay)
             else { continue }
-            print("❤️")
             /// 공강시간 시작-종료 시간에 해당하는 모든 시간들을 30분 단위로 쪼갬
             /// -> 각 시간에 해당되는 cell id값  만들고 cells 배열에 저장
             let cells = Array(stride(
@@ -134,7 +132,6 @@ struct AddMeetingTimeTable: View {
             /// 딕셔너리 key는 공강시간 id, value는 해당 공강시간에 속하는 cells
             freeTimeIdToCellsMap[freeTime.id] = cells
         }
-        print(freeTimeIdToCellsMap)
     }
     
     /// 특정 셀의 시간이 수업시간(비활성), 공강시간(선택 요일X-비활성), 공강시간(선택 요일-활성)
