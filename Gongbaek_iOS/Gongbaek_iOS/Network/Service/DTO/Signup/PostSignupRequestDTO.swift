@@ -22,7 +22,7 @@ struct PostSignupRequestDTO: Codable {
 }
 
 struct ClassTimeSlot: Codable {
-    let weekDay: String
-    let startTime: Double
-    let endTime: Double
+    var weekDay: String
+    var startTime: Double
+    var endTime: Double
 }
