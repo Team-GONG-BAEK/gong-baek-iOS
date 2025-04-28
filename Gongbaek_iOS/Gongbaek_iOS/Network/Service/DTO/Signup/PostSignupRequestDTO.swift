@@ -18,10 +18,10 @@ struct PostSignupRequestDTO: Codable {
     let enterYear: Int
     let introduction: String
     let sex: String
-    let timeTable: [TimeTableRequestModel]
+    let timeTable: [ClassTimeSlot]
 }
 
-struct TimeTableRequestModel: Codable {
+struct ClassTimeSlot: Codable {
     let weekDay: String
     let startTime: Double
     let endTime: Double

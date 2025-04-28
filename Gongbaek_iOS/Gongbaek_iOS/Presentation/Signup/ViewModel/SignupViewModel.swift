@@ -57,7 +57,6 @@ final class SignupViewModel: ObservableObject {
     @Published var introduction: String = ""
     // 시간표 입력
     @Published var selectedCells: Set<TimeTableCellId> = []
-    @Published var classTimeTable: [(day: WeekDay, start: Double, end: Double)] = []
     // 에러
     @Published var showAlert: Bool = false
 
@@ -77,9 +76,7 @@ final class SignupViewModel: ObservableObject {
             return e_i != nil && s_n != nil && t_f != nil && j_p != nil
         case .selfIntroductionWriting:
             return introduction.count > 0
-        case .classTimeTableInput:
-            return !selectedCells.isEmpty
-        case .signupCompletion:
+        case .classTimeTableInput, .signupCompletion:
             return true
         }
     }
@@ -123,50 +120,39 @@ final class SignupViewModel: ObservableObject {
             introduction = ""
         case .classTimeTableInput:
             selectedCells = []
-            classTimeTable = []
         default:
             return
         }
     }
-    
-    func convertToTimeTableModel() -> [TimeTableRequestModel] {
-        return classTimeTable.map {
-            TimeTableRequestModel(
-                weekDay: $0.day.englishName,
-                startTime: $0.start,
-                endTime: $0.end
-            )
-        }
-    }
         
     /// 선택된 셀들 수업 시간표 모델 데이터로 변환
-    private func saveSelectedCellsToClassTimeTable() {
-        classTimeTable.removeAll()
-        
+    private func convertToTimetableModel() -> [ClassTimeSlot] {
         // dayIndex -> 요일별로 그룹화
         // hourIndex -> 오름차순 정렬
         let groupedCells = Dictionary(grouping: selectedCells) { $0.dayIndex }
             .mapValues { cells in
-                cells.sorted(by: {
-                    $0.hourIndex < $1.hourIndex
-                })
+                cells.sorted(by: { $0.hourIndex < $1.hourIndex })
             }
 
+        var result: [ClassTimeSlot] = []
+        
         // 요일 그룹 순서대로 연속적인 수업 시간 계산
         for (dayIndex, cells) in groupedCells {
             var startTime: Double?
             var endTime: Double?
             
             for cell in cells {
-                if let currentEnd = endTime,
-                    currentEnd == cell.hourIndex {
+                if let currentEnd = endTime, currentEnd == cell.hourIndex {
                     // 현재 endTime과 연속적인 cell일 경우
                     endTime = cell.hourIndex + 0.5
                 } else {
                     // 불연속일 땐 지금까지 저장해둔 거 append
-                    if let s = startTime,
-                        let e = endTime {
-                        classTimeTable.append((day: WeekDay.allCases[dayIndex], start: s, end: e))
+                    if let s = startTime, let e = endTime {
+                        result.append(ClassTimeSlot(
+                            weekDay: WeekDay.allCases[dayIndex].englishName,
+                            startTime: s,
+                            endTime: e
+                        ))
                     }
                     // 다시 시작! 현재 cell 시작/종료 시간 저장
                     startTime = cell.hourIndex
@@ -176,9 +162,15 @@ final class SignupViewModel: ObservableObject {
             
             // 마지막 남은 범위 추가
             if let s = startTime, let e = endTime {
-                classTimeTable.append((day: WeekDay.allCases[dayIndex], start: s, end: e))
+                result.append(ClassTimeSlot(
+                    weekDay: WeekDay.allCases[dayIndex].englishName,
+                    startTime: s,
+                    endTime: e
+                ))
             }
         }
+        
+        return result
     }
     
     func startTimer() {
@@ -333,7 +325,6 @@ extension SignupViewModel {
               let profileImage = profileImageIndex,
               let e_i, let s_n, let t_f, let j_p
         else { return }
-        saveSelectedCellsToClassTimeTable()
         
         let data = PostSignupRequestDTO(
             platform: PlatformType.APPLE.rawValue,
@@ -346,7 +337,7 @@ extension SignupViewModel {
             enterYear: yearOfAdmission,
             introduction: introduction,
             sex: sex.rawValue,
-            timeTable: convertToTimeTableModel()
+            timeTable: convertToTimetableModel()
         )
         
         Providers.SignupProvider.request(
