@@ -37,7 +37,9 @@ struct SchoolMajorSearchView: View {
                 
                 applyButton()
             }
-            .customNavigationBar(title: "검색하기", showXButton: true)
+            .customNavigationBar(title: "검색하기", rightButtonType: .x) {
+                navigationManager.dismissPresented()
+            }
             
             if viewModel.showAlert {
                 CustomedAlert(
