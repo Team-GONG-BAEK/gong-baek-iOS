@@ -48,12 +48,11 @@ struct SignupView: View {
                 .padding(.horizontal, 16)
                 .padding(.bottom, 20)
             }
-            
             .onTapGesture {
                 hideKeyboard()
             }
             .customNavigationBar(
-                showBackButton: !(currentStep == .signupCompletion),
+                showBackButton: currentStep != .signupCompletion,
                 onBackButtonTap: {
                     goBackToPreviousStep()
                 }

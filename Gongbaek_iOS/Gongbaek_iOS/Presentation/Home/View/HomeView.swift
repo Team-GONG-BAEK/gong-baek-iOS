@@ -176,11 +176,6 @@ struct HomeView: View {
                 .foregroundStyle(.gray03)
             
             Spacer()
-            
-            Image(.icNotification20)
-                .renderingMode(.original)
-                .scaledToFit()
-                .frame(width: 20, height: 20)
         }
     }
     

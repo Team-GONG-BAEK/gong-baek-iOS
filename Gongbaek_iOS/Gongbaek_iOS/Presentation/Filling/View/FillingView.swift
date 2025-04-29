@@ -37,7 +37,7 @@ struct FillingView: View {
             }
             
         }
-        .customNavigationBar(title: "채우기", showXButton: false)
+        .customNavigationBar(title: "채우기")
         .onAppear {
             viewModel.getFillling()
         }
