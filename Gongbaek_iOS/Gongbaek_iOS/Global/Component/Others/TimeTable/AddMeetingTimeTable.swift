@@ -19,20 +19,23 @@ struct AddMeetingTimeTable: View {
     @State private var currentFreeTimeId: Int? = nil
 
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 1) {
-            dayHeader()
-            
-            ForEach(hours.indices, id: \.self) { hourIndex in
-                hourCell(hourIndex)
-                timeTableCells(hourIndex)
+        VStack {
+            LazyVGrid(columns: columns, spacing: 1) {
+                dayHeader()
+                
+                ForEach(hours.indices, id: \.self) { hourIndex in
+                    hourCell(hourIndex)
+                    timeTableCells(hourIndex)
+                }
             }
+            .background(.gray02)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
         }
-        .background(.gray02)
-        .clipShape(RoundedRectangle(cornerRadius: 8)) 
-        .overlay(
+        .background(
             RoundedRectangle(cornerRadius: 8)
-                .stroke(.gray02, lineWidth: 1)
+                .stroke(.gray02, lineWidth: 1 * 2)
         )
+        .padding([.horizontal, .bottom], 1)
         .onAppear {
             initFreeTimeIdToCellsMap()
         }
@@ -45,7 +48,7 @@ struct AddMeetingTimeTable: View {
             /// 빈칸
             Rectangle()
                 .fill(.grayWhite)
-                .frame(minWidth: 24, minHeight: 24)
+                .frame(width: 24, height: 24)
             
             /// 요일
             ForEach(WeekDay.allCases.indices, id: \.self) { dayIndex in
@@ -54,7 +57,8 @@ struct AddMeetingTimeTable: View {
                 
                 Text(WeekDay.allCases[dayIndex].rawValue)
                     .pretendardFont(isSelectedDay ? .caption2_b_12 : .caption2_r_12)
-                    .frame(minWidth: 62, maxWidth: .infinity, minHeight: 24)
+                    .frame(height: 24)
+                    .frame(minWidth: 62, maxWidth: .infinity)
                     .foregroundStyle(isSelectedDay ? .grayWhite : .gray06)
                     .background(isSelectedDay ? .gray09 : .grayWhite)
             }
@@ -67,7 +71,8 @@ struct AddMeetingTimeTable: View {
         
         return Text(isOnTheHour ? "\(Int(hours[hourIndex]))" : "")
             .pretendardFont(.caption2_r_12)
-            .frame(width: 24, height: 28, alignment: .topTrailing)
+            .frame(width: 24, alignment: .topTrailing)
+            .frame(minHeight: 28)
             .foregroundStyle(.gray06)
             .background(.grayWhite)
     }
@@ -81,7 +86,7 @@ struct AddMeetingTimeTable: View {
             
             Rectangle()
                 .fill(viewModel.selectedCells.contains(cellId) ? .mainOrange : cellColor(cellState))
-                .frame(maxWidth: .infinity, minHeight: 24)
+                .frame(maxWidth: .infinity, minHeight: 28)
                 .padding(.bottom, bottomPadding)
                 .onTapGesture {
                     guard cellState == .active else { return }
