@@ -8,9 +8,11 @@
 import Foundation
 
 struct PostSignupRequestDTO: Codable {
+    let platform: String
     let profileImg: Int
     let nickname: String
     let mbti: String
+    let email: String
     let schoolName: String
     let schoolMajor: String
     let enterYear: Int
