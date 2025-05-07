@@ -9,14 +9,10 @@ import SwiftUI
 
 /// `NavigationPath` 관리하는 전역 내비게이션 매니저
 final class NavigationManager: ObservableObject {
+    static let shared = NavigationManager()
+    
     @Published var groupId: Int? = nil
     @Published var groupType: String? = nil
-    
-    enum RootView {
-        case login
-        case tabBar
-    }
-    
     @Published var path = NavigationPath()
     @Published var presentedDestination: PresentableDestination? = nil
     @Published var rootView: RootView = .login {
@@ -26,6 +22,11 @@ final class NavigationManager: ObservableObject {
         }
     }
     @Published var selectedTab: TabBarState = .home
+    
+    enum RootView {
+        case login
+        case tabBar
+    }
     
     func push<T: Hashable>(view: T) {
         path.append(view)

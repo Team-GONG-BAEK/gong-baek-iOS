@@ -41,7 +41,6 @@ struct LoginView: View {
                 navigationManager.push(view: LoginDestination.agree)
             case .existingUser:
                 navigationManager.rootView = .tabBar
-                navigationManager.selectedTab = .home
             case .none:
                 break
             }
