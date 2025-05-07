@@ -10,6 +10,14 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @StateObject var viewModel = HomeViewModel()
+    @Environment(\.openURL) private var openURL
+    private var enterButtonState: EnterButtonState {
+        if let data = viewModel.upcomingMeetingData {
+            return .space(data)
+        } else {
+            return .filling
+        }
+    }
     
     var body: some View {
         if viewModel.showErrorView {
@@ -37,6 +45,7 @@ struct HomeView: View {
                         banner()
                         perfectMatchMember()
                     }
+                    .padding(.bottom, 35)
                 }
                 .ignoresSafeArea(edges: .top)
             }
@@ -78,60 +87,79 @@ struct HomeView: View {
         groupType: GroupState
     ) -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack {
-                HomeTitleTextBox(
-                    title: title,
-                    subtitle: subtitle,
-                    highlightSubtitleText: highlightText
-                )
-                .padding(.horizontal, 16)
-                
-                Spacer()
-            }
+            HomeTitleTextBox(
+                title: title,
+                subtitle: subtitle,
+                highlightSubtitleText: highlightText
+            )
+            .padding(.horizontal, 16)
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(alignment: .top, spacing: 10) {
-                    switch groupType {
-                    case .ONCE:
-                        meetingCells(
-                            meetingList: viewModel.oneTimeMeetingList,
-                            groupType: groupType
-                        )
-                    case .WEEKLY:
-                        meetingCells(
-                            meetingList: viewModel.weeklyMeetingList,
-                            groupType: groupType
-                        )
+            /// 서버 통신 전, 데이터가 nil일 때
+            if let oneTimeMeetingList = viewModel.oneTimeMeetingList,
+               let weeklyMeetingList = viewModel.weeklyMeetingList {
+                switch groupType {
+                case .ONCE:
+                    /// 서버 통신 후, 데이터가 empty일 때
+                    if oneTimeMeetingList.isEmpty {
+                        HomeListEmptyView(type: groupType)
+                            .padding(.horizontal, 16)
+                    }
+                    /// 서버 통신 후, 데이터가 1개 이상 존재할 때
+                    else {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            LazyHStack(alignment: .top, spacing: 10) {
+                                meetingCells(
+                                    meetingList: oneTimeMeetingList,
+                                    groupType: groupType
+                                )
+                            }
+                            .padding(.horizontal, 16)
+                        }
+                    }
+                case .WEEKLY:
+                    if weeklyMeetingList.isEmpty {
+                        HomeListEmptyView(type: groupType)
+                            .padding(.horizontal, 16)
+                    } else {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            LazyHStack(alignment: .top, spacing: 10) {
+                                meetingCells(
+                                    meetingList: weeklyMeetingList,
+                                    groupType: groupType
+                                )
+                            }
+                            .padding(.horizontal, 16)
+                        }
                     }
                 }
-                .padding(.horizontal, 16)
             }
         }
     }
     
     private func banner() -> some View {
-        Image(.imgHomeBanner)
-            .resizable()
-            .scaledToFill()
-            .padding(.top, 2)
+        Button {
+            if let url = URL(string: "https://booming-jasmine-4c1.notion.site/1b74c7511f42802fb684f47bf88c4280") {
+                openURL(url)
+            }
+        } label: {
+            Image(.imgHomeBanner)
+                .resizable()
+                .scaledToFill()
+        }
+        .buttonStyle(PlainButtonStyle())
     }
     
     private func perfectMatchMember() -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack {
-                HomeTitleTextBox(
-                    title: "나와 딱 맞는 공백 멤버",
-                    subtitle: "공백 시간에 이 멤버들과 공백 활동 어때요?"
-                )
+            HomeTitleTextBox(
+                title: "나와 딱 맞는 공백 멤버",
+                subtitle: "공백 시간에 이 멤버들과 공백 활동 어때요?"
+            )
                 
-                Spacer()
-            }
+            Image(.imgHomeComingsoon)
+                .resizable()
+                .scaledToFill()
             
-            LazyVStack(spacing: 0) {
-                ForEach(viewModel.perfectMatchMemberList, id: \.nickname) { data in
-                    HomeMatchMemberListCell(data: data)
-                }
-            }
         }
         .padding(.horizontal, 16)
     }
@@ -158,7 +186,7 @@ struct HomeView: View {
     
     private func meetingInfo() -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(viewModel.upcomingMeetingData?.groupTitle ?? "공백을 채워주세요!")
+            Text(enterButtonState.upcomingMeetingTitle)
                 .pretendardFont(.title1_b_20)
                 .foregroundStyle(.grayWhite)
             
@@ -168,7 +196,7 @@ struct HomeView: View {
                     .scaledToFit()
                     .frame(width: 16, height: 16)
                 
-                Text(viewModel.upcomingMeetingDate)
+                Text(enterButtonState.upcomingMeetingDate)
                     .pretendardFont(.caption2_m_12)
                     .foregroundStyle(.gray05)
             }
@@ -177,28 +205,23 @@ struct HomeView: View {
     
     private func enterSpaceButton() -> some View {
         Button {
-            DispatchQueue.main.async {
-                if let upcomingMeetingData = viewModel.upcomingMeetingData {
-                    navigationManager.push(
-                        view: MeetingRoomDestination.meetingRoom(
-                            groupId: upcomingMeetingData.groupId,
-                            groupType: upcomingMeetingData.groupType
-                        )
+            switch enterButtonState {
+            case .space(let data):
+                navigationManager.push(
+                    view: MeetingRoomDestination.meetingRoom(
+                        groupId: data.groupId,
+                        groupType: data.groupType
                     )
-                } else {
-                    navigationManager.selectedTab = .filling
-                }
-                print("tap")
+                )
+            case .filling:
+                navigationManager.selectedTab = .filling
             }
         } label: {
-            Text(
-                viewModel.upcomingMeetingData != nil
-                 ? "스페이스 입장" : "채우기 입장"
-            )
-            .pretendardFont(.caption2_b_12)
-            .foregroundStyle(.grayWhite)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
+            Text(enterButtonState.title)
+                .pretendardFont(.caption2_b_12)
+                .foregroundStyle(.grayWhite)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 6)
         }
         .background(.mainOrange)
         .clipShape(

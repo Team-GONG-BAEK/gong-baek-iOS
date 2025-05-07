@@ -19,20 +19,23 @@ struct AddMeetingTimeTable: View {
     @State private var currentFreeTimeId: Int? = nil
 
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 1) {
-            dayHeader()
-            
-            ForEach(hours.indices, id: \.self) { hourIndex in
-                hourCell(hourIndex)
-                timeTableCells(hourIndex)
+        VStack {
+            LazyVGrid(columns: columns, spacing: 1) {
+                dayHeader()
+                
+                ForEach(hours.indices, id: \.self) { hourIndex in
+                    hourCell(hourIndex)
+                    timeTableCells(hourIndex)
+                }
             }
+            .background(.gray02)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
         }
-        .background(.gray02)
-        .clipShape(RoundedRectangle(cornerRadius: 8)) 
-        .overlay(
+        .background(
             RoundedRectangle(cornerRadius: 8)
-                .stroke(.gray02, lineWidth: 1)
+                .stroke(.gray02, lineWidth: 1 * 2)
         )
+        .padding([.horizontal, .bottom], 1)
         .onAppear {
             initFreeTimeIdToCellsMap()
         }
@@ -45,7 +48,7 @@ struct AddMeetingTimeTable: View {
             /// 빈칸
             Rectangle()
                 .fill(.grayWhite)
-                .frame(minWidth: 24, minHeight: 24)
+                .frame(width: 24, height: 24)
             
             /// 요일
             ForEach(WeekDay.allCases.indices, id: \.self) { dayIndex in
@@ -54,7 +57,8 @@ struct AddMeetingTimeTable: View {
                 
                 Text(WeekDay.allCases[dayIndex].rawValue)
                     .pretendardFont(isSelectedDay ? .caption2_b_12 : .caption2_r_12)
-                    .frame(minWidth: 62, maxWidth: .infinity, minHeight: 24)
+                    .frame(height: 24)
+                    .frame(minWidth: 62, maxWidth: .infinity)
                     .foregroundStyle(isSelectedDay ? .grayWhite : .gray06)
                     .background(isSelectedDay ? .gray09 : .grayWhite)
             }
@@ -67,7 +71,8 @@ struct AddMeetingTimeTable: View {
         
         return Text(isOnTheHour ? "\(Int(hours[hourIndex]))" : "")
             .pretendardFont(.caption2_r_12)
-            .frame(width: 24, height: 28, alignment: .topTrailing)
+            .frame(width: 24, alignment: .topTrailing)
+            .frame(minHeight: 28)
             .foregroundStyle(.gray06)
             .background(.grayWhite)
     }
@@ -81,7 +86,7 @@ struct AddMeetingTimeTable: View {
             
             Rectangle()
                 .fill(viewModel.selectedCells.contains(cellId) ? .mainOrange : cellColor(cellState))
-                .frame(maxWidth: .infinity, minHeight: 24)
+                .frame(maxWidth: .infinity, minHeight: 28)
                 .padding(.bottom, bottomPadding)
                 .onTapGesture {
                     guard cellState == .active else { return }
@@ -117,11 +122,9 @@ struct AddMeetingTimeTable: View {
         freeTimeTable = viewModel.freeTimeTable()
         
         for freeTime in freeTimeTable {
-            print(freeTime)
             guard let weekDay = WeekDay(freeTime.weekDay),
                   let dayIndex = WeekDay.allCases.firstIndex(of: weekDay)
             else { continue }
-            print("❤️")
             /// 공강시간 시작-종료 시간에 해당하는 모든 시간들을 30분 단위로 쪼갬
             /// -> 각 시간에 해당되는 cell id값  만들고 cells 배열에 저장
             let cells = Array(stride(
@@ -134,7 +137,6 @@ struct AddMeetingTimeTable: View {
             /// 딕셔너리 key는 공강시간 id, value는 해당 공강시간에 속하는 cells
             freeTimeIdToCellsMap[freeTime.id] = cells
         }
-        print(freeTimeIdToCellsMap)
     }
     
     /// 특정 셀의 시간이 수업시간(비활성), 공강시간(선택 요일X-비활성), 공강시간(선택 요일-활성)

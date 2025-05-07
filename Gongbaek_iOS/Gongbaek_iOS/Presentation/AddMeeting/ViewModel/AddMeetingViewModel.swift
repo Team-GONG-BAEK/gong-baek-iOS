@@ -97,31 +97,28 @@ class AddMeetingViewModel: ObservableObject {
     }
     
     func updateNextButtonState() {
-        DispatchQueue.main.async {
-            switch self.currentIndex {
-            case 0:
-                self.isNextEnabled = self.selectedCycle != nil
-            case 1:
-                self.isNextEnabled = self.selectedCycle == .once
-                ? self.selectedWeekDate != nil
-                : self.selectedWeekDay != nil
-            case 2:
-                self.isNextEnabled = self.selectedTimeRange.start > 0 && self.selectedTimeRange.end > self.selectedTimeRange.start
-            case 3:
-                self.isNextEnabled = self.selectedCategory != nil
-            case 4:
-                self.isNextEnabled = self.selectedCoverIndex != nil
-            case 5:
-                self.isNextEnabled = self.location.count >= 2
-            case 6:
-                self.isNextEnabled = self.title.count >= 2
-            case 7:
-                self.isNextEnabled = true
-            default:
-                self.isNextEnabled = false
-            }
+        switch self.currentIndex {
+        case 0:
+            self.isNextEnabled = self.selectedCycle != nil
+        case 1:
+            self.isNextEnabled = self.selectedCycle == .once
+            ? self.selectedWeekDate != nil
+            : self.selectedWeekDay != nil
+        case 2:
+            self.isNextEnabled = self.selectedTimeRange.start > 0 && self.selectedTimeRange.end > self.selectedTimeRange.start
+        case 3:
+            self.isNextEnabled = self.selectedCategory != nil
+        case 4:
+            self.isNextEnabled = self.selectedCoverIndex != nil
+        case 5:
+            self.isNextEnabled = self.location.count >= 2
+        case 6:
+            self.isNextEnabled = self.title.count >= 2
+        case 7:
+            self.isNextEnabled = true
+        default:
+            self.isNextEnabled = false
         }
-        DispatchQueue.main.async { self.updateNextButtonState() }
     }
     
     func resetValuesForNextPage() {
