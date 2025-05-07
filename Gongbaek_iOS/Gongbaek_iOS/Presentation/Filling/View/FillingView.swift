@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct FillingView: View {
-    @StateObject private var viewModel = FillingViewModel()
     @EnvironmentObject var navigationManager: NavigationManager
+    @StateObject private var viewModel = FillingViewModel()
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {

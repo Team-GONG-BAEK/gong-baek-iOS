@@ -85,7 +85,6 @@ struct MeetingDetailView: View {
                         viewModel.showDeleteAlert = false
                         
                         viewModel.isSuccessGetData ? navigationManager.pop() : nil
-                        print("pop")
                     }
                 )
             }

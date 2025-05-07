@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct MyPageView: View {
-    @StateObject var viewModel = MyPageViewModel()
     @EnvironmentObject var navigationManager: NavigationManager
+    @StateObject var viewModel = MyPageViewModel()
     
     var body: some View {
         ZStack {

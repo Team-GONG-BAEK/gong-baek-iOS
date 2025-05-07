@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct WeekDaySelect: View {
-    @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
         
     var body: some View {
