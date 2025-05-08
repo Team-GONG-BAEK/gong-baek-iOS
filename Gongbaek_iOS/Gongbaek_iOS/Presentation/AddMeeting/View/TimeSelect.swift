@@ -47,6 +47,7 @@ struct TimeSelect: View {
                 .padding(.bottom, 10)
                 
                 AddMeetingTimeTable(viewModel: viewModel)
+                    .padding(.bottom, 8)
             }
             
         }

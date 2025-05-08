@@ -20,37 +20,16 @@ class NetworkProvider<Provider : TargetType> : MoyaProvider<Provider> {
             switch result {
             case .success(let response):
                 if (200..<300).contains(response.statusCode) {
-                    if let decodeData = try? JSONDecoder().decode(instance, from: response.data) {
-                        completion(decodeData)
-                    } else{
-                        print("🚨 decoding Error 발생")
-                        /// 알 수 없는 오류
-                        let errorResponse = BaseResponse<Model>(
-                            success: false,
-                            code: 0,
-                            message: "",
-                            data: nil
-                        )
-                        completion(errorResponse)
-                    }
+                    let decodedResponse = self.decodeOrFallbackData(instance, from: response.data)
+                    completion(decodedResponse)
                 } else {
                     print("🚨 Client Error")
                 }
                 
+            /// 400-500 에러
             case .failure(let error):
                 if let response = error.response {
-                    /// 400-500 에러
-                    let decodedResponse = BaseResponse<Model>(
-                        success: false,
-                        code: response.statusCode,
-                        message: "",
-                        data: nil
-                    )
-                    if let responseData = String(data: response.data, encoding: .utf8) {
-                        print(responseData)
-                    } else {
-                        print(error.localizedDescription)
-                    }
+                    let decodedResponse = self.decodeOrFallbackData(instance, from: response.data)
                     completion(decodedResponse)
                 } else {
                     /// 네트워크 오류
@@ -64,6 +43,26 @@ class NetworkProvider<Provider : TargetType> : MoyaProvider<Provider> {
                     print(error.localizedDescription)
                 }
             }
+        }
+    }
+}
+
+extension NetworkProvider {
+    
+    func decodeOrFallbackData<Model: Codable>(
+        _ type: BaseResponse<Model>.Type,
+        from data: Data
+    ) -> BaseResponse<Model> {
+        if let decodedData = try? JSONDecoder().decode(type, from: data) {
+            return decodedData
+        } else {
+            print("🚨 Decoding Error 발생")
+            return BaseResponse<Model>(
+                success: false,
+                code: 0,
+                message: "",
+                data: nil
+            )
         }
     }
 }

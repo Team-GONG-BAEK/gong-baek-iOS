@@ -13,6 +13,8 @@ enum SignupTargetType {
     case getSchoolSearchResults(schoolName: String)
     case getMajorSearchResults(schoolName: String, majorName: String)
     case postSignup(data: PostSignupRequestDTO)
+    case postSendEmailVerificationCode(email: String, schoolName: String)
+    case getSchoolEmailVerification(email: String, schoolName: String, code: String)
 }
 
 extension SignupTargetType: BaseTargetType {
@@ -27,6 +29,10 @@ extension SignupTargetType: BaseTargetType {
         case .getMajorSearchResults:
             return APIConstants.contentTypeHeader
         case .postSignup:
+            return APIConstants.signupAccessTokenHeader
+        case .postSendEmailVerificationCode:
+            return APIConstants.contentTypeHeader
+        case .getSchoolEmailVerification:
             return APIConstants.contentTypeHeader
         }
     }
@@ -43,6 +49,10 @@ extension SignupTargetType: BaseTargetType {
             return "/api/v1/school/major/search"
         case .postSignup:
             return "/api/v1/user/signup"
+        case .postSendEmailVerificationCode:
+            return "/api/v1/emails/verification-requests"
+        case .getSchoolEmailVerification:
+            return "/api/v1/emails/verifications"
         }
     }
     
@@ -58,6 +68,10 @@ extension SignupTargetType: BaseTargetType {
             return .get
         case .postSignup:
             return .post
+        case .postSendEmailVerificationCode:
+            return .post
+        case .getSchoolEmailVerification:
+            return .get
         }
     }
     
@@ -85,6 +99,23 @@ extension SignupTargetType: BaseTargetType {
             )
         case .postSignup(let data):
             return .requestJSONEncodable(data)
+        case .postSendEmailVerificationCode(let email, let schoolName):
+            return .requestParameters(
+                parameters: [
+                    "email" : email,
+                    "schoolName" : schoolName,
+                ],
+                encoding: URLEncoding.queryString
+            )
+        case .getSchoolEmailVerification(let email, let schoolName, let code):
+            return .requestParameters(
+                parameters: [
+                    "email" : email,
+                    "schoolName" : schoolName,
+                    "code" : code,
+                ],
+                encoding: URLEncoding.queryString
+            )
         }
     }
 }

@@ -16,21 +16,12 @@ final class HomeViewModel: ObservableObject {
     @Published var nickname = ""
     @Published var upcomingMeetingData: GetUpcomingMeetingResponseDTO? = nil
     // 매주봐요 모임
-    @Published var weeklyMeetingList: [JoinableMeetingModel] = []
+    @Published var weeklyMeetingList: [JoinableMeetingModel]? = nil
     // 한번봐요 모임
-    @Published var oneTimeMeetingList: [JoinableMeetingModel] = []
-    // 나와 딱 맞는 멤버 (API 연결 X)
+    @Published var oneTimeMeetingList: [JoinableMeetingModel]? = nil
+    /* 나와 딱 맞는 멤버 (추후 업데이트 예정)
     let perfectMatchMemberList: [PerfectMatchMemberModel] = PerfectMatchMemberModel.mockData()
-    
-    var upcomingMeetingDate: String {
-        guard let data = upcomingMeetingData else { return "다가오는 모임이 없어요!" }
-        let date = Date.formatDate(data.weekDate)
-        let weekday = WeekDay(data.weekDay)?.koreanName ?? ""
-        let startTime = Date.formatTime(data.startTime)
-        let endTime = Date.formatTime(data.endTime)
-        
-        return date + " " + weekday + " " + startTime + " - " + endTime
-    }
+    */
 }
 
 extension HomeViewModel {

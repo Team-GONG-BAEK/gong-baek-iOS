@@ -9,7 +9,12 @@ import SwiftUI
 
 struct SchoolEmailVerificationView: View {
     @ObservedObject var viewModel: SignupViewModel
-    @State private var isTimerVisible: Bool = false
+    @State private var getCodeButtonTitle: GetCodeButtonTitle = .sendCode
+    
+    enum GetCodeButtonTitle: String {
+        case sendCode = "코드받기"
+        case resendCode = "다시받기"
+    }
     
     var body: some View {
         VStack(spacing: 0) {
@@ -27,15 +32,19 @@ struct SchoolEmailVerificationView: View {
                     status: $viewModel.emailStatus,
                     type: .schoolEmail
                 )
-                .autocorrectionDisabled(true)
-                .textInputAutocapitalization(.never)
                 
-                blackButton(title: "코드받기") {
-                    // TODO: 뷰모델 API 호출
-                    // response 받으면 3분 타이머 시작
-                    viewModel.startTimer()
-                    isTimerVisible = true
+                blackButton(title: getCodeButtonTitle.rawValue) {
+                    viewModel.emailStatus = nil
+                    
+                    if viewModel.isValidEmailFormat() {
+                        viewModel.postSendEmailVerificationCode()
+                        getCodeButtonTitle = .resendCode
+                        viewModel.verificationStatus = nil
+                    } else {
+                        viewModel.emailStatus = .invalidEmailFormat
+                    }
                 }
+                .disabled(viewModel.isGetCodeButtonDisabled)
             }
             .padding(.bottom, 34)
             
@@ -45,8 +54,6 @@ struct SchoolEmailVerificationView: View {
                         status: $viewModel.verificationStatus,
                         type: .verificationCode
                     )
-                    .autocorrectionDisabled(true)
-                    .textInputAutocapitalization(.never)
                     .keyboardType(.numberPad)
                     .overlay(
                         GeometryReader { proxy in
@@ -55,8 +62,12 @@ struct SchoolEmailVerificationView: View {
                     )
                 
                 blackButton(title: "인증하기") {
-                    // TODO: 뷰모델 API 호출
+                    if viewModel.verificationStatus != .expiredCode,
+                       !viewModel.verificationCode.isEmpty {
+                        viewModel.getSchoolEmailCodeVerification()
+                    }
                 }
+                .disabled(viewModel.isVerifyButtonDisabled)
             }
             
             Spacer()
@@ -92,7 +103,7 @@ struct SchoolEmailVerificationView: View {
                 x: proxy.size.width - 16 - 15,
                 y: proxy.size.height - 48 / 2
             )
-            .opacity(isTimerVisible ? 1 : 0)
+            .opacity(viewModel.isTimerVisible ? 1 : 0)
     }
 }
 

@@ -24,10 +24,21 @@ final class SignupViewModel: ObservableObject {
     // 이메일 인증
     @Published var email = ""
     @Published var verificationCode = ""
-    @Published var isEmailVerified: Bool = true
+    @Published var isEmailVerified: Bool = false {
+        didSet {
+            if isEmailVerified {
+                isVerifyButtonDisabled = true
+                isGetCodeButtonDisabled = true
+                verificationStatus = .verificationCompleted
+            }
+        }
+    }
     @Published var emailStatus: TextFieldType.EmailStatus? = nil
     @Published var verificationStatus: TextFieldType.VerificationStatus? = nil
+    @Published var isGetCodeButtonDisabled: Bool = false
+    @Published var isVerifyButtonDisabled: Bool = true
     // 타이머
+    @Published var isTimerVisible = false
     private let totalSeconds: Int = 180
     @Published var remainingTime: Int = 0
     private var cancellable: AnyCancellable?
@@ -46,11 +57,9 @@ final class SignupViewModel: ObservableObject {
     @Published var introduction: String = ""
     // 시간표 입력
     @Published var selectedCells: Set<TimeTableCellId> = []
-    @Published var classTimeTable: [(day: WeekDay, start: Double, end: Double)] = []
     // 에러
     @Published var showAlert: Bool = false
 
-    
     // MARK: - Methods
     
     func isNextButtonEnabled(_ step: SignupStep) -> Bool {
@@ -60,16 +69,14 @@ final class SignupViewModel: ObservableObject {
         case .schoolEmailVerification:
             return isEmailVerified
         case .nicknameSexInput:
-            return nickname.count > 1 && sex != nil
+            return nickname.count > 0 && sex != nil
         case .profileImageSelection:
             return profileImageIndex != nil
         case .mbtiSelection:
             return e_i != nil && s_n != nil && t_f != nil && j_p != nil
         case .selfIntroductionWriting:
-            return introduction.count >= 20
-        case .classTimeTableInput:
-            return !selectedCells.isEmpty
-        case .signupCompletion:
+            return introduction.count > 0
+        case .classTimeTableInput, .signupCompletion:
             return true
         }
     }
@@ -91,9 +98,13 @@ final class SignupViewModel: ObservableObject {
             yearOfAdmission = nil
         case .schoolEmailVerification:
             email = ""
+            verificationCode = ""
             isEmailVerified = false
             emailStatus = nil
             verificationStatus = nil
+            isTimerVisible = false
+            isGetCodeButtonDisabled = false
+            isVerifyButtonDisabled = true
         case .nicknameSexInput:
             nickname = ""
             sex = nil
@@ -109,62 +120,35 @@ final class SignupViewModel: ObservableObject {
             introduction = ""
         case .classTimeTableInput:
             selectedCells = []
-            classTimeTable = []
         default:
             return
         }
     }
-    
-    func convertToTimeTableModel() -> [TimeTableRequestModel] {
-        return classTimeTable.map {
-            TimeTableRequestModel(
-                weekDay: $0.day.englishName,
-                startTime: $0.start,
-                endTime: $0.end
-            )
-        }
-    }
         
     /// 선택된 셀들 수업 시간표 모델 데이터로 변환
-    private func saveSelectedCellsToClassTimeTable() {
-        classTimeTable.removeAll()
-        
-        // dayIndex -> 요일별로 그룹화
-        // hourIndex -> 오름차순 정렬
-        let groupedCells = Dictionary(grouping: selectedCells) { $0.dayIndex }
-            .mapValues { cells in
-                cells.sorted(by: {
-                    $0.hourIndex < $1.hourIndex
-                })
+    private func convertToTimetableModel() -> [ClassTimeSlot] {
+        return selectedCells
+            .sorted {
+                if $0.dayIndex == $1.dayIndex {
+                    return $0.hourIndex < $1.hourIndex
+                }
+                return $0.dayIndex < $1.dayIndex
             }
-
-        // 요일 그룹 순서대로 연속적인 수업 시간 계산
-        for (dayIndex, cells) in groupedCells {
-            var startTime: Double?
-            var endTime: Double?
-            
-            for cell in cells {
-                if let currentEnd = endTime,
-                    currentEnd == cell.hourIndex {
-                    // 현재 endTime과 연속적인 cell일 경우
-                    endTime = cell.hourIndex + 0.5
+            .reduce(into: [ClassTimeSlot]()) { result, cell in
+                if let last = result.last,
+                   last.weekDay == WeekDay.allCases[cell.dayIndex].englishName,
+                   last.endTime == cell.hourIndex {
+                    // 이어지는 경우
+                    result[result.count - 1].endTime = cell.hourIndex + 0.5
                 } else {
-                    // 불연속일 땐 지금까지 저장해둔 거 append
-                    if let s = startTime,
-                        let e = endTime {
-                        classTimeTable.append((day: WeekDay.allCases[dayIndex], start: s, end: e))
-                    }
-                    // 다시 시작! 현재 cell 시작/종료 시간 저장
-                    startTime = cell.hourIndex
-                    endTime = cell.hourIndex + 0.5
+                    // 새롭게 추가
+                    result.append(ClassTimeSlot(
+                        weekDay: WeekDay.allCases[cell.dayIndex].englishName,
+                        startTime: cell.hourIndex,
+                        endTime: cell.hourIndex + 0.5
+                    ))
                 }
             }
-            
-            // 마지막 남은 범위 추가
-            if let s = startTime, let e = endTime {
-                classTimeTable.append((day: WeekDay.allCases[dayIndex], start: s, end: e))
-            }
-        }
     }
     
     func startTimer() {
@@ -174,13 +158,15 @@ final class SignupViewModel: ObservableObject {
         cancellable = Timer
             .publish(every: 1, on: .main, in: .common)
             .autoconnect()
+            .filter { _ in !self.isEmailVerified }
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 
-                if self.remainingTime > 0 {
-                    self.remainingTime -= 1
+                if remainingTime > 0 {
+                    remainingTime -= 1
                 } else {
-                    self.cancellable?.cancel()
+                    cancellable?.cancel()
+                    verificationStatus = .expiredCode
                 }
             }
     }
@@ -193,6 +179,13 @@ final class SignupViewModel: ObservableObject {
         let minutes = totalSeconds / 60
         let seconds = totalSeconds % 60
         return String(format: "%02d:%02d", minutes, seconds)
+    }
+    
+    /// 이메일 형식 정규식 검사
+    func isValidEmailFormat() -> Bool {
+        let regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
+        return predicate.evaluate(with: email)
     }
     
     /// 완전한 한글 음절로만 이루어져 있는지 확인
@@ -211,21 +204,20 @@ extension SignupViewModel {
             instance: BaseResponse<EmptyResponseDTO>.self
         ) { response in
             if response.success {
-                self.showAlert = false
+                self.nicknameStatus = nil
                 completion(true)
             } else {
-                print(response.code,"🚨")
                 switch response.code {
-                case 409:
-                    /// 닉네임 중복 에러
-                    self.showAlert = false
+                case 4006:
+                    /// 한글 이외 문자 입력 에러
+                    self.nicknameStatus = .invalidNicknameFormat
                     completion(false)
-                case 400..<500:
-                    self.showAlert = false
-                    print(response.message ?? "❗️유효하지 않은 요청")
+                case 4092:
+                    /// 닉네임 중복 에러
+                    self.nicknameStatus = .duplicatedNickname
+                    completion(false)
                 default:
                     self.showAlert = true
-                    print("❗️서버 통신 에러 발생")
                 }
             }
         }
@@ -239,7 +231,6 @@ extension SignupViewModel {
         ) { response in
             print(response)
             if response.success {
-                self.showAlert = false
                 guard let data = response.data else { return }
                 self.searchResultList = data.schoolNames
             } else {
@@ -259,7 +250,6 @@ extension SignupViewModel {
         ) { response in
             print(response)
             if response.success {
-                self.showAlert = false
                 guard let data = response.data else { return }
                 self.searchResultList = data.schoolMajors
             } else {
@@ -268,25 +258,64 @@ extension SignupViewModel {
         }
     }
     
+    /// 학교 이메일 인증코드 전송 API
+    func postSendEmailVerificationCode() {
+        Providers.SignupProvider.request(
+            target: .postSendEmailVerificationCode(email: email, schoolName: schoolName),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            if response.success {
+                self.startTimer()
+                self.isTimerVisible = true
+                self.emailStatus = .codeSent
+                self.isVerifyButtonDisabled = false
+            } else {
+                self.showAlert = true
+            }
+        }
+    }
+    
+    /// 학교 이메일 인증  API
+    func getSchoolEmailCodeVerification() {
+        Providers.SignupProvider.request(
+            target: .getSchoolEmailVerification(
+                email: email,
+                schoolName: schoolName,
+                code: verificationCode
+            ),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            if response.success {
+                self.isEmailVerified = true
+            } else {
+                switch response.code {
+                case 4001: self.verificationStatus = .invalidCode
+                default: self.showAlert = true
+                }
+            }
+        }
+    }
+    
     /// 회원가입 API
     func postSignup(completion: @escaping (Bool) -> ()) {
-        guard let profileImage = profileImageIndex,
-              let yearOfAdmission = yearOfAdmission,
-              let e_i, let s_n, let t_f, let j_p,
-              let sex = sex
+        guard let yearOfAdmission = yearOfAdmission,
+              let sex = sex,
+              let profileImage = profileImageIndex,
+              let e_i, let s_n, let t_f, let j_p
         else { return }
-        saveSelectedCellsToClassTimeTable()
         
         let data = PostSignupRequestDTO(
+            platform: PlatformType.APPLE.rawValue,
             profileImg: profileImage,
             nickname: nickname,
             mbti: e_i.rawValue + s_n.rawValue + t_f.rawValue + j_p.rawValue,
+            email: email,
             schoolName: schoolName,
             schoolMajor: majorName,
             enterYear: yearOfAdmission,
             introduction: introduction,
             sex: sex.rawValue,
-            timeTable: convertToTimeTableModel()
+            timeTable: convertToTimetableModel()
         )
         
         Providers.SignupProvider.request(
@@ -294,7 +323,6 @@ extension SignupViewModel {
             instance: BaseResponse<PostSignupResponseDTO>.self
         ) { response in
             if response.success {
-                self.showAlert = false
                 guard let accessToken = response.data?.accessToken,
                       let refreshToken = response.data?.refreshToken
                 else { return }
