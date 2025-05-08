@@ -189,7 +189,7 @@ extension MeetingDetailViewModel {
                     switch response.code {
                     case 4097:
                         self.alertType = .recruited
-                        print("⚠️ 신청 불가능한 상태 (code 4097)")
+                        print("⚠️ 신청 불가능한 상태 - 인원마감 (code: 4097)")
                     default:
                         self.alertType = .error(isGetMethod: false)
                         print("❌ 신청 실패: \(response.message ?? "알 수 없는 오류")")
