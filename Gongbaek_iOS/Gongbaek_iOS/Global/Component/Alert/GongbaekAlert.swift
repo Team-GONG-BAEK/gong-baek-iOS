@@ -1,5 +1,5 @@
 //
-//  CustomAlert.swift
+//  GongbaekAlert.swift
 //  Gongbaek_iOS
 //
 //  Created by 김희은 on 1/15/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CustomedAlert: View {
+struct GongbaekAlert: View {
     var alertImage: String? = nil
     let titleText: String
     var subtitleText: String? = nil
@@ -116,16 +116,4 @@ struct CustomedAlert: View {
                 )
         }
     }
-}
-
-#Preview {
-    CustomedAlert(
-        alertImage: "sample",
-        titleText: "모임등록이완료되었다면믿으시겠습니까욥",
-        subtitleText: "아니요 모르겠고 내 뷰나 책입져 이자식아!!! 나 집에 갈래!!! 으악으악\n으악아악악!!!!",
-        grayButtonText: "닫기",
-        orangeButtonText: "다음으로",
-        onTapGrayButton: nil,
-        onTapOrangeButton: nil
-    )
 }

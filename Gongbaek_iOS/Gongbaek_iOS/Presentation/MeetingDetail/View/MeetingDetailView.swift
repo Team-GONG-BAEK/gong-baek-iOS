@@ -48,7 +48,7 @@ extension MeetingDetailView {
     private func alert(type: MeetingDetailAlertType) -> some View {
         switch type {
         case .apply:
-            CustomedAlert(
+            GongbaekAlert(
                 alertImage: "img_success",
                 titleText: "신청이 완료됐어요!",
                 subtitleText: "생성자에 의해 모임이 삭제될 수도 있어요.",
@@ -68,7 +68,7 @@ extension MeetingDetailView {
                 }
             )
         case .recruited:
-            CustomedAlert(
+            GongbaekAlert(
                 alertImage: "img_fail" ,
                 titleText: "인원이 마감되어 신청이 불가능해요!",
                 subtitleText: "아쉽지만, 다른 모임을 찾아보세요.",
@@ -78,7 +78,7 @@ extension MeetingDetailView {
                 }
             )
         case .cancel:
-            CustomedAlert(
+            GongbaekAlert(
                 alertImage: "img_fail",
                 titleText: "모임 신청이 취소되었어요!",
                 orangeButtonText: "확인",
@@ -86,7 +86,7 @@ extension MeetingDetailView {
                     viewModel.alertType = nil
                 })
         case .delete:
-            CustomedAlert(
+            GongbaekAlert(
                 alertImage: "img_fail",
                 titleText: "모임을 삭제하시겠습니까?" ,
                 subtitleText: "삭제된 모임은 복구가 불가합니다.",
@@ -102,7 +102,7 @@ extension MeetingDetailView {
                     viewModel.alertType = nil
                 })
         case .error(let isGetMethod):
-            CustomedAlert(
+            GongbaekAlert(
                 alertImage: "img_fail" ,
                 titleText: isGetMethod ? "앗! 데이터를 불러오지 못했어요." : "일시적인 오류가 발생했습니다.",
                 subtitleText: isGetMethod ? "잠시 후 다시 시도해주세요." : "잠시 후 다시 시도해주세요.",
