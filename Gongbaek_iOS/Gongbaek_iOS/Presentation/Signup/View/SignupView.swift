@@ -90,6 +90,7 @@ struct SignupView: View {
                 )
             }
         }
+        .ignoresSafeArea(.keyboard)
     }
 }
 
