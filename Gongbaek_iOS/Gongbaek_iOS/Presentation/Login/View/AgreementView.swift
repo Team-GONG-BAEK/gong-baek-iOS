@@ -52,6 +52,7 @@ struct AgreementView: View {
                     isActivated: isAllChecked,
                     onTap: { navigateToOnboardingView() }
                 )
+                .padding(.bottom, 20)
             }
             .padding(.horizontal, 16)
             .padding(.top, 38)
