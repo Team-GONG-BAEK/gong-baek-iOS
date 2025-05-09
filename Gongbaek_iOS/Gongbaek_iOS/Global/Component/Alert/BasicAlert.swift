@@ -1,16 +1,14 @@
 //
-//  CustomAlert.swift
+//  BasicAlert.swift
 //  Gongbaek_iOS
 //
-//  Created by 김희은 on 1/15/25.
+//  Created by 김희은 on 4/17/25.
 //
 
 import SwiftUI
 
-struct CustomedAlert: View {
-    var alertImage: String? = nil
+struct BasicAlert: View {
     let titleText: String
-    var subtitleText: String? = nil
     var grayButtonText: String? = nil
     let orangeButtonText: String
     var onTapGrayButton: (() -> Void)?
@@ -21,23 +19,9 @@ struct CustomedAlert: View {
             backgroundBlack()
             
             VStack (alignment: .center, spacing: 0) {
-                if let alertImage {
-                    Image(alertImage)
-                        .resizable()
-                        .background(Color.gray.opacity(0.2))
-                        .frame(width: 178, height: 178)
-                }
-                
-                VStack(spacing: 0) {
-                    titleTextBox(text: titleText)
-                    
-                    if let subtitleText = subtitleText {
-                        subtitleTextBox(text: subtitleText)
-                    }
-                }
-                .padding(.top, subtitleText != nil ? 8 : 0)
-                .padding(.vertical, 20)
-                
+                titleTextBox(text: titleText)
+                    .padding(.vertical, 28)
+            
                 HStack(alignment: .center, spacing: 10) {
                     if let grayButtonText = grayButtonText {
                         grayButton(buttonText: grayButtonText, buttonAction: onTapGrayButton)
@@ -46,9 +30,8 @@ struct CustomedAlert: View {
                     orangeButton(buttonText: orangeButtonText, buttonAction: onTapOrangeButton)
                 }
             }
-            .padding(.top, subtitleText != nil ? 48 : 34)
-            .padding(.horizontal, 20)
-            .padding(.bottom, 20)
+            .padding(.horizontal, 14)
+            .padding(.bottom, 18)
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.grayWhite)
@@ -91,7 +74,7 @@ struct CustomedAlert: View {
             Text(buttonText)
                 .pretendardFont(.title2_sb_18)
                 .padding(.vertical, 12)
-                .padding(.horizontal, 21.5)
+                .frame(maxWidth: .infinity)
                 .foregroundStyle(.grayWhite)
                 .background(.gray08)
                 .clipShape(
@@ -119,12 +102,10 @@ struct CustomedAlert: View {
 }
 
 #Preview {
-    CustomedAlert(
-        alertImage: "sample",
-        titleText: "모임등록이완료되었다면믿으시겠습니까욥",
-        subtitleText: "아니요 모르겠고 내 뷰나 책입져 이자식아!!! 나 집에 갈래!!! 으악으악\n으악아악악!!!!",
-        grayButtonText: "닫기",
-        orangeButtonText: "다음으로",
+    BasicAlert(
+        titleText: "로그아웃하시겠습니가",
+        grayButtonText: "취소",
+        orangeButtonText: "확인",
         onTapGrayButton: nil,
         onTapOrangeButton: nil
     )

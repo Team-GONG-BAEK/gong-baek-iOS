@@ -11,7 +11,6 @@ struct GetOwnerInfoResponseDTO: Codable {
     var sex: String
     var schoolMajor: String
     var enterYear: Int
-    var schoolGrade: Int
     var mbti: String
     var introduction: String
 }

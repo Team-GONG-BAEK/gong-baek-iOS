@@ -78,7 +78,7 @@ struct AddMeetingView: View {
                 let image = viewModel.isSuccessGetData ? "img_success" : "img_fail"
                 
                 if showAlert {
-                    CustomedAlert(
+                    GongbaekAlert(
                         alertImage: image ,
                         titleText: viewModel.isSuccessGetData ? "모임 등록이 완료됐어요!" : "모임 등록에 실패했어요!",
                         orangeButtonText: "확인",
