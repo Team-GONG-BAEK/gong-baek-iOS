@@ -62,7 +62,7 @@ extension MeetingChipState {
         case .category(let categoryState):
             return categoryState.categoryName
         case .weekly(let isWeekly):
-            return isWeekly == .WEEKLY ? "매주 보기" : "한번 보기"
+            return isWeekly == .WEEKLY ? CycleState.weekly.titleText : CycleState.once.titleText
         }
     }
 }
