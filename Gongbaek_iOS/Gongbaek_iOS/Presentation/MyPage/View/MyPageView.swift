@@ -33,6 +33,7 @@ struct MyPageView: View {
         }
         .onAppear {
             viewModel.getMyProfile()
+            viewModel.getMeetings()
         }
     }
 }
