@@ -55,7 +55,7 @@ struct AddMeetingView: View {
                     
                     BasicButton(
                         text: isLastStep ? "등록하기" : "다음",
-                        isActivated: viewModel.isNextEnabled
+                        isActivated: viewModel.isNextButtonEnabled()
                     ) {
                         if isLastStep {
                             viewModel.postMeeting()

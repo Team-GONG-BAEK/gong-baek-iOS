@@ -12,59 +12,23 @@ class AddMeetingViewModel: ObservableObject {
     let totalSteps: Int = 8
     
     @Published var currentIndex: Int = 0
-    
-    @Published var isNextEnabled: Bool = false
-    
-    @Published var selectedCycle: CycleState? = nil {
-        didSet { updateNextButtonState() }
-    }
-    
+    @Published var selectedCycle: CycleState? = nil
     @Published var selectedWeekDate: Date? = nil {
         didSet {
             updateSelectedWeekDay()
-            updateNextButtonState()
         }
     }
-    
-    @Published var selectedWeekDay: WeekDay? = nil {
-        didSet { updateNextButtonState() }
-    }
-    
-    @Published var selectedCategory: CategoryState? = nil {
-        didSet { updateNextButtonState() }
-    }
-    
-    @Published var selectedCoverIndex: Int? = nil {
-        didSet { updateNextButtonState() }
-    }
-    
+    @Published var selectedWeekDay: WeekDay? = nil
+    @Published var selectedCategory: CategoryState? = nil
+    @Published var selectedCoverIndex: Int? = nil
     @Published var timeTable: [TimeTableModel] = []
-    @Published var selectedCells: Set<TimeTableCellId> = [] {
-        didSet { updateNextButtonState() }
-    }
-    
-    @Published var selectedTimeRange: (start: Double, end: Double) = (0, 0) {
-        didSet {
-            updateNextButtonState()
-        }
-    }
-    
-    @Published var location: String = "" {
-        didSet { updateNextButtonState() }
-    }
-    
+    @Published var selectedCells: Set<TimeTableCellId> = []
+    @Published var selectedTimeRange: (start: Double, end: Double) = (0, 0)
+    @Published var location: String = ""
     @Published var maxPeopleCount: Int = 2
-    
-    @Published var title: String = "" {
-        didSet { updateNextButtonState() }
-    }
-    
-    @Published var introduction: String = "" {
-        didSet { updateNextButtonState() }
-    }
-    
+    @Published var title: String = ""
+    @Published var introduction: String = ""
     @Published var isSuccessGetData: Bool = true
-    
     @Published var retryCount = 0 {
         didSet {
             if retryCount > 3 {
@@ -83,10 +47,9 @@ class AddMeetingViewModel: ObservableObject {
     }
     
     func goToNextPage() {
-        if isNextEnabled && currentIndex < totalSteps - 1 {
+        if isNextButtonEnabled() && currentIndex < totalSteps - 1 {
             resetValuesForNextPage()
             currentIndex += 1
-            DispatchQueue.main.async { self.updateNextButtonState() }
         }
     }
     
@@ -96,58 +59,52 @@ class AddMeetingViewModel: ObservableObject {
         selectedCycle = nil
     }
     
-    func updateNextButtonState() {
-        switch self.currentIndex {
+    func isNextButtonEnabled() -> Bool {
+        switch currentIndex {
         case 0:
-            self.isNextEnabled = self.selectedCycle != nil
+            return selectedCycle != nil
         case 1:
-            self.isNextEnabled = self.selectedCycle == .once
-            ? self.selectedWeekDate != nil
-            : self.selectedWeekDay != nil
+            return selectedCycle == .once
+            ? selectedWeekDate != nil
+            : selectedWeekDay != nil
         case 2:
-            self.isNextEnabled = self.selectedTimeRange.start > 0 && self.selectedTimeRange.end > self.selectedTimeRange.start
+            return selectedTimeRange.start > 0 && selectedTimeRange.end > selectedTimeRange.start
         case 3:
-            self.isNextEnabled = self.selectedCategory != nil
+            return selectedCategory != nil
         case 4:
-            self.isNextEnabled = self.selectedCoverIndex != nil
+            return selectedCoverIndex != nil
         case 5:
-            self.isNextEnabled = self.location.count >= 2
+            return location.count >= 2
         case 6:
-            self.isNextEnabled = self.title.count >= 2
+            return title.count >= 2
         case 7:
-            self.isNextEnabled = true
+            return true
         default:
-            self.isNextEnabled = false
+            return false
         }
     }
     
     func resetValuesForNextPage() {
         switch self.currentIndex {
         case 0:
-            self.selectedWeekDate = nil
-            self.selectedWeekDay = nil
-            
+            selectedWeekDate = nil
+            selectedWeekDay = nil
         case 1:
-            self.selectedTimeRange = (0, 0)
-            self.selectedCells = Set([])
-            
+            selectedTimeRange = (0, 0)
+            selectedCells = Set([])
         case 2:
-            self.selectedCategory = nil
-            
+            selectedCategory = nil
         case 3:
-            self.selectedCoverIndex = nil
-            
+            selectedCoverIndex = nil
         case 4:
-            self.location = ""
-            
+            location = ""
+            maxPeopleCount = 2
         case 5:
-            self.title = ""
-            self.introduction = ""
-            
+            title = ""
+            introduction = ""
         default:
             break
         }
-        DispatchQueue.main.async { self.updateNextButtonState() }
     }
     
     func updateSelectedWeekDay() {
@@ -296,7 +253,4 @@ class AddMeetingViewModel: ObservableObject {
             introduction: introduction
         )
     }
-    
 }
-
-
