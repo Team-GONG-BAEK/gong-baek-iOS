@@ -14,30 +14,35 @@ struct SchoolMajorSearchView: View {
     
     var body: some View {
         ZStack {
-            VStack(spacing: 0) {
-                searchTextField()
-                
-                if !viewModel.searchWord.isEmpty {
-                    if viewModel.searchResultList.isEmpty {
-                        emptyView()
+            GeometryReader { _ in
+                VStack(spacing: 0) {
+                    searchTextField()
+                    
+                    if !viewModel.searchWord.isEmpty {
+                        if viewModel.searchResultList.isEmpty {
+                            emptyView()
+                        } else {
+                            searchResultListView()
+                        }
+                        
+                        if state == .major {
+                            MajorDirectRegistrationButton(majorName: viewModel.searchWord) {
+                                viewModel.majorName = viewModel.searchWord
+                                navigationManager.dismissPresented()
+                            }
+                            .padding(.horizontal, 16)
+                        }
                     } else {
-                        searchResultListView()
+                        Spacer()
                     }
                     
-                    if state == .major {
-                        MajorDirectRegistrationButton(majorName: viewModel.searchWord) {
-                            viewModel.majorName = viewModel.searchWord
-                            navigationManager.dismissPresented()
-                        }
-                        .padding(.horizontal, 16)
-                    }
-                } else {
-                    Spacer()
+                    applyButton()
                 }
-                
-                applyButton()
+                .customNavigationBar(title: "검색하기", rightButtonType: .x) {
+                    navigationManager.dismissPresented()
+                }
             }
-            .customNavigationBar(title: "검색하기", showXButton: true)
+            .ignoresSafeArea(.keyboard)
             
             if viewModel.showAlert {
                 CustomedAlert(
@@ -51,7 +56,6 @@ struct SchoolMajorSearchView: View {
                 )
             }
         }
-        
     }
     
     private func searchTextField() -> some View {

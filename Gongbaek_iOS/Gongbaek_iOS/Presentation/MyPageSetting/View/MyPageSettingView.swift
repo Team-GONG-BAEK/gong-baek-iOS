@@ -42,6 +42,7 @@ struct MyPageSettingView: View {
                 )
             }
         }
+        .customNavigationBar(viewName: "설정", showBackButton: true)
         .onChange(of: viewModel.isSignedOut) {
             if viewModel.isSignedOut {
                 navigationManager.rootView = .login
