@@ -28,7 +28,11 @@ struct CommentList: View {
                             .frame(minHeight: UIScreen.main.bounds.height * height, alignment: .bottom) // 앱잼을 위해 막 짠 코드..
                     } else {
                         ForEach (comments.indices, id: \.self) { index in
-                            CommentCell(comment: comments[index])
+                            CommentCell(
+                                comment: comments[index],
+                                meetingDetailViewModel: meetingDetailViewModel,
+                                meetingRoomViewModel: meetingRoomViewModel
+                            )
                         }
                     }
                 }

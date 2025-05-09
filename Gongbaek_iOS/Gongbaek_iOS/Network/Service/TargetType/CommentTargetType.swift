@@ -10,6 +10,7 @@ import Moya
 enum CommentTargetType {
     case getComments(isPublic: Bool, groupId: Int, groupType: String)
     case postComment(data: PostCommentRequestBodyDTO)
+    case deleteComment(data: DeleteCommentRequestDTO)
 }
 
 extension CommentTargetType: BaseTargetType {
@@ -18,6 +19,8 @@ extension CommentTargetType: BaseTargetType {
         case .getComments:
             return APIConstants.accessTokenHeader
         case .postComment:
+            return APIConstants.accessTokenHeader
+        case .deleteComment:
             return APIConstants.accessTokenHeader
         }
     }
@@ -28,6 +31,8 @@ extension CommentTargetType: BaseTargetType {
             return "/api/v1/comments"
         case .postComment:
             return "/api/v1/comment"
+        case .deleteComment:
+            return "/api/v1/comment"
         }
     }
     
@@ -37,6 +42,8 @@ extension CommentTargetType: BaseTargetType {
             return .get
         case .postComment:
             return .post
+        case .deleteComment:
+            return .delete
         }
     }
     
@@ -52,6 +59,8 @@ extension CommentTargetType: BaseTargetType {
                 encoding: URLEncoding.queryString
             )
         case .postComment(let data):
+            return .requestJSONEncodable(data)
+        case .deleteComment(let data):
             return .requestJSONEncodable(data)
         }
     }

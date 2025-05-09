@@ -155,4 +155,27 @@ extension MeetingRoomViewModel {
             }
         }
     }
+    
+    func deleteComment(groupId: Int, groupType: String, commentId: Int) {
+        let requestData = DeleteCommentRequestDTO(commentId: commentId)
+        
+        Providers.commentProvider.request(
+            target: .deleteComment(data: requestData),
+            instance: BaseResponse<EmptyResponseDTO>.self) { response in
+            DispatchQueue.main.async {
+                if response.success {
+                    self.isSuccessGetData = true
+                    print("✅ 댓글 삭제 성공!")
+                } else {
+                    self.showErrorAlert = true
+                    self.isSuccessGetData = false
+                    print("❌ 댓글 삭제 실패: \(response.message ?? "알 수 없는 오류")")
+                }
+                
+                self.getComments(groupId: groupId, groupType: groupType) { _ in
+                    print("getComments finished, memberData: \(String(describing: self.commentData))")
+                }
+            }
+        }
+    }
 }

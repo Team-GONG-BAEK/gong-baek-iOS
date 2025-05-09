@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CommentCell: View {
     let comment: Comment
+    var meetingDetailViewModel: MeetingDetailViewModel?
+    var meetingRoomViewModel: MeetingRoomViewModel?
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -18,7 +20,11 @@ struct CommentCell: View {
                         .pretendardFont(.body1_sb_16)
                     comment.isGroupHost ? OwnerChip() : nil
                     Spacer()
-                    comment.isWriter ? DeleteButton() : nil
+                    if comment.isWriter {
+                        DeleteButton {
+                            deleteComment(commentId: comment.commentId)
+                        }
+                    }
                 }
                 .foregroundColor(.grayBlack)
                 .padding(.bottom, 8)
@@ -41,13 +47,29 @@ struct CommentCell: View {
     func divider() -> some View {
         Color.gray02.frame(height: 1)
     }
+    
+    private func deleteComment(commentId: Int) {
+        if let viewModel = meetingDetailViewModel {
+            viewModel.deleteComment(
+                groupId: viewModel.meeting.groupId,
+                groupType: viewModel.meeting.groupType,
+                commentId: commentId
+            )
+        } else if let viewModel = meetingRoomViewModel {
+            viewModel.deleteComment(
+                groupId: viewModel.meetingDetailData?.groupId ?? 0,
+                groupType: viewModel.meetingDetailData?.groupType ?? "",
+                commentId: commentId
+            )
+        }
+    }
 }
 
 struct DeleteButton: View {
+    let action: () -> Void
+    
     var body: some View {
-        Button (action: {
-            print("DeleteButtonTapped")
-        }) {
+        Button(action: action) {
             Image(.icCommentX20)
                 .resizable()
                 .frame(width: 20, height: 20)
