@@ -24,31 +24,29 @@ struct TimeSelect: View {
             }
             .padding(.bottom, 30)
             
-            ScrollView {
-                HStack(spacing: 12) {
-                    Text("나의 시간표")
-                        .font(.pretendard(.body1_b_16))
-                        .foregroundColor(.gray08)
-                    Spacer()
-                    Button(action: {
-                        viewModel.selectedTimeRange = (start: 0, end: 0)
-                        viewModel.selectedCells.removeAll()
-                    }) {
-                        HStack(spacing: 0) {
-                            Text("다시 선택")
-                                .font(.pretendard(.caption2_m_12))
-                                .foregroundColor(.mainOrange)
-                            Image(.icOptionReset18)
-                                .foregroundColor(.mainOrange)
-                                .frame(width: 18, height: 18)
-                        }
+            HStack(spacing: 12) {
+                Text("나의 시간표")
+                    .font(.pretendard(.body1_b_16))
+                    .foregroundColor(.gray08)
+                Spacer()
+                Button(action: {
+                    viewModel.selectedTimeRange = (start: 0, end: 0)
+                    viewModel.selectedCells.removeAll()
+                }) {
+                    HStack(spacing: 0) {
+                        Text("다시 선택")
+                            .font(.pretendard(.caption2_m_12))
+                            .foregroundColor(.mainOrange)
+                        Image(.icOptionReset18)
+                            .foregroundColor(.mainOrange)
+                            .frame(width: 18, height: 18)
                     }
                 }
-                .padding(.bottom, 10)
-                
-                AddMeetingTimeTable(viewModel: viewModel)
-                    .padding(.bottom, 8)
             }
+            .padding(.bottom, 10)
+            
+            AddMeetingTimeTable(viewModel: viewModel)
+                .padding(.bottom, 8)
             
         }
         .padding(.horizontal, 16)
