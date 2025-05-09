@@ -82,7 +82,7 @@ struct SignupView: View {
             }
             
             if viewModel.showAlert {
-                CustomedAlert(
+                GongbaekAlert(
                     alertImage: "img_fail" ,
                     titleText: currentStep == .classTimeTableInput ? "앗! 회원가입에 실패했어요." : "앗! 오류가 발생했어요.",
                     subtitleText: "다시 시도해주세요.",

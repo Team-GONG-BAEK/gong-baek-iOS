@@ -7,16 +7,20 @@
 
 import SwiftUI
 
+enum MeetingDetailAlertType {
+    case apply
+    case recruited
+    case cancel
+    case delete
+    case error(isGetMethod: Bool = true)
+    case fullErrorView
+}
+
 class MeetingDetailViewModel: ObservableObject {
     @Published var meetingDetailData: GetMeetingDetailsResponseDTO? = nil
     @Published var ownerInfoData: GetOwnerInfoResponseDTO? = nil
     @Published var commentData: GetCommentsResponseDTO? = nil
-    @Published var isSuccessGetData: Bool = true
-    @Published var showAlert: Bool = false
-    @Published var showPatchAlert: Bool = false
-    @Published var showDeleteAlert: Bool = false
-    @Published var showErrorAlert: Bool = false
-    @Published var showFullErrorView: Bool = false
+    @Published var alertType: MeetingDetailAlertType? = nil
     
     var isHost: Bool { meetingDetailData?.isHost ?? false }
     var isApply: Bool { meetingDetailData?.isApply ?? false }
@@ -83,10 +87,7 @@ class MeetingDetailViewModel: ObservableObject {
         if isHost {
             return state == .CLOSED
             ? nil
-            : { self.deleteMyMeeting(
-                groupId: self.meetingDetailData?.groupId ?? 0,
-                groupType: self.meetingDetailData?.groupType ?? ""
-            )}
+            : { self.alertType = .delete }
         }
         
         switch state {
@@ -108,9 +109,7 @@ class MeetingDetailViewModel: ObservableObject {
             : {self.postApplyMeeting(
                 groupId: self.meetingDetailData?.groupId ?? 0,
                 groupType: self.meetingDetailData?.groupType ?? ""
-            )
-                self.showAlert = true
-            }
+            )}
         }
     }
 }
@@ -149,10 +148,8 @@ extension MeetingDetailViewModel {
             instance: BaseResponse<GetMeetingDetailsResponseDTO>.self
         ) { response in
             if !response.success {
-                self.showFullErrorView = true
-                self.showErrorAlert = false
+                self.alertType = .fullErrorView
             }
-            print(response)
             self.meetingDetailData = response.data
         }
     }
@@ -167,10 +164,8 @@ extension MeetingDetailViewModel {
             instance: BaseResponse<GetOwnerInfoResponseDTO>.self
         ) { response in
             if !response.success {
-                self.showFullErrorView = true
-                self.showErrorAlert = false
+                self.alertType = .fullErrorView // ⭐️ 이렇게 alert 필요할 때마다 설정해주면 됨
             }
-            print(response)
             self.ownerInfoData = response.data
         }
     }
@@ -180,23 +175,27 @@ extension MeetingDetailViewModel {
             groupId: groupId,
             groupType: groupType
         )
-        
         Providers.meetingDetailProvider.request(
             target: .postApplyMeeting(
                 data: requestData
             ),
             instance: BaseResponse<EmptyResponseDTO>.self
         ) { response in
-            print(requestData)
             DispatchQueue.main.async {
                 if response.success {
-                    self.isSuccessGetData = true
-                    print("✅ 취소 성공!")
+                    self.alertType = .apply
+                    print("✅ 신청 성공!")
                 } else {
-                    self.isSuccessGetData = false
-                    print("❌ 취소 실패: \(response.message ?? "알 수 없는 오류")")
+                    switch response.code {
+                    case 4097:
+                        self.alertType = .recruited
+                        print("⚠️ 신청 불가능한 상태 - 인원마감 (code: 4097)")
+                    default:
+                        self.alertType = .error(isGetMethod: false)
+                        print("❌ 신청 실패: \(response.message ?? "알 수 없는 오류")")
+                    }
                 }
-                self.showAlert = true
+                
                 self.getDetails(groupId: groupId, groupType: groupType) { _ in
                     print("getDetails finished result and data: \(String(describing: self.getDetails))")
                 }
@@ -216,18 +215,13 @@ extension MeetingDetailViewModel {
             ),
             instance: BaseResponse<EmptyResponseDTO>.self
         ) { response in
-            print(requestData)
             DispatchQueue.main.async {
                 if response.success {
-                    self.isSuccessGetData = true
-                    self.showPatchAlert = true
-                    print("✅ 신청 성공!")
+                    self.alertType = .cancel
+                    print("✅ 취소 성공!")
                 } else {
-                    self.showFullErrorView = true
-                    self.showErrorAlert = true
-                    self.isSuccessGetData = false
-                    self.showPatchAlert = false
-                    print("❌ 신청 실패: \(response.message ?? "알 수 없는 오류")")
+                    self.alertType = .error(isGetMethod: false)
+                    print("❌ 취소 실패: \(response.message ?? "알 수 없는 오류")")
                 }
                 self.getDetails(groupId: groupId, groupType: groupType) { _ in
                     print("getDetails finished result and data: \(String(describing: self.getDetails))")
@@ -250,10 +244,9 @@ extension MeetingDetailViewModel {
             instance: BaseResponse<GetCommentsResponseDTO>.self
         ) { response in
             if !response.success {
-                self.showErrorAlert = true
+                self.alertType = .error()
             }
             self.commentData = response.data
-            print(response)
         }
     }
     
@@ -266,14 +259,11 @@ extension MeetingDetailViewModel {
         )
         
         Providers.commentProvider.request(target: .postComment(data: requestData), instance: BaseResponse<EmptyResponseDTO>.self) { response in
-            print(requestData)
             DispatchQueue.main.async {
                 if response.success {
-                    self.isSuccessGetData = true
                     print("✅ 댓글 등록 성공!")
                 } else {
-                    self.isSuccessGetData = false
-                    self.showErrorAlert = false
+                    self.alertType = .error(isGetMethod: false)
                     print("❌ 댓글 등록 실패: \(response.message ?? "알 수 없는 오류")")
                 }
                 self.getComments(groupId: groupId, groupType: groupType) { _ in
@@ -283,7 +273,11 @@ extension MeetingDetailViewModel {
         }
     }
     
-    func deleteMyMeeting(groupId: Int, groupType: String) {
+    func deleteMyMeeting(
+        groupId: Int,
+        groupType: String,
+        completion: @escaping () -> ()
+    ) {
         let requestData = PostApplyMeetingRequestBodyDTO(
             groupId: groupId,
             groupType: groupType
@@ -295,18 +289,15 @@ extension MeetingDetailViewModel {
             ),
             instance: BaseResponse<EmptyResponseDTO>.self
         ) { response in
-            print(requestData)
             DispatchQueue.main.async {
                 if response.success {
-                    self.isSuccessGetData = true
                     print("✅ 삭제 성공!")
+                    completion()
                 } else {
-                    self.isSuccessGetData = false
+                    self.alertType = .error(isGetMethod: false)
                     print("❌ 삭제 실패: \(response.message ?? "알 수 없는 오류")")
                 }
-                self.showDeleteAlert = true
             }
         }
     }
-
 }

@@ -12,7 +12,7 @@ final class MyPageSettingViewModel: ObservableObject {
     @Published var showAlert: Bool = false
     @Published var selectedAction: SettingActionType?
     @Published var isSignedOut: Bool = false
-    
+
     func performAction(_ action: SettingActionType) {
         selectedAction = action
         showAlert = true
@@ -34,8 +34,7 @@ final class MyPageSettingViewModel: ObservableObject {
             }
         }
         
-        selectedAction = nil
-        showAlert = false
+        self.selectedAction = nil
     }
 }
 

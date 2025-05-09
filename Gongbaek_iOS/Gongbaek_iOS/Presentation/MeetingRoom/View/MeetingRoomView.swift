@@ -139,7 +139,7 @@ struct MeetingRoomView: View {
         }
         
         if viewModel.showErrorAlert {
-            CustomedAlert(
+            GongbaekAlert(
                 alertImage: "img_fail" ,
                 titleText: "앗! 데이터를 불러오지 못했어요.",
                 subtitleText: "다시 시도해주세요.",
