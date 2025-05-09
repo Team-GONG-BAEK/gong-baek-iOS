@@ -55,7 +55,7 @@ final class TokenInterceptor: RequestInterceptor {
             instance: BaseResponse<PatchReissueResponse>.self
         ) { response in
             if response.success {
-                print("토큰 재발급 완료 -> 기존 요청 재시도")
+                print("✅ 토큰 재발급 완료 -> 기존 요청 재시도")
                 if let tokenData = response.data {
                     TokenManager.shared.updateToken(tokenData.accessToken, tokenData.refreshToken)
                 }
@@ -63,7 +63,7 @@ final class TokenInterceptor: RequestInterceptor {
             } else {
                 print("🚨 토큰 갱신 실패")
                 TokenManager.shared.clearAll()
-                // 내비게이션 매니저 필요한디... 루트뷰 로그인화면으로 바꿔야 함... 어떻게 가져올까 고민해봐야 할듯 ㅠ
+                NavigationManager.shared.rootView = .login
                 completion(.doNotRetryWithError(error))
             }
         }

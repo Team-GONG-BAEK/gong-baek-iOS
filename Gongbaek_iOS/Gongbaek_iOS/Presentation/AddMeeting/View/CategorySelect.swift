@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CategorySelect: View {
-    @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
     
     private let columns = [

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MeetingDetailView: View {
     @EnvironmentObject var navigationManager: NavigationManager
+    @Environment(\.openURL) private var openURL
     @StateObject var viewModel = MeetingDetailViewModel()
     let groupId: Int
     let groupType: String
@@ -25,8 +26,15 @@ struct MeetingDetailView: View {
                 
                 MeetingDetailSegmentControlBar(viewModel: viewModel)
             }
-            .customNavigationBar(showBackButton: true)
-            
+            .customNavigationBar(
+                viewName: "채우기",
+                showBackButton: true,
+                rightButtonType: .report
+            ) {
+                if let url = URL(string: "https://docs.google.com/forms/d/e/1FAIpQLSeKiXqJWDIPdPJ-dm_amjsSc4jFvzr9PE8ysMykVZih8WZDJw/viewform?usp=sharing") {
+                    openURL(url)
+                }
+            }
             .onAppear {
                 viewModel.fetchAllData(groupId: groupId, groupType: groupType)
             }

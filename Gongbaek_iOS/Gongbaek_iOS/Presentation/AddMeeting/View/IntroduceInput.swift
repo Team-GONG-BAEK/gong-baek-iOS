@@ -10,7 +10,6 @@ import SwiftUI
 import Combine
 
 struct IntroduceInput: View {
-    @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
         
     @State var showError: Bool = false

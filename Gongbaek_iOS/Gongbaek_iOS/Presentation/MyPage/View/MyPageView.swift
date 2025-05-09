@@ -8,26 +8,20 @@
 import SwiftUI
 
 struct MyPageView: View {
-    @StateObject var viewModel = MyPageViewModel()
     @EnvironmentObject var navigationManager: NavigationManager
+    @StateObject var viewModel = MyPageViewModel()
     
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                //임시 버튼
-                Button(action: {
-                    navigationManager.push(view: MyPageDestination.myPageSetting)
-                }) {
-                    Image(.icSetting48)
-                        .resizable()
-                        .frame(width: 48, height: 48)
-                }
-                
                 MyProfile(profile: viewModel.myProfile)
                 Rectangle()
                     .fill(.gray01)
                     .frame(height: 8)
                 MyPageSegmentControlBar(viewModel: viewModel)
+            }
+            .customNavigationBar(title: "마이페이지", rightButtonType: .setting) {
+                navigationManager.push(view: MyPageDestination.myPageSetting)
             }
             
             if viewModel.showAlert {
@@ -37,7 +31,6 @@ struct MyPageView: View {
                 })
             }
         }
-        .customNavigationBar(title: "마이페이지")
         .onAppear {
             viewModel.getMyProfile()
         }
