@@ -52,11 +52,12 @@ struct AgreementView: View {
                     isActivated: isAllChecked,
                     onTap: { navigateToOnboardingView() }
                 )
+                .padding(.bottom, 20)
             }
             .padding(.horizontal, 16)
             .padding(.top, 38)
         }
-        .customNavigationBar(title: "약관 동의", showBackButton: true)
+        .customNavigationBar(viewName: "약관 동의", showBackButton: true)
         .onChange(of: [isTermsSelected, isPrivacySelected]) {
             updateIsChecked()
         }

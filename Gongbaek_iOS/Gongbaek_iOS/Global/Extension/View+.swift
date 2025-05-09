@@ -14,15 +14,18 @@ extension View {
         title: String? = nil,
         viewName: String? = nil,
         showBackButton: Bool = false,
-        showXButton: Bool = false,
-        onBackButtonTap: (() -> Void)? = nil
+        onBackButtonTap: (() -> Void)? = nil,
+        rightButtonType: NavigationBarRightButtonType? = nil,
+        onRightButtonTap: (() -> Void)? = nil
     ) -> some View {
         self.modifier(CustomNavigationBarModifier(
-            isMeetingRoom: isMeetingRoom, title: title,
+            isMeetingRoom: isMeetingRoom,
+            title: title,
             viewName: viewName,
             showBackButton: showBackButton,
-            showXButton: showXButton,
-            onBackButtonTap: onBackButtonTap
+            onBackButtonTap: onBackButtonTap,
+            rightButtonType: rightButtonType,
+            onRightButtonTap: onRightButtonTap
         ))
     }
     
@@ -30,7 +33,6 @@ extension View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
     }
     
-    // 키보드 숨기기 확장 함수
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }

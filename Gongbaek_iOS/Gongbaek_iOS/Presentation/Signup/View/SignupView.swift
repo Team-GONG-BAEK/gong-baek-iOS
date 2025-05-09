@@ -15,49 +15,51 @@ struct SignupView: View {
     
     var body: some View {
         ZStack {
-            VStack(spacing: 0) {
-                if currentStep != .signupCompletion {
-                    ProgressBar(currentIndex: currentStep.rawValue)
-                }
-                
-                /// currentStepIndex에 따라 변경되는 View
-                currentStep.view(
-                    viewModel: viewModel,
-                    navigationManager: navigationManager,
-                    showYearPicker: $showYearPicker
-                )
-                
-                Spacer()
-                
-                BasicButton(
-                    text: currentStep == .signupCompletion
-                    ? "공백 채우러 가기" : (currentStep == .classTimeTableInput ? "가입 완료" : "다음"),
-                    isActivated: viewModel.isNextButtonEnabled(currentStep)
-                ) {
-                    switch currentStep {
-                    case .nicknameSexInput:
-                        validateNickname()
-                    case .classTimeTableInput:
-                        signup()
-                    case .signupCompletion:
-                        goToTabBarView()
-                    default:
-                        goToNextStep()
+            GeometryReader { _ in
+                VStack(spacing: 0) {
+                    if currentStep != .signupCompletion {
+                        ProgressBar(currentIndex: currentStep.rawValue)
                     }
+                    
+                    /// currentStepIndex에 따라 변경되는 View
+                    currentStep.view(
+                        viewModel: viewModel,
+                        navigationManager: navigationManager,
+                        showYearPicker: $showYearPicker
+                    )
+                    
+                    Spacer()
+                    
+                    BasicButton(
+                        text: currentStep == .signupCompletion
+                        ? "공백 채우러 가기" : (currentStep == .classTimeTableInput ? "가입 완료" : "다음"),
+                        isActivated: viewModel.isNextButtonEnabled(currentStep)
+                    ) {
+                        switch currentStep {
+                        case .nicknameSexInput:
+                            validateNickname()
+                        case .classTimeTableInput:
+                            signup()
+                        case .signupCompletion:
+                            goToTabBarView()
+                        default:
+                            goToNextStep()
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 20)
                 }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 20)
-            }
-            
-            .onTapGesture {
-                hideKeyboard()
-            }
-            .customNavigationBar(
-                showBackButton: !(currentStep == .signupCompletion),
-                onBackButtonTap: {
-                    goBackToPreviousStep()
+                .onTapGesture {
+                    hideKeyboard()
                 }
-            )
+                .customNavigationBar(
+                    showBackButton: currentStep != .signupCompletion,
+                    onBackButtonTap: {
+                        goBackToPreviousStep()
+                    }
+                )
+            }
+            .ignoresSafeArea(.keyboard)
             
             if showYearPicker {
                 ZStack {

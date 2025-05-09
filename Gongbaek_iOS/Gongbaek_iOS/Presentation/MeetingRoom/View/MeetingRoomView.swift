@@ -10,7 +10,6 @@ import SwiftUI
 import Combine
 
 struct MeetingRoomView: View {
-    @EnvironmentObject var navigationManager: NavigationManager
     @StateObject var viewModel: MeetingRoomViewModel
     let groupId: Int
     let groupType: String

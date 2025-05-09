@@ -15,20 +15,6 @@ struct AddMeetingView: View {
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 0) {
-                HStack {
-                    Button(action: {
-                        if viewModel.currentIndex == 0 {
-                            navigationManager.pop()
-                        } else {
-                            viewModel.currentIndex -= 1
-                        }
-                    }) {
-                        Image(.icArrowLeft48)
-                            .foregroundColor(.gray04)
-                            .frame(width: 48, height: 48)
-                    }
-                }
-                
                 ProgressBar(currentIndex: viewModel.currentIndex)
                     .padding(.bottom, 40)
                 
@@ -74,6 +60,12 @@ struct AddMeetingView: View {
                 .padding(.vertical, 20)
                 .padding(.horizontal, 16)
             }
+            .customNavigationBar(
+                showBackButton: true,
+                onBackButtonTap: {
+                    goBackToPreviousStep()
+                }
+            )
             
             let image = viewModel.isSuccessGetData ? "img_success" : "img_fail"
             
@@ -97,6 +89,17 @@ struct AddMeetingView: View {
         .ignoresSafeArea(.keyboard)
         .onAppear {
             viewModel.getTimeTable()
+        }
+    }
+}
+
+extension AddMeetingView {
+    
+    private func goBackToPreviousStep() {
+        if viewModel.currentIndex == 0 {
+            navigationManager.pop()
+        } else {
+            viewModel.currentIndex -= 1
         }
     }
 }

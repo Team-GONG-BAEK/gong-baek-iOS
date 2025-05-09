@@ -10,7 +10,6 @@ import SwiftUI
 import Combine
 
 struct LocationInput: View {
-    @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var viewModel: AddMeetingViewModel
         
     @State private var location: String = ""

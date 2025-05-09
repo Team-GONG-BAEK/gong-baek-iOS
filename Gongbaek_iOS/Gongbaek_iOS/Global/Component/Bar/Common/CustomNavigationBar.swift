@@ -7,15 +7,29 @@
 
 import SwiftUI
 
+enum NavigationBarRightButtonType {
+    case x
+    case setting
+    case report
+    
+    var image: ImageResource {
+        switch self {
+        case .x: .icX48
+        case .setting: .icSetting48
+        case .report: .icReport48
+        }
+    }
+}
+
 struct CustomNavigationBarModifier: ViewModifier {
     @EnvironmentObject var navigationManager: NavigationManager
-    @Environment(\.dismiss) private var dismiss
     let isMeetingRoom: Bool
     let title: String?
     let viewName: String?
     let showBackButton: Bool
-    let showXButton: Bool
     let onBackButtonTap: (() -> Void)?
+    let rightButtonType: NavigationBarRightButtonType?
+    let onRightButtonTap: (() -> Void)?
     
     func body(content: Content) -> some View {
         if isMeetingRoom == true {
@@ -31,10 +45,9 @@ struct CustomNavigationBarModifier: ViewModifier {
                     .frame(height: 48)
                     .background(.clear)
                 }
-                
             }
         } else {
-            VStack {
+            VStack(spacing: 0) {
                 VStack(spacing: 0) {
                     ZStack {
                         leftRightButtons()
@@ -60,7 +73,7 @@ struct CustomNavigationBarModifier: ViewModifier {
                         navigationManager.pop()
                     }
                 }) {
-                    HStack(spacing: 4) {
+                    HStack(alignment: .center, spacing: 4) {
                         Image(.icArrowLeft48)
                             .frame(width: 48, height: 48)
                         if let viewName = viewName {
@@ -74,9 +87,10 @@ struct CustomNavigationBarModifier: ViewModifier {
             
             Spacer()
             
-            if showXButton {
-                Button(action: { dismiss() }) {
-                    Image(.icX48)
+            if let rightButtonType,
+               let onRightButtonTap {
+                Button(action: { onRightButtonTap() }) {
+                    Image(rightButtonType.image)
                         .frame(width: 48, height: 48)
                 }
             }
