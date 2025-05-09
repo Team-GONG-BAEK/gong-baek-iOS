@@ -183,8 +183,8 @@ class AddMeetingViewModel: ObservableObject {
     func getFormattedDateTime() -> String {
         guard let selectedCycle = selectedCycle else { return "날짜와 시간을 선택해주세요." }
         
-        let startHour = Int(selectedTimeRange.start)
-        let endHour = Int(selectedTimeRange.end)
+        let startTime = Date.formatTime(selectedTimeRange.start)
+        let endTime = Date.formatTime(selectedTimeRange.end)
         
         if selectedCycle == .once {
             guard let selectedDate = selectedWeekDate else { return "날짜 선택 필요" }
@@ -194,11 +194,11 @@ class AddMeetingViewModel: ObservableObject {
             dateFormatter.locale = Locale(identifier: "ko_KR")
             
             let formattedDate = dateFormatter.string(from: selectedDate)
-            return "\(formattedDate) \(startHour)시 - \(endHour)시"
+            return "\(formattedDate) \(startTime) - \(endTime)"
             
         } else if selectedCycle == .weekly {
             guard let selectedWeekDay = selectedWeekDay else { return "요일 선택 필요" }
-            return "매주 \(selectedWeekDay.rawValue) \(startHour)시 - \(endHour)시"
+            return "매주 \(selectedWeekDay.rawValue) \(startTime) - \(endTime)"
         }
         
         return "날짜와 시간을 선택해주세요."
