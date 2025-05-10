@@ -19,43 +19,13 @@ struct MeetingRoomView: View {
             VStack(spacing: 0) {
                 ScrollView(.vertical) {
                     VStack(spacing: 0) {
-                        Group {
-                            if let data = viewModel.meetingDetailData,
-                               let category = CategoryState(data.category) {
-                                Image(category.coverImage[data.coverImg])
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(height: 232)
-                                    .clipped()
-                                    .overlay(
-                                        Rectangle()
-                                            .fill(Color.grayBlack.opacity(0.5))
-                                            .frame(height: 232),
-                                        alignment: .center
-                                    )
-                            }
-                            else { Image(.sample)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(height: 232)
-                                    .clipped()
-                            }
-                        }
+                        headerCoverImage()
                         .overlay(
                             VStack(alignment: .leading, spacing: 0) {
-                                HStack(spacing: 5) {
-                                    ForEach(viewModel.meetingStates.indices, id: \.self) { index in
-                                        MeetingChip(state: viewModel.meetingStates[index])
-                                    }
-                                }
-                                .padding(.top, geometry.safeAreaInsets.top + 48 + 18)
+                                meetingChips()
+                                    .padding(.top, geometry.safeAreaInsets.top + 48 + 18)
                                 
-                                Text(viewModel.groupTitle)
-                                    .pretendardFont(.title1_b_20)
-                                    .foregroundColor(.grayWhite)
-                                    .lineLimit(nil)
-                                    .padding(.top, 6)
-                                    .padding(.bottom, 12)
+                                meetingTitle()
                                 
                                 TimeBox(
                                     state: .white,
@@ -71,41 +41,13 @@ struct MeetingRoomView: View {
                                 
                                 LocationBox(state: .white, text: viewModel.location, font: .pretendard(.caption2_r_12))
                             }
-                                .padding(.horizontal, 16)
-                                .padding(.bottom, 16)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        )
-                        VStack(alignment: .leading, spacing: 0) {
-                            HStack {
-                                Image(.icPeople18)
-                                    .resizable()
-                                    .frame(width: 18, height: 18)
-                                    .foregroundStyle(.gray06)
-                                
-                                Text(viewModel.memberCount)
-                                    .pretendardFont(.title2_sb_18)
-                                    .foregroundStyle(.gray10)
-                            }
-                            .padding(.top, 16)
-                            .padding(.bottom, 12)
                             .padding(.horizontal, 16)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                        
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 6) {
-                                if let memberData = viewModel.memberData {
-                                    ForEach(memberData.members.indices, id: \.self) { index in
-                                        MemberProfileBox(memberData: memberData.members[index])
-                                    }
-                                }
-                            }
-                            .padding(.horizontal, 9)
                             .padding(.bottom, 16)
-                        }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        )
                         
+                        meetingMembers()
                         divider()
-                        
                         viewModel.isCommentDisabled ? CommentDisabledBox() : nil
                     }
                     
@@ -120,7 +62,6 @@ struct MeetingRoomView: View {
                 .ignoresSafeArea()
                 
                 viewModel.isCommentDisabled ? nil : CommentTextField(meetingRoomViewModel: viewModel)
-                    .padding(0)
             }
             .customNavigationBar(isMeetingRoom: true, showBackButton: true)
             .onTapGesture {
@@ -149,6 +90,89 @@ struct MeetingRoomView: View {
                     }
                 )
             }
+        }
+    }
+}
+
+private extension MeetingRoomView {
+    
+    func headerCoverImage() -> some View {
+        Group {
+            if let data = viewModel.meetingDetailData,
+               let category = CategoryState(data.category) {
+                Image(category.coverImage[data.coverImg])
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 232)
+                    .clipped()
+                    .overlay(
+                        Rectangle()
+                            .fill(Color.grayBlack.opacity(0.5))
+                            .frame(height: 232),
+                        alignment: .center
+                    )
+            }
+            else {
+                Image(.sample)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 232)
+                    .clipped()
+            }
+        }
+    }
+    
+    func meetingChips() -> some View {
+        HStack(spacing: 5) {
+            ForEach(viewModel.meetingStates.indices, id: \.self) { index in
+                MeetingChip(state: viewModel.meetingStates[index])
+            }
+        }
+    }
+    
+    func meetingTitle() -> some View {
+        Text(viewModel.groupTitle)
+            .pretendardFont(.title1_b_20)
+            .foregroundColor(.grayWhite)
+            .lineLimit(nil)
+            .padding(.top, 6)
+            .padding(.bottom, 12)
+    }
+    
+    func meetingMembers() -> some View {
+        VStack(spacing: 0) {
+            memberTitle()
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 6) {
+                    if let memberData = viewModel.memberData {
+                        ForEach(memberData.members.indices, id: \.self) { index in
+                            MemberProfileBox(memberData: memberData.members[index])
+                        }
+                    }
+                }
+                .padding(.horizontal, 9)
+                .padding(.bottom, 16)
+            }
+        }
+    }
+    
+    func memberTitle() -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                Image(.icPeople18)
+                    .resizable()
+                    .frame(width: 18, height: 18)
+                    .foregroundStyle(.gray06)
+                
+                Text(viewModel.memberCount)
+                    .pretendardFont(.title2_sb_18)
+                    .foregroundStyle(.gray10)
+            }
+            .padding(.top, 16)
+            .padding(.bottom, 12)
+            .padding(.horizontal, 16)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
     
