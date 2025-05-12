@@ -63,7 +63,10 @@ struct MeetingRoomView: View {
                 
                 viewModel.isCommentDisabled ? nil : CommentTextField(meetingRoomViewModel: viewModel)
             }
-            .customNavigationBar(isMeetingRoom: true, showBackButton: true)
+            .customNavigationBar(
+                isMeetingRoom: viewModel.showFullErrorView ? false : true,
+                showBackButton: true
+            )
             .onTapGesture {
                 hideKeyboard()
             }
@@ -76,7 +79,10 @@ struct MeetingRoomView: View {
                     viewModel.showFullErrorView = false
                     viewModel.fetchAllData(groupId: groupId, groupType: groupType)
                 })
-                .customNavigationBar(showBackButton: true)
+                .customNavigationBar(
+                    viewName: viewModel.showFullErrorView ? "스페이스" : nil,
+                    showBackButton: true
+                )
             }
             
             if viewModel.showErrorAlert {
