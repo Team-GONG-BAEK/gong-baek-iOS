@@ -12,7 +12,7 @@ enum MeetingDetailAlertType {
     case recruited
     case cancel
     case delete
-    case error(isGetMethod: Bool = true)
+    case error
     case fullErrorView
 }
 
@@ -191,7 +191,7 @@ extension MeetingDetailViewModel {
                         self.alertType = .recruited
                         print("⚠️ 신청 불가능한 상태 - 인원마감 (code: 4097)")
                     default:
-                        self.alertType = .error(isGetMethod: false)
+                        self.alertType = .error
                         print("❌ 신청 실패: \(response.message ?? "알 수 없는 오류")")
                     }
                 }
@@ -220,7 +220,7 @@ extension MeetingDetailViewModel {
                     self.alertType = .cancel
                     print("✅ 취소 성공!")
                 } else {
-                    self.alertType = .error(isGetMethod: false)
+                    self.alertType = .error
                     print("❌ 취소 실패: \(response.message ?? "알 수 없는 오류")")
                 }
                 self.getDetails(groupId: groupId, groupType: groupType) { _ in
@@ -263,7 +263,7 @@ extension MeetingDetailViewModel {
                 if response.success {
                     print("✅ 댓글 등록 성공!")
                 } else {
-                    self.alertType = .error(isGetMethod: false)
+                    self.alertType = .error
                     print("❌ 댓글 등록 실패: \(response.message ?? "알 수 없는 오류")")
                 }
                 self.getComments(groupId: groupId, groupType: groupType) { _ in
@@ -284,9 +284,7 @@ extension MeetingDetailViewModel {
         )
         
         Providers.meetingDetailProvider.request(
-            target: .deleteMyMeeting(
-                data: requestData
-            ),
+            target: .deleteMyMeeting(data: requestData),
             instance: BaseResponse<EmptyResponseDTO>.self
         ) { response in
             DispatchQueue.main.async {
@@ -294,7 +292,7 @@ extension MeetingDetailViewModel {
                     print("✅ 삭제 성공!")
                     completion()
                 } else {
-                    self.alertType = .error(isGetMethod: false)
+                    self.alertType = .error
                     print("❌ 삭제 실패: \(response.message ?? "알 수 없는 오류")")
                 }
             }
@@ -306,12 +304,13 @@ extension MeetingDetailViewModel {
         
         Providers.commentProvider.request(
             target: .deleteComment(data: requestData),
-            instance: BaseResponse<EmptyResponseDTO>.self) { response in
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
             DispatchQueue.main.async {
                 if response.success {
                     print("✅ 댓글 삭제 성공!")
                 } else {
-                    self.alertType = .error(isGetMethod: false)
+                    self.alertType = .error
                     print("❌ 댓글 삭제 실패: \(response.message ?? "알 수 없는 오류")")
                 }
                 
