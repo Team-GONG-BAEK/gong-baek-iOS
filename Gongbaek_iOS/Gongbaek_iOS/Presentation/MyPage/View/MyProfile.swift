@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct MyProfile: View {
-    var profile: GetMyProfileResponseDTO?
+    var profile: GetMyProfileResponseDTO
     
     var body: some View {
         HStack(spacing: 14) {
-            let imageIndex = profile?.profileImg  ?? 0
+            let imageIndex = profile.profileImg
             let profileImage = ProfileDefaultImageMap(rawValue: imageIndex)?.image ?? .imgProfileDefault0
             
             Image(profileImage)
@@ -24,10 +24,10 @@ struct MyProfile: View {
                 .cornerRadius(2)
             
             VStack(alignment: .leading, spacing: 0) {
-                Text(profile?.nickname ?? "이름 없음")
+                Text(profile.nickname)
                     .pretendardFont(.title1_m_20)
                     .foregroundColor(.grayBlack)
-                Text("\(profile?.schoolName ?? "학교 정보 없음") | \(profile?.majorName ?? "학과 정보 없음")")
+                Text("\(profile.schoolName) | \(profile.majorName)")
                     .pretendardFont(.body2_r_14)
                     .foregroundColor(.gray08)
             }
