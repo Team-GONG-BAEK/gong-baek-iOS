@@ -28,7 +28,6 @@ class AddMeetingViewModel: ObservableObject {
     @Published var maxPeopleCount: Int = 2
     @Published var title: String = ""
     @Published var introduction: String = ""
-    @Published var isSuccessGetData: Bool = true
     @Published var retryCount = 0 {
         didSet {
             if retryCount > 3 {
@@ -217,24 +216,19 @@ class AddMeetingViewModel: ObservableObject {
         }
     }
     
-    func postMeeting() {
+    func postMeeting(completion: @escaping (Bool) -> ()) {
         guard selectedCoverIndex != nil else { return }
-        
         let requestData = makeMeetingModel()
-        
         print("🛠️ 최종 weekDate 값: \(requestData.weekDate)")
         
         Providers.fillingProvider.request(target: .postMeeting(data: requestData), instance: BaseResponse<EmptyResponseDTO>.self) { response in
-            print(requestData)
-            DispatchQueue.main.async {
-                if response.success {
-                    self.isSuccessGetData = true
-                    self.retryCount = 0 // 성공 시 횟수 초기화
-                    print("✅ 모임 등록 성공!")
-                } else {
-                    self.isSuccessGetData = false
-                }
+            if response.success {
+                self.retryCount = 0
+                print("✅ 모임 등록 성공!")
+            } else {
+                print("❌ 모임 등록 실패")
             }
+            completion(response.success)
         }
     }
     

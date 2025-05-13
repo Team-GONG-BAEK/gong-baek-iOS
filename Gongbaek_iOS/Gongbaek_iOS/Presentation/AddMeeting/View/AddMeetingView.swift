@@ -11,7 +11,7 @@ struct AddMeetingView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @StateObject var viewModel: AddMeetingViewModel
     @StateObject private var keyboard = KeyboardObserver()
-    @State private var showAlert: Bool = false
+    @State private var alertState: Bool? = nil
     
     var body: some View {
         ZStack {
@@ -50,7 +50,6 @@ struct AddMeetingView: View {
                     
                     Spacer()
                     
-                    // ✅ 버튼 동적 변경을 위한 변수 추가
                     let isLastStep = viewModel.currentIndex == viewModel.totalSteps - 1
                     
                     BasicButton(
@@ -58,8 +57,9 @@ struct AddMeetingView: View {
                         isActivated: viewModel.isNextButtonEnabled()
                     ) {
                         if isLastStep {
-                            viewModel.postMeeting()
-                            showAlert = true
+                            viewModel.postMeeting() { isSuccess in
+                                alertState = isSuccess
+                            }
                         } else {
                             viewModel.goToNextPage()
                         }
@@ -75,16 +75,14 @@ struct AddMeetingView: View {
                     }
                 )
                 
-                let image = viewModel.isSuccessGetData ? "img_success" : "img_fail"
-                
-                if showAlert {
+                if let isSuccess = alertState {
                     GongbaekAlert(
-                        alertImage: image ,
-                        titleText: viewModel.isSuccessGetData ? "모임 등록이 완료됐어요!" : "모임 등록에 실패했어요!",
+                        alertImage: isSuccess ? "img_success" : "img_fail",
+                        titleText: isSuccess ? "모임 등록이 완료됐어요!" : "모임 등록에 실패했어요!",
                         orangeButtonText: "확인",
                         onTapOrangeButton: {
-                            showAlert = false
-                            if viewModel.isSuccessGetData {
+                            alertState = nil
+                            if isSuccess {
                                 navigationManager.popToRoot()
                                 navigationManager.selectedTab = .filling
                             } else {
