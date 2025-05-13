@@ -39,7 +39,7 @@ class LoginViewModel: NSObject, ObservableObject {
             self.isSignedIn = true
             
             DispatchQueue.main.async {
-                if let userId = data.userId {
+                if data.userId != nil {
                     // 기존 유저 -> 토큰 저장 후 main으로
                     TokenManager.shared.updateToken(data.accessToken, data.refreshToken)
                     self.loginFlow = .existingUser
