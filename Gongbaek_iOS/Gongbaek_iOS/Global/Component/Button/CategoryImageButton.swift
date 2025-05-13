@@ -17,23 +17,24 @@ struct CategoryImageButton: View {
             onTap?()
         }) {
             VStack(spacing: 10) {
-                if let image = category.categoryImage { image
+                if let image = category.categoryImage {
+                    let size = 78/812 * UIScreen.main.bounds.height
+                    image
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 78, height: 78)
+                        .frame(width: size, height: size)
                 }
                 
                 Text(category.categoryName)
                     .font(.pretendard(.body1_m_16))
                     .foregroundColor(.gray08)
             }
-            .frame(maxWidth: .infinity, minHeight: 120)
+            .buttonStyle(PlainButtonStyle())
+            .frame(maxWidth: .infinity)
             .padding(.vertical, 15)
             .background(isSelected ? .subOrange : .gray01)
             .clipShape(RoundedRectangle(cornerRadius: 5))
         }
-        .buttonStyle(PlainButtonStyle())
-        .frame(maxWidth: .infinity, minHeight: 120)
     }
 }
 

@@ -34,5 +34,3 @@ struct CategorySelect: View {
         .padding(.horizontal, 16)
     }
 }
-
-
