@@ -119,11 +119,9 @@ private extension MeetingRoomView {
                     )
             }
             else {
-                Image(.sample)
-                    .resizable()
-                    .scaledToFill()
+                Rectangle()
+                    .fill(.gray01)
                     .frame(height: 232)
-                    .clipped()
             }
         }
     }
