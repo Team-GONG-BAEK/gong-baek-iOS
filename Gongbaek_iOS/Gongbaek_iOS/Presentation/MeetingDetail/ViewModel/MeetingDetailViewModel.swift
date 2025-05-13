@@ -164,7 +164,7 @@ extension MeetingDetailViewModel {
             instance: BaseResponse<GetOwnerInfoResponseDTO>.self
         ) { response in
             if !response.success {
-                self.alertType = .fullErrorView // ⭐️ 이렇게 alert 필요할 때마다 설정해주면 됨
+                self.alertType = .fullErrorView
             }
             self.ownerInfoData = response.data
         }

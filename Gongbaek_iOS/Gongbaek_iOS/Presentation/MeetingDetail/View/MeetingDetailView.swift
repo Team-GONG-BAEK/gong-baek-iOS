@@ -124,7 +124,10 @@ extension MeetingDetailView {
                 viewModel.alertType = nil
                 viewModel.fetchAllData(groupId: groupId, groupType: groupType)
             })
-            .customNavigationBar(showBackButton: true)
+            .customNavigationBar(
+                viewName: "채우기",
+                showBackButton: true
+            )
         }
     }
 }
