@@ -50,7 +50,7 @@ struct CommentTextField: View {
                     .scaledToFit()
                     .frame(width: 24, height: 24)
             }
-            .disabled(comment.isEmpty)
+            .disabled(comment.isEmpty || isWhiteSpaceText(comment))
             .padding(.bottom, 12)
             .padding(.trailing, 12)
             .foregroundStyle(.mainOrange)
@@ -63,5 +63,9 @@ struct CommentTextField: View {
         .padding(.vertical, 10)
         .padding(.horizontal, 16)
         .background(.grayWhite)
+    }
+    
+    func isWhiteSpaceText(_ text: String) -> Bool {
+        return text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 }
