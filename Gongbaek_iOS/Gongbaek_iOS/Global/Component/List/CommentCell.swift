@@ -16,7 +16,7 @@ struct CommentCell: View {
         ZStack(alignment: .bottom) {
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .center, spacing: 6) {
-                    Text(comment.nickname)
+                    Text(comment.nickname ?? "알 수 없음")
                         .pretendardFont(.body1_sb_16)
                     comment.isGroupHost ? OwnerChip() : nil
                     Spacer()

@@ -19,7 +19,7 @@ struct Comment: Codable {
     var commentId: Int
     var isWriter: Bool
     var isGroupHost: Bool
-    var nickname: String
+    var nickname: String?
     var body: String
     var createdAt: String
 }
