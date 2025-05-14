@@ -10,19 +10,24 @@ import SwiftUI
 struct ApplyBar: View {
     @ObservedObject var viewModel: MeetingDetailViewModel
     
-    
     var body: some View {
         HStack(spacing: 16) {
-            Text("\(viewModel.meetingDetailData?.currentPeopleCount ?? 0) / \(viewModel.meetingDetailData?.maxPeopleCount ?? 0) 명")
-                .pretendardFont(.title2_sb_18)
-                .padding(16)
-                .foregroundStyle(viewModel.isActivated ? .gray01 : .grayWhite)
-                .background(
-                    RoundedRectangle(cornerRadius: 6)
-                        .fill(viewModel.isActivated ? .gray09 : .gray04)
+            if let data = viewModel.meetingDetailData {
+                Text("\(data.currentPeopleCount) / \(data.maxPeopleCount) 명")
+                    .pretendardFont(.title2_sb_18)
+                    .padding(16)
+                    .foregroundStyle(viewModel.isActivated(for: data) ? .gray01 : .grayWhite)
+                    .background(
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(viewModel.isActivated(for: data) ? .gray09 : .gray04)
+                    )
+                
+                BasicButton(
+                    text: viewModel.buttonText(for: data),
+                    isActivated: viewModel.isActivated(for: data),
+                    onTap: viewModel.buttonAction(for: data)
                 )
-            
-            BasicButton(text: viewModel.buttonText, isActivated: viewModel.isActivated, onTap: viewModel.buttonAction)
+            }
         }
         .padding(.vertical, 20)
         .padding(.horizontal, 16)

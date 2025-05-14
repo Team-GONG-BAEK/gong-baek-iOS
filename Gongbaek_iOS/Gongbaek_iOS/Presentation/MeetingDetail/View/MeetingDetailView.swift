@@ -17,10 +17,10 @@ struct MeetingDetailView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                if let meetingData = viewModel.meeting {
+                if let meetingData = viewModel.meetingDetailData {
                     MeetingInfoBase(
                         state: .detail,
-                        meeting: meetingData
+                        meeting: viewModel.meeting(for: meetingData)
                     )
                     .padding(16)
                 }
