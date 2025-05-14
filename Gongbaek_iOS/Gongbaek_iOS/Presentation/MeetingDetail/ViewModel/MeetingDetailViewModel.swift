@@ -51,9 +51,9 @@ class MeetingDetailViewModel: ObservableObject {
         case .CLOSED:
             return "종료된 모임입니다."
         case .RECRUITED:
-            return  meetingDetailData.isApply ? "취소하기" : "인원 마감"
+            return  meetingDetailData.isApply ? "신청 취소하기" : "인원 마감"
         case .RECRUITING:
-            return meetingDetailData.isApply ? "취소하기" : "신청하기"
+            return meetingDetailData.isApply ? "신청 취소하기" : "신청하기"
         }
     }
     
