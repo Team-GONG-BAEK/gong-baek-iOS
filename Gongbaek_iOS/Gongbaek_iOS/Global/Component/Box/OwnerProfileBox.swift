@@ -16,13 +16,8 @@ struct OwnerProfileBox: View {
                 if let image = ProfileDefaultImageMap.init(rawValue: (ownerInfoData.profileImg))?.image {
                     Image(image)
                         .resizable()
-                        .padding(8)
-                        .background(.grayWhite)
+                        .scaledToFill()
                         .frame(width: 80, height: 80)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 2)
-                                .stroke(.gray02, lineWidth: 1)
-                        )
                 }
                 VStack(alignment: .leading, spacing: 6) {
                     HStack(spacing: 4) {

@@ -165,14 +165,14 @@ private extension MeetingRoomView {
             memberTitle(current, max)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 6) {
+                HStack(spacing: 0) {
                     if let memberData = viewModel.memberData {
                         ForEach(memberData.members.indices, id: \.self) { index in
                             MemberProfileBox(memberData: memberData.members[index])
                         }
                     }
                 }
-                .padding(.horizontal, 9)
+                .padding(.horizontal, 7)
                 .padding(.bottom, 16)
             }
         }
