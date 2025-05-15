@@ -22,36 +22,6 @@ final class MeetingRoomViewModel: ObservableObject {
         ].compactMap { $0 }
     }
     
-    var groupTitle: String {
-        meetingDetailData?.groupTitle ?? ""
-    }
-    
-    var weekDay: String {
-        meetingDetailData?.weekDay ?? ""
-    }
-    
-    var weekDate: String? {
-        meetingDetailData?.weekDate ?? nil
-    }
-    
-    var startTime: Double {
-        meetingDetailData?.startTime ?? 0
-    }
-    
-    var endTime: Double {
-        meetingDetailData?.endTime ?? 0
-    }
-    
-    var location: String {
-        meetingDetailData?.location ?? ""
-    }
-    
-    var memberCount: String {
-        let current = meetingDetailData?.currentPeopleCount ?? 0
-        let max = meetingDetailData?.maxPeopleCount ?? 0
-        return "멤버 (\(current)/\(max)명)"
-    }
-    
     var isCommentDisabled: Bool {
         RecruitingState(commentData?.groupStatus) == .CLOSED
     }
