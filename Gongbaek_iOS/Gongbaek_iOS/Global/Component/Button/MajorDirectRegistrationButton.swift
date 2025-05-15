@@ -24,7 +24,6 @@ struct MajorDirectRegistrationButton: View {
                     Text("(으)로 직접 등록할래요")
                         .pretendardFont(.caption2_m_12)
                         .foregroundColor(.gray08)
-                        .font(.headline)
                     
                     Image(.icPlusBlack18)
                         .renderingMode(.original)

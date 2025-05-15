@@ -17,7 +17,7 @@ struct CycleButton: View {
         }) {
             HStack(spacing: 6) {
                 Text(state.titleText)
-                    .font(.pretendard(.caption1_m_13))
+                    .pretendardFont(.caption1_m_13)
                     .foregroundColor(state.foregroundColor)
                 Image(.icArrowBottom18)
                     .resizable()

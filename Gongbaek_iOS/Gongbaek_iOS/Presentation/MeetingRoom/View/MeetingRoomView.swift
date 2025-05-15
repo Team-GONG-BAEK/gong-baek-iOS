@@ -39,14 +39,14 @@ struct MeetingRoomView: View {
                                             startTime: meetingData.startTime,
                                             endTime: meetingData.endTime
                                         ),
-                                        font: .pretendard(.caption2_r_12)
+                                        font: .caption2_r_12
                                     )
                                     .padding(.bottom, 2)
                                     
                                     LocationBox(
                                         state: .white,
                                         text: meetingData.location,
-                                        font: .pretendard(.caption2_r_12)
+                                        font: .caption2_r_12
                                     )
                                 }
                                 .padding(.top, geometry.safeAreaInsets.top + 48 + 18)

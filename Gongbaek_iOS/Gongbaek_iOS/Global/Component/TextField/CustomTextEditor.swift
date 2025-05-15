@@ -21,7 +21,7 @@ struct CustomTextEditor: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text("소개글")
-                .font(.pretendard(.body2_sb_14))
+                .pretendardFont(.body2_sb_14)
                 .foregroundColor(.gray08)
 
             ZStack(alignment: .topLeading) {
@@ -31,6 +31,7 @@ struct CustomTextEditor: View {
                         ? "간단한 소개글을 작성해보세요.\nex) 안녕하세요! 이번에 복학한 학생입니다. 함께 좋은 모임 만들어봐요~!"
                         : "간단한 소개글을 작성해보세요.\nex) 화석된 사람들끼리 소소한 점심 모임 어때요?"
                     )
+                    .pretendardFont(.body1_m_16)
                     .foregroundColor(.gray04)
                     .padding(EdgeInsets(top: 14, leading: 16, bottom: 14, trailing: 16))
                 }
@@ -61,7 +62,7 @@ struct CustomTextEditor: View {
             HStack {
                 Spacer()
                 Text("\(text.count)/\(maxCharacterCount)")
-                    .font(.pretendard(.caption2_r_12))
+                    .pretendardFont(.caption2_r_12)
                     .foregroundColor(.gray06)
             }
         }

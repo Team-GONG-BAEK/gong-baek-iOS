@@ -18,7 +18,7 @@ struct SearchTextField: View {
         VStack(alignment: .leading, spacing: 10) {
             Group {
                 Text(state.rawValue)
-                    .font(.pretendard(.body2_sb_14))
+                    .pretendardFont(.body2_sb_14)
                     .foregroundColor(.gray08)
                 
                 ZStack {

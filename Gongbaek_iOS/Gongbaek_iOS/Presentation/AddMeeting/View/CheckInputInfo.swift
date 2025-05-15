@@ -35,7 +35,7 @@ struct CheckInputInfo: View {
             }
             
             Text(viewModel.title)
-                .font(.pretendard(.title2_b_18))
+                .pretendardFont(.title2_b_18)
                 .foregroundColor(.gray10)
                 .padding(.bottom, 10)
             
@@ -43,23 +43,17 @@ struct CheckInputInfo: View {
                 TimeBox(
                     state: .gray,
                     text: viewModel.getFormattedDateTime(),
-                    font: .pretendard(
-                        .body1_m_16
-                    )
+                    font: .body1_m_16
                 )
                 LocationBox(
                     state: .gray,
                     text: "\(viewModel.location)",
-                    font: .pretendard(
-                        .body1_m_16
-                    )
+                    font: .body1_m_16
                 )
                 PersonBox(
                     state: .gray,
                     text: "\(viewModel.maxPeopleCount)명",
-                    font: .pretendard(
-                        .body1_m_16
-                    )
+                    font: .body1_m_16
                 )
             }
             .padding(.vertical, 16)

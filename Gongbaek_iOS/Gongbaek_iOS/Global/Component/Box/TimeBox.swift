@@ -15,7 +15,7 @@ enum InfoColorState {
 struct TimeBox: View {
     let state: InfoColorState
     let text: String
-    let font: Font
+    let font: FontFamily
     
     var body: some View {
         HStack(alignment: .center, spacing: 4) {
@@ -25,7 +25,7 @@ struct TimeBox: View {
                 .foregroundColor(.gray05)
 
             Text(text)
-                .font(font)
+                .pretendardFont(font)
                 .foregroundColor(textColor)
         }
     }
@@ -43,5 +43,5 @@ struct TimeBox: View {
 
 
 #Preview {
-    TimeBox(state: .gray, text: "몇시일까용?", font: .pretendard(.caption2_r_12))
+    TimeBox(state: .gray, text: "몇시일까용?", font: .caption2_r_12)
 }

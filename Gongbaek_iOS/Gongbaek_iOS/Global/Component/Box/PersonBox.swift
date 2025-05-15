@@ -10,18 +10,17 @@ import SwiftUI
 struct PersonBox: View {
     let state: InfoColorState
     let text: String
-    let font: Font
+    let font: FontFamily
     
     var body: some View {
         HStack(alignment: .center, spacing: 4) {
-            //TODO: 아이콘 변경
             Image(.icPeople18)
                 .resizable()
                 .frame(width: 16, height: 16)
                 .foregroundColor(.gray05)
 
             Text(text)
-                .font(font)
+                .pretendardFont(font)
                 .foregroundColor(textColor)
         }
     }
@@ -39,5 +38,5 @@ struct PersonBox: View {
 
 
 #Preview {
-    PersonBox(state: .gray, text: "우리집!", font: .pretendard(.caption2_r_12))
+    PersonBox(state: .gray, text: "우리집!", font: .caption2_r_12)
 }

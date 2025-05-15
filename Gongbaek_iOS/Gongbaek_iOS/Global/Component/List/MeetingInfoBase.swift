@@ -47,7 +47,7 @@ struct MeetingInfoBase: View {
                 VStack(alignment: .leading, spacing: 8) {
                     // 모임 제목
                     Text(meeting.groupTitle)
-                        .font(state.titleFont)
+                        .pretendardFont(state.titleFont)
                         .lineLimit(1)
                     
                     // 모임 정보

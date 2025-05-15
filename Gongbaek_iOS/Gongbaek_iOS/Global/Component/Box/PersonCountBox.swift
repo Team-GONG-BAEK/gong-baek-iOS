@@ -12,7 +12,7 @@ struct PersonCountBox: View {
     
     var body: some View {
         Text("\(num)명")
-            .font(.pretendard(.title1_b_20))
+            .pretendardFont(.title1_b_20)
             .foregroundColor(.gray10)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 11)

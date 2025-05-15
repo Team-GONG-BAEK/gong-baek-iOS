@@ -24,10 +24,10 @@ struct LoginView: View {
                 
                 MultiColoredText(
                     originalText: "공강을 백으로 채우다",
-                    coloredSubstrings: [("공", .mainOrange), ("백", .mainOrange)]
+                    coloredSubstrings: [("공", .mainOrange), ("백", .mainOrange)],
+                    font: .body2_sb_14
                 )
                 .foregroundColor(.grayWhite)
-                .font(.pretendard(.body2_sb_14))
                 .padding(.top, 28)
                 
                 Spacer()
