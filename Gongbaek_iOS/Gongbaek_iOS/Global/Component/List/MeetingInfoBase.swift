@@ -12,7 +12,7 @@ struct MeetingInfoBase: View {
     var meeting: Meeting
     
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(alignment: .center, spacing: 12) {
             if let category = CategoryState(meeting.category) {
                 Image(category.coverImage[meeting.coverImg])
                     .resizable()
@@ -71,7 +71,8 @@ struct MeetingInfoBase: View {
                     }
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .topLeading)
+            
+            Spacer()
         }
     }
 }
