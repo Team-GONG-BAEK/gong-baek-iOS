@@ -26,9 +26,9 @@ struct SearchTextField: View {
                         "\(state.rawValue)를 검색하세요.",
                         text: $inputText
                     )
+                    .pretendardFont(.body1_m_16)
                     .disabled(isButton)
                     .focused($isFocused)
-                    .font(.pretendard(.body1_m_16))
                     .padding(.vertical, 14)
                     .padding(.leading, 16)
                     .padding(.trailing, 48)
