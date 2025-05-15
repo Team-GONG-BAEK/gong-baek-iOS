@@ -15,16 +15,17 @@ struct FillingView: View {
         ZStack(alignment: .bottomTrailing) {
             VStack(spacing: 0) {
                 CategoryBar(viewModel: viewModel)
-                    .padding(.bottom, 8)
+                    .padding(.vertical, 8)
                 Rectangle()
                     .fill(.gray02)
                     .frame(height: 8)
                 FillingList(meetings: viewModel.meeting)
                 Spacer()
             }
+            .customNavigationBar(title: "채우기")
             
             AddMeetingButton {
-                navigationManager.push(view: FillingDestination.addMeeting) 
+                navigationManager.push(view: FillingDestination.addMeeting)
             }
             .padding(.trailing, 16)
             .padding(.bottom, 24)
@@ -35,9 +36,7 @@ struct FillingView: View {
                     viewModel.getFillling()
                 })
             }
-            
         }
-        .customNavigationBar(title: "채우기")
         .onAppear {
             viewModel.getFillling()
         }
