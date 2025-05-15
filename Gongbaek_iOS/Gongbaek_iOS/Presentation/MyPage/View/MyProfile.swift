@@ -23,7 +23,7 @@ struct MyProfile: View {
                 .border(.gray02, width: 1)
                 .cornerRadius(2)
             
-            VStack(alignment: .leading, spacing: 0) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(profile.nickname)
                     .pretendardFont(.title1_m_20)
                     .foregroundColor(.grayBlack)
