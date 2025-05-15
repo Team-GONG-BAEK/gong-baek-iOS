@@ -70,7 +70,7 @@ extension TextFieldType {
         switch self {
         case .nickname: return "한글을 활용해 최대 8자 이내로 입력해주세요."
         case .location: return "모임 장소를 입력해주세요. ex) M동 1층 로비"
-        case .title: return "모임 제목을 입력해주세요."
+        case .title: return "2글자 이상 모임 제목을 입력해주세요."
         case .schoolEmail: return "학교 이메일을 입력해주세요."
         case .verificationCode: return "코드를 입력해주세요."
         }
