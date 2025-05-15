@@ -9,9 +9,10 @@ import SwiftUI
 
 extension Text {
     func pretendardFont(_ font: FontFamily) -> some View {
-        let lineSpacingValue = font.lineHeight - font.fontSize
+        let uiFont = UIFont.pretendard(font)
+        let lineSpacingValue = font.lineHeight - uiFont.lineHeight
             
-        return self.font(.pretendard(font))
+        return self.font(Font(uiFont))
             .tracking(font.letterSpacing)
             .lineSpacing(lineSpacingValue)
             .padding(.vertical, lineSpacingValue/2)
