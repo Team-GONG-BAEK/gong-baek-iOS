@@ -37,6 +37,7 @@ struct CustomTextEditor: View {
                 }
 
                 TextEditor(text: $text)
+                    .pretendardFont(.body1_m_16)
                     .padding(EdgeInsets(top: 6, leading: 11, bottom: 6, trailing: 11))
                     .autocorrectionDisabled(true)
                     .textInputAutocapitalization(.never)
@@ -49,7 +50,6 @@ struct CustomTextEditor: View {
                     }
                     .focused($isEditing)
             }
-            .font(.pretendard(.body1_m_16))
             .background(.gray01)
             .accentColor(.gray05)
             .frame(height: 143)
