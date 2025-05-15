@@ -18,7 +18,7 @@ struct LocationInput: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            TitleTextBox(title: "만날 장소를 작성해주세요.", subtitle: nil)
+            TitleTextBox(title: "만날 장소를 선택해주세요.", subtitle: "초성이 포함될 경우 모임이 생성되지 않습니다.")
                 .padding(.bottom, 20)
             
             CustomTextField(
