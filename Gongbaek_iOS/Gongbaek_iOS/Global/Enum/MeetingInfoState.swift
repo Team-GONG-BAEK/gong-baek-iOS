@@ -32,14 +32,4 @@ extension MeetingInfoState {
         }
     }
     
-    var isRecruitingChipVisible: Bool {
-        switch self {
-        case .cell(.myFill), .detail:
-            return true
-        default:
-            return false
-        }
-    }
-
-    
 }
