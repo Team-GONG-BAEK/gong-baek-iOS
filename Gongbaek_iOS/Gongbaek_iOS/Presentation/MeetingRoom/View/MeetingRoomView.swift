@@ -19,32 +19,31 @@ struct MeetingRoomView: View {
             VStack(spacing: 0) {
                 ScrollView(.vertical) {
                     VStack(spacing: 0) {
-                        headerCoverImage()
-                        .overlay(
-                            VStack(alignment: .leading, spacing: 0) {
-                                meetingChips()
-                                    .padding(.top, geometry.safeAreaInsets.top + 48 + 18)
-                                
-                                meetingTitle()
-                                
-                                TimeBox(
-                                    state: .white,
-                                    text: Date.formattedDateAndStartEndTime(
-                                        weekDay: WeekDay(viewModel.weekDay),
-                                        weekDate: viewModel.weekDate,
-                                        startTime: viewModel.startTime,
-                                        endTime: viewModel.endTime
-                                    ),
-                                    font: .pretendard(.caption2_r_12)
-                                )
-                                .padding(.bottom, 2)
-                                
-                                LocationBox(state: .white, text: viewModel.location, font: .pretendard(.caption2_r_12))
-                            }
-                            .padding(.horizontal, 16)
-                            .padding(.bottom, 16)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        )
+                        headerCoverImage(safeAreaTopInset: geometry.safeAreaInsets.top)
+                            .overlay(
+                                VStack(alignment: .leading, spacing: 0) {
+                                    meetingChips()
+                                    meetingTitle()
+                                    
+                                    TimeBox(
+                                        state: .white,
+                                        text: Date.formattedDateAndStartEndTime(
+                                            weekDay: WeekDay(viewModel.weekDay),
+                                            weekDate: viewModel.weekDate,
+                                            startTime: viewModel.startTime,
+                                            endTime: viewModel.endTime
+                                        ),
+                                        font: .pretendard(.caption2_r_12)
+                                    )
+                                    .padding(.bottom, 2)
+                                    
+                                    LocationBox(state: .white, text: viewModel.location, font: .pretendard(.caption2_r_12))
+                                }
+                                .padding(.top, geometry.safeAreaInsets.top + 48 + 18)
+                                .padding(.horizontal, 16)
+                                .padding(.bottom, 16)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            )
                         
                         meetingMembers()
                         divider()
@@ -102,26 +101,27 @@ struct MeetingRoomView: View {
 
 private extension MeetingRoomView {
     
-    func headerCoverImage() -> some View {
-        Group {
+    func headerCoverImage(safeAreaTopInset: CGFloat) -> some View {
+        let height = safeAreaTopInset + 48 + 134
+        return Group {
             if let data = viewModel.meetingDetailData,
                let category = CategoryState(data.category) {
                 Image(category.coverImage[data.coverImg])
                     .resizable()
                     .scaledToFill()
-                    .frame(height: 232)
+                    .frame(height: height)
                     .clipped()
                     .overlay(
                         Rectangle()
                             .fill(Color.grayBlack.opacity(0.5))
-                            .frame(height: 232),
+                            .frame(height: height),
                         alignment: .center
                     )
             }
             else {
                 Rectangle()
                     .fill(.gray01)
-                    .frame(height: 232)
+                    .frame(height: height)
             }
         }
     }
