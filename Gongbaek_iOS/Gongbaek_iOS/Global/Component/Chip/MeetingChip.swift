@@ -12,10 +12,9 @@ struct MeetingChip: View {
     
     var body: some View {
         Text(state.titleText)
-            .font(.pretendard(.caption2_r_12))
+            .pretendardFont(.caption2_r_12)
             .foregroundColor(state.textColor)
             .padding(.horizontal, 4)
-            .padding(.vertical, 1)
             .background(state.backgroundColor)
             .cornerRadius(2)
     }
