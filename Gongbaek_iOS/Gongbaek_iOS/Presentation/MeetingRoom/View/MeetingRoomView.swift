@@ -17,51 +17,64 @@ struct MeetingRoomView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                ScrollView(.vertical) {
-                    VStack(spacing: 0) {
-                        headerCoverImage()
-                        .overlay(
-                            VStack(alignment: .leading, spacing: 0) {
-                                meetingChips()
-                                    .padding(.top, geometry.safeAreaInsets.top + 48 + 18)
-                                
-                                meetingTitle()
-                                
-                                TimeBox(
-                                    state: .white,
-                                    text: Date.formattedDateAndStartEndTime(
-                                        weekDay: WeekDay(viewModel.weekDay),
-                                        weekDate: viewModel.weekDate,
-                                        startTime: viewModel.startTime,
-                                        endTime: viewModel.endTime
-                                    ),
-                                    font: .pretendard(.caption2_r_12)
-                                )
-                                .padding(.bottom, 2)
-                                
-                                LocationBox(state: .white, text: viewModel.location, font: .pretendard(.caption2_r_12))
-                            }
-                            .padding(.horizontal, 16)
-                            .padding(.bottom, 16)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        )
+                if let meetingData = viewModel.meetingDetailData,
+                   let commentData = viewModel.commentData {
+                    ScrollView(.vertical) {
+                        VStack(spacing: 0) {
+                            headerCoverImage(
+                                category: meetingData.category,
+                                coverImageIndex: meetingData.coverImg,
+                                safeAreaTopInset: geometry.safeAreaInsets.top
+                            )
+                            .overlay(
+                                VStack(alignment: .leading, spacing: 0) {
+                                    meetingChips()
+                                    meetingTitle(meetingData.groupTitle)
+                                    
+                                    TimeBox(
+                                        state: .white,
+                                        text: Date.formattedDateAndStartEndTime(
+                                            weekDay: WeekDay(meetingData.weekDay),
+                                            weekDate: meetingData.weekDate,
+                                            startTime: meetingData.startTime,
+                                            endTime: meetingData.endTime
+                                        ),
+                                        font: .pretendard(.caption2_r_12)
+                                    )
+                                    .padding(.bottom, 2)
+                                    
+                                    LocationBox(
+                                        state: .white,
+                                        text: meetingData.location,
+                                        font: .pretendard(.caption2_r_12)
+                                    )
+                                }
+                                .padding(.top, geometry.safeAreaInsets.top + 48 + 18)
+                                .padding(.horizontal, 16)
+                                .padding(.bottom, 16)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            )
+                            
+                            meetingMembers(
+                                current: meetingData.currentPeopleCount,
+                                max: meetingData.maxPeopleCount
+                            )
+                            divider()
+                            viewModel.isCommentDisabled ? CommentDisabledBox() : nil
+                        }
                         
-                        meetingMembers()
-                        divider()
-                        viewModel.isCommentDisabled ? CommentDisabledBox() : nil
+                        CommentList(
+                            meetingRoomViewModel: viewModel,
+                            commentCount: commentData.commentCount,
+                            comments: commentData.comments,
+                            isScrolled: false
+                        )
+                        .frame(maxHeight: .infinity)
                     }
+                    .ignoresSafeArea()
                     
-                    CommentList(
-                        meetingRoomViewModel: viewModel,
-                        commentCount: viewModel.commentData?.commentCount ?? 0,
-                        comments: viewModel.commentData?.comments ?? [],
-                        isScrolled: false
-                    )
-                    .frame(maxHeight: .infinity)
+                    viewModel.isCommentDisabled ? nil : CommentTextField(meetingRoomViewModel: viewModel)
                 }
-                .ignoresSafeArea()
-                
-                viewModel.isCommentDisabled ? nil : CommentTextField(meetingRoomViewModel: viewModel)
             }
             .customNavigationBar(
                 isMeetingRoom: viewModel.showFullErrorView ? false : true,
@@ -102,26 +115,30 @@ struct MeetingRoomView: View {
 
 private extension MeetingRoomView {
     
-    func headerCoverImage() -> some View {
-        Group {
-            if let data = viewModel.meetingDetailData,
-               let category = CategoryState(data.category) {
-                Image(category.coverImage[data.coverImg])
+    func headerCoverImage(
+        category: String,
+        coverImageIndex: Int,
+        safeAreaTopInset: CGFloat
+    ) -> some View {
+        let height = safeAreaTopInset + 48 + 134
+        return Group {
+            if let category = CategoryState(category) {
+                Image(category.coverImage[coverImageIndex])
                     .resizable()
                     .scaledToFill()
-                    .frame(height: 232)
+                    .frame(height: height)
                     .clipped()
                     .overlay(
                         Rectangle()
                             .fill(Color.grayBlack.opacity(0.5))
-                            .frame(height: 232),
+                            .frame(height: height),
                         alignment: .center
                     )
             }
             else {
                 Rectangle()
                     .fill(.gray01)
-                    .frame(height: 232)
+                    .frame(height: height)
             }
         }
     }
@@ -134,8 +151,8 @@ private extension MeetingRoomView {
         }
     }
     
-    func meetingTitle() -> some View {
-        Text(viewModel.groupTitle)
+    func meetingTitle(_ title: String) -> some View {
+        Text(title)
             .pretendardFont(.title1_b_20)
             .foregroundColor(.grayWhite)
             .lineLimit(nil)
@@ -143,9 +160,9 @@ private extension MeetingRoomView {
             .padding(.bottom, 12)
     }
     
-    func meetingMembers() -> some View {
+    func meetingMembers(current: Int, max: Int) -> some View {
         VStack(spacing: 0) {
-            memberTitle()
+            memberTitle(current, max)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 6) {
@@ -161,7 +178,7 @@ private extension MeetingRoomView {
         }
     }
     
-    func memberTitle() -> some View {
+    func memberTitle(_ current: Int, _ max: Int) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
                 Image(.icPeople18)
@@ -169,7 +186,7 @@ private extension MeetingRoomView {
                     .frame(width: 18, height: 18)
                     .foregroundStyle(.gray06)
                 
-                Text(viewModel.memberCount)
+                Text("멤버 (\(current)/\(max)명)")
                     .pretendardFont(.title2_sb_18)
                     .foregroundStyle(.gray10)
             }

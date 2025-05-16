@@ -108,26 +108,36 @@ class MeetingDetailViewModel: ObservableObject {
 }
 
 extension MeetingDetailViewModel {
+    
     func fetchAllData(groupId: Int, groupType: String) {
         let dispatchGroup = DispatchGroup()
         
+        var meetingDetailData: GetMeetingDetailsResponseDTO? = nil
+        var ownerInfoData: GetOwnerInfoResponseDTO? = nil
+        var commentData: GetCommentsResponseDTO? = nil
+        
         dispatchGroup.enter()
-        getDetails(groupId: groupId, groupType: groupType) { _ in
+        getDetails(groupId: groupId, groupType: groupType) { data in
+            meetingDetailData = data
             dispatchGroup.leave()
         }
         
         dispatchGroup.enter()
-        getOwnerInfo(groupId: groupId, groupType: groupType) { _ in
+        getOwnerInfo(groupId: groupId, groupType: groupType) { data in
+            ownerInfoData = data
             dispatchGroup.leave()
         }
         
         dispatchGroup.enter()
-        getComments(groupId: groupId, groupType: groupType) { _ in
+        getComments(groupId: groupId, groupType: groupType) { data in
+            commentData = data
             dispatchGroup.leave()
         }
         
         dispatchGroup.notify(queue: .main) {
-            
+            self.meetingDetailData = meetingDetailData
+            self.ownerInfoData = ownerInfoData
+            self.commentData = commentData
         }
     }
     
@@ -144,10 +154,12 @@ extension MeetingDetailViewModel {
             ),
             instance: BaseResponse<GetMeetingDetailsResponseDTO>.self
         ) { response in
-            if !response.success {
+            if response.success {
+                guard let data = response.data else { return }
+                completion(data)
+            } else {
                 self.alertType = .fullErrorView
             }
-            self.meetingDetailData = response.data
         }
     }
     
@@ -160,10 +172,12 @@ extension MeetingDetailViewModel {
             target: .getOwnerInfo(groupId: groupId, groupType: groupType),
             instance: BaseResponse<GetOwnerInfoResponseDTO>.self
         ) { response in
-            if !response.success {
+            if response.success {
+                guard let data = response.data else { return }
+                completion(data)
+            } else {
                 self.alertType = .fullErrorView
             }
-            self.ownerInfoData = response.data
         }
     }
     
@@ -180,10 +194,12 @@ extension MeetingDetailViewModel {
             ),
             instance: BaseResponse<GetCommentsResponseDTO>.self
         ) { response in
-            if !response.success {
+            if response.success {
+                guard let data = response.data else { return }
+                completion(data)
+            } else {
                 self.alertType = .fullErrorView
             }
-            self.commentData = response.data
         }
     }
     
@@ -192,30 +208,27 @@ extension MeetingDetailViewModel {
             groupId: groupId,
             groupType: groupType
         )
+        
         Providers.meetingDetailProvider.request(
-            target: .postApplyMeeting(
-                data: requestData
-            ),
+            target: .postApplyMeeting(data: requestData),
             instance: BaseResponse<EmptyResponseDTO>.self
         ) { response in
-            DispatchQueue.main.async {
-                if response.success {
-                    self.alertType = .apply
-                    print("✅ 신청 성공!")
-                } else {
-                    switch response.code {
-                    case 4097:
-                        self.alertType = .recruited
-                        print("⚠️ 신청 불가능한 상태 - 인원마감 (code: 4097)")
-                    default:
-                        self.alertType = .error
-                        print("❌ 신청 실패: \(response.message ?? "알 수 없는 오류")")
-                    }
+            if response.success {
+                self.alertType = .apply
+                print("✅ 신청 성공!")
+            } else {
+                switch response.code {
+                case 4097:
+                    self.alertType = .recruited
+                    print("⚠️ 신청 불가능한 상태 - 인원마감 (code: 4097)")
+                default:
+                    self.alertType = .error
+                    print("❌ 신청 실패: \(response.message ?? "알 수 없는 오류")")
                 }
-                
-                self.getDetails(groupId: groupId, groupType: groupType) { _ in
-                    print("getDetails finished result and data: \(String(describing: self.getDetails))")
-                }
+            }
+            
+            self.getDetails(groupId: groupId, groupType: groupType) { data in
+                self.meetingDetailData = data
             }
         }
     }
@@ -227,22 +240,19 @@ extension MeetingDetailViewModel {
         )
         
         Providers.meetingDetailProvider.request(
-            target: .patchApplyMeeting(
-                data: requestData
-            ),
+            target: .patchApplyMeeting(data: requestData),
             instance: BaseResponse<EmptyResponseDTO>.self
         ) { response in
-            DispatchQueue.main.async {
-                if response.success {
-                    self.alertType = .cancel
-                    print("✅ 취소 성공!")
-                } else {
-                    self.alertType = .error
-                    print("❌ 취소 실패: \(response.message ?? "알 수 없는 오류")")
-                }
-                self.getDetails(groupId: groupId, groupType: groupType) { _ in
-                    print("getDetails finished result and data: \(String(describing: self.getDetails))")
-                }
+            if response.success {
+                self.alertType = .cancel
+                print("✅ 취소 성공!")
+            } else {
+                self.alertType = .error
+                print("❌ 취소 실패: \(response.message ?? "알 수 없는 오류")")
+            }
+            
+            self.getDetails(groupId: groupId, groupType: groupType) { data in
+                self.meetingDetailData = data
             }
         }
     }
@@ -255,17 +265,18 @@ extension MeetingDetailViewModel {
             body: commentContent
         )
         
-        Providers.commentProvider.request(target: .postComment(data: requestData), instance: BaseResponse<EmptyResponseDTO>.self) { response in
-            DispatchQueue.main.async {
-                if response.success {
-                    print("✅ 댓글 등록 성공!")
-                } else {
-                    self.alertType = .error
-                    print("❌ 댓글 등록 실패: \(response.message ?? "알 수 없는 오류")")
+        Providers.commentProvider.request(
+            target: .postComment(data: requestData),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            if response.success {
+                print("✅ 댓글 등록 성공!")
+                self.getComments(groupId: groupId, groupType: groupType) { data in
+                    self.commentData = data
                 }
-                self.getComments(groupId: groupId, groupType: groupType) { _ in
-                    print("getComments finished, memberData: \(String(describing: self.commentData))")
-                }
+            } else {
+                self.alertType = .error
+                print("❌ 댓글 등록 실패: \(response.message ?? "알 수 없는 오류")")
             }
         }
     }
@@ -284,14 +295,12 @@ extension MeetingDetailViewModel {
             target: .deleteMyMeeting(data: requestData),
             instance: BaseResponse<EmptyResponseDTO>.self
         ) { response in
-            DispatchQueue.main.async {
-                if response.success {
-                    print("✅ 삭제 성공!")
-                    completion()
-                } else {
-                    self.alertType = .error
-                    print("❌ 삭제 실패: \(response.message ?? "알 수 없는 오류")")
-                }
+            if response.success {
+                print("✅ 삭제 성공!")
+                completion()
+            } else {
+                self.alertType = .error
+                print("❌ 삭제 실패: \(response.message ?? "알 수 없는 오류")")
             }
         }
     }
@@ -303,17 +312,14 @@ extension MeetingDetailViewModel {
             target: .deleteComment(data: requestData),
             instance: BaseResponse<EmptyResponseDTO>.self
         ) { response in
-            DispatchQueue.main.async {
-                if response.success {
-                    print("✅ 댓글 삭제 성공!")
-                } else {
-                    self.alertType = .error
-                    print("❌ 댓글 삭제 실패: \(response.message ?? "알 수 없는 오류")")
+            if response.success {
+                print("✅ 댓글 삭제 성공!")
+                self.getComments(groupId: groupId, groupType: groupType) { data in
+                    self.commentData = data
                 }
-                
-                self.getComments(groupId: groupId, groupType: groupType) { _ in
-                    print("getComments finished, memberData: \(String(describing: self.commentData))")
-                }
+            } else {
+                self.alertType = .error
+                print("❌ 댓글 삭제 실패: \(response.message ?? "알 수 없는 오류")")
             }
         }
     }
