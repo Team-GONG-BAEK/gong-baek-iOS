@@ -13,23 +13,19 @@ struct MeetingInfoBase: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            Group {
-                if let category = CategoryState(meeting.category) {
-                    Image(category.coverImage[meeting.coverImg])
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 102, height: 102)
-                        .cornerRadius(2)
-                        .clipped()
-                }
-                else {
-                    Image(.sample)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 102, height: 102)
-                        .cornerRadius(2)
-                        .clipped()
-                }
+            if let category = CategoryState(meeting.category) {
+                Image(category.coverImage[meeting.coverImg])
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 102, height: 102)
+                    .cornerRadius(2)
+                    .clipped()
+            }
+            else {
+                Rectangle()
+                    .fill(.gray01)
+                    .frame(width: 102, height: 102)
+                    .cornerRadius(2)
             }
             
             VStack(alignment: .leading, spacing: 6) {
@@ -79,4 +75,3 @@ struct MeetingInfoBase: View {
         }
     }
 }
-

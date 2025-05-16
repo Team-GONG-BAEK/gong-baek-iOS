@@ -17,10 +17,13 @@ struct MeetingDetailView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                MeetingInfoBase(
-                    state: .detail,
-                    meeting: viewModel.meeting)
-                .padding(16)
+                if let meetingData = viewModel.meetingDetailData {
+                    MeetingInfoBase(
+                        state: .detail,
+                        meeting: viewModel.meeting(for: meetingData)
+                    )
+                    .padding(16)
+                }
                 
                 divider()
                 
@@ -109,12 +112,12 @@ extension MeetingDetailView {
                     }
                     viewModel.alertType = nil
                 })
-        case .error(let isGetMethod):
+        case .error:
             GongbaekAlert(
                 alertImage: "img_fail" ,
-                titleText: isGetMethod ? "앗! 데이터를 불러오지 못했어요." : "일시적인 오류가 발생했습니다.",
-                subtitleText: isGetMethod ? "잠시 후 다시 시도해주세요." : "잠시 후 다시 시도해주세요.",
-                orangeButtonText: isGetMethod ? "확인" : "닫기",
+                titleText: "일시적인 오류가 발생했습니다.",
+                subtitleText: "잠시 후 다시 시도해주세요.",
+                orangeButtonText: "닫기",
                 onTapOrangeButton: {
                     viewModel.alertType = nil
                 }
@@ -124,7 +127,10 @@ extension MeetingDetailView {
                 viewModel.alertType = nil
                 viewModel.fetchAllData(groupId: groupId, groupType: groupType)
             })
-            .customNavigationBar(showBackButton: true)
+            .customNavigationBar(
+                viewName: "채우기",
+                showBackButton: true
+            )
         }
     }
 }

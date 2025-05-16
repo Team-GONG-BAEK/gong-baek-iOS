@@ -11,7 +11,6 @@ final class MeetingRoomViewModel: ObservableObject {
     @Published var meetingDetailData: GetMeetingRoomDetailsResponseDTO? = nil
     @Published var memberData: GetMeetingRoomMembersResponseDTO? = nil
     @Published var commentData: GetCommentsResponseDTO? = nil
-    @Published var isSuccessGetData: Bool = true
     @Published var showErrorAlert: Bool = false
     @Published var showFullErrorView: Bool = false
     
@@ -23,60 +22,44 @@ final class MeetingRoomViewModel: ObservableObject {
         ].compactMap { $0 }
     }
     
-    var groupTitle: String {
-        meetingDetailData?.groupTitle ?? ""
-    }
-    
-    var weekDay: String {
-        meetingDetailData?.weekDay ?? ""
-    }
-    
-    var weekDate: String? {
-        meetingDetailData?.weekDate ?? nil
-    }
-    
-    var startTime: Double {
-        meetingDetailData?.startTime ?? 0
-    }
-    
-    var endTime: Double {
-        meetingDetailData?.endTime ?? 0
-    }
-    
-    var location: String {
-        meetingDetailData?.location ?? ""
-    }
-    
-    var memberCount: String {
-        let current = meetingDetailData?.currentPeopleCount ?? 0
-        let max = meetingDetailData?.maxPeopleCount ?? 0
-        return "멤버 (\(current)/\(max)명)"
-    }
-    
     var isCommentDisabled: Bool {
         RecruitingState(commentData?.groupStatus) == .CLOSED
     }
 }
 
 extension MeetingRoomViewModel {
+    
     func fetchAllData(groupId: Int, groupType: String) {
-            let dispatchGroup = DispatchGroup()
-            
-            dispatchGroup.enter()
-            getDetails(groupId: groupId, groupType: groupType) { _ in
-                dispatchGroup.leave()
-            }
-            
-            dispatchGroup.enter()
-            getMembers(groupId: groupId, groupType: groupType) { _ in
-                dispatchGroup.leave()
-            }
-            
-            dispatchGroup.enter()
-            getComments(groupId: groupId, groupType: groupType) { _ in
-                dispatchGroup.leave()
-            }
+        let dispatchGroup = DispatchGroup()
+        
+        var meetingDetailData: GetMeetingRoomDetailsResponseDTO? = nil
+        var memberData: GetMeetingRoomMembersResponseDTO? = nil
+        var commentData: GetCommentsResponseDTO? = nil
+        
+        dispatchGroup.enter()
+        getDetails(groupId: groupId, groupType: groupType) { data in
+            meetingDetailData = data
+            dispatchGroup.leave()
         }
+        
+        dispatchGroup.enter()
+        getMembers(groupId: groupId, groupType: groupType) { data in
+            memberData = data
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.enter()
+        getComments(groupId: groupId, groupType: groupType) { data in
+            commentData = data
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            self.meetingDetailData = meetingDetailData
+            self.memberData = memberData
+            self.commentData = commentData
+        }
+    }
     
     func getMembers(
         groupId: Int,
@@ -87,12 +70,12 @@ extension MeetingRoomViewModel {
             target: .getMembers(isPublic: false, groupId: groupId, groupType: groupType),
             instance: BaseResponse<GetMeetingRoomMembersResponseDTO>.self
         ) { response in
-            if !response.success {
+            if response.success {
+                guard let data = response.data else { return }
+                completion(data)
+            } else {
                 self.showFullErrorView = true
-                self.showErrorAlert = false
             }
-            print(response)
-            self.memberData = response.data
         }
     }
     
@@ -105,12 +88,12 @@ extension MeetingRoomViewModel {
             target: .getMeetingDetails(groupId: groupId, groupType: groupType),
             instance: BaseResponse<GetMeetingRoomDetailsResponseDTO>.self
         ) { response in
-            if !response.success {
+            if response.success {
+                guard let data = response.data else { return }
+                completion(data)
+            } else {
                 self.showFullErrorView = true
-                self.showErrorAlert = false
             }
-            print(response)
-            self.meetingDetailData = response.data
         }
     }
     
@@ -123,10 +106,12 @@ extension MeetingRoomViewModel {
             target: .getComments(isPublic: false, groupId: groupId, groupType: groupType),
             instance: BaseResponse<GetCommentsResponseDTO>.self
         ) { response in
-            if !response.success {
-                self.showErrorAlert = true
+            if response.success {
+                guard let data = response.data else { return }
+                completion(data)
+            } else {
+                self.showFullErrorView = true
             }
-            self.commentData = response.data
         }
     }
     
@@ -138,20 +123,37 @@ extension MeetingRoomViewModel {
             body: commentContent
         )
         
-        Providers.commentProvider.request(target: .postComment(data: requestData), instance: BaseResponse<EmptyResponseDTO>.self) { response in
-            print(requestData)
-            DispatchQueue.main.async {
-                if response.success {
-                    self.isSuccessGetData = true
-                    print("✅ 댓글 등록 성공!")
-                } else {
-                    self.showErrorAlert = true
-                    self.isSuccessGetData = false
-                    print("❌ 댓글 등록 실패: \(response.message ?? "알 수 없는 오류")")
+        Providers.commentProvider.request(
+            target: .postComment(data: requestData),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            if response.success {
+                print("✅ 댓글 등록 성공!")
+                self.getComments(groupId: groupId, groupType: groupType) { data in
+                    self.commentData = data
                 }
-                self.getComments(groupId: groupId, groupType: groupType) { _ in
-                    print("getComments finished, memberData: \(String(describing: self.commentData))")
+            } else {
+                self.showErrorAlert = true
+                print("❌ 댓글 등록 실패: \(response.message ?? "알 수 없는 오류")")
+            }
+        }
+    }
+    
+    func deleteComment(groupId: Int, groupType: String, commentId: Int) {
+        let requestData = DeleteCommentRequestDTO(commentId: commentId)
+        
+        Providers.commentProvider.request(
+            target: .deleteComment(data: requestData),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            if response.success {
+                print("✅ 댓글 삭제 성공!")
+                self.getComments(groupId: groupId, groupType: groupType) { data in
+                    self.commentData = data
                 }
+            } else {
+                self.showErrorAlert = true
+                print("❌ 댓글 삭제 실패: \(response.message ?? "알 수 없는 오류")")
             }
         }
     }

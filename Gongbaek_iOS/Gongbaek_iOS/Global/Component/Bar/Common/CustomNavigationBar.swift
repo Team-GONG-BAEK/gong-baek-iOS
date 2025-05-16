@@ -56,7 +56,7 @@ struct CustomNavigationBarModifier: ViewModifier {
                         }
                     }
                     .frame(height: 48)
-                    .background(.clear)
+                    .background(.white)
                 }
                 content
             }

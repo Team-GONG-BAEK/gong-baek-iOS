@@ -74,9 +74,7 @@ final class SignupViewModel: ObservableObject {
             return profileImageIndex != nil
         case .mbtiSelection:
             return e_i != nil && s_n != nil && t_f != nil && j_p != nil
-        case .selfIntroductionWriting:
-            return introduction.count > 0
-        case .classTimeTableInput, .signupCompletion:
+        case .selfIntroductionWriting, .classTimeTableInput, .signupCompletion:
             return true
         }
     }

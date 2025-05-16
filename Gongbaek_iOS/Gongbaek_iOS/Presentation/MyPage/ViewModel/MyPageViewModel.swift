@@ -31,8 +31,11 @@ class MyPageViewModel: ObservableObject {
             instance: BaseResponse<GetMyProfileResponseDTO>.self
         ) { response in
             if response.success {
+                self.showAlert = false
                 self.myProfile = response.data
-            } 
+            } else {
+                self.showAlert = true
+            }
         }
     }
     

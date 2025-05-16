@@ -44,33 +44,24 @@ extension Date {
     }
     
     // 날짜와 시간을 포맷팅하는 함수
-    static func formattedDateAndTime(weekDay: WeekDay?, weekDate: String?, time: Double) -> String { // endTime도 필요
-        let formattedTime = formatTime(time)
-        
-        if let weekDay = weekDay {
-            return "매주 \(weekDay.koreanName) \(formattedTime)"
-        } else if let weekDate = weekDate {
-            let formattedDate = formatDate(weekDate)
-            return "\(formattedDate) \(formattedTime)"
-        }
-        
-        return "시간 정보 없음"
-    }
-    
-    // 날짜와 시간을 포맷팅하는 함수
-    static func formattedDateAndStartEndTime(weekDay: WeekDay?, weekDate: String?, startTime: Double, endTime: Double) -> String {
+    static func formattedDateAndStartEndTime(
+        weekDay: WeekDay?,
+        weekDate: String?,
+        startTime: Double,
+        endTime: Double
+    ) -> String {
         let formattedStartTime = formatTime(startTime)
         let formattedEndTime = formatTime(endTime)
         
         if let weekDate = weekDate {
             let formattedDate = formatDate(weekDate)
-            return "\(formattedDate) \(weekDay?.koreanName ?? "ㅗ") \(formattedStartTime) - \(formattedEndTime)"
+            return "\(formattedDate) \(weekDay?.koreanName ?? "") \(formattedStartTime) - \(formattedEndTime)"
         }
         
         if let weekDay = weekDay {
             return "매주 \(weekDay.koreanName) \(formattedStartTime) - \(formattedEndTime)"
         }
-        return "시간 정보 없음"
+        return ""
     }
 
     
@@ -110,5 +101,4 @@ extension Date {
         let year = Calendar.current.component(.year, from: Date())
         return asString ? "\(year)" : year
     }
-    
 }

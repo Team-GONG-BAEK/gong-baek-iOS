@@ -12,7 +12,7 @@ enum MeetingDetailAlertType {
     case recruited
     case cancel
     case delete
-    case error(isGetMethod: Bool = true)
+    case error
     case fullErrorView
 }
 
@@ -22,31 +22,28 @@ class MeetingDetailViewModel: ObservableObject {
     @Published var commentData: GetCommentsResponseDTO? = nil
     @Published var alertType: MeetingDetailAlertType? = nil
     
-    var isHost: Bool { meetingDetailData?.isHost ?? false }
-    var isApply: Bool { meetingDetailData?.isApply ?? false }
-    var meeting: Meeting {
-        Meeting(
-            groupId: meetingDetailData?.groupId ?? 0,
-            status: meetingDetailData?.status ?? "",
-            category: meetingDetailData?.category ?? "카테고리오류",
-            coverImg: meetingDetailData?.coverImg ?? 10,
-            groupType: meetingDetailData?.groupType ?? "",
-            groupTitle: meetingDetailData?.groupTitle ?? "",
-            weekDay: meetingDetailData?.weekDay ?? "",
-            weekDate: meetingDetailData?.weekDate ?? nil,
-            startTime: meetingDetailData?.startTime ?? 0,
-            endTime: meetingDetailData?.endTime ?? 0,
-            location: meetingDetailData?.location ?? ""
-        )}
+    func meeting(for meetingDetailData: GetMeetingDetailsResponseDTO) -> Meeting {
+        return Meeting(
+            groupId: meetingDetailData.groupId,
+            status: meetingDetailData.status,
+            category: meetingDetailData.category,
+            coverImg: meetingDetailData.coverImg,
+            groupType: meetingDetailData.groupType,
+            groupTitle: meetingDetailData.groupTitle,
+            weekDay: meetingDetailData.weekDay,
+            weekDate: meetingDetailData.weekDate,
+            startTime: meetingDetailData.startTime,
+            endTime: meetingDetailData.endTime,
+            location: meetingDetailData.location
+        )
+    }
     
     // MARK: - Button Logic 처리
     
-    var buttonText: String {
-        guard let state = RecruitingState(meetingDetailData?.status ?? "") else {
-            return "알 수 없는 상태"
-        }
+    func buttonText(for meetingDetailData: GetMeetingDetailsResponseDTO) -> String {
+        guard let state = RecruitingState(meetingDetailData.status) else { return "" }
         
-        if isHost {
+        if meetingDetailData.isHost {
             return state == .CLOSED ? "종료된 모임입니다." : "삭제하기"
         }
         
@@ -54,18 +51,16 @@ class MeetingDetailViewModel: ObservableObject {
         case .CLOSED:
             return "종료된 모임입니다."
         case .RECRUITED:
-            return  isApply ? "취소하기" : "인원 마감"
+            return  meetingDetailData.isApply ? "취소하기" : "인원 마감"
         case .RECRUITING:
-            return isApply ? "취소하기" : "신청하기"
+            return meetingDetailData.isApply ? "취소하기" : "신청하기"
         }
     }
     
-    var isActivated: Bool {
-        guard let state = RecruitingState(meetingDetailData?.status) else {
-            return false
-        }
+    func isActivated(for meetingDetailData: GetMeetingDetailsResponseDTO) -> Bool {
+        guard let state = RecruitingState(meetingDetailData.status) else { return false }
         
-        if isHost {
+        if meetingDetailData.isHost {
             return state != .CLOSED
         }
         
@@ -73,18 +68,16 @@ class MeetingDetailViewModel: ObservableObject {
         case .CLOSED:
             return false
         case .RECRUITED:
-            return isApply
+            return meetingDetailData.isApply
         case .RECRUITING:
             return true
         }
     }
     
-    var buttonAction: (() -> Void)? {
-        guard let state = RecruitingState(meetingDetailData?.status) else {
-            return nil
-        }
+    func buttonAction(for meetingDetailData: GetMeetingDetailsResponseDTO) -> (() -> (Void))? {
+        guard let state = RecruitingState(meetingDetailData.status) else { return nil }
         
-        if isHost {
+        if meetingDetailData.isHost {
             return state == .CLOSED
             ? nil
             : { self.alertType = .delete }
@@ -94,43 +87,57 @@ class MeetingDetailViewModel: ObservableObject {
         case .CLOSED:
             return nil
         case .RECRUITED:
-            return isApply
-            ? {self.patchApplyMeeting(
-                groupId: self.meetingDetailData?.groupId ?? 0,
-                groupType: self.meetingDetailData?.groupType ?? ""
+            return meetingDetailData.isApply
+            ? { self.patchApplyMeeting(
+                groupId: meetingDetailData.groupId,
+                groupType: meetingDetailData.groupType
             )}
             : nil
         case .RECRUITING:
-            return isApply
-            ? {self.patchApplyMeeting(
-                groupId: self.meetingDetailData?.groupId ?? 0,
-                groupType: self.meetingDetailData?.groupType ?? ""
+            return meetingDetailData.isApply
+            ? { self.patchApplyMeeting(
+                groupId: meetingDetailData.groupId,
+                groupType: meetingDetailData.groupType
             )}
-            : {self.postApplyMeeting(
-                groupId: self.meetingDetailData?.groupId ?? 0,
-                groupType: self.meetingDetailData?.groupType ?? ""
+            : { self.postApplyMeeting(
+                groupId: meetingDetailData.groupId,
+                groupType: meetingDetailData.groupType
             )}
         }
     }
 }
 
 extension MeetingDetailViewModel {
+    
     func fetchAllData(groupId: Int, groupType: String) {
         let dispatchGroup = DispatchGroup()
         
+        var meetingDetailData: GetMeetingDetailsResponseDTO? = nil
+        var ownerInfoData: GetOwnerInfoResponseDTO? = nil
+        var commentData: GetCommentsResponseDTO? = nil
+        
         dispatchGroup.enter()
-        getDetails(groupId: groupId, groupType: groupType) { _ in
+        getDetails(groupId: groupId, groupType: groupType) { data in
+            meetingDetailData = data
             dispatchGroup.leave()
         }
         
         dispatchGroup.enter()
-        getOwnerInfo(groupId: groupId, groupType: groupType) { _ in
+        getOwnerInfo(groupId: groupId, groupType: groupType) { data in
+            ownerInfoData = data
             dispatchGroup.leave()
         }
         
         dispatchGroup.enter()
-        getComments(groupId: groupId, groupType: groupType) { _ in
+        getComments(groupId: groupId, groupType: groupType) { data in
+            commentData = data
             dispatchGroup.leave()
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            self.meetingDetailData = meetingDetailData
+            self.ownerInfoData = ownerInfoData
+            self.commentData = commentData
         }
     }
     
@@ -147,10 +154,12 @@ extension MeetingDetailViewModel {
             ),
             instance: BaseResponse<GetMeetingDetailsResponseDTO>.self
         ) { response in
-            if !response.success {
+            if response.success {
+                guard let data = response.data else { return }
+                completion(data)
+            } else {
                 self.alertType = .fullErrorView
             }
-            self.meetingDetailData = response.data
         }
     }
     
@@ -163,69 +172,11 @@ extension MeetingDetailViewModel {
             target: .getOwnerInfo(groupId: groupId, groupType: groupType),
             instance: BaseResponse<GetOwnerInfoResponseDTO>.self
         ) { response in
-            if !response.success {
-                self.alertType = .fullErrorView // ⭐️ 이렇게 alert 필요할 때마다 설정해주면 됨
-            }
-            self.ownerInfoData = response.data
-        }
-    }
-    
-    func postApplyMeeting(groupId: Int, groupType: String) {
-        let requestData = PostApplyMeetingRequestBodyDTO(
-            groupId: groupId,
-            groupType: groupType
-        )
-        Providers.meetingDetailProvider.request(
-            target: .postApplyMeeting(
-                data: requestData
-            ),
-            instance: BaseResponse<EmptyResponseDTO>.self
-        ) { response in
-            DispatchQueue.main.async {
-                if response.success {
-                    self.alertType = .apply
-                    print("✅ 신청 성공!")
-                } else {
-                    switch response.code {
-                    case 4097:
-                        self.alertType = .recruited
-                        print("⚠️ 신청 불가능한 상태 - 인원마감 (code: 4097)")
-                    default:
-                        self.alertType = .error(isGetMethod: false)
-                        print("❌ 신청 실패: \(response.message ?? "알 수 없는 오류")")
-                    }
-                }
-                
-                self.getDetails(groupId: groupId, groupType: groupType) { _ in
-                    print("getDetails finished result and data: \(String(describing: self.getDetails))")
-                }
-            }
-        }
-    }
-    
-    func patchApplyMeeting(groupId: Int, groupType: String) {
-        let requestData = PostApplyMeetingRequestBodyDTO(
-            groupId: groupId,
-            groupType: groupType
-        )
-        
-        Providers.meetingDetailProvider.request(
-            target: .patchApplyMeeting(
-                data: requestData
-            ),
-            instance: BaseResponse<EmptyResponseDTO>.self
-        ) { response in
-            DispatchQueue.main.async {
-                if response.success {
-                    self.alertType = .cancel
-                    print("✅ 취소 성공!")
-                } else {
-                    self.alertType = .error(isGetMethod: false)
-                    print("❌ 취소 실패: \(response.message ?? "알 수 없는 오류")")
-                }
-                self.getDetails(groupId: groupId, groupType: groupType) { _ in
-                    print("getDetails finished result and data: \(String(describing: self.getDetails))")
-                }
+            if response.success {
+                guard let data = response.data else { return }
+                completion(data)
+            } else {
+                self.alertType = .fullErrorView
             }
         }
     }
@@ -243,10 +194,66 @@ extension MeetingDetailViewModel {
             ),
             instance: BaseResponse<GetCommentsResponseDTO>.self
         ) { response in
-            if !response.success {
-                self.alertType = .error()
+            if response.success {
+                guard let data = response.data else { return }
+                completion(data)
+            } else {
+                self.alertType = .fullErrorView
             }
-            self.commentData = response.data
+        }
+    }
+    
+    func postApplyMeeting(groupId: Int, groupType: String) {
+        let requestData = PostApplyMeetingRequestBodyDTO(
+            groupId: groupId,
+            groupType: groupType
+        )
+        
+        Providers.meetingDetailProvider.request(
+            target: .postApplyMeeting(data: requestData),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            if response.success {
+                self.alertType = .apply
+                print("✅ 신청 성공!")
+            } else {
+                switch response.code {
+                case 4097:
+                    self.alertType = .recruited
+                    print("⚠️ 신청 불가능한 상태 - 인원마감 (code: 4097)")
+                default:
+                    self.alertType = .error
+                    print("❌ 신청 실패: \(response.message ?? "알 수 없는 오류")")
+                }
+            }
+            
+            self.getDetails(groupId: groupId, groupType: groupType) { data in
+                self.meetingDetailData = data
+            }
+        }
+    }
+    
+    func patchApplyMeeting(groupId: Int, groupType: String) {
+        let requestData = PostApplyMeetingRequestBodyDTO(
+            groupId: groupId,
+            groupType: groupType
+        )
+        
+        Providers.meetingDetailProvider.request(
+            target: .patchApplyMeeting(data: requestData),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            if response.success {
+                self.alertType = .cancel
+                print("✅ 취소 성공!")
+            } else {
+                self.alertType = .error
+                print("❌ 취소 실패: \(response.message ?? "알 수 없는 오류")")
+            }
+            
+            self.getDetails(groupId: groupId, groupType: groupType) { data in
+                self.meetingDetailData = data
+            }
         }
     }
     
@@ -258,17 +265,18 @@ extension MeetingDetailViewModel {
             body: commentContent
         )
         
-        Providers.commentProvider.request(target: .postComment(data: requestData), instance: BaseResponse<EmptyResponseDTO>.self) { response in
-            DispatchQueue.main.async {
-                if response.success {
-                    print("✅ 댓글 등록 성공!")
-                } else {
-                    self.alertType = .error(isGetMethod: false)
-                    print("❌ 댓글 등록 실패: \(response.message ?? "알 수 없는 오류")")
+        Providers.commentProvider.request(
+            target: .postComment(data: requestData),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            if response.success {
+                print("✅ 댓글 등록 성공!")
+                self.getComments(groupId: groupId, groupType: groupType) { data in
+                    self.commentData = data
                 }
-                self.getComments(groupId: groupId, groupType: groupType) { _ in
-                    print("getComments finished, memberData: \(String(describing: self.commentData))")
-                }
+            } else {
+                self.alertType = .error
+                print("❌ 댓글 등록 실패: \(response.message ?? "알 수 없는 오류")")
             }
         }
     }
@@ -284,19 +292,34 @@ extension MeetingDetailViewModel {
         )
         
         Providers.meetingDetailProvider.request(
-            target: .deleteMyMeeting(
-                data: requestData
-            ),
+            target: .deleteMyMeeting(data: requestData),
             instance: BaseResponse<EmptyResponseDTO>.self
         ) { response in
-            DispatchQueue.main.async {
-                if response.success {
-                    print("✅ 삭제 성공!")
-                    completion()
-                } else {
-                    self.alertType = .error(isGetMethod: false)
-                    print("❌ 삭제 실패: \(response.message ?? "알 수 없는 오류")")
+            if response.success {
+                print("✅ 삭제 성공!")
+                completion()
+            } else {
+                self.alertType = .error
+                print("❌ 삭제 실패: \(response.message ?? "알 수 없는 오류")")
+            }
+        }
+    }
+    
+    func deleteComment(groupId: Int, groupType: String, commentId: Int) {
+        let requestData = DeleteCommentRequestDTO(commentId: commentId)
+        
+        Providers.commentProvider.request(
+            target: .deleteComment(data: requestData),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            if response.success {
+                print("✅ 댓글 삭제 성공!")
+                self.getComments(groupId: groupId, groupType: groupType) { data in
+                    self.commentData = data
                 }
+            } else {
+                self.alertType = .error
+                print("❌ 댓글 삭제 실패: \(response.message ?? "알 수 없는 오류")")
             }
         }
     }
