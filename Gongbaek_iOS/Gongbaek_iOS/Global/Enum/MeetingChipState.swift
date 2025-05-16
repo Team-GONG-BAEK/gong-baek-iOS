@@ -58,7 +58,7 @@ extension MeetingChipState {
             case .RECRUITED:
                 return "인원마감"
             case .CLOSED:
-                return "마감"            }
+                return "종료"            }
         case .category(let categoryState):
             return categoryState.categoryName
         case .weekly(let isWeekly):

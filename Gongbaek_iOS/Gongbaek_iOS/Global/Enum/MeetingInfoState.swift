@@ -31,13 +31,4 @@ extension MeetingInfoState {
         case .detail: return .caption2_m_12
         }
     }
-    
-    var isRecruitingChipVisible: Bool {
-        switch self {
-        case .cell(.myFill), .detail:
-            return true
-        default:
-            return false
-        }
-    }
 }
