@@ -48,6 +48,7 @@ struct MeetingInfoBase: View {
                     // 모임 제목
                     Text(meeting.groupTitle)
                         .pretendardFont(state.titleFont)
+                        .foregroundColor(.gray10)
                         .lineLimit(1)
                     
                     // 모임 정보
