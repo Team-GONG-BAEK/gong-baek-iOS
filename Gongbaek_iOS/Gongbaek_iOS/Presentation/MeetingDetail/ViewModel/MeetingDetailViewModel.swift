@@ -21,6 +21,7 @@ class MeetingDetailViewModel: ObservableObject {
     @Published var ownerInfoData: GetOwnerInfoResponseDTO? = nil
     @Published var commentData: GetCommentsResponseDTO? = nil
     @Published var alertType: MeetingDetailAlertType? = nil
+    @Published var isDeletedHost: Bool = false
     
     func meeting(for meetingDetailData: GetMeetingDetailsResponseDTO) -> Meeting {
         return Meeting(
@@ -166,7 +167,7 @@ extension MeetingDetailViewModel {
     func getOwnerInfo(
         groupId: Int,
         groupType: String,
-        completion: @escaping (GetOwnerInfoResponseDTO) -> ()
+        completion: @escaping (GetOwnerInfoResponseDTO?) -> ()
     ) {
         Providers.meetingDetailProvider.request(
             target: .getOwnerInfo(groupId: groupId, groupType: groupType),
@@ -176,7 +177,13 @@ extension MeetingDetailViewModel {
                 guard let data = response.data else { return }
                 completion(data)
             } else {
-                self.alertType = .fullErrorView
+                switch response.code {
+                case 4042:
+                    self.isDeletedHost = true
+                    completion(nil)
+                default:
+                    self.alertType = .fullErrorView
+                }
             }
         }
     }

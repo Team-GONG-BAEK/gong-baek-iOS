@@ -18,7 +18,7 @@ struct SearchTextField: View {
         VStack(alignment: .leading, spacing: 10) {
             Group {
                 Text(state.rawValue)
-                    .font(.pretendard(.body2_sb_14))
+                    .pretendardFont(.body2_sb_14)
                     .foregroundColor(.gray08)
                 
                 ZStack {
@@ -26,9 +26,9 @@ struct SearchTextField: View {
                         "\(state.rawValue)를 검색하세요.",
                         text: $inputText
                     )
+                    .pretendardFont(.body1_m_16)
                     .disabled(isButton)
                     .focused($isFocused)
-                    .font(.pretendard(.body1_m_16))
                     .padding(.vertical, 14)
                     .padding(.leading, 16)
                     .padding(.trailing, 48)

@@ -12,18 +12,16 @@ struct MyProfile: View {
     
     var body: some View {
         HStack(spacing: 14) {
-            let imageIndex = profile.profileImg
-            let profileImage = ProfileDefaultImageMap(rawValue: imageIndex)?.image ?? .imgProfileDefault0
+            let profileImage = ProfileDefaultImageMap(rawValue: profile.profileImg)?.image
             
-            Image(profileImage)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 64, height: 64)
-                .padding(8)
-                .border(.gray02, width: 1)
-                .cornerRadius(2)
+            if let profileImage {
+                Image(profileImage)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 80, height: 80)
+            }
             
-            VStack(alignment: .leading, spacing: 0) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(profile.nickname)
                     .pretendardFont(.title1_m_20)
                     .foregroundColor(.grayBlack)

@@ -26,7 +26,7 @@ struct CategoryImageButton: View {
                 }
                 
                 Text(category.categoryName)
-                    .font(.pretendard(.body1_m_16))
+                    .pretendardFont(.body1_m_16)
                     .foregroundColor(.gray08)
             }
             .buttonStyle(PlainButtonStyle())

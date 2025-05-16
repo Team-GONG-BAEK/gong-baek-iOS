@@ -26,7 +26,7 @@ struct TimeSelect: View {
             
             HStack(spacing: 12) {
                 Text("나의 시간표")
-                    .font(.pretendard(.body1_b_16))
+                    .pretendardFont(.body1_b_16)
                     .foregroundColor(.gray08)
                 Spacer()
                 Button(action: {
@@ -35,7 +35,7 @@ struct TimeSelect: View {
                 }) {
                     HStack(spacing: 0) {
                         Text("다시 선택")
-                            .font(.pretendard(.caption2_m_12))
+                            .pretendardFont(.caption2_m_12)
                             .foregroundColor(.mainOrange)
                         Image(.icOptionReset18)
                             .foregroundColor(.mainOrange)

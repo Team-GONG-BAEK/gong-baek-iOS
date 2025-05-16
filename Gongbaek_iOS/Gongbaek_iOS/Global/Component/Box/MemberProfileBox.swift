@@ -16,16 +16,11 @@ struct MemberProfileBox: View {
                 Image(image)
                     .resizable()
                     .scaledToFill()
-                    .padding(8)
                     .frame(width: 80, height: 80)
                     .clipShape(RoundedRectangle(cornerRadius: 2))
                     .overlay(
                         memberData.isHost ? OwnerChip(ownerChipColor: .gray09).padding(6) : nil,
                         alignment: .bottomLeading
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 2)
-                            .stroke(.gray02, lineWidth: 1)
                     )
                     .padding(.horizontal, 7)
             }

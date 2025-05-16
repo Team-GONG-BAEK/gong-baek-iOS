@@ -18,6 +18,7 @@ struct CommentCell: View {
                 HStack(alignment: .center, spacing: 6) {
                     Text(comment.nickname ?? "알 수 없음")
                         .pretendardFont(.body1_sb_16)
+                        .foregroundColor(.gray10)
                     comment.isGroupHost ? OwnerChip() : nil
                     Spacer()
                     if comment.isWriter {

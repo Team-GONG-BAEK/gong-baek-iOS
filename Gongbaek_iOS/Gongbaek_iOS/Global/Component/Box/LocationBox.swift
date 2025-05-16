@@ -10,17 +10,18 @@ import SwiftUI
 struct LocationBox: View {
     let state: InfoColorState
     let text: String
-    let font: Font
+    let font: FontFamily
     
     var body: some View {
         HStack(alignment: .center, spacing: 4) {
             Image(.icPlace16)
                 .resizable()
+                .scaledToFit()
                 .frame(width: 16, height: 16)
                 .foregroundColor(.gray05)
             
             Text(text)
-                .font(font)
+                .pretendardFont(font)
                 .foregroundColor(textColor)
         }
     }
@@ -38,5 +39,5 @@ struct LocationBox: View {
 
 
 #Preview {
-    LocationBox(state: .gray, text: "우리집!", font: .pretendard(.caption2_r_12))
+    LocationBox(state: .gray, text: "우리집!", font: .caption2_r_12)
 }

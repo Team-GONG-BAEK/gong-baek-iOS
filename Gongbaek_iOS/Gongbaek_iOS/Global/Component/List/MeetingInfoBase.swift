@@ -12,7 +12,7 @@ struct MeetingInfoBase: View {
     var meeting: Meeting
     
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(alignment: .center, spacing: 12) {
             if let category = CategoryState(meeting.category) {
                 Image(category.coverImage[meeting.coverImg])
                     .resizable()
@@ -47,7 +47,8 @@ struct MeetingInfoBase: View {
                 VStack(alignment: .leading, spacing: 8) {
                     // 모임 제목
                     Text(meeting.groupTitle)
-                        .font(state.titleFont)
+                        .pretendardFont(state.titleFont)
+                        .foregroundColor(.gray10)
                         .lineLimit(1)
                     
                     // 모임 정보
@@ -71,7 +72,8 @@ struct MeetingInfoBase: View {
                     }
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .topLeading)
+            
+            Spacer()
         }
     }
 }

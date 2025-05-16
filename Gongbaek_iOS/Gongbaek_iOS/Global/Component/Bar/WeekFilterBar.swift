@@ -40,7 +40,7 @@ struct WeekFilterBar: View {
 //                            selectedDay = day
                         }) {
                             Text(day.rawValue)
-                                .font(.pretendard(.caption1_sb_13))
+                                .pretendardFont(.caption1_sb_13)
                                 .foregroundColor(selectedDay == day ? .mainOrange : .gray06)
                         }
                         .frame(width: day == .all ? allButtonWidth : weekDayButtonWidth, height: 34)
