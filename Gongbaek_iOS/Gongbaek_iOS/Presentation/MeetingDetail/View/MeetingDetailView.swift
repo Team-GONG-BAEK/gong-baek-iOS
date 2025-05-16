@@ -108,7 +108,8 @@ extension MeetingDetailView {
                 },
                 onTapOrangeButton: {
                     viewModel.deleteMyMeeting(groupId: groupId, groupType: groupType) {
-                        navigationManager.pop()
+                        navigationManager.rootView = .tabBar
+                        navigationManager.selectedTab = .myPage
                     }
                     viewModel.alertType = nil
                 })

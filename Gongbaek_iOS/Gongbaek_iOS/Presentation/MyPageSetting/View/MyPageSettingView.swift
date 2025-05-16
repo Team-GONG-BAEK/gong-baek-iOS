@@ -27,7 +27,12 @@ struct MyPageSettingView: View {
                 }
                 Spacer()
             }
-            
+            .customNavigationBar(viewName: "설정", showBackButton: true)
+            .onChange(of: viewModel.isSignedOut) {
+                if viewModel.isSignedOut {
+                    navigationManager.rootView = .login
+                }
+            }
             if viewModel.showAlert {
                 BasicAlert(
                     titleText: "\(viewModel.selectedAction == .logout ? "로그아웃을" : "회원탈퇴를") 진행하시겠습니까?",
@@ -40,12 +45,6 @@ struct MyPageSettingView: View {
                         viewModel.confirmAction()
                     }
                 )
-            }
-        }
-        .customNavigationBar(viewName: "설정", showBackButton: true)
-        .onChange(of: viewModel.isSignedOut) {
-            if viewModel.isSignedOut {
-                navigationManager.rootView = .login
             }
         }
     }
