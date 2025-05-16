@@ -12,7 +12,7 @@ struct SelectedTimeBox: View {
     
     var body: some View {
         Text(time)
-            .font(.pretendard(.title2_b_18))
+            .pretendardFont(.title2_b_18)
             .foregroundColor(.gray09)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 10)

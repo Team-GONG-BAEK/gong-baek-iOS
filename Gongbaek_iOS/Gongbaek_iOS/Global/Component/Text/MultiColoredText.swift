@@ -11,10 +11,12 @@ import SwiftUI
 struct MultiColoredText: View {
     var originalText: String
     var coloredSubstrings: [(String, Color)]
+    var font: FontFamily
     
     var body: some View {
         let textFragments: [Text] = createColoredTextFragments()
         return textFragments.reduce(Text(""), +)
+            .pretendardFont(font)
     }
     
     private func createColoredTextFragments() -> [Text] {

@@ -34,9 +34,3 @@ struct CategoryBar: View {
     let viewModel = FillingViewModel()
     CategoryBar(viewModel: viewModel)
 }
-
-
-#Preview {
-    let viewModel = FillingViewModel()
-    CategoryBar(viewModel: viewModel)
-}

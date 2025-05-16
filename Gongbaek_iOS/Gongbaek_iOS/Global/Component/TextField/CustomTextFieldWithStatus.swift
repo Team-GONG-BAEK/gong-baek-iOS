@@ -18,7 +18,7 @@ struct CustomTextFieldWithStatus<Status: TextFieldErrorStatus>: View {
         ZStack(alignment: .bottomLeading) {
             VStack(alignment: .leading, spacing: 0) {
                 Text(type.titleText)
-                    .font(.pretendard(.body2_sb_14))
+                    .pretendardFont(.body2_sb_14)
                     .foregroundColor(.gray08)
                     .padding(.bottom, 10)
                 
@@ -46,7 +46,7 @@ struct CustomTextFieldWithStatus<Status: TextFieldErrorStatus>: View {
                         Spacer()
                         
                         Text("\(text.count)/\(maxCharacterCount)")
-                            .font(.pretendard(.caption2_r_12))
+                            .pretendardFont(.caption2_r_12)
                             .frame(height: 18)
                             .foregroundColor(.gray06)
                             .padding(.top, 4)
@@ -57,7 +57,7 @@ struct CustomTextFieldWithStatus<Status: TextFieldErrorStatus>: View {
             HStack {
                 if let status = status {
                     Text(status.message)
-                        .font(.pretendard(.caption2_r_12))
+                        .pretendardFont(.caption2_r_12)
                         .foregroundColor(status.isError ? .errorRed : .gray06)
                         .frame(height: 18)
                         .offset(y: type == .nickname ? 0 : 18+2)
@@ -97,7 +97,7 @@ struct NicknameTestView: View {
                 checkDuplicateNickname()
             }) {
                 Text("중복 확인")
-                    .font(.pretendard(.title2_sb_18))
+                    .pretendardFont(.title2_sb_18)
                     .foregroundColor(.grayWhite)
                     .padding(.vertical, 16)
                     .frame(maxWidth: .infinity)

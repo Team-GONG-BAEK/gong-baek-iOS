@@ -58,7 +58,7 @@ struct CustomCalendar: View {
                     .disabled(false)
                 
                 Text(month, formatter: Self.calendarHeaderDateFormatter)
-                    .font(.pretendard(.title2_sb_18))
+                    .pretendardFont(.title2_sb_18)
                 
                 Button(
                     action: {
@@ -76,7 +76,7 @@ struct CustomCalendar: View {
                 ForEach(Self.weekdaySymbols.indices, id: \.self) { index in
                     let symbol = Self.weekdaySymbols[index]
                     Text(symbol)
-                        .font(.pretendard(.body1_sb_16))
+                        .pretendardFont(.body1_sb_16)
                         .foregroundColor(.gray06)
                         .frame(maxWidth: .infinity)
                 }
@@ -191,7 +191,7 @@ private struct CalendarCell: View {
             .fill(backgroundColor)
             .overlay(
                 Text(String(day))
-                    .font(.pretendard(.body1_m_16))
+                    .pretendardFont(.body1_m_16)
             )
             .foregroundColor(textColor)
             .frame(height: 28)

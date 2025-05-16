@@ -39,14 +39,14 @@ struct MeetingRoomView: View {
                                             startTime: meetingData.startTime,
                                             endTime: meetingData.endTime
                                         ),
-                                        font: .pretendard(.caption2_r_12)
+                                        font: .caption2_r_12
                                     )
                                     .padding(.bottom, 2)
                                     
                                     LocationBox(
                                         state: .white,
                                         text: meetingData.location,
-                                        font: .pretendard(.caption2_r_12)
+                                        font: .caption2_r_12
                                     )
                                 }
                                 .padding(.top, geometry.safeAreaInsets.top + 48 + 18)
@@ -165,14 +165,14 @@ private extension MeetingRoomView {
             memberTitle(current, max)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 6) {
+                HStack(spacing: 0) {
                     if let memberData = viewModel.memberData {
                         ForEach(memberData.members.indices, id: \.self) { index in
                             MemberProfileBox(memberData: memberData.members[index])
                         }
                     }
                 }
-                .padding(.horizontal, 9)
+                .padding(.horizontal, 7)
                 .padding(.bottom, 16)
             }
         }

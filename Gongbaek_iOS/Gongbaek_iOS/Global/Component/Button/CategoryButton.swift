@@ -17,9 +17,9 @@ struct CategoryButton: View {
             onTap?()
         }) {
             Text(text)
-                .font(isSelcted ? .pretendard(.caption1_sb_13) : .pretendard(.caption1_m_13))
+                .pretendardFont(isSelcted ? .caption1_sb_13 : .caption1_m_13)
                 .padding(.horizontal, 12)
-                .padding(.vertical, 8)
+                .padding(.vertical, 6)
                 .background(isSelcted ? .gray09 : .grayWhite)
                 .foregroundColor(isSelcted ? .gray01 : .gray06)
                 .overlay(

@@ -17,7 +17,7 @@ struct CustomTextField: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(type.titleText)
-                .font(.pretendard(.body2_sb_14))
+                .pretendardFont(.body2_sb_14)
                 .foregroundColor(.gray08)
                 .padding(.bottom, 10)
             

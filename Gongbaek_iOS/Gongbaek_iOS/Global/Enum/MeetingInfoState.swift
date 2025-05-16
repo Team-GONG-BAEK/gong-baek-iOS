@@ -18,18 +18,17 @@ enum MeetingInfoState {
 }
 
 extension MeetingInfoState {
-    var titleFont: Font {
+    var titleFont: FontFamily {
         switch self {
-        case .cell: return .pretendard(.body1_m_16)
-        case .detail: return .pretendard(.body1_sb_16)
+        case .cell: return .body1_m_16
+        case .detail: return .body1_sb_16
         }
     }
     
-    var infoFont: Font {
+    var infoFont: FontFamily {
         switch self {
-        case .cell: return .pretendard(.caption2_r_12)
-        case .detail: return .pretendard(.caption2_m_12)
+        case .cell: return .caption2_r_12
+        case .detail: return .caption2_m_12
         }
     }
-    
 }

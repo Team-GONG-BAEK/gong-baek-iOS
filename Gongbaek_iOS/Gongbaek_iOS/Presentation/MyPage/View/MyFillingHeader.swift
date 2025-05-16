@@ -17,7 +17,7 @@ struct MyFillingHeader: View {
                 .renderingMode(.original)
                 .frame(width: 18, height: 18)
             Text(title)
-                .font(.pretendard(.title2_m_18))
+                .pretendardFont(.title2_m_18)
         }
         .padding(.top, 28)
         .padding(.bottom, 6)

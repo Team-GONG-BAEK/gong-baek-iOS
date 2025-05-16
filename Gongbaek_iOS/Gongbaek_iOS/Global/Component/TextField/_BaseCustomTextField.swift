@@ -18,8 +18,8 @@ struct _BaseCustomTextField: View {
             type.placeholderText,
             text: $text
         )
+        .pretendardFont(.body1_m_16)
         .focused($isFocused)
-        .font(.pretendard(.body1_m_16))
         .padding(.vertical, 14)
         .padding(.horizontal, 16)
         .background(.gray01)

@@ -17,7 +17,7 @@ struct SmallButton: View {
             onTap?()
         }) {
             Text(text)
-                .font(isTapped ? .pretendard(.body1_b_16) : .pretendard(.body1_m_16))
+                .pretendardFont(isTapped ? .body1_b_16 : .body1_m_16)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 14)
                 .background(isTapped ? .subOrange : .gray01)
