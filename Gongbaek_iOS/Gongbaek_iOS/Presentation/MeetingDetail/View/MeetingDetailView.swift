@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MeetingDetailView: View {
     @EnvironmentObject var navigationManager: NavigationManager
-    @Environment(\.openURL) private var openURL
     @StateObject var viewModel = MeetingDetailViewModel()
     let groupId: Int
     let groupType: String
@@ -34,9 +33,7 @@ struct MeetingDetailView: View {
                 showBackButton: true,
                 rightButtonType: .report
             ) {
-                if let url = URL(string: "https://docs.google.com/forms/d/e/1FAIpQLSeKiXqJWDIPdPJ-dm_amjsSc4jFvzr9PE8ysMykVZih8WZDJw/viewform?usp=sharing") {
-                    openURL(url)
-                }
+                viewModel.alertType = .meetingReport
             }
             .onAppear {
                 viewModel.fetchAllData(groupId: groupId, groupType: groupType)
@@ -131,6 +128,20 @@ extension MeetingDetailView {
             .customNavigationBar(
                 viewName: "채우기",
                 showBackButton: true
+            )
+        case .meetingReport:
+            BasicAlert(
+                title: "해당 모임을 신고하겠습니까?",
+                subtitle: "모임을 신고할 경우,\n운영팀에서 검토를 거쳐 24시간 내에\n적절한 조치 및 게시자 제재를 취할 것입니다.",
+                grayButtonText: "취소",
+                orangeButtonText: "신고하기",
+                onTapGrayButton: {
+                    viewModel.alertType = nil
+                },
+                onTapOrangeButton: {
+                    // TODO: 신고 API 연결
+                    viewModel.alertType = nil
+                }
             )
         }
     }

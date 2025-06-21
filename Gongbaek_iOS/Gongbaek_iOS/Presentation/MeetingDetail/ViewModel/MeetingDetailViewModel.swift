@@ -14,6 +14,7 @@ enum MeetingDetailAlertType {
     case delete
     case error
     case fullErrorView
+    case meetingReport
 }
 
 class MeetingDetailViewModel: ObservableObject {

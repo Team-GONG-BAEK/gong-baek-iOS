@@ -54,7 +54,7 @@ struct BasicAlert: View {
     
     func titleTextBox() -> some View {
         Text(title)
-            .pretendardFont(.title2_sb_18)
+            .pretendardFont(.body1_sb_16)
             .lineLimit(nil)
             .frame(maxWidth: .infinity)
             .multilineTextAlignment(.center)
@@ -78,8 +78,8 @@ struct BasicAlert: View {
             buttonAction?()
         }) {
             Text(buttonText)
-                .pretendardFont(.title2_sb_18)
-                .padding(.vertical, 12)
+                .pretendardFont(.body1_sb_16)
+                .padding(.vertical, 10)
                 .frame(maxWidth: .infinity)
                 .foregroundStyle(.grayWhite)
                 .background(.gray08)
@@ -94,8 +94,8 @@ struct BasicAlert: View {
             buttonAction?()
         }) {
             Text(orangeButtonText)
-                .pretendardFont(.title2_sb_18)
-                .padding(.vertical, 12)
+                .pretendardFont(.body1_sb_16)
+                .padding(.vertical, 10)
                 .frame(maxWidth: .infinity)
                 .background(.mainOrange)
                 .foregroundStyle(.grayWhite)
