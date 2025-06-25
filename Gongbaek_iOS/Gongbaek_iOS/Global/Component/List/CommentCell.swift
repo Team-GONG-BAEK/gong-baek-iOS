@@ -20,11 +20,15 @@ struct CommentCell: View {
                         .pretendardFont(.body1_sb_16)
                         .foregroundColor(.gray10)
                     comment.isGroupHost ? OwnerChip() : nil
+                    
                     Spacer()
+                    
                     if comment.isWriter {
                         DeleteButton {
                             deleteComment(commentId: comment.commentId)
                         }
+                    } else {
+                        reportButton()
                     }
                 }
                 .foregroundColor(.grayBlack)
@@ -45,7 +49,18 @@ struct CommentCell: View {
         }
     }
     
-    func divider() -> some View {
+    private func reportButton() -> some View {
+        Button(action: {
+            // TODO: 뷰모델 연결. 댓글 뷰모델을 따로 만들지, 아님 프로토콜 만들지?
+        }) {
+            Image(.icReport20)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 20, height: 20)
+        }
+    }
+    
+    private func divider() -> some View {
         Color.gray02.frame(height: 1)
     }
     
@@ -57,10 +72,11 @@ struct CommentCell: View {
                 groupType: data.groupType,
                 commentId: commentId
             )
-        } else if let viewModel = meetingRoomViewModel {
+        } else if let viewModel = meetingRoomViewModel,
+                  let data = viewModel.meetingDetailData {
             viewModel.deleteComment(
-                groupId: viewModel.meetingDetailData?.groupId ?? 0,
-                groupType: viewModel.meetingDetailData?.groupType ?? "",
+                groupId: data.groupId,
+                groupType: data.groupType,
                 commentId: commentId
             )
         }
