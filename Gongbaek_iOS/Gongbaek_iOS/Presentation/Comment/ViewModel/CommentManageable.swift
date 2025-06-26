@@ -45,7 +45,15 @@ extension CommentManageable {
         }
     }
     
-    func deleteComment(groupId: Int, groupType: String, commentId: Int) {
+    func deleteComment(commentId: Int, completion: @escaping (BaseResponse<EmptyResponseDTO>) -> ()
+    ) {
+        let requestData = DeleteCommentRequestDTO(commentId: commentId)
         
+        Providers.commentProvider.request(
+            target: .deleteComment(data: requestData),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            completion(response)
+        }
     }
 }

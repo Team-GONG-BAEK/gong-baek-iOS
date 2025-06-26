@@ -262,7 +262,11 @@ extension MeetingDetailViewModel {
         }
     }
     
-    func postComment(groupId: Int, groupType: String, commentContent: String) {
+    func postComment(
+        groupId: Int,
+        groupType: String,
+        commentContent: String
+    ) {
         let requestData = PostCommentRequestBodyDTO(
             groupId: groupId,
             groupType: groupType,
@@ -307,20 +311,19 @@ extension MeetingDetailViewModel {
         }
     }
     
-    func deleteComment(groupId: Int, groupType: String, commentId: Int) {
-        let requestData = DeleteCommentRequestDTO(commentId: commentId)
-        
-        Providers.commentProvider.request(
-            target: .deleteComment(data: requestData),
-            instance: BaseResponse<EmptyResponseDTO>.self
-        ) { response in
+    func deleteComment(
+        groupId: Int,
+        groupType: String,
+        commentId: Int
+    ) {
+        deleteComment(commentId: commentId) { [weak self] response in
             if response.success {
                 print("✅ 댓글 삭제 성공!")
-                self.getComments(groupId: groupId, groupType: groupType) { data in
-                    self.commentData = data
+                self?.getComments(groupId: groupId, groupType: groupType) { data in
+                    self?.commentData = data
                 }
             } else {
-                self.alertType = .error
+                self?.alertType = .error
                 print("❌ 댓글 삭제 실패: \(response.message ?? "알 수 없는 오류")")
             }
         }
