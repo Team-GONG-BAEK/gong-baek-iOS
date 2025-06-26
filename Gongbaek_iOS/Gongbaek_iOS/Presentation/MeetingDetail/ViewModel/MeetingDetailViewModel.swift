@@ -194,19 +194,16 @@ extension MeetingDetailViewModel {
         groupType: String,
         completion: @escaping (GetCommentsResponseDTO) -> ()
     ) {
-        Providers.commentProvider.request(
-            target: .getComments(
-                isPublic: true,
-                groupId: groupId,
-                groupType: groupType
-            ),
-            instance: BaseResponse<GetCommentsResponseDTO>.self
-        ) { response in
+        getComments(
+            isPublic: true,
+            groupId: groupId,
+            groupType: groupType
+        ) { [weak self] response in
             if response.success {
                 guard let data = response.data else { return }
                 completion(data)
             } else {
-                self.alertType = .fullErrorView
+                self?.alertType = .fullErrorView
             }
         }
     }

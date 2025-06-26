@@ -27,8 +27,22 @@ extension CommentManageable {
         }
     }
     
-    func getComments(groupId: Int, groupType: String, completion: @escaping (GetCommentsResponseDTO) -> ()) {
-        
+    func getComments(
+        isPublic: Bool,
+        groupId: Int,
+        groupType: String,
+        completion: @escaping (BaseResponse<GetCommentsResponseDTO>) -> ()
+    ) {
+        Providers.commentProvider.request(
+            target: .getComments(
+                isPublic: isPublic,
+                groupId: groupId,
+                groupType: groupType
+            ),
+            instance: BaseResponse<GetCommentsResponseDTO>.self
+        ) { response in
+            completion(response)
+        }
     }
     
     func deleteComment(groupId: Int, groupType: String, commentId: Int) {
