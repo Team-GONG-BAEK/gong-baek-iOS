@@ -77,7 +77,7 @@ struct MeetingRoomView: View {
                 }
             }
             .customNavigationBar(
-                isMeetingRoom: viewModel.showFullErrorView ? false : true,
+                isMeetingRoom: viewModel.alertType == .fullErrorView ? false : true,
                 showBackButton: true
             )
             .onTapGesture {
@@ -87,27 +87,8 @@ struct MeetingRoomView: View {
                 viewModel.fetchAllData(groupId: groupId, groupType: groupType)
             }
             
-            if viewModel.showFullErrorView {
-                FullErrorView(onTapRetryButton: {
-                    viewModel.showFullErrorView = false
-                    viewModel.fetchAllData(groupId: groupId, groupType: groupType)
-                })
-                .customNavigationBar(
-                    viewName: viewModel.showFullErrorView ? "스페이스" : nil,
-                    showBackButton: true
-                )
-            }
-            
-            if viewModel.showErrorAlert {
-                GongbaekAlert(
-                    alertImage: "img_fail" ,
-                    titleText: "앗! 데이터를 불러오지 못했어요.",
-                    subtitleText: "다시 시도해주세요.",
-                    orangeButtonText: "확인",
-                    onTapOrangeButton: {
-                        viewModel.showErrorAlert = false
-                    }
-                )
+            if let alertType = viewModel.alertType {
+                alert(type: alertType)
             }
         }
     }
@@ -199,5 +180,30 @@ private extension MeetingRoomView {
     
     func divider() -> some View {
         Color.gray02.frame(height: 8)
+    }
+    
+    @ViewBuilder
+    func alert(type: MeetingRoomAlertType) -> some View {
+        switch type {
+        case .error:
+            GongbaekAlert(
+                alertImage: "img_fail" ,
+                titleText: "일시적인 오류가 발생했습니다.",
+                subtitleText: "잠시 후 다시 시도해주세요.",
+                orangeButtonText: "닫기",
+                onTapOrangeButton: {
+                    viewModel.alertType = nil
+                }
+            )
+        case .fullErrorView:
+            FullErrorView(onTapRetryButton: {
+                viewModel.alertType = nil
+                viewModel.fetchAllData(groupId: groupId, groupType: groupType)
+            })
+            .customNavigationBar(
+                viewName: viewModel.alertType == .fullErrorView ? "스페이스" : nil,
+                showBackButton: true
+            )
+        }
     }
 }

@@ -7,12 +7,17 @@
 
 import SwiftUI
 
+enum MeetingRoomAlertType {
+    case error
+    case fullErrorView
+//    case commentReport
+}
+
 final class MeetingRoomViewModel: CommentManageable {
     @Published var meetingDetailData: GetMeetingRoomDetailsResponseDTO? = nil
     @Published var memberData: GetMeetingRoomMembersResponseDTO? = nil
     @Published var commentData: GetCommentsResponseDTO? = nil
-    @Published var showErrorAlert: Bool = false
-    @Published var showFullErrorView: Bool = false
+    @Published var alertType: MeetingRoomAlertType? = nil
     
     var meetingStates: [MeetingChipState] {
         [
@@ -74,7 +79,7 @@ extension MeetingRoomViewModel {
                 guard let data = response.data else { return }
                 completion(data)
             } else {
-                self.showFullErrorView = true
+                self.alertType = .fullErrorView
             }
         }
     }
@@ -92,7 +97,7 @@ extension MeetingRoomViewModel {
                 guard let data = response.data else { return }
                 completion(data)
             } else {
-                self.showFullErrorView = true
+                self.alertType = .fullErrorView
             }
         }
     }
@@ -110,7 +115,7 @@ extension MeetingRoomViewModel {
                 guard let data = response.data else { return }
                 completion(data)
             } else {
-                self.showFullErrorView = true
+                self.alertType = .fullErrorView
             }
         }
     }
@@ -133,7 +138,7 @@ extension MeetingRoomViewModel {
                     self.commentData = data
                 }
             } else {
-                self.showErrorAlert = true
+                self.alertType = .error
                 print("❌ 댓글 등록 실패: \(response.message ?? "알 수 없는 오류")")
             }
         }
@@ -152,7 +157,7 @@ extension MeetingRoomViewModel {
                     self.commentData = data
                 }
             } else {
-                self.showErrorAlert = true
+                self.alertType = .error
                 print("❌ 댓글 삭제 실패: \(response.message ?? "알 수 없는 오류")")
             }
         }
