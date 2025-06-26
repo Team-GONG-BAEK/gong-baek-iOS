@@ -11,6 +11,7 @@ import Combine
 
 struct MeetingRoomView: View {
     @StateObject var viewModel: MeetingRoomViewModel
+    @State var showToast = false
     let groupId: Int
     let groupType: String
     
@@ -89,6 +90,18 @@ struct MeetingRoomView: View {
             
             if let alertType = viewModel.alertType {
                 alert(type: alertType)
+            }
+            
+            if showToast {
+                GongBaekToast(type: .commentReport)
+                    .transition(.scale.combined(with: .opacity))
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                            withAnimation(.easeOut(duration: 0.3)) {
+                                showToast = false
+                            }
+                        }
+                    }
             }
         }
     }
@@ -214,7 +227,9 @@ private extension MeetingRoomView {
                     viewModel.alertType = nil
                 },
                 onTapOrangeButton: {
-                    viewModel.reportComment(commentId: commentId)
+                    viewModel.reportComment(commentId: commentId) {
+                        showToast = true
+                    }
                     viewModel.alertType = nil
                 }
             )

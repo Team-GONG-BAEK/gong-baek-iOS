@@ -10,6 +10,7 @@ import SwiftUI
 struct MeetingDetailView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @StateObject var viewModel = MeetingDetailViewModel()
+    @State var showToast = false
     let groupId: Int
     let groupType: String
     
@@ -41,6 +42,18 @@ struct MeetingDetailView: View {
             
             if let alertType = viewModel.alertType {
                 alert(type: alertType)
+            }
+            
+            if showToast {
+                GongBaekToast(type: .commentReport)
+                    .transition(.scale.combined(with: .opacity))
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                            withAnimation(.easeOut(duration: 0.3)) {
+                                showToast = false
+                            }
+                        }
+                    }
             }
         }
     }
@@ -153,7 +166,9 @@ extension MeetingDetailView {
                     viewModel.alertType = nil
                 },
                 onTapOrangeButton: {
-                    viewModel.reportComment(commentId: commentId)
+                    viewModel.reportComment(commentId: commentId) {
+                        showToast = true
+                    }
                     viewModel.alertType = nil
                 }
             )

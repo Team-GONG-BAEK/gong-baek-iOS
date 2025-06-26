@@ -14,7 +14,7 @@ protocol CommentManageable: ObservableObject {
     func postComment(groupId: Int, groupType: String, commentContent: String)
     func getComments(groupId: Int, groupType: String, completion: @escaping (GetCommentsResponseDTO) -> ())
     func deleteComment(groupId: Int, groupType: String, commentId: Int)
-    func reportComment(commentId: Int)
+    func reportComment(commentId: Int, completion: @escaping () -> ())
     
     /// Handle Func
     func handleReportAction(commentId: Int)

@@ -168,10 +168,11 @@ extension MeetingRoomViewModel {
         }
     }
     
-    func reportComment(commentId: Int) {
+    func reportComment(commentId: Int, completion: @escaping () -> ()) {
         reportComment(commentId: commentId) { [weak self] response in
             if response.success {
                 print("✅ 신고 성공!")
+                completion()
             } else {
                 self?.alertType = .error
                 print("❌ 신고 실패: \(response.message ?? "알 수 없는 오류")")
