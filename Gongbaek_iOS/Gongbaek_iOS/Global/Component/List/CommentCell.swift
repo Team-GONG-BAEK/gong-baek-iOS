@@ -9,8 +9,7 @@ import SwiftUI
 
 struct CommentCell: View {
     let comment: Comment
-    var meetingDetailViewModel: MeetingDetailViewModel?
-    var meetingRoomViewModel: MeetingRoomViewModel?
+    let viewModel: any CommentManageable
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -65,15 +64,7 @@ struct CommentCell: View {
     }
     
     private func deleteComment(commentId: Int) {
-        if let viewModel = meetingDetailViewModel,
-           let data = viewModel.meetingDetailData {
-            viewModel.deleteComment(
-                groupId: data.groupId,
-                groupType: data.groupType,
-                commentId: commentId
-            )
-        } else if let viewModel = meetingRoomViewModel,
-                  let data = viewModel.meetingDetailData {
+        if let data = viewModel.commentData {
             viewModel.deleteComment(
                 groupId: data.groupId,
                 groupType: data.groupType,

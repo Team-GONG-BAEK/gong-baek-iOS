@@ -64,7 +64,7 @@ struct MeetingRoomView: View {
                         }
                         
                         CommentList(
-                            meetingRoomViewModel: viewModel,
+                            viewModel: viewModel,
                             commentCount: commentData.commentCount,
                             comments: commentData.comments,
                             isScrolled: false
