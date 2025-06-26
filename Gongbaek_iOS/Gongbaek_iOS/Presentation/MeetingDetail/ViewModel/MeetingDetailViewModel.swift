@@ -273,17 +273,14 @@ extension MeetingDetailViewModel {
             body: commentContent
         )
         
-        Providers.commentProvider.request(
-            target: .postComment(data: requestData),
-            instance: BaseResponse<EmptyResponseDTO>.self
-        ) { response in
+        postComment(requestData) { [weak self] response in
             if response.success {
                 print("✅ 댓글 등록 성공!")
-                self.getComments(groupId: groupId, groupType: groupType) { data in
-                    self.commentData = data
+                self?.getComments(groupId: groupId, groupType: groupType) { data in
+                    self?.commentData = data
                 }
             } else {
-                self.alertType = .error
+                self?.alertType = .error
                 print("❌ 댓글 등록 실패: \(response.message ?? "알 수 없는 오류")")
             }
         }

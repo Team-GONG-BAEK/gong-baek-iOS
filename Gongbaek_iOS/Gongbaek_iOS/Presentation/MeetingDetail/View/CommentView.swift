@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import Combine
-
 struct CommentView: View {
     @ObservedObject var viewModel: MeetingDetailViewModel
     
@@ -25,7 +23,7 @@ struct CommentView: View {
             
             RecruitingState(viewModel.commentData?.groupStatus) == .CLOSED
             ? nil
-            : CommentTextField(meetingDetailViewModel: viewModel)
+            : CommentTextField(viewModel: viewModel)
                 .padding(.bottom, 0)
                 .frame(alignment: .bottom)
         }

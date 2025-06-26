@@ -73,7 +73,7 @@ struct MeetingRoomView: View {
                     }
                     .ignoresSafeArea()
                     
-                    viewModel.isCommentDisabled ? nil : CommentTextField(meetingRoomViewModel: viewModel)
+                    viewModel.isCommentDisabled ? nil : CommentTextField(viewModel: viewModel)
                 }
             }
             .customNavigationBar(

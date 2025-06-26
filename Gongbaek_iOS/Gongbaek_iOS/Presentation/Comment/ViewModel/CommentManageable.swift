@@ -18,7 +18,13 @@ protocol CommentManageable: ObservableObject {
 
 extension CommentManageable {
     
-    func postComment(groupId: Int, groupType: String, commentContent: String) {
+    func postComment(_ requestData: PostCommentRequestBodyDTO, completion: @escaping (BaseResponse<EmptyResponseDTO>) -> ()) {
+        Providers.commentProvider.request(
+            target: .postComment(data: requestData),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            completion(response)
+        }
     }
     
     func getComments(groupId: Int, groupType: String, completion: @escaping (GetCommentsResponseDTO) -> ()) {
