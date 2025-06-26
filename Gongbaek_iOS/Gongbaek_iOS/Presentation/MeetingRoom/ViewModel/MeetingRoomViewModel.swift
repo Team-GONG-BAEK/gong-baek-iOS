@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-final class MeetingRoomViewModel: ObservableObject {
+final class MeetingRoomViewModel: CommentManageable {
     @Published var meetingDetailData: GetMeetingRoomDetailsResponseDTO? = nil
     @Published var memberData: GetMeetingRoomMembersResponseDTO? = nil
     @Published var commentData: GetCommentsResponseDTO? = nil

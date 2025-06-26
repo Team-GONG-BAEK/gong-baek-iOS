@@ -17,7 +17,7 @@ enum MeetingDetailAlertType {
     case meetingReport
 }
 
-class MeetingDetailViewModel: ObservableObject {
+final class MeetingDetailViewModel: CommentManageable {
     @Published var meetingDetailData: GetMeetingDetailsResponseDTO? = nil
     @Published var ownerInfoData: GetOwnerInfoResponseDTO? = nil
     @Published var commentData: GetCommentsResponseDTO? = nil
