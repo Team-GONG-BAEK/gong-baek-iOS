@@ -50,7 +50,7 @@ struct CommentCell: View {
     
     private func reportButton() -> some View {
         Button(action: {
-            // TODO: 뷰모델 연결. 댓글 뷰모델을 따로 만들지, 아님 프로토콜 만들지?
+            viewModel.handleReportAction(commentId: comment.commentId)
         }) {
             Image(.icReport20)
                 .resizable()

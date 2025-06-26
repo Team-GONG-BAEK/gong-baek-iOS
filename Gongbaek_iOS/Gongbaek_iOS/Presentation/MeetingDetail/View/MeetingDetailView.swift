@@ -139,7 +139,21 @@ extension MeetingDetailView {
                     viewModel.alertType = nil
                 },
                 onTapOrangeButton: {
-                    // TODO: 신고 API 연결
+                    // TODO: 모임 신고 API 연결
+                    viewModel.alertType = nil
+                }
+            )
+        case .commentReport(let commentId):
+            BasicAlert(
+                title: "해당 댓글을 신고하겠습니까?",
+                subtitle: "댓글을 신고할 경우,\n해당 유저는 차단되며\n운영팀에서 검토를 거쳐 제재를 취할것입니다.",
+                grayButtonText: "취소",
+                orangeButtonText: "신고하기",
+                onTapGrayButton: {
+                    viewModel.alertType = nil
+                },
+                onTapOrangeButton: {
+                    viewModel.reportComment(commentId: commentId)
                     viewModel.alertType = nil
                 }
             )

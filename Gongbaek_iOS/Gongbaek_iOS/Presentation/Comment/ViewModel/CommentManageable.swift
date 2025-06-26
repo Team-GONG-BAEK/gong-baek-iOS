@@ -10,10 +10,14 @@ import Foundation
 protocol CommentManageable: ObservableObject {
     var commentData: GetCommentsResponseDTO? { get set }
     
+    /// API Func
     func postComment(groupId: Int, groupType: String, commentContent: String)
     func getComments(groupId: Int, groupType: String, completion: @escaping (GetCommentsResponseDTO) -> ())
     func deleteComment(groupId: Int, groupType: String, commentId: Int)
-//    func reportComment(groupId: Int, groupType: String, commentId: Int)
+    func reportComment(commentId: Int)
+    
+    /// Handle Func
+    func handleReportAction(commentId: Int)
 }
 
 extension CommentManageable {
@@ -45,8 +49,7 @@ extension CommentManageable {
         }
     }
     
-    func deleteComment(commentId: Int, completion: @escaping (BaseResponse<EmptyResponseDTO>) -> ()
-    ) {
+    func deleteComment(commentId: Int, completion: @escaping (BaseResponse<EmptyResponseDTO>) -> ()) {
         let requestData = DeleteCommentRequestDTO(commentId: commentId)
         
         Providers.commentProvider.request(
@@ -55,5 +58,8 @@ extension CommentManageable {
         ) { response in
             completion(response)
         }
+    }
+    
+    func reportComment(commentId: Int, completion: @escaping (BaseResponse<EmptyResponseDTO>) -> ()) {
     }
 }

@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-enum MeetingRoomAlertType {
+enum MeetingRoomAlertType: Equatable {
     case error
     case fullErrorView
-//    case commentReport
+    case commentReport(commentId: Int)
 }
 
 final class MeetingRoomViewModel: CommentManageable {
@@ -29,6 +29,10 @@ final class MeetingRoomViewModel: CommentManageable {
     
     var isCommentDisabled: Bool {
         RecruitingState(commentData?.groupStatus) == .CLOSED
+    }
+    
+    func handleReportAction(commentId: Int) {
+        alertType = .commentReport(commentId: commentId)
     }
 }
 
@@ -160,6 +164,17 @@ extension MeetingRoomViewModel {
             } else {
                 self?.alertType = .error
                 print("❌ 댓글 삭제 실패: \(response.message ?? "알 수 없는 오류")")
+            }
+        }
+    }
+    
+    func reportComment(commentId: Int) {
+        reportComment(commentId: commentId) { [weak self] response in
+            if response.success {
+                print("✅ 신고 성공!")
+            } else {
+                self?.alertType = .error
+                print("❌ 신고 실패: \(response.message ?? "알 수 없는 오류")")
             }
         }
     }
