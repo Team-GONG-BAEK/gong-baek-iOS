@@ -10,7 +10,7 @@ import SwiftUI
 struct MeetingDetailView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @StateObject var viewModel = MeetingDetailViewModel()
-    @State var showToast = false
+    @State var toastType: ToastType? = .none
     let groupId: Int
     let groupType: String
     
@@ -44,16 +44,8 @@ struct MeetingDetailView: View {
                 alert(type: alertType)
             }
             
-            if showToast {
-                GongBaekToast(type: .commentReport)
-                    .transition(.scale.combined(with: .opacity))
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-                            withAnimation(.easeOut(duration: 0.3)) {
-                                showToast = false
-                            }
-                        }
-                    }
+            if let toastType {
+                toast(type: toastType)
             }
         }
     }
@@ -152,7 +144,9 @@ extension MeetingDetailView {
                     viewModel.alertType = nil
                 },
                 onTapOrangeButton: {
-                    // TODO: 모임 신고 API 연결
+                    viewModel.reportMeeting(groupId: groupId, groupType: groupType) {
+                        toastType = .meetingReport
+                    }
                     viewModel.alertType = nil
                 }
             )
@@ -167,11 +161,24 @@ extension MeetingDetailView {
                 },
                 onTapOrangeButton: {
                     viewModel.reportComment(commentId: commentId) {
-                        showToast = true
+                        toastType = .commentReport
                     }
                     viewModel.alertType = nil
                 }
             )
         }
+    }
+    
+    @ViewBuilder
+    private func toast(type: ToastType) -> some View {
+        GongBaekToast(type: type)
+            .transition(.scale.combined(with: .opacity))
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                    withAnimation(.easeOut(duration: 0.3)) {
+                        toastType = nil
+                    }
+                }
+            }
     }
 }
