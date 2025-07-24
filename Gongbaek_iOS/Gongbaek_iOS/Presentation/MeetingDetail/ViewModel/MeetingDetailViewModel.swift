@@ -267,6 +267,25 @@ extension MeetingDetailViewModel {
         }
     }
     
+    func reportMeeting(
+        groupId: Int,
+        groupType: String,
+        completion: @escaping () -> ()
+    ) {
+        Providers.meetingDetailProvider.request(
+            target: .reportMeeting(groupId: groupId, groupType: groupType),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            if response.success {
+                print("✅ 신고 성공!")
+                completion()
+            } else {
+                self.alertType = .error
+                print("❌ 신고 실패: \(response.message ?? "알 수 없는 오류")")
+            }
+        }
+    }
+    
     func postComment(
         groupId: Int,
         groupType: String,

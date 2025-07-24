@@ -61,5 +61,11 @@ extension CommentManageable {
     }
     
     func reportComment(commentId: Int, completion: @escaping (BaseResponse<EmptyResponseDTO>) -> ()) {
+        Providers.commentProvider.request(
+            target: .reportComment(commentId: commentId),
+            instance: BaseResponse<EmptyResponseDTO>.self
+        ) { response in
+            completion(response)
+        }
     }
 }
