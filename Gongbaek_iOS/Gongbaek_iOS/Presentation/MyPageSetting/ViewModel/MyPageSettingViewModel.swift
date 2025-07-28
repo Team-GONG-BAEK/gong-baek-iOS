@@ -70,7 +70,7 @@ extension MyPageSettingViewModel {
     // 회원탈퇴 서버 통신
     func deleteWidthdraw(completion: @escaping (Bool) -> Void) {
         Providers.authProvider.request(
-            target: .deleteWidthdraw,
+            target: .deleteWithdraw,
             instance: BaseResponse<VoidResult>.self
         ) { response in
             
