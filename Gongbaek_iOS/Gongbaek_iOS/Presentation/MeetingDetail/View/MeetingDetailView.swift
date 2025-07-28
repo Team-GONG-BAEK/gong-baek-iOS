@@ -32,7 +32,7 @@ struct MeetingDetailView: View {
             .customNavigationBar(
                 viewName: "채우기",
                 showBackButton: true,
-                rightButtonType: .report
+                rightButtonType: viewModel.meetingDetailData?.isHost ?? true ? nil : .report
             ) {
                 viewModel.alertType = .meetingReport
             }

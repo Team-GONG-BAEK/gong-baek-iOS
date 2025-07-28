@@ -93,7 +93,7 @@ extension MeetingDetailTargetType: BaseTargetType {
             return .requestJSONEncodable(data)
         case .deleteMyMeeting(let data):
             return .requestJSONEncodable(data)
-        case .reportMeeting(let groupId, let groupType):
+        case .reportMeeting(_, let groupType):
             return .requestParameters(
                 parameters: ["groupType": groupType],
                 encoding: URLEncoding.queryString
