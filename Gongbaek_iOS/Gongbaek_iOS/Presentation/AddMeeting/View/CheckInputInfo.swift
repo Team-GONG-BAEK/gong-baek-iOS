@@ -24,20 +24,24 @@ struct CheckInputInfo: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 283)
                     .cornerRadius(4)
-                    .padding(.bottom, 28)
             } else {
                 Rectangle()
                     .fill(.gray03)
                     .frame(maxWidth: .infinity)
                     .frame(height: 283)
                     .cornerRadius(4)
-                    .padding(.bottom, 28)
             }
             
             Text(viewModel.title)
                 .pretendardFont(.title2_b_18)
                 .foregroundColor(.gray10)
-                .padding(.bottom, 10)
+                .padding(.top, 20)
+            
+            Text("부적절하거나 불쾌감을 줄 수 있는 콘텐츠는 제재를 받을 수 있습니다.")
+                .pretendardFont(.caption2_r_12)
+                .foregroundStyle(.gray07)
+                .padding(.top, 4)
+                .padding(.bottom, 14)
             
             VStack(alignment: .leading, spacing: 10) {
                 TimeBox(

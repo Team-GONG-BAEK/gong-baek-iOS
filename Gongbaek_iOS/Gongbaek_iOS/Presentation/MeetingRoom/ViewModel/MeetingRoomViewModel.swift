@@ -7,12 +7,17 @@
 
 import SwiftUI
 
-final class MeetingRoomViewModel: ObservableObject {
+enum MeetingRoomAlertType: Equatable {
+    case error
+    case fullErrorView
+    case commentReport(commentId: Int)
+}
+
+final class MeetingRoomViewModel: CommentManageable {
     @Published var meetingDetailData: GetMeetingRoomDetailsResponseDTO? = nil
     @Published var memberData: GetMeetingRoomMembersResponseDTO? = nil
     @Published var commentData: GetCommentsResponseDTO? = nil
-    @Published var showErrorAlert: Bool = false
-    @Published var showFullErrorView: Bool = false
+    @Published var alertType: MeetingRoomAlertType? = nil
     
     var meetingStates: [MeetingChipState] {
         [
@@ -24,6 +29,10 @@ final class MeetingRoomViewModel: ObservableObject {
     
     var isCommentDisabled: Bool {
         RecruitingState(commentData?.groupStatus) == .CLOSED
+    }
+    
+    func handleReportAction(commentId: Int) {
+        alertType = .commentReport(commentId: commentId)
     }
 }
 
@@ -74,7 +83,7 @@ extension MeetingRoomViewModel {
                 guard let data = response.data else { return }
                 completion(data)
             } else {
-                self.showFullErrorView = true
+                self.alertType = .fullErrorView
             }
         }
     }
@@ -92,7 +101,7 @@ extension MeetingRoomViewModel {
                 guard let data = response.data else { return }
                 completion(data)
             } else {
-                self.showFullErrorView = true
+                self.alertType = .fullErrorView
             }
         }
     }
@@ -102,20 +111,25 @@ extension MeetingRoomViewModel {
         groupType: String,
         completion: @escaping (GetCommentsResponseDTO) -> ()
     ) {
-        Providers.commentProvider.request(
-            target: .getComments(isPublic: false, groupId: groupId, groupType: groupType),
-            instance: BaseResponse<GetCommentsResponseDTO>.self
-        ) { response in
+        getComments(
+            isPublic: false,
+            groupId: groupId,
+            groupType: groupType
+        ) { [weak self] response in
             if response.success {
                 guard let data = response.data else { return }
                 completion(data)
             } else {
-                self.showFullErrorView = true
+                self?.alertType = .fullErrorView
             }
         }
     }
     
-    func postComment(groupId: Int, groupType: String, commentContent: String) {
+    func postComment(
+        groupId: Int,
+        groupType: String,
+        commentContent: String
+    ) {
         let requestData = PostCommentRequestBodyDTO(
             groupId: groupId,
             groupType: groupType,
@@ -123,37 +137,45 @@ extension MeetingRoomViewModel {
             body: commentContent
         )
         
-        Providers.commentProvider.request(
-            target: .postComment(data: requestData),
-            instance: BaseResponse<EmptyResponseDTO>.self
-        ) { response in
+        postComment(requestData) { [weak self] response in
             if response.success {
                 print("✅ 댓글 등록 성공!")
-                self.getComments(groupId: groupId, groupType: groupType) { data in
-                    self.commentData = data
+                self?.getComments(groupId: groupId, groupType: groupType) { data in
+                    self?.commentData = data
                 }
             } else {
-                self.showErrorAlert = true
+                self?.alertType = .error
                 print("❌ 댓글 등록 실패: \(response.message ?? "알 수 없는 오류")")
             }
         }
     }
     
-    func deleteComment(groupId: Int, groupType: String, commentId: Int) {
-        let requestData = DeleteCommentRequestDTO(commentId: commentId)
-        
-        Providers.commentProvider.request(
-            target: .deleteComment(data: requestData),
-            instance: BaseResponse<EmptyResponseDTO>.self
-        ) { response in
+    func deleteComment(
+        groupId: Int,
+        groupType: String,
+        commentId: Int
+    ) {
+        deleteComment(commentId: commentId) { [weak self] response in
             if response.success {
                 print("✅ 댓글 삭제 성공!")
-                self.getComments(groupId: groupId, groupType: groupType) { data in
-                    self.commentData = data
+                self?.getComments(groupId: groupId, groupType: groupType) { data in
+                    self?.commentData = data
                 }
             } else {
-                self.showErrorAlert = true
+                self?.alertType = .error
                 print("❌ 댓글 삭제 실패: \(response.message ?? "알 수 없는 오류")")
+            }
+        }
+    }
+    
+    func reportComment(commentId: Int, completion: @escaping () -> ()) {
+        reportComment(commentId: commentId) { [weak self] response in
+            if response.success {
+                print("✅ 신고 성공!")
+                completion()
+            } else {
+                self?.alertType = .error
+                print("❌ 신고 실패: \(response.message ?? "알 수 없는 오류")")
             }
         }
     }

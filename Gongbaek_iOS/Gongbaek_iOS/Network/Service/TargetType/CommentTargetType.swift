@@ -11,6 +11,7 @@ enum CommentTargetType {
     case getComments(isPublic: Bool, groupId: Int, groupType: String)
     case postComment(data: PostCommentRequestBodyDTO)
     case deleteComment(data: DeleteCommentRequestDTO)
+    case reportComment(commentId: Int)
 }
 
 extension CommentTargetType: BaseTargetType {
@@ -21,6 +22,8 @@ extension CommentTargetType: BaseTargetType {
         case .postComment:
             return APIConstants.accessTokenHeader
         case .deleteComment:
+            return APIConstants.accessTokenHeader
+        case .reportComment:
             return APIConstants.accessTokenHeader
         }
     }
@@ -33,6 +36,8 @@ extension CommentTargetType: BaseTargetType {
             return "/api/v1/comment"
         case .deleteComment:
             return "/api/v1/comment"
+        case .reportComment(let commentId):
+            return "/api/v1/reports/comment/\(commentId)"
         }
     }
     
@@ -44,6 +49,8 @@ extension CommentTargetType: BaseTargetType {
             return .post
         case .deleteComment:
             return .delete
+        case .reportComment:
+            return .post
         }
     }
     
@@ -62,6 +69,8 @@ extension CommentTargetType: BaseTargetType {
             return .requestJSONEncodable(data)
         case .deleteComment(let data):
             return .requestJSONEncodable(data)
+        case .reportComment:
+            return .requestPlain
         }
     }
 }

@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct CommentList: View {
-    var meetingRoomViewModel: MeetingRoomViewModel? = nil
-    var meetingDetailViewModel: MeetingDetailViewModel? = nil
+    let viewModel: any CommentManageable
     var commentCount: Int
     var comments: [Comment]
     let isScrolled: Bool
@@ -20,18 +19,16 @@ struct CommentList: View {
             
             ScrollView {
                 VStack(alignment:.leading, spacing: 0) {
-                    let height = (meetingDetailViewModel != nil) ? 0.25 : 0.18
+                    let height = (viewModel is MeetingDetailViewModel) ? 0.25 : 0.18
                     
                     if commentCount == 0 {
                         commentEmptyView()
-                        
                             .frame(minHeight: UIScreen.main.bounds.height * height, alignment: .bottom) // 앱잼을 위해 막 짠 코드..
                     } else {
                         ForEach (comments.indices, id: \.self) { index in
                             CommentCell(
                                 comment: comments[index],
-                                meetingDetailViewModel: meetingDetailViewModel,
-                                meetingRoomViewModel: meetingRoomViewModel
+                                viewModel: viewModel
                             )
                         }
                     }
@@ -52,17 +49,13 @@ struct CommentList: View {
             Spacer()
             Button(
                 action: {
-                    meetingDetailViewModel?.getComments(
-                        groupId: meetingDetailViewModel?.meetingDetailData?.groupId ?? 0,
-                        groupType: meetingDetailViewModel?.meetingDetailData?.groupType ?? ""
-                    ) { _ in
-                        print("새로고쳤지롱! ㅋㅋ")
-                    }
-                    meetingRoomViewModel?.getComments(
-                        groupId: meetingRoomViewModel?.meetingDetailData?.groupId ?? 0,
-                        groupType: meetingRoomViewModel?.meetingDetailData?.groupType ?? ""
-                    ) { _ in
-                        print("새로고쳤지롱! ㅋㅋ")
+                    if let data = viewModel.commentData {
+                        viewModel.getComments(
+                            groupId: data.groupId,
+                            groupType: data.groupType
+                        ) { _ in
+                            print("새로고쳤지롱! ㅋㅋ")
+                        }
                     }
             }) {
                 Image(.icRefresh32)

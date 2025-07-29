@@ -9,8 +9,8 @@ import SwiftUI
 
 struct MeetingDetailView: View {
     @EnvironmentObject var navigationManager: NavigationManager
-    @Environment(\.openURL) private var openURL
     @StateObject var viewModel = MeetingDetailViewModel()
+    @State var toastType: ToastType? = .none
     let groupId: Int
     let groupType: String
     
@@ -32,11 +32,9 @@ struct MeetingDetailView: View {
             .customNavigationBar(
                 viewName: "채우기",
                 showBackButton: true,
-                rightButtonType: .report
+                rightButtonType: viewModel.meetingDetailData?.isHost ?? true ? nil : .report
             ) {
-                if let url = URL(string: "https://docs.google.com/forms/d/e/1FAIpQLSeKiXqJWDIPdPJ-dm_amjsSc4jFvzr9PE8ysMykVZih8WZDJw/viewform?usp=sharing") {
-                    openURL(url)
-                }
+                viewModel.alertType = .meetingReport
             }
             .onAppear {
                 viewModel.fetchAllData(groupId: groupId, groupType: groupType)
@@ -44,6 +42,10 @@ struct MeetingDetailView: View {
             
             if let alertType = viewModel.alertType {
                 alert(type: alertType)
+            }
+            
+            if let toastType {
+                toast(type: toastType)
             }
         }
     }
@@ -132,6 +134,51 @@ extension MeetingDetailView {
                 viewName: "채우기",
                 showBackButton: true
             )
+        case .meetingReport:
+            BasicAlert(
+                title: "해당 모임을 신고하겠습니까?",
+                subtitle: "모임을 신고할 경우,\n운영팀에서 검토를 거쳐 24시간 내에\n적절한 조치 및 게시자 제재를 취할 것입니다.",
+                grayButtonText: "취소",
+                orangeButtonText: "신고하기",
+                onTapGrayButton: {
+                    viewModel.alertType = nil
+                },
+                onTapOrangeButton: {
+                    viewModel.reportMeeting(groupId: groupId, groupType: groupType) {
+                        toastType = .meetingReport
+                    }
+                    viewModel.alertType = nil
+                }
+            )
+        case .commentReport(let commentId):
+            BasicAlert(
+                title: "해당 댓글을 신고하겠습니까?",
+                subtitle: "댓글을 신고할 경우,\n해당 유저는 차단되며\n운영팀에서 검토를 거쳐 제재를 취할것입니다.",
+                grayButtonText: "취소",
+                orangeButtonText: "신고하기",
+                onTapGrayButton: {
+                    viewModel.alertType = nil
+                },
+                onTapOrangeButton: {
+                    viewModel.reportComment(commentId: commentId) {
+                        toastType = .commentReport
+                    }
+                    viewModel.alertType = nil
+                }
+            )
         }
+    }
+    
+    @ViewBuilder
+    private func toast(type: ToastType) -> some View {
+        GongBaekToast(type: type)
+            .transition(.scale.combined(with: .opacity))
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                    withAnimation(.easeOut(duration: 0.3)) {
+                        toastType = nil
+                    }
+                }
+            }
     }
 }

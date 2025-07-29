@@ -9,8 +9,7 @@ import SwiftUI
 
 struct CommentCell: View {
     let comment: Comment
-    var meetingDetailViewModel: MeetingDetailViewModel?
-    var meetingRoomViewModel: MeetingRoomViewModel?
+    let viewModel: any CommentManageable
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -20,11 +19,15 @@ struct CommentCell: View {
                         .pretendardFont(.body1_sb_16)
                         .foregroundColor(.gray10)
                     comment.isGroupHost ? OwnerChip() : nil
+                    
                     Spacer()
+                    
                     if comment.isWriter {
                         DeleteButton {
                             deleteComment(commentId: comment.commentId)
                         }
+                    } else {
+                        reportButton()
                     }
                 }
                 .foregroundColor(.grayBlack)
@@ -45,22 +48,26 @@ struct CommentCell: View {
         }
     }
     
-    func divider() -> some View {
+    private func reportButton() -> some View {
+        Button(action: {
+            viewModel.handleReportAction(commentId: comment.commentId)
+        }) {
+            Image(.icReport20)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 20, height: 20)
+        }
+    }
+    
+    private func divider() -> some View {
         Color.gray02.frame(height: 1)
     }
     
     private func deleteComment(commentId: Int) {
-        if let viewModel = meetingDetailViewModel,
-           let data = viewModel.meetingDetailData {
+        if let data = viewModel.commentData {
             viewModel.deleteComment(
                 groupId: data.groupId,
                 groupType: data.groupType,
-                commentId: commentId
-            )
-        } else if let viewModel = meetingRoomViewModel {
-            viewModel.deleteComment(
-                groupId: viewModel.meetingDetailData?.groupId ?? 0,
-                groupType: viewModel.meetingDetailData?.groupType ?? "",
                 commentId: commentId
             )
         }

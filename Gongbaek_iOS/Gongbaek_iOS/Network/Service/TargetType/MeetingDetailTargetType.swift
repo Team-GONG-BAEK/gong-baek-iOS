@@ -13,6 +13,7 @@ enum MeetingDetailTargetType {
     case postApplyMeeting(data: PostApplyMeetingRequestBodyDTO)
     case patchApplyMeeting(data: PostApplyMeetingRequestBodyDTO)
     case deleteMyMeeting(data: PostApplyMeetingRequestBodyDTO)
+    case reportMeeting(groupId: Int, groupType: String)
 }
 
 extension MeetingDetailTargetType: BaseTargetType {
@@ -27,6 +28,8 @@ extension MeetingDetailTargetType: BaseTargetType {
         case .patchApplyMeeting:
             return APIConstants.accessTokenHeader
         case .deleteMyMeeting:
+            return APIConstants.accessTokenHeader
+        case .reportMeeting:
             return APIConstants.accessTokenHeader
         }
     }
@@ -43,6 +46,8 @@ extension MeetingDetailTargetType: BaseTargetType {
             return "/api/v1/my/groups"
         case .deleteMyMeeting:
             return "/api/v1/my/groups"
+        case .reportMeeting(let groupId, _):
+            return "/api/v1/reports/group/\(groupId)"
         }
     }
     
@@ -58,6 +63,8 @@ extension MeetingDetailTargetType: BaseTargetType {
             return .patch
         case .deleteMyMeeting:
             return .delete
+        case .reportMeeting:
+            return .post
         }
     }
     
@@ -82,12 +89,15 @@ extension MeetingDetailTargetType: BaseTargetType {
             )
         case .postApplyMeeting(let data):
             return .requestJSONEncodable(data)
-            
         case .patchApplyMeeting(let data):
             return .requestJSONEncodable(data)
-            
         case .deleteMyMeeting(let data):
             return .requestJSONEncodable(data)
+        case .reportMeeting(_, let groupType):
+            return .requestParameters(
+                parameters: ["groupType": groupType],
+                encoding: URLEncoding.queryString
+            )
         }
     }
 }

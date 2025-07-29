@@ -10,7 +10,7 @@ import Moya
 enum AuthTargetType {
     case postSignin(requestBody: PostSigninRequestDTO)
     case deleteLogout
-    case deleteWidthdraw
+    case deleteWithdraw
 }
 
 extension AuthTargetType: BaseTargetType {
@@ -20,7 +20,7 @@ extension AuthTargetType: BaseTargetType {
             return APIConstants.appleAuthHeader
         case .deleteLogout:
             return APIConstants.accessTokenHeader
-        case .deleteWidthdraw:
+        case .deleteWithdraw:
             return APIConstants.accessTokenHeader
         }
     }
@@ -31,7 +31,7 @@ extension AuthTargetType: BaseTargetType {
             return "/api/v1/login"
         case .deleteLogout:
             return "/api/v1/logout"
-        case .deleteWidthdraw:
+        case .deleteWithdraw:
             return "/api/v1/withdraw"
         }
     }
@@ -40,7 +40,7 @@ extension AuthTargetType: BaseTargetType {
         switch self {
         case .postSignin:
             return .post
-        case .deleteLogout, .deleteWidthdraw:
+        case .deleteLogout, .deleteWithdraw:
             return .delete
         }
     }
@@ -49,7 +49,7 @@ extension AuthTargetType: BaseTargetType {
         switch self {
         case .postSignin(let requstBody):
             return .requestJSONEncodable(requstBody)
-        case .deleteLogout, .deleteWidthdraw:
+        case .deleteLogout, .deleteWithdraw:
             return .requestPlain
         }
     }

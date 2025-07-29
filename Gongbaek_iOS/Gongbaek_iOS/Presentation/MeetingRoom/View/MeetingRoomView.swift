@@ -11,6 +11,7 @@ import Combine
 
 struct MeetingRoomView: View {
     @StateObject var viewModel: MeetingRoomViewModel
+    @State var showToast = false
     let groupId: Int
     let groupType: String
     
@@ -64,7 +65,7 @@ struct MeetingRoomView: View {
                         }
                         
                         CommentList(
-                            meetingRoomViewModel: viewModel,
+                            viewModel: viewModel,
                             commentCount: commentData.commentCount,
                             comments: commentData.comments,
                             isScrolled: false
@@ -73,11 +74,11 @@ struct MeetingRoomView: View {
                     }
                     .ignoresSafeArea()
                     
-                    viewModel.isCommentDisabled ? nil : CommentTextField(meetingRoomViewModel: viewModel)
+                    viewModel.isCommentDisabled ? nil : CommentTextField(viewModel: viewModel)
                 }
             }
             .customNavigationBar(
-                isMeetingRoom: viewModel.showFullErrorView ? false : true,
+                isMeetingRoom: viewModel.alertType == .fullErrorView ? false : true,
                 showBackButton: true
             )
             .onTapGesture {
@@ -87,27 +88,20 @@ struct MeetingRoomView: View {
                 viewModel.fetchAllData(groupId: groupId, groupType: groupType)
             }
             
-            if viewModel.showFullErrorView {
-                FullErrorView(onTapRetryButton: {
-                    viewModel.showFullErrorView = false
-                    viewModel.fetchAllData(groupId: groupId, groupType: groupType)
-                })
-                .customNavigationBar(
-                    viewName: viewModel.showFullErrorView ? "스페이스" : nil,
-                    showBackButton: true
-                )
+            if let alertType = viewModel.alertType {
+                alert(type: alertType)
             }
             
-            if viewModel.showErrorAlert {
-                GongbaekAlert(
-                    alertImage: "img_fail" ,
-                    titleText: "앗! 데이터를 불러오지 못했어요.",
-                    subtitleText: "다시 시도해주세요.",
-                    orangeButtonText: "확인",
-                    onTapOrangeButton: {
-                        viewModel.showErrorAlert = false
+            if showToast {
+                GongBaekToast(type: .commentReport)
+                    .transition(.scale.combined(with: .opacity))
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                            withAnimation(.easeOut(duration: 0.3)) {
+                                showToast = false
+                            }
+                        }
                     }
-                )
             }
         }
     }
@@ -199,5 +193,46 @@ private extension MeetingRoomView {
     
     func divider() -> some View {
         Color.gray02.frame(height: 8)
+    }
+    
+    @ViewBuilder
+    func alert(type: MeetingRoomAlertType) -> some View {
+        switch type {
+        case .error:
+            GongbaekAlert(
+                alertImage: "img_fail" ,
+                titleText: "일시적인 오류가 발생했습니다.",
+                subtitleText: "잠시 후 다시 시도해주세요.",
+                orangeButtonText: "닫기",
+                onTapOrangeButton: {
+                    viewModel.alertType = nil
+                }
+            )
+        case .fullErrorView:
+            FullErrorView(onTapRetryButton: {
+                viewModel.alertType = nil
+                viewModel.fetchAllData(groupId: groupId, groupType: groupType)
+            })
+            .customNavigationBar(
+                viewName: viewModel.alertType == .fullErrorView ? "스페이스" : nil,
+                showBackButton: true
+            )
+        case .commentReport(let commentId):
+            BasicAlert(
+                title: "해당 댓글을 신고하겠습니까?",
+                subtitle: "댓글을 신고할 경우,\n해당 유저는 차단되며\n운영팀에서 검토를 거쳐 제재를 취할것입니다.",
+                grayButtonText: "취소",
+                orangeButtonText: "신고하기",
+                onTapGrayButton: {
+                    viewModel.alertType = nil
+                },
+                onTapOrangeButton: {
+                    viewModel.reportComment(commentId: commentId) {
+                        showToast = true
+                    }
+                    viewModel.alertType = nil
+                }
+            )
+        }
     }
 }

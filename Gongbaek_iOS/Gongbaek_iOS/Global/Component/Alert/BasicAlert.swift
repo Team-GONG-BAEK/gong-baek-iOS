@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct BasicAlert: View {
-    let titleText: String
+    let title: String
+    var subtitle: String? = nil
     var grayButtonText: String? = nil
     let orangeButtonText: String
     var onTapGrayButton: (() -> Void)?
@@ -19,8 +20,13 @@ struct BasicAlert: View {
             backgroundBlack()
             
             VStack (alignment: .center, spacing: 0) {
-                titleTextBox(text: titleText)
-                    .padding(.vertical, 28)
+                titleTextBox()
+                    .padding(.top, 28)
+                    .padding(.bottom, subtitle == nil ? 28 : 14)
+                if let subtitle = subtitle {
+                    subtitleTextBox(text: subtitle)
+                        .padding(.bottom, 16)
+                }
             
                 HStack(alignment: .center, spacing: 10) {
                     if let grayButtonText = grayButtonText {
@@ -46,9 +52,9 @@ struct BasicAlert: View {
             .edgesIgnoringSafeArea(.all)
     }
     
-    func titleTextBox(text: String) -> some View {
-        Text(text)
-            .pretendardFont(.title2_sb_18)
+    func titleTextBox() -> some View {
+        Text(title)
+            .pretendardFont(.body1_sb_16)
             .lineLimit(nil)
             .frame(maxWidth: .infinity)
             .multilineTextAlignment(.center)
@@ -58,7 +64,7 @@ struct BasicAlert: View {
     
     func subtitleTextBox(text: String) -> some View {
         Text(text)
-            .pretendardFont(.body2_m_14)
+            .pretendardFont(.body2_r_14)
             .lineLimit(nil)
             .frame(maxWidth: .infinity)
             .multilineTextAlignment(.center)
@@ -72,15 +78,14 @@ struct BasicAlert: View {
             buttonAction?()
         }) {
             Text(buttonText)
-                .pretendardFont(.title2_sb_18)
-                .padding(.vertical, 12)
+                .pretendardFont(.body1_sb_16)
+                .padding(.vertical, 10)
                 .frame(maxWidth: .infinity)
                 .foregroundStyle(.grayWhite)
                 .background(.gray08)
                 .clipShape(
                     RoundedRectangle(cornerRadius: 6)
                 )
-            
         }
     }
     
@@ -89,8 +94,8 @@ struct BasicAlert: View {
             buttonAction?()
         }) {
             Text(orangeButtonText)
-                .pretendardFont(.title2_sb_18)
-                .padding(.vertical, 12)
+                .pretendardFont(.body1_sb_16)
+                .padding(.vertical, 10)
                 .frame(maxWidth: .infinity)
                 .background(.mainOrange)
                 .foregroundStyle(.grayWhite)
@@ -103,7 +108,8 @@ struct BasicAlert: View {
 
 #Preview {
     BasicAlert(
-        titleText: "로그아웃하시겠습니가",
+        title: "로그아웃하시겠습니가",
+        subtitle: "모임을 신고할 경우,\n운영팀에서 검토를 거쳐 24시간 내에\n적절한 조치 및 게시자 제재를 취할 것입니다.",
         grayButtonText: "취소",
         orangeButtonText: "확인",
         onTapGrayButton: nil,
