@@ -26,7 +26,7 @@ struct CommentCell: View {
                         DeleteButton {
                             deleteComment(commentId: comment.commentId)
                         }
-                    } else {
+                    } else if comment.nickname != nil {
                         reportButton()
                     }
                 }
