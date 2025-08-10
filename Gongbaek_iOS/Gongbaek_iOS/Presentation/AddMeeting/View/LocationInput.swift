@@ -13,7 +13,6 @@ struct LocationInput: View {
     @ObservedObject var viewModel: AddMeetingViewModel
         
     @State private var location: String = ""
-    @State var showError: Bool = false
     @State var isFocused: Bool = false
     
     var body: some View {
@@ -23,7 +22,7 @@ struct LocationInput: View {
             
             CustomTextField(
                 text: $viewModel.location,
-                showError: $showError,
+                showError: .constant(false),
                 type: .location
             )
             .padding(.bottom, 40)

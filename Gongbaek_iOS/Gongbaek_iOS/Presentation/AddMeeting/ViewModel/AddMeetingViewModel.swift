@@ -73,7 +73,7 @@ class AddMeetingViewModel: ObservableObject {
         case 4:
             return selectedCoverIndex != nil
         case 5:
-            return location.count >= 2
+            return location.count >= 2 && isValidLocationFormat()
         case 6:
             return title.count >= 2
         case 7:
@@ -81,6 +81,11 @@ class AddMeetingViewModel: ObservableObject {
         default:
             return false
         }
+    }
+    
+    private func isValidLocationFormat() -> Bool {
+        let regex = "^[가-힣a-zA-Z\\s]+$"
+        return NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: location)
     }
     
     func resetValuesForNextPage() {
