@@ -38,6 +38,11 @@ struct CustomTextFieldWithStatus<Status: TextFieldErrorStatus>: View {
                        status != nil {
                         self.status = nil
                     }
+                    
+                    if type == .nickname {
+                        /// 스페이스 입력 불가
+                        text = text.replacingOccurrences(of: " ", with: "")
+                    }
                 }
                 
                 if type == .nickname,

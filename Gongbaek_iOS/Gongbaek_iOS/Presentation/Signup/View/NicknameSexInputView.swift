@@ -15,7 +15,7 @@ struct NicknameSexInputView: View {
         VStack(spacing: 0) {
             TitleTextBox(
                 title: "닉네임과 성별을 입력해주세요.",
-                subtitle: "닉네임은 한글 최대 8자 이내로 입력할 수 있어요."
+                subtitle: "닉네임은 최대 8자 이내로 입력할 수 있어요."
             )
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top, 54)

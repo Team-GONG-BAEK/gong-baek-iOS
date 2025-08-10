@@ -182,14 +182,13 @@ final class SignupViewModel: ObservableObject {
     /// 이메일 형식 정규식 검사
     func isValidEmailFormat() -> Bool {
         let regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
-        let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
-        return predicate.evaluate(with: email)
+        return NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: email)
     }
     
     /// 완전한 한글 음절로만 이루어져 있는지 확인
-    func isOnlyCompleteHangulSyllables(_ text: String) -> Bool {
-        let regex = try! NSRegularExpression(pattern: "^[가-힣]+$")
-        return regex.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)) != nil
+    func isValidNicknameFormat() -> Bool {
+        let regex = "^[가-힣a-zA-Z]+$"
+        return NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: nickname)
     }
 }
 
