@@ -84,7 +84,7 @@ class AddMeetingViewModel: ObservableObject {
     }
     
     private func isValidLocationFormat() -> Bool {
-        let regex = "^[가-힣a-zA-Z\\s]+$"
+        let regex = "^[가-힣a-zA-Z0-9\\s]+$"
         return NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: location)
     }
     
