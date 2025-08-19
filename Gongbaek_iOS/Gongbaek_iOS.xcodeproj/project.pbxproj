@@ -103,11 +103,11 @@
 				};
 			};
 			buildConfigurationList = 954A49062D2DA7AE00FD6964 /* Build configuration list for PBXProject "Gongbaek_iOS" */;
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				ko,
 			);
 			mainGroup = 954A49022D2DA7AE00FD6964;
 			minimizedProjectReferenceProxies = 1;
